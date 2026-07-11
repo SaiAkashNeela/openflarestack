@@ -19,7 +19,6 @@ export function createAuth(env: Env) {
     plugins: [
       organization({
         allowUserToCreateOrganization: true,
-        memberRoles: ['owner', 'admin', 'agent', 'viewer'],
       }),
       bearer(),
     ],

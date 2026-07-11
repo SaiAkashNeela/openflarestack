@@ -36,7 +36,7 @@ export type AppEnv = {
   Variables: {
     user: SessionUser
     session: SessionObj
-    orgId: string
+    orgId: string | undefined
   }
 }
 
@@ -58,7 +58,7 @@ app.on(['GET', 'POST'], '/api/auth/*', async (c) => {
 app.get('/api/health', (c) => c.json({ ok: true }))
 
 // Authenticated routes
-app.use('/api/*', sessionMiddleware)
+app.use('/api/v1/*', sessionMiddleware)
 app.use('/api/v1/*', tenantMiddleware)
 
 app.route('/api/v1/conversations', conversationsRoute)
@@ -69,8 +69,6 @@ app.route('/api/v1/integrations', integrationsRoute)
 
 // WebSocket upgrade → delegate to ConversationRoom DO
 app.get('/api/v1/ws/:conversationId', async (c) => {
-  const session = c.get('session')
-  if (!session) return c.json({ error: 'Unauthorized' }, 401)
   const id = c.env.CONVERSATION_ROOM.idFromName(c.req.param('conversationId'))
   const room = c.env.CONVERSATION_ROOM.get(id)
   return room.fetch(c.req.raw)
