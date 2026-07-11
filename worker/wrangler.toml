@@ -1,0 +1,39 @@
+name = "flaredesk-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "flaredesk-db"
+database_id = "REPLACE_AFTER_CREATE"
+migrations_dir = "src/db/migrations"
+
+[[durable_objects.bindings]]
+name = "CONVERSATION_ROOM"
+class_name = "ConversationRoom"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["ConversationRoom"]
+
+[[queues.producers]]
+binding = "QUEUE"
+queue = "flaredesk-queue"
+
+[[queues.consumers]]
+queue = "flaredesk-queue"
+max_batch_size = 10
+max_batch_timeout = 5
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "flaredesk-attachments"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_AFTER_CREATE"
+
+[vars]
+ENVIRONMENT = "development"
+FRONTEND_URL = "http://localhost:5173"

@@ -1,0 +1,5 @@
+# Copy this file to .dev.vars and fill in real values.
+# .dev.vars is git-ignored and must NOT be committed.
+BETTER_AUTH_SECRET=replace-with-a-long-random-secret
+GOOGLE_CLIENT_ID=replace-with-google-oauth-client-id
+GOOGLE_CLIENT_SECRET=replace-with-google-oauth-client-secret
