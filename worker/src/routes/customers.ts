@@ -26,7 +26,9 @@ route.post('/', async (c) => {
     INSERT OR IGNORE INTO customers (id, organization_id, name, email, phone, external_id)
     VALUES (?, ?, ?, ?, ?, ?)
   `).bind(id, orgId, body.name, body.email ?? null, body.phone ?? null, body.external_id ?? null).run()
-  const customer = await c.env.DB.prepare('SELECT * FROM customers WHERE id = ?').bind(id).first()
+  const customer = await c.env.DB.prepare(
+    'SELECT * FROM customers WHERE id = ? AND organization_id = ?'
+  ).bind(id, orgId).first()
   return c.json({ customer }, 201)
 })
 
@@ -37,8 +39,8 @@ route.get('/:id', async (c) => {
   ).bind(c.req.param('id'), orgId).first()
   if (!customer) return c.json({ error: 'Not found' }, 404)
   const { results: conversations } = await c.env.DB.prepare(
-    'SELECT * FROM conversations WHERE customer_id = ? ORDER BY last_message_at DESC LIMIT 20'
-  ).bind(c.req.param('id')).all()
+    'SELECT * FROM conversations WHERE customer_id = ? AND organization_id = ? ORDER BY last_message_at DESC LIMIT 20'
+  ).bind(c.req.param('id'), orgId).all()
   return c.json({ customer, conversations })
 })
 
