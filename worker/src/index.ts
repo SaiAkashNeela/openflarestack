@@ -10,6 +10,7 @@ import customersRoute from './routes/customers'
 import teamsRoute from './routes/teams'
 import integrationsRoute from './routes/integrations'
 import { queueConsumer } from './queues/consumer'
+import { parseTelegramUpdate } from './integrations/telegram'
 export { ConversationRoom } from './objects/ConversationRoom'
 
 export type Env = {
@@ -77,7 +78,6 @@ app.post('/api/webhooks/telegram/:integrationId', async (c) => {
   if (!integration) return c.json({ error: 'Not found' }, 404)
 
   const update = await c.req.json()
-  const { parseTelegramUpdate } = await import('./integrations/telegram')
   const incoming = parseTelegramUpdate(update)
   if (!incoming) return c.json({ ok: true }) // non-message update, ack and ignore
 

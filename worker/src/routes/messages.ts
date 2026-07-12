@@ -53,7 +53,7 @@ route.post('/:conversationId', async (c) => {
   }))
 
   // Enqueue outbound delivery
-  await c.env.QUEUE.send({ type: 'outbound', conversationId: convId, messageId: id })
+  await c.env.QUEUE.send({ type: 'outbound', conversationId: convId, messageId: id, organizationId: orgId })
 
   return c.json({ message }, 201)
 })

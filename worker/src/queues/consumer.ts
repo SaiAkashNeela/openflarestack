@@ -1,6 +1,7 @@
 import type { Env } from '../index'
 import type { InboundJob, OutboundJob } from '../integrations/types'
 import { sendTelegramMessage } from '../integrations/telegram'
+import { nanoid } from '../lib/id'
 
 type QueueJob = InboundJob | OutboundJob
 
@@ -25,7 +26,7 @@ async function handleInbound(job: Extract<QueueJob, { type: 'inbound' }>, env: E
   const { organizationId, integrationId, incoming } = job
 
   // Upsert customer
-  const customerId = crypto.randomUUID()
+  const customerId = nanoid()
   await env.DB.prepare(`
     INSERT INTO customers (id, organization_id, name, external_id)
     VALUES (?, ?, ?, ?)
@@ -38,7 +39,7 @@ async function handleInbound(job: Extract<QueueJob, { type: 'inbound' }>, env: E
   if (!customer) throw new Error('Customer upsert failed')
 
   // Upsert conversation (one per external chat)
-  const convId = crypto.randomUUID()
+  const convId = nanoid()
   const externalConvId = `${incoming.channel}:${incoming.externalCustomerId}`
   await env.DB.prepare(`
     INSERT INTO conversations (id, organization_id, customer_id, integration_id, external_id, channel, status, last_message_at)
@@ -51,15 +52,18 @@ async function handleInbound(job: Extract<QueueJob, { type: 'inbound' }>, env: E
   ).bind(organizationId, externalConvId).first<{ id: string }>()
   if (!conv) throw new Error('Conversation upsert failed')
 
-  // Insert message
-  const msgId = crypto.randomUUID()
+  // Insert message — fetch by external_id so duplicates (ON CONFLICT DO NOTHING) still broadcast
+  const msgId = nanoid()
   await env.DB.prepare(`
     INSERT INTO messages (id, conversation_id, organization_id, sender_type, content, external_id)
     VALUES (?, ?, ?, 'customer', ?, ?)
     ON CONFLICT DO NOTHING
   `).bind(msgId, conv.id, organizationId, incoming.text, incoming.externalId).run()
 
-  const message = await env.DB.prepare('SELECT * FROM messages WHERE id = ?').bind(msgId).first()
+  const message = await env.DB.prepare(
+    'SELECT * FROM messages WHERE conversation_id = ? AND external_id = ? AND organization_id = ?'
+  ).bind(conv.id, incoming.externalId, organizationId).first()
+  if (!message) return
 
   // Broadcast to agents watching this conversation
   const roomId = env.CONVERSATION_ROOM.idFromName(conv.id)
@@ -72,8 +76,8 @@ async function handleInbound(job: Extract<QueueJob, { type: 'inbound' }>, env: E
 
 async function handleOutbound(job: Extract<QueueJob, { type: 'outbound' }>, env: Env) {
   const message = await env.DB.prepare(
-    'SELECT m.*, c.external_id as conv_external_id, i.config as integration_config, i.type as integration_type FROM messages m JOIN conversations c ON m.conversation_id = c.id LEFT JOIN integrations i ON c.integration_id = i.id WHERE m.id = ?'
-  ).bind(job.messageId).first<{
+    'SELECT m.*, c.external_id as conv_external_id, i.config as integration_config, i.type as integration_type FROM messages m JOIN conversations c ON m.conversation_id = c.id LEFT JOIN integrations i ON c.integration_id = i.id WHERE m.id = ? AND m.organization_id = ?'
+  ).bind(job.messageId, job.organizationId).first<{
     content: string
     conv_external_id: string
     integration_config: string
@@ -87,6 +91,6 @@ async function handleOutbound(job: Extract<QueueJob, { type: 'outbound' }>, env:
   await sendTelegramMessage(config.bot_token, chatId, message.content)
 
   await env.DB.prepare(
-    'UPDATE messages SET delivered_at = unixepoch() WHERE id = ?'
-  ).bind(job.messageId).run()
+    'UPDATE messages SET delivered_at = unixepoch() WHERE id = ? AND organization_id = ?'
+  ).bind(job.messageId, job.organizationId).run()
 }

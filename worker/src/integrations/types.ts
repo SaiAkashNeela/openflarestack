@@ -11,6 +11,7 @@ export interface OutboundJob {
   type: 'outbound'
   conversationId: string
   messageId: string
+  organizationId: string
 }
 
 export interface InboundJob {
