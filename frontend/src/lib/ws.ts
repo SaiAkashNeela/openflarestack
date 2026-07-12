@@ -7,7 +7,9 @@ export interface WsMessage {
 
 export function useWs(conversationId: string | null) {
   const ws = useRef<WebSocket | null>(null)
+  const unmounted = useRef(false)
   const [connected, setConnected] = useState(false)
+  const [messages, setMessages] = useState<WsMessage[]>([])
   const [lastMessage, setLastMessage] = useState<WsMessage | null>(null)
   const reconnectTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -20,20 +22,27 @@ export function useWs(conversationId: string | null) {
     socket.onopen = () => setConnected(true)
     socket.onclose = () => {
       setConnected(false)
-      reconnectTimer.current = setTimeout(connect, 3000)
+      if (!unmounted.current) {
+        reconnectTimer.current = setTimeout(connect, 3000)
+      }
     }
     socket.onerror = () => socket.close()
     socket.onmessage = (evt) => {
       try {
-        setLastMessage(JSON.parse(evt.data as string) as WsMessage)
+        const msg = JSON.parse(evt.data as string) as WsMessage
+        setLastMessage(msg)
+        setMessages((prev) => [...prev, msg])
       } catch { /* ignore malformed */ }
     }
   }, [conversationId])
 
   useEffect(() => {
+    unmounted.current = false
     connect()
     return () => {
+      unmounted.current = true
       ws.current?.close()
+      ws.current = null
       if (reconnectTimer.current) clearTimeout(reconnectTimer.current)
     }
   }, [connect])
@@ -44,5 +53,5 @@ export function useWs(conversationId: string | null) {
     }
   }, [])
 
-  return { connected, lastMessage, send }
+  return { connected, messages, lastMessage, send }
 }
