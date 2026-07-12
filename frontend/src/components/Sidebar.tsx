@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { authClient } from '../lib/auth-client'
+import { getTheme, applyTheme } from '../lib/theme'
 
 const nav = [
   { to: '/dashboard', label: 'Dashboard', icon: '◼' },
@@ -10,6 +12,12 @@ const nav = [
 
 export function Sidebar() {
   const { data: session } = authClient.useSession()
+  const [dark, setDark] = useState(getTheme() === 'dark')
+  function toggleTheme() {
+    const next = dark ? 'light' : 'dark'
+    applyTheme(next)
+    setDark(!dark)
+  }
   return (
     <aside className="flex h-full w-56 shrink-0 flex-col border-r border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
       <div className="flex h-14 items-center gap-2 border-b border-gray-200 px-4 dark:border-gray-800">
@@ -40,6 +48,9 @@ export function Sidebar() {
               <p className="text-xs text-gray-500 truncate">{session.user.email}</p>
             </div>
           </div>
+          <button onClick={toggleTheme} className="mt-2 w-full flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800">
+            {dark ? '☀ Light mode' : '☾ Dark mode'}
+          </button>
         </div>
       )}
     </aside>
