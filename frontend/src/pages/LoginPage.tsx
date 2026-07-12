@@ -32,7 +32,12 @@ export function LoginPage() {
   }
 
   async function handleGoogle() {
-    await authClient.signIn.social({ provider: 'google', callbackURL: '/inbox' })
+    try {
+      const res = await authClient.signIn.social({ provider: 'google', callbackURL: '/inbox' })
+      if (res.error) setError(res.error.message ?? 'Google sign-in failed')
+    } catch {
+      setError('Google sign-in failed')
+    }
   }
 
   return (
