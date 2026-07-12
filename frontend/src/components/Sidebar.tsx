@@ -48,7 +48,7 @@ export function Sidebar() {
               <p className="text-xs text-gray-500 truncate">{session.user.email}</p>
             </div>
           </div>
-          <button onClick={toggleTheme} className="mt-2 w-full flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800">
+          <button type="button" onClick={toggleTheme} aria-label="Toggle dark mode" className="mt-2 w-full flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800">
             {dark ? '☀ Light mode' : '☾ Dark mode'}
           </button>
         </div>
