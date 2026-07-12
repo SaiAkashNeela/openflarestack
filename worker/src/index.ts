@@ -67,6 +67,30 @@ app.route('/api/v1/customers', customersRoute)
 app.route('/api/v1/teams', teamsRoute)
 app.route('/api/v1/integrations', integrationsRoute)
 
+// Telegram webhook (no auth — verified by integration config lookup)
+app.post('/api/webhooks/telegram/:integrationId', async (c) => {
+  const integrationId = c.req.param('integrationId')
+  const integration = await c.env.DB.prepare(
+    'SELECT id, organization_id, config FROM integrations WHERE id = ? AND type = ? AND enabled = 1'
+  ).bind(integrationId, 'telegram').first<{ id: string; organization_id: string; config: string }>()
+
+  if (!integration) return c.json({ error: 'Not found' }, 404)
+
+  const update = await c.req.json()
+  const { parseTelegramUpdate } = await import('./integrations/telegram')
+  const incoming = parseTelegramUpdate(update)
+  if (!incoming) return c.json({ ok: true }) // non-message update, ack and ignore
+
+  await c.env.QUEUE.send({
+    type: 'inbound',
+    integrationId: integration.id,
+    organizationId: integration.organization_id,
+    incoming,
+  })
+
+  return c.json({ ok: true })
+})
+
 // WebSocket upgrade → delegate to ConversationRoom DO
 app.get('/api/v1/ws/:conversationId', async (c) => {
   const id = c.env.CONVERSATION_ROOM.idFromName(c.req.param('conversationId'))
