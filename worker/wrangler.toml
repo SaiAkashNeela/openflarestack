@@ -6,7 +6,7 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "flaredesk-db"
-database_id = "REPLACE_AFTER_CREATE"
+database_id = "4b47ec00-8524-4936-a01d-c3125d89ef8d"
 migrations_dir = "src/db/migrations"
 
 [[durable_objects.bindings]]
@@ -15,7 +15,7 @@ class_name = "ConversationRoom"
 
 [[migrations]]
 tag = "v1"
-new_classes = ["ConversationRoom"]
+new_sqlite_classes = ["ConversationRoom"]
 
 [[queues.producers]]
 binding = "QUEUE"
@@ -32,8 +32,8 @@ bucket_name = "flaredesk-attachments"
 
 [[kv_namespaces]]
 binding = "KV"
-id = "REPLACE_AFTER_CREATE"
+id = "44de25d9940f44a5ac8030ebad98a721"
 
 [vars]
-ENVIRONMENT = "development"
-FRONTEND_URL = "http://localhost:5173"
+ENVIRONMENT = "production"
+FRONTEND_URL = "https://flaredesk-evf.pages.dev"
