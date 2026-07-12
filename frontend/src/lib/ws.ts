@@ -38,6 +38,7 @@ export function useWs(conversationId: string | null) {
 
   useEffect(() => {
     unmounted.current = false
+    setMessages([])
     connect()
     return () => {
       unmounted.current = true
@@ -53,5 +54,9 @@ export function useWs(conversationId: string | null) {
     }
   }, [])
 
-  return { connected, messages, lastMessage, send }
+  const typing = useCallback(() => {
+    send({ type: 'typing' })
+  }, [send])
+
+  return { connected, messages, lastMessage, send, typing }
 }
