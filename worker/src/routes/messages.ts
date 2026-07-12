@@ -40,7 +40,9 @@ route.post('/:conversationId', async (c) => {
     ).bind(now, convId),
   ])
 
-  const message = await c.env.DB.prepare('SELECT * FROM messages WHERE id = ?').bind(id).first()
+  const message = await c.env.DB.prepare(
+    'SELECT * FROM messages WHERE id = ? AND organization_id = ?'
+  ).bind(id, orgId).first()
 
   // Broadcast to connected agents via Durable Object
   const roomId = c.env.CONVERSATION_ROOM.idFromName(convId)
