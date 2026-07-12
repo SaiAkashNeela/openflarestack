@@ -16,7 +16,7 @@ export function ConversationPage() {
   const [isTyping, setIsTyping] = useState(false)
   const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const { lastMessage, send } = useWs(conversationId ?? null)
+  const { lastMessage, typing } = useWs(conversationId ?? null)
 
   useEffect(() => {
     if (!conversationId) return
@@ -35,7 +35,8 @@ export function ConversationPage() {
     if (!lastMessage) return
     if (lastMessage.type === 'message.created') {
       setMessages((prev) => {
-        const msg = lastMessage.message as Message
+        const msg = lastMessage.message as Message | undefined
+        if (!msg?.id) return prev
         if (prev.find((m) => m.id === msg.id)) return prev
         return [...prev, msg]
       })
@@ -54,8 +55,10 @@ export function ConversationPage() {
   }, [conversationId])
 
   const handleTyping = useCallback(() => {
-    send({ type: 'typing' })
-  }, [send])
+    typing()
+  }, [typing])
+
+  useEffect(() => () => { if (typingTimer.current) clearTimeout(typingTimer.current) }, [])
 
   const handleResolve = useCallback(async () => {
     if (!conversationId) return
