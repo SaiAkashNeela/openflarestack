@@ -36,6 +36,17 @@ route.post('/', async (c) => {
   return c.json({ conversation: conv }, 201)
 })
 
+route.get('/stats', async (c) => {
+  const orgId = c.var.orgId!
+  const todayStart = Math.floor(new Date().setHours(0,0,0,0) / 1000)
+  const [open, resolved, today] = await Promise.all([
+    c.env.DB.prepare('SELECT COUNT(*) as n FROM conversations WHERE organization_id = ? AND status = ?').bind(orgId, 'open').first<{ n: number }>(),
+    c.env.DB.prepare('SELECT COUNT(*) as n FROM conversations WHERE organization_id = ? AND status = ?').bind(orgId, 'resolved').first<{ n: number }>(),
+    c.env.DB.prepare('SELECT COUNT(*) as n FROM conversations WHERE organization_id = ? AND created_at >= ?').bind(orgId, todayStart).first<{ n: number }>(),
+  ])
+  return c.json({ open: open?.n ?? 0, resolved: resolved?.n ?? 0, today: today?.n ?? 0 })
+})
+
 route.get('/:id', async (c) => {
   const orgId = c.var.orgId!
   const conv = await c.env.DB.prepare(
