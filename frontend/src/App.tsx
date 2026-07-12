@@ -22,8 +22,9 @@ export default function App() {
       <Route path="/" element={<RequireAuth><Layout /></RequireAuth>}>
         <Route index element={<Navigate to="/inbox" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="inbox" element={<InboxPage />} />
-        <Route path="inbox/:conversationId" element={<ConversationPage />} />
+        <Route path="inbox" element={<InboxPage />}>
+          <Route path=":conversationId" element={<ConversationPage />} />
+        </Route>
         <Route path="integrations" element={<IntegrationsPage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>
