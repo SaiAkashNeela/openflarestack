@@ -7,15 +7,19 @@ interface Member { user_id: string; name: string; email: string; role: string; i
 
 export function SettingsPage() {
   const [members, setMembers] = useState<Member[]>([])
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    api.get<{ members: Member[] }>('/api/v1/teams').then((r) => setMembers(r.members)).catch(console.error)
+    api.get<{ members: Member[] }>('/api/v1/teams')
+      .then((r) => setMembers(r.members))
+      .catch((e: Error) => setError(e.message))
   }, [])
 
   return (
     <div className="p-6 max-w-2xl space-y-8">
       <div>
         <h1 className="text-xl font-semibold mb-4">Team Members</h1>
+        {error && <p className="mb-3 text-sm text-red-500">{error}</p>}
         <div className="rounded-xl border border-gray-200 dark:border-gray-800 divide-y divide-gray-200 dark:divide-gray-800">
           {members.map((m) => (
             <div key={m.user_id} className="flex items-center gap-3 p-4">

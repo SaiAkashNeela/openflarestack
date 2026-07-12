@@ -12,6 +12,7 @@ export function IntegrationsPage() {
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
   const [webhookUrl, setWebhookUrl] = useState('')
+  const [addError, setAddError] = useState('')
 
   useEffect(() => {
     api.get<{ integrations: Integration[] }>('/api/v1/integrations')
@@ -22,6 +23,7 @@ export function IntegrationsPage() {
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
+    setAddError('')
     try {
       const r = await api.post<{ integration: Integration }>('/api/v1/integrations', {
         type: 'telegram', name, config: { bot_token: botToken },
@@ -29,14 +31,31 @@ export function IntegrationsPage() {
       setIntegrations((prev) => [...prev, r.integration])
       const workerUrl = import.meta.env.VITE_API_URL ?? window.location.origin
       setWebhookUrl(`${workerUrl}/api/webhooks/telegram/${r.integration.id}`)
+      setName('')
+      setBotToken('')
+    } catch (err) {
+      setAddError(err instanceof Error ? err.message : 'Failed to add integration')
     } finally {
       setSaving(false)
     }
   }
 
   async function handleDelete(id: string) {
-    await api.del(`/api/v1/integrations/${id}`)
-    setIntegrations((prev) => prev.filter((i) => i.id !== id))
+    const prev = integrations
+    setIntegrations((p) => p.filter((i) => i.id !== id))
+    try {
+      await api.delete(`/api/v1/integrations/${id}`)
+    } catch {
+      setIntegrations(prev)
+    }
+  }
+
+  function handleClose() {
+    setShowAdd(false)
+    setWebhookUrl('')
+    setName('')
+    setBotToken('')
+    setAddError('')
   }
 
   return (
@@ -61,11 +80,12 @@ export function IntegrationsPage() {
           </div>
         ))}
       </div>
-      <Modal open={showAdd} title="Add Telegram Bot" onClose={() => { setShowAdd(false); setWebhookUrl('') }}>
+      <Modal open={showAdd} title="Add Telegram Bot" onClose={handleClose}>
         {!webhookUrl ? (
           <form onSubmit={handleAdd} className="space-y-4">
             <Input label="Display name" value={name} onChange={(e) => setName(e.target.value)} placeholder="My Support Bot" required />
             <Input label="Telegram Bot Token" value={botToken} onChange={(e) => setBotToken(e.target.value)} placeholder="123456:ABC-DEF..." required />
+            {addError && <p className="text-sm text-red-500">{addError}</p>}
             <Button type="submit" className="w-full justify-center" disabled={saving}>{saving ? 'Saving…' : 'Add Bot'}</Button>
           </form>
         ) : (
@@ -73,7 +93,7 @@ export function IntegrationsPage() {
             <p className="text-sm text-gray-600 dark:text-gray-400">Bot added! Set this webhook URL in BotFather or via the Telegram API:</p>
             <div className="rounded-lg bg-gray-100 dark:bg-gray-800 p-3 break-all text-xs font-mono">{webhookUrl}</div>
             <p className="text-xs text-gray-500">Run: <code>curl "https://api.telegram.org/bot{'<TOKEN>'}/setWebhook?url={'<above_url>'}"</code></p>
-            <Button className="w-full justify-center" onClick={() => { setShowAdd(false); setWebhookUrl(''); setName(''); setBotToken('') }}>Done</Button>
+            <Button className="w-full justify-center" onClick={handleClose}>Done</Button>
           </div>
         )}
       </Modal>
