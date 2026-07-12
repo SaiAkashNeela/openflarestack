@@ -7,13 +7,14 @@ import { ConversationList } from '../components/ConversationList'
 export function InboxPage() {
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [status, setStatus] = useState<'open' | 'resolved' | 'all'>('open')
 
   useEffect(() => {
     setLoading(true)
     api.get<{ conversations: Conversation[] }>(`/api/v1/conversations?status=${status}`)
-      .then((r) => setConversations(r.conversations))
-      .catch(console.error)
+      .then((r) => { setConversations(r.conversations); setError('') })
+      .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false))
   }, [status])
 
@@ -31,6 +32,7 @@ export function InboxPage() {
             ))}
           </div>
         </div>
+        {error && <p className="px-4 py-2 text-xs text-red-500">{error}</p>}
         <ConversationList conversations={conversations} loading={loading} />
       </div>
       <div className="flex-1">

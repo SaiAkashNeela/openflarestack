@@ -24,7 +24,7 @@ export function ConversationList({ conversations, loading }: Props) {
   if (loading) return (
     <div className="flex-1 p-4 space-y-2">
       {[...Array(6)].map((_, i) => (
-        <div key={i} className="h-16 rounded-lg bg-gray-100 dark:bg-gray-800 animate-pulse" />
+        <div key={`skeleton-${i}`} className="h-16 rounded-lg bg-gray-100 dark:bg-gray-800 animate-pulse" />
       ))}
     </div>
   )
