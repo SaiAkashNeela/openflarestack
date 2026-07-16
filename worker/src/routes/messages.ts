@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import type { AppEnv } from '../index'
 import { nanoid } from '../lib/id'
+import { recordDomainEvent } from '../integrations/events'
 
 const route = new Hono<AppEnv>()
 
@@ -54,6 +55,10 @@ route.post('/:conversationId', async (c) => {
 
   // Enqueue outbound delivery
   await c.env.QUEUE.send({ type: 'outbound', conversationId: convId, messageId: id, organizationId: orgId })
+  await recordDomainEvent(c.env, orgId, 'message.sent', 'message', id, {
+    conversationId: convId,
+    senderId: user?.id ?? null,
+  })
 
   return c.json({ message }, 201)
 })

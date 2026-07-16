@@ -26,7 +26,7 @@ const PAGE_META: Record<string, { title: string; description: string }> = {
   "/integrations": {
     title: "Channels - openflarestack",
     description:
-      "Connect email, Telegram, web chat, and Slack to route conversations into openflarestack.",
+      "Connect email, Telegram, web chat, GitHub, Discord, and model providers to route conversations into openflarestack.",
   },
   "/team": {
     title: "Team - openflarestack",

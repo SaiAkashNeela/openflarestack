@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import type { AppEnv } from '../index'
 import { nanoid } from '../lib/id'
 import { extractMetadataFields, mergeMetadata } from '../lib/customer-metadata'
+import { recordDomainEvent } from '../integrations/events'
 
 const route = new Hono<AppEnv>()
 
@@ -19,7 +20,7 @@ route.get('/', async (c) => {
 })
 
 route.post('/', async (c) => {
-  const orgId = c.get('orgId')
+  const orgId = c.get('orgId')!
   const body = await c.req.json<Record<string, unknown>>()
   const name = typeof body.name === 'string' ? body.name.trim() : ''
   if (!name) return c.json({ error: 'name required' }, 400)
@@ -67,12 +68,19 @@ route.post('/', async (c) => {
 
   const customer = await c.env.DB.prepare(
     'SELECT * FROM customers WHERE id = ? AND organization_id = ?',
-  ).bind(id, orgId).first()
+  ).bind(id, orgId).first<{ id: string }>()
+  if (customer) {
+    await recordDomainEvent(c.env, orgId, existing ? 'customer.updated' : 'customer.created', 'customer', id, {
+      externalId,
+      email: nextEmail,
+      phone: nextPhone,
+    })
+  }
   return c.json({ customer }, existing ? 200 : 201)
 })
 
 route.patch('/:id', async (c) => {
-  const orgId = c.get('orgId')
+  const orgId = c.get('orgId')!
   const customer = await c.env.DB.prepare(
     'SELECT id, name, email, phone, external_id, avatar_url, metadata FROM customers WHERE id = ? AND organization_id = ?',
   )
@@ -127,15 +135,22 @@ route.patch('/:id', async (c) => {
 
   const updated = await c.env.DB.prepare(
     'SELECT * FROM customers WHERE id = ? AND organization_id = ?',
-  ).bind(customer.id, orgId).first()
+  ).bind(customer.id, orgId).first<{ id: string }>()
+  if (updated) {
+    await recordDomainEvent(c.env, orgId, 'customer.updated', 'customer', customer.id, {
+      externalId: nextExternalId,
+      email: nextEmail,
+      phone: nextPhone,
+    })
+  }
   return c.json({ customer: updated })
 })
 
 route.get('/:id', async (c) => {
-  const orgId = c.get('orgId')
+  const orgId = c.get('orgId')!
   const customer = await c.env.DB.prepare(
     'SELECT * FROM customers WHERE id = ? AND organization_id = ?'
-  ).bind(c.req.param('id'), orgId).first()
+  ).bind(c.req.param('id'), orgId).first<{ id: string }>()
   if (!customer) return c.json({ error: 'Not found' }, 404)
   const { results: conversations } = await c.env.DB.prepare(
     'SELECT * FROM conversations WHERE customer_id = ? AND organization_id = ? ORDER BY last_message_at DESC LIMIT 20'

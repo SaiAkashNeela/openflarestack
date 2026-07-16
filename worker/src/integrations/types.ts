@@ -8,6 +8,7 @@ export interface IncomingMessage {
   subject?: string
   text: string
   channel: string
+  conversationId?: string
   conversationKey?: string
 }
 

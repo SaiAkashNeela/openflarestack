@@ -13,9 +13,17 @@ migrations_dir = "src/db/migrations"
 name = "CONVERSATION_ROOM"
 class_name = "ConversationRoom"
 
+[[durable_objects.bindings]]
+name = "DISCORD_GATEWAY"
+class_name = "DiscordGatewayRoom"
+
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["ConversationRoom"]
+
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["DiscordGatewayRoom"]
 
 [[queues.producers]]
 binding = "QUEUE"

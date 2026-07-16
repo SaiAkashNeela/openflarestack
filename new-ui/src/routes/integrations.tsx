@@ -3,7 +3,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { Modal } from "@/components/ui/Modal";
 import { useToast } from "@/components/ui/Toast";
 import { api } from "@/lib/api";
-import { Mail, MessageCircle, Globe, Slack, Plus, RotateCw, Trash2 } from "lucide-react";
+import { Mail, MessageCircle, Globe, Sparkles, Plus, RotateCw, Trash2 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Menu, MenuDivider, MenuItem } from "@/components/ui/Menu";
 
@@ -21,6 +21,7 @@ type WorkerIntegration = {
   id: string;
   type: string;
   name: string;
+  config: string;
   enabled: number | boolean;
   created_at: number | null;
 };
@@ -56,37 +57,44 @@ const CATALOG: Template[] = [
   {
     type: "webchat",
     name: "Web Chat",
-    description: "Connect your site widget",
+    description: "Embed the hosted support widget on your site",
     icon: Globe,
-    meta: "Widget · snippet install",
+    meta: "Widget · realtime",
   },
   {
-    type: "slack",
-    name: "Slack",
-    description: "Connect a Slack workspace",
-    icon: Slack,
-    meta: "Workspace app · routing",
+    type: "github",
+    name: "GitHub",
+    description: "Sync issues and comments into conversations",
+    icon: Globe,
+    meta: "App installation · webhooks",
   },
   {
-    type: "whatsapp",
-    name: "WhatsApp Business",
-    description: "Cloud API",
+    type: "discord",
+    name: "Discord",
+    description: "Route Discord server conversations into the inbox",
     icon: MessageCircle,
-    meta: "Cloud API · phone number",
+    meta: "OAuth · bot",
   },
   {
-    type: "intercom",
-    name: "Intercom import",
-    description: "One-way sync",
+    type: "openai_compatible",
+    name: "OpenAI-Compatible",
+    description: "Connect any OpenAI-compatible model endpoint",
     icon: Globe,
-    meta: "Import · read only",
+    meta: "Base URL · API key",
+  },
+  {
+    type: "cloudflare_ai_gateway",
+    name: "Cloudflare AI Gateway",
+    description: "Route model traffic through Cloudflare AI Gateway",
+    icon: Sparkles,
+    meta: "Gateway endpoint · auth",
   },
   {
     type: "webhook",
-    name: "API / Webhook",
-    description: "Post tickets from your platform",
+    name: "Webhook",
+    description: "Receive and publish org events through a signed webhook",
     icon: Globe,
-    meta: "POST /api/webhooks/:id",
+    meta: "Outbound events · retries",
   },
 ];
 
@@ -112,30 +120,41 @@ const SETUP_FIELDS: Record<string, SetupField[]> = {
   webchat: [
     { key: "siteUrl", label: "Site URL", placeholder: "https://example.com", required: true },
     { key: "widgetKey", label: "Widget key", placeholder: "public widget key", required: true },
+    { key: "accent", label: "Accent color", placeholder: "#111827" },
   ],
-  slack: [
-    { key: "workspaceId", label: "Workspace ID", placeholder: "T12345678", required: true },
-    { key: "botToken", label: "Bot token", placeholder: "xoxb-...", required: true },
+  github: [
+    { key: "appSlug", label: "App slug", placeholder: "acme-support-app", required: true },
+    { key: "appId", label: "App ID", placeholder: "123456", required: true },
+    { key: "privateKey", label: "Private key", placeholder: "-----BEGIN PRIVATE KEY-----", required: true },
+    { key: "owner", label: "Owner", placeholder: "acme-inc", required: true },
+    { key: "repository", label: "Repository", placeholder: "support", required: true },
+    { key: "webhookSecret", label: "Webhook secret", placeholder: "optional secret" },
   ],
-  whatsapp: [
-    { key: "phoneNumber", label: "Phone number", placeholder: "+15551234567", required: true },
-    { key: "accessToken", label: "Access token", placeholder: "Bearer token", required: true },
+  discord: [
+    { key: "guildId", label: "Guild ID", placeholder: "123456789", required: true },
+    { key: "channelId", label: "Channel ID", placeholder: "987654321", required: true },
+    { key: "clientId", label: "Client ID", placeholder: "Discord client id", required: true },
+    { key: "clientSecret", label: "Client secret", placeholder: "Discord client secret", required: true },
+    { key: "botToken", label: "Bot token", placeholder: "Bot token", required: true },
+    { key: "permissions", label: "Permissions", placeholder: "8" },
+    { key: "webhookSecret", label: "Webhook secret", placeholder: "optional secret" },
   ],
-  intercom: [
-    {
-      key: "workspaceId",
-      label: "Workspace ID",
-      placeholder: "intercom workspace",
-      required: true,
-    },
-    {
-      key: "accessToken",
-      label: "Access token",
-      placeholder: "Intercom token",
-      required: true,
-    },
+  openai_compatible: [
+    { key: "baseUrl", label: "Base URL", placeholder: "https://api.example.com/v1", required: true },
+    { key: "apiKey", label: "API key", placeholder: "sk-...", required: true },
+    { key: "model", label: "Model", placeholder: "gpt-4.1-mini", required: true },
   ],
-  webhook: [],
+  cloudflare_ai_gateway: [
+    { key: "endpoint", label: "Gateway endpoint", placeholder: "https://gateway.ai.cloudflare.com/v1/...", required: true },
+    { key: "authToken", label: "Auth token", placeholder: "Cloudflare token", required: true },
+    { key: "model", label: "Model", placeholder: "gpt-4.1-mini", required: true },
+    { key: "provider", label: "Provider", placeholder: "openai / anthropic /...", required: false },
+  ],
+  webhook: [
+    { key: "url", label: "Webhook URL", placeholder: "https://example.com/webhook", required: true },
+    { key: "secret", label: "Signing secret", placeholder: "optional secret" },
+    { key: "events", label: "Events", placeholder: "conversation.created,message.received" },
+  ],
 };
 
 export default function Integrations() {
@@ -188,7 +207,10 @@ export default function Integrations() {
     if (!setupTemplate) return;
     setPending(true);
     try {
-      const { integration } = await api.post<{ integration: WorkerIntegration }>(
+      const { integration, connectUrl } = await api.post<{
+        integration: WorkerIntegration;
+        connectUrl: string | null;
+      }>(
         "/api/v1/integrations",
         {
           type: setupTemplate.type,
@@ -196,6 +218,10 @@ export default function Integrations() {
           config: setupConfig,
         },
       );
+      if (connectUrl && integration?.id) {
+        window.location.assign(getIntegrationConnectUrl(integration.id));
+        return;
+      }
       const mapped = mapIntegration(
         integration ?? {
           ...setupTemplate,
@@ -228,6 +254,11 @@ export default function Integrations() {
   };
 
   const reauth = (c: Channel) => {
+    const nextUrl = getIntegrationConnectUrl(c.id);
+    if (nextUrl) {
+      window.location.assign(nextUrl);
+      return;
+    }
     setConnected((prev) =>
       prev.map((x) =>
         x.id === c.id ? { ...x, status: "online", meta: "Reauthorized locally" } : x,
@@ -353,6 +384,43 @@ export default function Integrations() {
                 </ul>
               </div>
             )}
+            {setupTemplate.type === "webchat" && (
+              <div className="space-y-2 rounded-md border border-border bg-background p-3 text-xs text-muted-foreground">
+                <div className="font-medium text-foreground">Embed snippet</div>
+                <div className="font-mono text-[11px] break-all text-foreground">
+                  {webchatSnippet(setupConfig.widgetKey || "", setupConfig.siteUrl || "")}
+                </div>
+                <ul className="list-disc space-y-1 pl-4">
+                  <li>Paste the script before the closing `body` tag.</li>
+                  <li>The widget keeps a visitor session in local storage.</li>
+                  <li>Theme colors can be tuned from the config fields below.</li>
+                </ul>
+              </div>
+            )}
+            {(setupTemplate.type === "github" || setupTemplate.type === "discord") && (
+              <div className="space-y-2 rounded-md border border-border bg-background p-3 text-xs text-muted-foreground">
+                <div className="font-medium text-foreground">
+                  {setupTemplate.type === "github" ? "GitHub App" : "Discord bot"} setup
+                </div>
+                <ul className="list-disc space-y-1 pl-4">
+                  <li>{setupTemplate.type === "github" ? "Use a GitHub App installation and the selected repository details." : "Use a bot token plus the guild and channel you want to sync."}</li>
+                  <li>The config below is organization-scoped and can be updated later.</li>
+                </ul>
+              </div>
+            )}
+            {(setupTemplate.type === "openai_compatible" || setupTemplate.type === "cloudflare_ai_gateway") && (
+              <div className="space-y-2 rounded-md border border-border bg-background p-3 text-xs text-muted-foreground">
+                <div className="font-medium text-foreground">
+                  {setupTemplate.type === "openai_compatible"
+                    ? "OpenAI-compatible endpoint"
+                    : "Cloudflare AI Gateway"}
+                </div>
+                <ul className="list-disc space-y-1 pl-4">
+                  <li>Use the base URL or gateway endpoint that already fronts your model traffic.</li>
+                  <li>The model name should match what the upstream endpoint expects.</li>
+                </ul>
+              </div>
+            )}
             {setupTemplate.type === "webhook" ? (
               <div className="space-y-2 rounded-md border border-border bg-background p-3 text-xs text-muted-foreground">
                 <div className="font-medium text-foreground">
@@ -360,6 +428,9 @@ export default function Integrations() {
                 </div>
                 <div className="font-mono text-[11px] break-all text-foreground">
                   {webhookUrl(":integrationId")}
+                </div>
+                <div className="font-mono text-[11px] break-all text-foreground">
+                  {setupConfig.secret ? `X-Flaredesk-Signature: sha256=...` : "Signing is optional but recommended"}
                 </div>
                 <pre className="overflow-x-auto rounded-md bg-surface p-2 font-mono text-[10px] leading-5 text-muted-foreground">
                   {`{
@@ -445,44 +516,15 @@ export default function Integrations() {
   );
 }
 
-function defaultConfig(type: string) {
-  switch (type) {
-    case "email":
-      return { address: "", fromName: "" };
-    case "telegram":
-      return { botToken: "", webhookSecret: "" };
-    case "webchat":
-      return { siteUrl: "", widgetKey: "" };
-    case "slack":
-      return { workspaceId: "", botToken: "" };
-    case "whatsapp":
-      return { phoneNumber: "", accessToken: "" };
-    case "intercom":
-      return { workspaceId: "", accessToken: "" };
-    case "webhook":
-      return {};
-    default:
-      return {};
-  }
-}
-
-function fieldsForType(type: string) {
-  return (
-    SETUP_FIELDS[type] ?? [
-      { key: "endpoint", label: "Endpoint", placeholder: "https://example.com", required: true },
-      { key: "token", label: "Token", placeholder: "token", required: true },
-    ]
-  );
-}
-
 function webhookUrl(id: string) {
   const base = import.meta.env.VITE_API_URL ?? "";
   return `${base.replace(/\/$/, "")}/api/webhooks/${id}`;
 }
 
-function integrationLabel(type: string, config: Record<string, string>, fallback: string) {
-  if (type !== "email") return fallback;
-  return config.address?.trim() || fallback;
+function webchatSnippet(widgetKey: string, siteUrl: string) {
+  const base = (import.meta.env.VITE_API_URL ?? "").replace(/\/$/, "");
+  const src = `${base}/api/public/webchat/widget.js?widgetKey=${encodeURIComponent(widgetKey)}&baseUrl=${encodeURIComponent(base)}`
+  return `<script src="${src}" data-widget-key="${widgetKey}" data-base-url="${base}" data-site-url="${siteUrl}"></script>`
 }
 
 function ChannelRow({
@@ -582,6 +624,7 @@ function mapIntegration(integration: WorkerIntegration): Channel {
     icon: Globe,
     meta: "Connected",
   };
+  const config = parseConfig(integration.config);
 
   return {
     id: integration.id,
@@ -589,12 +632,7 @@ function mapIntegration(integration: WorkerIntegration): Channel {
     name: integration.name || template.name,
     description: template.description,
     icon: template.icon,
-    meta:
-      integration.enabled && template.type === "webhook"
-        ? `POST ${webhookUrl(integration.id)}`
-        : integration.enabled
-          ? `Connected · ${formatDate(integration.created_at)}`
-          : "Disabled",
+    meta: formatIntegrationMeta(template.type, config, integration),
     status: integration.enabled ? "online" : "offline",
   };
 }
@@ -617,4 +655,105 @@ function formatDate(value: number | null) {
   if (days < 30) return `${days}d ago`;
   const months = Math.round(days / 30);
   return `${months}mo ago`;
+}
+
+function parseConfig(value: string) {
+  try {
+    return JSON.parse(value) as Record<string, unknown>;
+  } catch {
+    return {};
+  }
+}
+
+function formatIntegrationMeta(
+  type: string,
+  config: Record<string, unknown>,
+  integration: WorkerIntegration,
+) {
+  if (!integration.enabled) return "Disabled";
+  if (type === "webhook") return `POST ${webhookUrl(integration.id)}`;
+  if (type === "webchat") {
+    const widgetKey = typeof config.widgetKey === "string" ? config.widgetKey : "";
+    return widgetKey ? `Widget key ${widgetKey.slice(0, 8)}…` : "Widget ready";
+  }
+  if (type === "email") {
+    const address = typeof config.address === "string" ? config.address : "";
+    return address ? address : `Connected · ${formatDate(integration.created_at)}`;
+  }
+  if (type === "telegram") {
+    const botToken = typeof config.botToken === "string" ? config.botToken : "";
+    return botToken ? `Bot ${botToken.slice(0, 4)}…` : `Connected · ${formatDate(integration.created_at)}`;
+  }
+  if (type === "github") {
+    const owner = typeof config.owner === "string" ? config.owner : "";
+    const repository = typeof config.repository === "string" ? config.repository : "";
+    return owner && repository ? `${owner}/${repository}` : `Connected · ${formatDate(integration.created_at)}`;
+  }
+  if (type === "discord") {
+    const guildId = typeof config.guildId === "string" ? config.guildId : "";
+    const channelId = typeof config.channelId === "string" ? config.channelId : "";
+    return guildId && channelId ? `Guild ${guildId.slice(0, 6)}… · Channel ${channelId.slice(0, 6)}…` : `Connected · ${formatDate(integration.created_at)}`;
+  }
+  if (type === "openai_compatible") {
+    const baseUrl = typeof config.baseUrl === "string" ? config.baseUrl : "";
+    const model = typeof config.model === "string" ? config.model : "";
+    return model ? `${model} · ${baseUrl || "OpenAI-compatible"}` : baseUrl || `Connected · ${formatDate(integration.created_at)}`;
+  }
+  if (type === "cloudflare_ai_gateway") {
+    const endpoint = typeof config.endpoint === "string" ? config.endpoint : "";
+    const model = typeof config.model === "string" ? config.model : "";
+    return model ? `${model} · ${endpoint || "AI Gateway"}` : endpoint || `Connected · ${formatDate(integration.created_at)}`;
+  }
+  return `Connected · ${formatDate(integration.created_at)}`;
+}
+
+function defaultConfig(type: string) {
+  switch (type) {
+    case "email":
+      return { address: "", fromName: "" };
+    case "telegram":
+      return { botToken: "", webhookSecret: "" };
+    case "webchat":
+      return {
+        siteUrl: "",
+        widgetKey: crypto.randomUUID().replace(/-/g, ""),
+        accent: "#111827",
+      };
+    case "github":
+      return { appSlug: "", appId: "", privateKey: "", owner: "", repository: "", webhookSecret: "" };
+    case "discord":
+      return { guildId: "", channelId: "", clientId: "", clientSecret: "", botToken: "", permissions: "", webhookSecret: "" };
+    case "openai_compatible":
+      return { baseUrl: "", apiKey: "", model: "" };
+    case "cloudflare_ai_gateway":
+      return { endpoint: "", authToken: "", model: "", provider: "" };
+    case "webhook":
+      return { url: "", secret: "", events: "" };
+    default:
+      return {};
+  }
+}
+
+function fieldsForType(type: string) {
+  return SETUP_FIELDS[type] ?? [
+    { key: "endpoint", label: "Endpoint", placeholder: "https://example.com", required: true },
+    { key: "token", label: "Token", placeholder: "token", required: true },
+  ];
+}
+
+function integrationLabel(type: string, config: Record<string, string>, fallback: string) {
+  if (type === "email") return config.address?.trim() || fallback;
+  if (type === "webchat") return config.siteUrl?.trim() || config.widgetKey?.trim() || fallback;
+  if (type === "webhook") return config.url?.trim() || fallback;
+  if (type === "openai_compatible") return config.model?.trim() || config.baseUrl?.trim() || fallback;
+  if (type === "cloudflare_ai_gateway") return config.model?.trim() || config.endpoint?.trim() || fallback;
+  if (type === "github") return [config.owner?.trim(), config.repository?.trim()].filter(Boolean).join("/") || fallback;
+  if (type === "discord") return [config.guildId?.trim(), config.channelId?.trim()].filter(Boolean).join(" · ") || fallback;
+  return fallback;
+}
+
+function getIntegrationConnectUrl(id: string) {
+  const base = import.meta.env.VITE_API_URL ?? window.location.origin;
+  const url = new URL(`/api/v1/integrations/${id}/connect`, base);
+  return url.toString();
 }

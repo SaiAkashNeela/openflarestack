@@ -10,16 +10,23 @@ import messagesRoute from './routes/messages'
 import customersRoute from './routes/customers'
 import teamsRoute from './routes/teams'
 import integrationsRoute from './routes/integrations'
+import eventsRoute from './routes/events'
+import aiRoute from './routes/ai'
+import publicRoute from './routes/public'
 import { normalizeEmailAddress, parseIncomingEmail, readEmailIntegrationConfig } from './integrations/email'
-import { extractMetadataFields } from './lib/customer-metadata'
 import { queueConsumer } from './queues/consumer'
 import { parseTelegramUpdate } from './integrations/telegram'
+import { parseGenericWebhook as parseWebhookPayload } from './integrations/webhook'
+import { parseGitHubIssueWebhook, verifyGitHubWebhook, readGitHubIntegrationConfig } from './integrations/github'
+import { parseDiscordMessage } from './integrations/discord'
 import type { IncomingMessage } from './integrations/types'
 export { ConversationRoom } from './objects/ConversationRoom'
+export { DiscordGatewayRoom } from './objects/DiscordGatewayRoom'
 
 export type Env = {
   DB: D1Database
   CONVERSATION_ROOM: DurableObjectNamespace
+  DISCORD_GATEWAY: DurableObjectNamespace
   QUEUE: Queue
   R2: R2Bucket
   KV: KVNamespace
@@ -37,30 +44,15 @@ export type Env = {
   FRONTEND_URL: string
   BETTER_AUTH_SECRET: string
   BETTER_AUTH_URL: string
+  WEBCHAT_SECRET?: string
+  GITHUB_APP_ID?: string
+  GITHUB_PRIVATE_KEY?: string
 }
 
 type SessionUser = NonNullable<Awaited<ReturnType<Auth['api']['getSession']>>>['user'] | null
 type BaseSession = NonNullable<Awaited<ReturnType<Auth['api']['getSession']>>>['session']
 // Extend base session with org plugin field so tenantMiddleware can access it
 type SessionObj = (BaseSession & { activeOrganizationId?: string | null }) | null
-
-type WebhookPayload = Record<string, unknown> & {
-  externalCustomerId?: string
-  customerId?: string
-  customerEmail?: string
-  email?: string
-  customerPhone?: string
-  phone?: string
-  customerName?: string
-  name?: string
-  externalId?: string
-  ticketId?: string
-  subject?: string
-  title?: string
-  text?: string
-  body?: string
-  channel?: string
-}
 
 export type AppEnv = {
   Bindings: Env
@@ -100,6 +92,9 @@ app.route('/api/v1/messages', messagesRoute)
 app.route('/api/v1/customers', customersRoute)
 app.route('/api/v1/teams', teamsRoute)
 app.route('/api/v1/integrations', integrationsRoute)
+app.route('/api/v1/events', eventsRoute)
+app.route('/api/v1/ai', aiRoute)
+app.route('/api/public', publicRoute)
 
 app.post('/api/webhooks/telegram/:integrationId', handleWebhook)
 app.post('/api/webhooks/:integrationId', handleWebhook)
@@ -112,14 +107,18 @@ async function handleWebhook(c: Context<AppEnv>) {
 
   if (!integration) return c.json({ error: 'Not found' }, 404)
 
-  const body = await readWebhookBody(c)
-  if (!body || typeof body !== 'object') return c.json({ error: 'Invalid webhook payload' }, 400)
+  const request = await readWebhookBody(c)
+  if (!request || typeof request.body !== 'object') return c.json({ error: 'Invalid webhook payload' }, 400)
 
   const incoming =
     integration.type === 'telegram'
-      ? parseTelegramUpdate(body) ?? parseGenericWebhook(body)
+      ? parseTelegramUpdate(request.body) ?? parseWebhookPayload(request.body)
+      : integration.type === 'github'
+        ? await handleGitHubWebhookPayload(integration, request, c)
+      : integration.type === 'discord'
+        ? parseDiscordMessage(request.body) ?? null
       : integration.type === 'webhook'
-        ? parseGenericWebhook(body)
+        ? parseWebhookPayload(request.body)
         : null
 
   if (!incoming) return c.json({ error: 'Invalid webhook payload' }, 400)
@@ -177,7 +176,18 @@ async function readWebhookBody(c: Context<AppEnv>) {
   const contentType = c.req.header('content-type') ?? ''
 
   if (contentType.includes('application/json')) {
-    return c.req.json().catch(() => null)
+    const raw = await c.req.text().catch(() => '')
+    if (!raw) return null
+    let body: unknown
+    try {
+      body = JSON.parse(raw)
+    } catch {
+      return null
+    }
+    return {
+      raw,
+      body,
+    }
   }
 
   if (
@@ -186,70 +196,34 @@ async function readWebhookBody(c: Context<AppEnv>) {
   ) {
     const form = await c.req.formData().catch(() => null)
     if (!form) return null
-    return Object.fromEntries(
+    const body = Object.fromEntries(
       Array.from(form.entries()).map(([key, value]) => [key, String(value)]),
     )
+    return { raw: JSON.stringify(body), body }
   }
 
   const raw = await c.req.text().catch(() => '')
   if (!raw) return null
 
   try {
-    return JSON.parse(raw)
+    return { raw, body: JSON.parse(raw) }
   } catch {
-    return { text: raw }
+    return { raw, body: { text: raw } }
   }
 }
 
-function parseGenericWebhook(body: WebhookPayload | Record<string, string>): IncomingMessage | null {
-  const text = [body.text, body.body, body.subject, body.title].find(
-    (value): value is string => Boolean(value?.trim()),
-  )
-  if (!text) return null
-
-  const externalCustomerId =
-    body.externalCustomerId ??
-    body.customerId ??
-    body.customerEmail ??
-    body.email ??
-    body.customerPhone ??
-    body.phone ??
-    body.externalId ??
-    body.ticketId ??
-    null
-
-  if (!externalCustomerId) return null
-
-  const metadata = extractMetadataFields(body, [
-    'externalCustomerId',
-    'customerId',
-    'customerEmail',
-    'email',
-    'customerPhone',
-    'phone',
-    'customerName',
-    'name',
-    'externalId',
-    'ticketId',
-    'subject',
-    'title',
-    'text',
-    'body',
-    'channel',
-  ])
-
-  return {
-    externalId: body.externalId ?? body.ticketId ?? externalCustomerId,
-    externalCustomerId,
-    customerName:
-      body.customerName ?? body.name ?? body.customerEmail ?? body.email ?? 'Unknown customer',
-    customerEmail: body.customerEmail ?? body.email,
-    customerPhone: body.customerPhone ?? body.phone,
-    metadata,
-    subject: body.subject ?? body.title,
-    text,
-    channel: body.channel ?? 'webhook',
+async function handleGitHubWebhookPayload(
+  integration: { id: string; organization_id: string; config: string },
+  request: { raw: string; body: Record<string, unknown> },
+  c: Context<AppEnv>,
+) {
+  const config = readGitHubIntegrationConfig(integration.config)
+  if (config.webhookSecret) {
+    const signature = c.req.header('x-hub-signature-256')
+    const ok = await verifyGitHubWebhook(config.webhookSecret, request.raw, signature)
+    if (!ok) return null
   }
+  return parseGitHubIssueWebhook(request.body) ?? parseWebhookPayload(request.body)
 }
 
 // WebSocket upgrade → delegate to ConversationRoom DO

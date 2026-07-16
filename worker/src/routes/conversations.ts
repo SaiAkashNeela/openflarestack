@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import type { AppEnv } from '../index'
 import { nanoid } from '../lib/id'
+import { recordDomainEvent } from '../integrations/events'
 
 const route = new Hono<AppEnv>()
 
@@ -35,6 +36,13 @@ route.post('/', async (c) => {
   const conv = await c.env.DB.prepare(
     'SELECT * FROM conversations WHERE id = ?'
   ).bind(id).first()
+  if (conv) {
+    await recordDomainEvent(c.env, orgId, 'conversation.created', 'conversation', id, {
+      customerId: body.customer_id,
+      subject: body.subject ?? null,
+      channel: body.channel ?? 'api',
+    })
+  }
   return c.json({ conversation: conv }, 201)
 })
 
@@ -61,6 +69,12 @@ route.get('/:id', async (c) => {
 route.patch('/:id', async (c) => {
   const orgId = c.var.orgId!
   const body = await c.req.json<{ status?: string; assigned_to?: string | null }>()
+  const existing = await c.env.DB.prepare(
+    'SELECT status, assigned_to FROM conversations WHERE id = ? AND organization_id = ?',
+  )
+    .bind(c.req.param('id'), orgId)
+    .first<{ status: string; assigned_to: string | null }>()
+  if (!existing) return c.json({ error: 'Not found' }, 404)
   const updates: string[] = []
   const values: (string | number | null)[] = []
   if (body.status) { updates.push('status = ?'); values.push(body.status) }
@@ -72,7 +86,29 @@ route.patch('/:id', async (c) => {
   ).bind(...values, c.req.param('id'), orgId).run()
   const conv = await c.env.DB.prepare(
     'SELECT * FROM conversations WHERE id = ?'
-  ).bind(c.req.param('id')).first()
+  ).bind(c.req.param('id')).first<{ id: string }>()
+  if (conv) {
+    if (body.status && body.status !== existing.status) {
+      await recordDomainEvent(c.env, orgId, 'status.changed', 'conversation', conv.id, {
+        from: existing.status,
+        to: body.status,
+      })
+      if (body.status === 'closed') {
+        await recordDomainEvent(c.env, orgId, 'conversation.closed', 'conversation', conv.id, {
+          status: body.status,
+        })
+      }
+    }
+    if ('assigned_to' in body && body.assigned_to !== existing.assigned_to) {
+      await recordDomainEvent(c.env, orgId, body.assigned_to ? 'agent.assigned' : 'agent.unassigned', 'conversation', conv.id, {
+        assignedTo: body.assigned_to,
+      })
+    }
+    await recordDomainEvent(c.env, orgId, 'conversation.updated', 'conversation', conv.id, {
+      status: body.status ?? existing.status,
+      assignedTo: 'assigned_to' in body ? body.assigned_to ?? null : existing.assigned_to,
+    })
+  }
   return c.json({ conversation: conv })
 })
 
