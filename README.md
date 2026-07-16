@@ -59,6 +59,8 @@ npx wrangler deploy
 - Multi-tenant: every DB row scoped to `organization_id`
 - Real-time conversation room via Durable Objects + WebSocket
 - Telegram bot webhook -> inbound message queue -> D1 -> broadcast
+- Cloudflare Email Service inbound routing -> queue -> D1 -> broadcast
+- Cloudflare Email Service outbound replies from the Worker binding
 - Google OAuth + email/password via Better Auth
 - Dark mode persisted in `localStorage`
 - Dashboard stats, conversation inbox, integrations management, team settings
@@ -76,3 +78,30 @@ npx wrangler deploy
 1. Create a bot via BotFather
 2. Add integration in openflarestack UI -> copy the webhook URL
 3. Set webhook: `curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=<WEBHOOK_URL>"`
+
+## Email integration
+
+Cloudflare Email Service can cover both inbound support mail and outbound replies, but the plan matters:
+
+- Inbound routing works on Free and Paid plans.
+- Outbound sending to arbitrary customer addresses requires Workers Paid.
+- Sending to verified destination addresses is free on all plans.
+
+Setup:
+
+1. Onboard your domain in Cloudflare Email Service.
+2. Create an Email Routing rule for the support address you want Flaredesk to own.
+3. Add that same address as an Email channel in the Flaredesk UI.
+4. Add the `send_email` binding named `EMAIL` in `worker/wrangler.toml`.
+
+The worker parses incoming mail with `postal-mime` and turns it into a normal conversation message, so email becomes another channel in the same inbox instead of a separate system.
+
+## Cloudflare-native extras to consider
+
+If you want the stack to stay as Cloudflare-first as possible, the best next additions are:
+
+- Replace Google OAuth with a Cloudflare-native auth path if you want to remove the last third-party login dependency.
+- Add Turnstile to signup and invite flows for abuse prevention.
+- Use Workers AI for reply suggestions, conversation summaries, or auto-triage.
+- Use R2 for attachments and generated exports so files stay on Cloudflare too.
+- Keep Email Service for inbound/outbound support mail and Webhooks/Queues for everything else.

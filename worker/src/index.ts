@@ -10,6 +10,7 @@ import messagesRoute from './routes/messages'
 import customersRoute from './routes/customers'
 import teamsRoute from './routes/teams'
 import integrationsRoute from './routes/integrations'
+import { normalizeEmailAddress, parseIncomingEmail, readEmailIntegrationConfig } from './integrations/email'
 import { extractMetadataFields } from './lib/customer-metadata'
 import { queueConsumer } from './queues/consumer'
 import { parseTelegramUpdate } from './integrations/telegram'
@@ -22,6 +23,16 @@ export type Env = {
   QUEUE: Queue
   R2: R2Bucket
   KV: KVNamespace
+  EMAIL: {
+    send(message: {
+      to: string | { email: string; name?: string }
+      from: string | { email: string; name?: string }
+      subject: string
+      text?: string
+      html?: string
+      replyTo?: string | { email: string; name?: string }
+    }): Promise<{ messageId: string }>
+  }
   ENVIRONMENT: string
   FRONTEND_URL: string
   BETTER_AUTH_SECRET: string
@@ -123,6 +134,45 @@ async function handleWebhook(c: Context<AppEnv>) {
   return c.json({ ok: true })
 }
 
+type ForwardableEmailMessage = {
+  from: string
+  to: string
+  headers: Headers
+  raw: ReadableStream
+  rawSize: number
+  setReject(reason: string): void
+}
+
+async function handleEmail(message: ForwardableEmailMessage, env: Env) {
+  const recipient = normalizeEmailAddress(message.to)
+  const { results } = await env.DB.prepare(
+    'SELECT id, organization_id, config FROM integrations WHERE type = ? AND enabled = 1'
+  ).bind('email').all<{ id: string; organization_id: string; config: string }>()
+
+  const integration = results.find((item) => {
+    const config = readEmailIntegrationConfig(item.config)
+    return config.address ? normalizeEmailAddress(config.address) === recipient : false
+  })
+
+  if (!integration) {
+    message.setReject(`No email integration is configured for ${message.to}`)
+    return
+  }
+
+  const incoming = await parseIncomingEmail(message)
+  if (!incoming) {
+    message.setReject('Unable to parse email content')
+    return
+  }
+
+  await env.QUEUE.send({
+    type: 'inbound',
+    integrationId: integration.id,
+    organizationId: integration.organization_id,
+    incoming,
+  })
+}
+
 async function readWebhookBody(c: Context<AppEnv>) {
   const contentType = c.req.header('content-type') ?? ''
 
@@ -212,4 +262,5 @@ app.get('/api/v1/ws/:conversationId', async (c) => {
 export default {
   fetch: app.fetch,
   queue: queueConsumer,
+  email: handleEmail,
 } satisfies ExportedHandler<Env>

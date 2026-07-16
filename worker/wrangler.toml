@@ -26,6 +26,9 @@ queue = "openflarestack-queue"
 max_batch_size = 10
 max_batch_timeout = 5
 
+[[send_email]]
+name = "EMAIL"
+
 [[r2_buckets]]
 binding = "R2"
 bucket_name = "openflarestack-attachments"

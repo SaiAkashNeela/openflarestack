@@ -1,6 +1,7 @@
 import type { Env } from '../index'
 import type { InboundJob, OutboundJob } from '../integrations/types'
 import { sendTelegramMessage } from '../integrations/telegram'
+import { formatEmailSubject, readEmailIntegrationConfig, stripHtml } from '../integrations/email'
 import { nanoid } from '../lib/id'
 import { mergeMetadata } from '../lib/customer-metadata'
 
@@ -68,7 +69,7 @@ async function handleInbound(job: Extract<QueueJob, { type: 'inbound' }>, env: E
 
   // Upsert conversation (one per external chat)
   const convId = nanoid()
-  const externalConvId = `${incoming.channel}:${incoming.externalCustomerId}`
+  const externalConvId = incoming.conversationKey ?? `${incoming.channel}:${incoming.externalCustomerId}`
   await env.DB.prepare(`
     INSERT INTO conversations (id, organization_id, customer_id, integration_id, external_id, channel, status, last_message_at)
     VALUES (?, ?, ?, ?, ?, ?, 'open', unixepoch())
@@ -89,10 +90,17 @@ async function handleInbound(job: Extract<QueueJob, { type: 'inbound' }>, env: E
   // Insert message — fetch by external_id so duplicates (ON CONFLICT DO NOTHING) still broadcast
   const msgId = nanoid()
   await env.DB.prepare(`
-    INSERT INTO messages (id, conversation_id, organization_id, sender_type, content, external_id)
-    VALUES (?, ?, ?, 'customer', ?, ?)
+    INSERT INTO messages (id, conversation_id, organization_id, sender_type, content, metadata, external_id)
+    VALUES (?, ?, ?, 'customer', ?, ?, ?)
     ON CONFLICT DO NOTHING
-  `).bind(msgId, conv.id, organizationId, incoming.text, incoming.externalId).run()
+  `).bind(
+    msgId,
+    conv.id,
+    organizationId,
+    incoming.text,
+    JSON.stringify(incoming.metadata ?? {}),
+    incoming.externalId,
+  ).run()
 
   const message = await env.DB.prepare(
     'SELECT * FROM messages WHERE conversation_id = ? AND external_id = ? AND organization_id = ?'
@@ -110,19 +118,47 @@ async function handleInbound(job: Extract<QueueJob, { type: 'inbound' }>, env: E
 
 async function handleOutbound(job: Extract<QueueJob, { type: 'outbound' }>, env: Env) {
   const message = await env.DB.prepare(
-    'SELECT m.*, c.external_id as conv_external_id, i.config as integration_config, i.type as integration_type FROM messages m JOIN conversations c ON m.conversation_id = c.id LEFT JOIN integrations i ON c.integration_id = i.id WHERE m.id = ? AND m.organization_id = ?'
+    'SELECT m.*, c.external_id as conv_external_id, c.subject as conversation_subject, cu.email as customer_email, i.config as integration_config, i.type as integration_type, i.name as integration_name FROM messages m JOIN conversations c ON m.conversation_id = c.id JOIN customers cu ON c.customer_id = cu.id LEFT JOIN integrations i ON c.integration_id = i.id WHERE m.id = ? AND m.organization_id = ?'
   ).bind(job.messageId, job.organizationId).first<{
     content: string
+    content_type: string
     conv_external_id: string
-    integration_config: string
-    integration_type: string
+    conversation_subject: string | null
+    customer_email: string | null
+    integration_config: string | null
+    integration_type: string | null
+    integration_name: string | null
   }>()
 
-  if (!message || message.integration_type !== 'telegram') return
+  if (!message || !message.integration_type) return
 
-  const config = JSON.parse(message.integration_config) as { bot_token: string }
-  const chatId = message.conv_external_id.replace('telegram:', '')
-  await sendTelegramMessage(config.bot_token, chatId, message.content)
+  if (message.integration_type === 'telegram') {
+    const config = JSON.parse(message.integration_config ?? '{}') as { bot_token: string }
+    const chatId = message.conv_external_id.replace('telegram:', '')
+    await sendTelegramMessage(config.bot_token, chatId, message.content)
+  } else if (message.integration_type === 'email') {
+    const config = readEmailIntegrationConfig(message.integration_config ?? '{}')
+    const to = message.customer_email
+    const fromAddress = config.address
+    const fromName = config.fromName ?? message.integration_name ?? 'Support'
+
+    if (!to) throw new Error('Email customer is missing an address')
+    if (!fromAddress) throw new Error('Email integration is missing a sender address')
+
+    const subject = formatEmailSubject(message.conversation_subject, message.content)
+    const text = message.content_type === 'html' ? stripHtml(message.content) : message.content
+
+    await env.EMAIL.send({
+      to,
+      from: { email: fromAddress, name: fromName },
+      replyTo: { email: fromAddress, name: fromName },
+      subject,
+      text,
+      ...(message.content_type === 'html' ? { html: message.content } : {}),
+    })
+  } else {
+    return
+  }
 
   await env.DB.prepare(
     'UPDATE messages SET delivered_at = unixepoch() WHERE id = ? AND organization_id = ?'

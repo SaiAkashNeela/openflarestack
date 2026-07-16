@@ -42,9 +42,9 @@ const CATALOG: Template[] = [
   {
     type: "email",
     name: "Email",
-    description: "Connect an inbox for support email",
+    description: "Connect a Cloudflare-routed support inbox",
     icon: Mail,
-    meta: "IMAP · inbox routing",
+    meta: "Email Routing · send_email",
   },
   {
     type: "telegram",
@@ -92,15 +92,13 @@ const CATALOG: Template[] = [
 
 const SETUP_FIELDS: Record<string, SetupField[]> = {
   email: [
-    { key: "host", label: "IMAP host", placeholder: "imap.example.com", required: true },
-    { key: "username", label: "Username", placeholder: "support@example.com", required: true },
     {
-      key: "password",
-      label: "Password",
-      placeholder: "••••••••",
-      type: "password",
+      key: "address",
+      label: "Support address",
+      placeholder: "support@yourdomain.com",
       required: true,
     },
+    { key: "fromName", label: "From name", placeholder: "Flaredesk Support" },
   ],
   telegram: [
     {
@@ -194,7 +192,7 @@ export default function Integrations() {
         "/api/v1/integrations",
         {
           type: setupTemplate.type,
-          name: setupTemplate.name,
+          name: integrationLabel(setupTemplate.type, setupConfig, setupTemplate.name),
           config: setupConfig,
         },
       );
@@ -318,6 +316,8 @@ export default function Integrations() {
           setupTemplate
             ? setupTemplate.type === "webhook"
               ? "Use this channel to send tickets from another platform straight into the inbox."
+              : setupTemplate.type === "email"
+                ? "Route a support address through Cloudflare Email Service, then send replies from the worker."
               : `Enter the details we need to connect ${setupTemplate.name.toLowerCase()}.`
             : "Pick a source to route conversations from."
         }
@@ -343,6 +343,16 @@ export default function Integrations() {
                 {setupTemplate.meta}
               </div>
             </div>
+            {setupTemplate.type === "email" && (
+              <div className="space-y-2 rounded-md border border-border bg-background p-3 text-xs text-muted-foreground">
+                <div className="font-medium text-foreground">Cloudflare Email Service setup</div>
+                <ul className="list-disc space-y-1 pl-4">
+                  <li>Onboard your domain in Cloudflare Email Service.</li>
+                  <li>Create an Email Routing rule that sends this address to the Worker.</li>
+                  <li>Use the same address below so Flaredesk can match replies to a conversation.</li>
+                </ul>
+              </div>
+            )}
             {setupTemplate.type === "webhook" ? (
               <div className="space-y-2 rounded-md border border-border bg-background p-3 text-xs text-muted-foreground">
                 <div className="font-medium text-foreground">
@@ -438,7 +448,7 @@ export default function Integrations() {
 function defaultConfig(type: string) {
   switch (type) {
     case "email":
-      return { host: "", username: "", password: "" };
+      return { address: "", fromName: "" };
     case "telegram":
       return { botToken: "", webhookSecret: "" };
     case "webchat":
@@ -468,6 +478,11 @@ function fieldsForType(type: string) {
 function webhookUrl(id: string) {
   const base = import.meta.env.VITE_API_URL ?? "";
   return `${base.replace(/\/$/, "")}/api/webhooks/${id}`;
+}
+
+function integrationLabel(type: string, config: Record<string, string>, fallback: string) {
+  if (type !== "email") return fallback;
+  return config.address?.trim() || fallback;
 }
 
 function ChannelRow({
