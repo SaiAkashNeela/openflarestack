@@ -10,10 +10,13 @@ import messagesRoute from './routes/messages'
 import customersRoute from './routes/customers'
 import teamsRoute from './routes/teams'
 import integrationsRoute from './routes/integrations'
+import meRoute from './routes/me'
+import uploadsRoute from './routes/uploads'
 import eventsRoute from './routes/events'
 import aiRoute from './routes/ai'
 import publicRoute from './routes/public'
 import { normalizeEmailAddress, parseIncomingEmail, readEmailIntegrationConfig } from './integrations/email'
+import { verifyTurnstileToken } from './integrations/turnstile'
 import { queueConsumer } from './queues/consumer'
 import { parseTelegramUpdate } from './integrations/telegram'
 import { parseGenericWebhook as parseWebhookPayload } from './integrations/webhook'
@@ -40,6 +43,7 @@ export type Env = {
       replyTo?: string | { email: string; name?: string }
     }): Promise<{ messageId: string }>
   }
+  TURNSTILE_SECRET_KEY?: string
   ENVIRONMENT: string
   FRONTEND_URL: string
   BETTER_AUTH_SECRET: string
@@ -74,12 +78,6 @@ app.use('*', cors({
   credentials: true,
 }))
 
-// Auth routes (handled by Better Auth)
-app.on(['GET', 'POST'], '/api/auth/*', async (c) => {
-  const { createAuth } = await import('./auth')
-  return createAuth(c.env).handler(c.req.raw)
-})
-
 // Health check
 app.get('/api/health', (c) => c.json({ ok: true }))
 
@@ -92,12 +90,32 @@ app.route('/api/v1/messages', messagesRoute)
 app.route('/api/v1/customers', customersRoute)
 app.route('/api/v1/teams', teamsRoute)
 app.route('/api/v1/integrations', integrationsRoute)
+app.route('/api/v1/me', meRoute)
+app.route('/api/v1/uploads', uploadsRoute)
 app.route('/api/v1/events', eventsRoute)
 app.route('/api/v1/ai', aiRoute)
 app.route('/api/public', publicRoute)
 
+app.post('/api/auth/sign-up/email', handleSignup)
+app.on(['GET', 'POST'], '/api/auth/*', handleAuthRequest)
 app.post('/api/webhooks/telegram/:integrationId', handleWebhook)
 app.post('/api/webhooks/:integrationId', handleWebhook)
+
+async function handleSignup(c: Context<AppEnv>) {
+  const token = c.req.header('cf-turnstile-response') ?? c.req.header('x-turnstile-token') ?? ''
+  const remoteip = c.req.header('cf-connecting-ip') ?? c.req.header('x-forwarded-for')
+
+  if (!(await verifyTurnstileToken(c.env.TURNSTILE_SECRET_KEY, token, remoteip))) {
+    return c.json({ error: 'Turnstile verification failed' }, 400)
+  }
+
+  return handleAuthRequest(c)
+}
+
+async function handleAuthRequest(c: Context<AppEnv>) {
+  const { createAuth } = await import('./auth')
+  return createAuth(c.env).handler(c.req.raw)
+}
 
 async function handleWebhook(c: Context<AppEnv>) {
   const integrationId = c.req.param('integrationId')

@@ -199,7 +199,7 @@ export default function Integrations() {
   const startSetup = (template?: Template | null) => {
     const next = template ?? null;
     setSetupTemplate(next);
-    setSetupConfig(defaultConfig(next?.type ?? ""));
+    setSetupConfig(defaultConfig(next?.type ?? "") as Record<string, string>);
     setSetupOpen(true);
   };
 

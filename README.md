@@ -61,6 +61,8 @@ npx wrangler deploy
 - Telegram bot webhook -> inbound message queue -> D1 -> broadcast
 - Cloudflare Email Service inbound routing -> queue -> D1 -> broadcast
 - Cloudflare Email Service outbound replies from the Worker binding
+- Turnstile on public signup to block bot abuse
+- R2-backed avatar uploads for profile images
 - Google OAuth + email/password via Better Auth
 - Dark mode persisted in `localStorage`
 - Dashboard stats, conversation inbox, integrations management, team settings
@@ -72,6 +74,13 @@ npx wrangler deploy
 | `BETTER_AUTH_SECRET` | 32-byte secret (wrangler secret) |
 | `ENVIRONMENT` | `production` or `development` |
 | `FRONTEND_URL` | CORS allowed origin |
+| `TURNSTILE_SECRET_KEY` | Optional Turnstile secret for signup protection |
+
+Frontend env:
+
+| Var | Description |
+|-----|-------------|
+| `VITE_TURNSTILE_SITE_KEY` | Turnstile site key used on the signup page |
 
 ## Telegram integration
 

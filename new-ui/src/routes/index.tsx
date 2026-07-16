@@ -300,6 +300,32 @@ export default function InboxPage() {
     setMessages(next ?? []);
   };
 
+  const uploadAttachment = async (file: File) => {
+    try {
+      const form = new FormData();
+      form.append("file", file);
+
+      const res = await fetch(`${import.meta.env.VITE_API_URL ?? ""}/api/v1/uploads`, {
+        method: "POST",
+        credentials: "include",
+        body: form,
+      });
+
+      if (!res.ok) {
+        const err = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(err.error ?? "Attachment upload failed");
+      }
+
+      return (await res.json()) as { id: string; name: string; url: string };
+    } catch (error) {
+      toast({
+        title: error instanceof Error ? error.message : "Attachment upload failed",
+        tone: "error",
+      });
+      throw error;
+    }
+  };
+
   const handleTyping = useCallback(() => {
     typing();
   }, [typing]);
@@ -480,6 +506,7 @@ export default function InboxPage() {
               <Composer
                 to={selected.name}
                 onTyping={handleTyping}
+                onAttachFile={uploadAttachment}
                 onSend={async (msg) => {
                   try {
                     await api.post(`/api/v1/messages/${selected.id}`, { content: msg });
@@ -841,7 +868,7 @@ function MessageGroup({
           </span>
         </div>
         <p className="mt-1 max-w-[600px] text-sm leading-relaxed text-foreground/90">
-          {message.content}
+          <span className="whitespace-pre-wrap break-words">{message.content}</span>
         </p>
       </div>
     </div>
@@ -1106,14 +1133,45 @@ function Composer({
   onSend,
   onSaveDraft,
   onTyping,
+  onAttachFile,
 }: {
   to: string;
   onSend: (msg: string) => void;
   onSaveDraft: () => void;
   onTyping: () => void;
+  onAttachFile: (file: File) => Promise<{ id: string; name: string; url: string }>;
 }) {
   const [value, setValue] = useState("");
-  const disabled = value.trim().length === 0;
+  const [attachments, setAttachments] = useState<{ id: string; name: string; url: string }[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const disabled = value.trim().length === 0 && attachments.length === 0;
+
+  const send = () => {
+    const parts = [value.trim()];
+    if (attachments.length > 0) {
+      const attachmentBlock = attachments
+        .map((attachment) => `Attachment: ${attachment.name}\n${attachment.url}`)
+        .join("\n\n");
+      parts.push(attachmentBlock);
+    }
+    onSend(parts.filter(Boolean).join("\n\n"));
+    setValue("");
+    setAttachments([]);
+  };
+
+  const handleFile = async (file: File) => {
+    setUploading(true);
+    try {
+      const attachment = await onAttachFile(file);
+      setAttachments((prev) => [...prev, attachment]);
+    } catch {
+      // Parent handles the toast; keep the composer usable.
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
 
   return (
     <div className="border-t border-border px-6 py-4">
@@ -1136,32 +1194,54 @@ function Composer({
               }
             }}
           />
+          {attachments.length > 0 && (
+            <div className="flex flex-wrap gap-2 border-t border-border px-3 py-2">
+              {attachments.map((attachment) => (
+                <span
+                  key={attachment.id}
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-2.5 py-1 text-[11px] text-muted-foreground"
+                >
+                  <span className="max-w-48 truncate">{attachment.name}</span>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setAttachments((prev) => prev.filter((item) => item.id !== attachment.id))
+                    }
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
           <div className="flex items-center justify-between border-t border-border px-2 py-1.5">
             <div className="flex items-center gap-1">
               <button
-                onClick={onSaveDraft}
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
                 className="rounded p-1.5 text-muted-foreground hover:bg-surface-hover hover:text-foreground"
                 title="Attach file"
+                disabled={uploading}
               >
                 <Paperclip className="h-3.5 w-3.5" />
               </button>
               <span className="font-mono text-[10px] text-muted-foreground">
-                Markdown supported · ⌘↵ to send
+                {uploading ? "Uploading attachment..." : "Markdown supported · ⌘↵ to send"}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <button
+                type="button"
                 onClick={onSaveDraft}
                 className="rounded-md px-2.5 py-1 text-xs text-muted-foreground hover:text-foreground"
               >
                 Save draft
               </button>
               <button
+                type="button"
                 disabled={disabled}
-                onClick={() => {
-                  onSend(value);
-                  setValue("");
-                }}
+                onClick={send}
                 className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-[var(--primary-hover)] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Send className="h-3 w-3" />
@@ -1171,6 +1251,15 @@ function Composer({
           </div>
         </div>
       </div>
+      <input
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) void handleFile(file);
+        }}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useToast } from "@/components/ui/Toast";
+import { authClient } from "@/lib/auth-client";
 import { useTheme } from "@/lib/theme";
 import { useOrganizationState } from "@/lib/organization";
 
@@ -58,7 +59,7 @@ export default function SettingsPage() {
                 title="General"
                 onSave={async () => {
                   if (!workspace.trim()) return;
-                  const { error } = await authClient.organization.updateOrganization({
+                  const { error } = await authClient.organization.update({
                     data: { name: workspace.trim() },
                   });
                   if (error) {

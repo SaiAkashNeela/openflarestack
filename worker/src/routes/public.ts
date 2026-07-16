@@ -22,6 +22,30 @@ route.get('/webchat/widget.js', async (c) => {
   })
 })
 
+route.get('/avatars/:userId', async (c) => {
+  const object = await c.env.R2.get(`avatars/${c.req.param('userId')}`)
+  if (!object) return c.json({ error: 'Not found' }, 404)
+
+  return new Response(object.body, {
+    headers: {
+      'content-type': object.httpMetadata?.contentType ?? 'application/octet-stream',
+      'cache-control': 'public, max-age=31536000, immutable',
+    },
+  })
+})
+
+route.get('/uploads/:objectId', async (c) => {
+  const object = await c.env.R2.get(`uploads/${c.req.param('objectId')}`)
+  if (!object) return c.json({ error: 'Not found' }, 404)
+
+  return new Response(object.body, {
+    headers: {
+      'content-type': object.httpMetadata?.contentType ?? 'application/octet-stream',
+      'cache-control': 'public, max-age=31536000, immutable',
+    },
+  })
+})
+
 route.post('/webchat/:widgetKey/session', async (c) => {
   const widgetKey = c.req.param('widgetKey')
   const body = (await c.req.json<Record<string, unknown>>().catch(() => ({}))) as Record<string, unknown>

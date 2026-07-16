@@ -77,7 +77,7 @@ export default function Team() {
     const email = inviteEmail.trim();
     if (!email || !activeOrg?.id) return;
     setPending(true);
-    const { data, error } = await authClient.organization.createInvitation({
+    const { data, error } = await authClient.organization.inviteMember({
       email,
       role: inviteRole,
       organizationId: activeOrg.id,

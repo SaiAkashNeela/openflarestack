@@ -4,6 +4,7 @@ import { Mail, Lock, User, Building2 } from "lucide-react";
 import { AuthShell, Field } from "./login";
 import { useToast } from "@/components/ui/Toast";
 import { authClient } from "@/lib/auth-client";
+import { Turnstile } from "@/components/ui/Turnstile";
 
 export default function SignupPage() {
   const [name, setName] = useState("");
@@ -14,14 +15,28 @@ export default function SignupPage() {
   const [pending, setPending] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const turnstileToken = String(formData.get("cf-turnstile-response") ?? "").trim();
+    if (turnstileSiteKey && !turnstileToken) {
+      toast({ title: "Please complete the Turnstile check.", tone: "error" });
+      return;
+    }
     setPending(true);
     const { error: signUpError } = await authClient.signUp.email({
       name,
       email,
       password,
+      fetchOptions: turnstileToken
+        ? {
+            headers: {
+              "cf-turnstile-response": turnstileToken,
+            },
+          }
+        : undefined,
     });
 
     if (signUpError) {
@@ -108,6 +123,8 @@ export default function SignupPage() {
             </button>
           </div>
         </div>
+
+        {turnstileSiteKey && <Turnstile siteKey={turnstileSiteKey} />}
 
         <p className="font-mono text-[11px] leading-relaxed text-muted-foreground">
           By creating an account you agree to the{" "}

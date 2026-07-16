@@ -20,6 +20,7 @@ import { useToast } from "@/components/ui/Toast";
 import { useTheme } from "@/lib/theme";
 import { authClient } from "@/lib/auth-client";
 import { useOrganizationState } from "@/lib/organization";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type NavItem = {
   to: string;
@@ -115,14 +116,17 @@ export function AppLayout({ children }: { children: ReactNode }) {
                   open ? "bg-surface-hover" : "hover:bg-surface-hover"
                 }`}
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-hover text-xs font-medium">
-                  {(user?.name ?? "O")
-                    .split(" ")
-                    .map((part) => part[0])
-                    .join("")
-                    .slice(0, 2)
-                    .toUpperCase()}
-                </div>
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={user?.image ?? undefined} alt={user?.name ?? "Account"} />
+                  <AvatarFallback className="bg-surface-hover text-xs font-medium">
+                    {(user?.name ?? "O")
+                      .split(" ")
+                      .map((part) => part[0])
+                      .join("")
+                      .slice(0, 2)
+                      .toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-xs font-medium">{user?.name ?? "Signed in"}</div>
                   <div className="truncate text-[11px] text-muted-foreground">{orgName}</div>
