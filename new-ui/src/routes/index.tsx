@@ -1,10 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Menu, MenuItem, MenuLabel, MenuDivider } from "@/components/ui/Menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/Toast";
 import { api } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
 import { useOrganizationState } from "@/lib/organization";
+import { useWs } from "@/lib/ws";
 import {
   MoreHorizontal,
   Paperclip,
@@ -24,11 +28,15 @@ type Status = "open" | "waiting" | "closed";
 
 type Conversation = {
   id: string;
+  customerId: string;
   name: string;
   initials: string;
   subject: string;
   preview: string;
   time: string;
+  email?: string | null;
+  phone?: string | null;
+  externalId?: string | null;
   unread?: boolean;
   channel: Channel;
   status: Status;
@@ -38,14 +46,37 @@ type Conversation = {
 
 type ApiConversation = {
   id: string;
+  customer_id: string;
   subject: string | null;
   channel: string | null;
   status: string;
   customer_name: string;
   customer_email: string | null;
+  customer_phone: string | null;
+  customer_external_id: string | null;
   assigned_to_name: string | null;
   last_message_at: number | null;
   updated_at: number | null;
+  created_at: number | null;
+};
+
+type ApiCustomer = {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  external_id: string | null;
+  metadata: string | null;
+  created_at: number | null;
+  updated_at: number | null;
+};
+
+type ApiCustomerConversation = {
+  id: string;
+  subject: string | null;
+  channel: string | null;
+  status: string;
+  last_message_at: number | null;
   created_at: number | null;
 };
 
@@ -90,6 +121,12 @@ export default function InboxPage() {
   const [messages, setMessages] = useState<ApiMessage[]>([]);
   const [loadingConversations, setLoadingConversations] = useState(true);
   const [loadingMessages, setLoadingMessages] = useState(false);
+  const [customer, setCustomer] = useState<ApiCustomer | null>(null);
+  const [customerConversations, setCustomerConversations] = useState<ApiCustomerConversation[]>([]);
+  const [loadingCustomer, setLoadingCustomer] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { lastMessage, typing } = useWs(selectedId || null);
 
   const teammates = useMemo(
     () =>
@@ -133,6 +170,8 @@ export default function InboxPage() {
   useEffect(() => {
     if (!selectedId) {
       setMessages([]);
+      setCustomer(null);
+      setCustomerConversations([]);
       return;
     }
 
@@ -160,6 +199,70 @@ export default function InboxPage() {
       cancelled = true;
     };
   }, [selectedId, toast]);
+
+  useEffect(() => {
+    const customerId = items.find((item) => item.id === selectedId)?.customerId;
+
+    if (!customerId) {
+      setCustomer(null);
+      setCustomerConversations([]);
+      return;
+    }
+
+    let cancelled = false;
+
+    async function loadCustomer() {
+      setLoadingCustomer(true);
+      try {
+        const { customer: nextCustomer, conversations: nextConversations } = await api.get<{
+          customer: ApiCustomer;
+          conversations: ApiCustomerConversation[];
+        }>(`/api/v1/customers/${customerId}`);
+        if (cancelled) return;
+        setCustomer(nextCustomer ?? null);
+        setCustomerConversations(nextConversations ?? []);
+      } catch {
+        if (!cancelled) {
+          setCustomer(null);
+          setCustomerConversations([]);
+          toast({ title: "Unable to load customer details.", tone: "error" });
+        }
+      } finally {
+        if (!cancelled) setLoadingCustomer(false);
+      }
+    }
+
+    void loadCustomer();
+    return () => {
+      cancelled = true;
+    };
+  }, [items, selectedId, toast]);
+
+  useEffect(() => {
+    if (!lastMessage) return;
+
+    if (lastMessage.type === "message.created") {
+      setMessages((prev) => {
+        const msg = lastMessage.message as ApiMessage | undefined;
+        if (!msg?.id) return prev;
+        if (prev.some((item) => item.id === msg.id)) return prev;
+        return [...prev, msg];
+      });
+    }
+
+    if (lastMessage.type === "typing") {
+      setIsTyping(true);
+      if (typingTimer.current) clearTimeout(typingTimer.current);
+      typingTimer.current = setTimeout(() => setIsTyping(false), 2500);
+    }
+  }, [lastMessage]);
+
+  useEffect(
+    () => () => {
+      if (typingTimer.current) clearTimeout(typingTimer.current);
+    },
+    [],
+  );
 
   const visible = useMemo(
     () => (filter === "all" ? items : items.filter((c) => c.status === filter)),
@@ -196,6 +299,10 @@ export default function InboxPage() {
     );
     setMessages(next ?? []);
   };
+
+  const handleTyping = useCallback(() => {
+    typing();
+  }, [typing]);
 
   return (
     <AppLayout>
@@ -369,8 +476,10 @@ export default function InboxPage() {
                 currentUserId={session?.user.id ?? null}
                 loading={loadingMessages}
               />
+              {isTyping && <TypingIndicator />}
               <Composer
                 to={selected.name}
+                onTyping={handleTyping}
                 onSend={async (msg) => {
                   try {
                     await api.post(`/api/v1/messages/${selected.id}`, { content: msg });
@@ -394,6 +503,16 @@ export default function InboxPage() {
             </div>
           )}
         </section>
+
+        <aside className="hidden w-[22rem] shrink-0 border-l border-border xl:flex">
+          <CustomerPanel
+            loading={loadingCustomer}
+            customer={customer}
+            conversation={selected ?? null}
+            organization={activeOrg}
+            recentConversations={customerConversations}
+          />
+        </aside>
       </div>
     </AppLayout>
   );
@@ -593,11 +712,15 @@ function mapConversation(conv: ApiConversation): Conversation {
 
   return {
     id: conv.id,
+    customerId: conv.customer_id,
     name,
     initials,
     subject: conv.subject ?? "Conversation",
     preview: conv.subject ?? conv.channel ?? "New message",
     time,
+    email: conv.customer_email,
+    phone: conv.customer_phone,
+    externalId: conv.customer_external_id,
     channel: normalizeChannel(conv.channel),
     status,
     assignee: conv.assigned_to_name ?? undefined,
@@ -653,6 +776,25 @@ function MessageThread({
             customer={customer}
           />
         ))}
+      </div>
+    </div>
+  );
+}
+
+function TypingIndicator({ name }: { name?: string }) {
+  return (
+    <div className="px-6 pb-2">
+      <div className="mx-auto flex max-w-3xl items-center gap-2 rounded-full border border-border bg-surface/70 px-4 py-2 text-xs text-muted-foreground">
+        <span className="flex gap-0.5">
+          {[0, 1, 2].map((i) => (
+            <span
+              key={i}
+              className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary"
+              style={{ animationDelay: `${i * 0.15}s` }}
+            />
+          ))}
+        </span>
+        <span>{name ? `${name} is typing…` : "Someone is typing…"}</span>
       </div>
     </div>
   );
@@ -745,14 +887,197 @@ function formatMessageTime(value: number) {
   }).format(date);
 }
 
+function CustomerPanel({
+  loading,
+  customer,
+  conversation,
+  organization,
+  recentConversations,
+}: {
+  loading: boolean;
+  customer: ApiCustomer | null;
+  conversation: Conversation | null;
+  organization: { name?: string; slug?: string; members?: unknown[] } | null;
+  recentConversations: ApiCustomerConversation[];
+}) {
+  const memberCount = organization?.members?.length ?? 0;
+  const metadata = parseMetadata(customer?.metadata ?? null);
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="border-b border-border px-5 py-5">
+        <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+          Workspace
+        </p>
+        <div className="mt-2 space-y-1">
+          <div className="text-sm font-medium text-foreground">
+            {organization?.name ?? "Workspace"}
+          </div>
+          <div className="text-xs text-muted-foreground">
+            {organization?.slug ?? "workspace"} · {memberCount} members
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-5 py-5">
+        {loading ? (
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-28" />
+                <Skeleton className="h-3 w-40" />
+              </div>
+            </div>
+            <Skeleton className="h-24 w-full rounded-xl" />
+            <Skeleton className="h-32 w-full rounded-xl" />
+          </div>
+        ) : customer ? (
+          <div className="space-y-5">
+            <div className="rounded-2xl border border-border bg-background p-4">
+              <div className="flex items-start gap-3">
+                <Avatar className="h-12 w-12">
+                  <AvatarFallback className="bg-primary/10 text-sm font-semibold text-primary">
+                    {initials(customer.name)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-semibold text-foreground">{customer.name}</div>
+                  <div className="mt-0.5 text-xs text-muted-foreground">
+                    {customer.email ?? "No email"}
+                  </div>
+                  {customer.phone && (
+                    <div className="mt-0.5 text-xs text-muted-foreground">{customer.phone}</div>
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-4 grid gap-3 text-xs">
+                <DetailRow label="External ID" value={customer.external_id ?? "n/a"} />
+                <DetailRow label="Customer ID" value={customer.id} mono />
+                <DetailRow label="Created" value={formatConversationTime(customer.created_at)} />
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-background p-4">
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                Conversation
+              </p>
+              <div className="mt-3 space-y-3 text-xs">
+                <DetailRow
+                  label="Status"
+                  value={<Badge variant="outline">{conversation?.status ?? "open"}</Badge>}
+                />
+                <DetailRow label="Channel" value={conversation?.channel ?? "chat"} />
+                <DetailRow label="Subject" value={conversation?.subject ?? "Conversation"} />
+                <DetailRow label="Conversation ID" value={conversation?.id ?? "n/a"} mono />
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-background p-4">
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                Details
+              </p>
+              <div className="mt-3 space-y-3 text-xs">
+                {metadata ? (
+                  <DetailRow
+                    label="Metadata"
+                    value={
+                      <pre className="max-h-32 overflow-y-auto whitespace-pre-wrap rounded-md bg-surface p-2 text-[11px] text-foreground">
+                        {metadata}
+                      </pre>
+                    }
+                    alignTop
+                  />
+                ) : (
+                  <div className="text-muted-foreground">No customer metadata provided.</div>
+                )}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-background p-4">
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                Recent conversations
+              </p>
+              <div className="mt-3 space-y-2">
+                {recentConversations.length === 0 ? (
+                  <div className="text-xs text-muted-foreground">No other conversations yet.</div>
+                ) : (
+                  recentConversations.slice(0, 5).map((item) => (
+                    <div key={item.id} className="rounded-xl border border-border px-3 py-2">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="truncate text-sm font-medium">
+                            {item.subject ?? "Conversation"}
+                          </div>
+                          <div className="text-[11px] text-muted-foreground">
+                            {item.channel ?? "chat"} ·{" "}
+                            {formatConversationTime(item.last_message_at ?? item.created_at)}
+                          </div>
+                        </div>
+                        <Badge variant="outline" className="shrink-0">
+                          {item.status}
+                        </Badge>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex h-full items-center justify-center rounded-2xl border border-dashed border-border px-4 text-center text-xs text-muted-foreground">
+            Select a conversation to view customer and workspace details.
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function DetailRow({
+  label,
+  value,
+  mono,
+  alignTop,
+}: {
+  label: string;
+  value: React.ReactNode;
+  mono?: boolean;
+  alignTop?: boolean;
+}) {
+  return (
+    <div className={`flex gap-3 ${alignTop ? "items-start" : "items-center"} justify-between`}>
+      <span className="text-muted-foreground">{label}</span>
+      <span
+        className={`max-w-[65%] text-right ${mono ? "font-mono text-[11px]" : "text-foreground"}`}
+      >
+        {value}
+      </span>
+    </div>
+  );
+}
+
+function parseMetadata(value: string | null) {
+  if (!value) return null;
+  try {
+    const parsed = JSON.parse(value);
+    return JSON.stringify(parsed, null, 2);
+  } catch {
+    return value;
+  }
+}
+
 function Composer({
   to,
   onSend,
   onSaveDraft,
+  onTyping,
 }: {
   to: string;
   onSend: (msg: string) => void;
   onSaveDraft: () => void;
+  onTyping: () => void;
 }) {
   const [value, setValue] = useState("");
   const disabled = value.trim().length === 0;
@@ -764,7 +1089,10 @@ function Composer({
           <textarea
             rows={3}
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => {
+              setValue(e.target.value);
+              onTyping();
+            }}
             placeholder={`Reply to ${to.split(" ")[0]}…`}
             className="w-full resize-none bg-transparent px-3 py-2.5 text-sm outline-none placeholder:text-muted-foreground"
             onKeyDown={(e) => {

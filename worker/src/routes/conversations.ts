@@ -10,6 +10,8 @@ route.get('/', async (c) => {
   const limit = Math.min(Number(c.req.query('limit') ?? 50), 100)
   const { results } = await c.env.DB.prepare(`
     SELECT c.*, cu.name as customer_name, cu.email as customer_email,
+           cu.phone as customer_phone,
+           cu.external_id as customer_external_id,
            u.name as assigned_to_name
     FROM conversations c
     JOIN customers cu ON c.customer_id = cu.id
