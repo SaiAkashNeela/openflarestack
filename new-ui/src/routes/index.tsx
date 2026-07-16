@@ -3,6 +3,8 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { Menu, MenuItem, MenuLabel, MenuDivider } from "@/components/ui/Menu";
 import { useToast } from "@/components/ui/Toast";
 import { api } from "@/lib/api";
+import { authClient } from "@/lib/auth-client";
+import { useOrganizationState } from "@/lib/organization";
 import {
   MoreHorizontal,
   Paperclip,
@@ -34,90 +36,6 @@ type Conversation = {
   assignee?: string;
 };
 
-const INITIAL: Conversation[] = [
-  {
-    id: "1",
-    name: "Sarah Chen",
-    initials: "SC",
-    subject: "Refund for invoice #4821",
-    preview: "Thanks! Just confirming the refund window before we…",
-    time: "2h ago",
-    unread: true,
-    channel: "email",
-    status: "waiting",
-    assignee: "Jane Doe",
-  },
-  {
-    id: "2",
-    name: "Marcus Weiss",
-    initials: "MW",
-    subject: "API key rotation not working",
-    preview: "I tried rotating the key from the dashboard but the old one still…",
-    time: "3h ago",
-    unread: true,
-    channel: "telegram",
-    status: "open",
-  },
-  {
-    id: "3",
-    name: "Priya Anand",
-    initials: "PA",
-    subject: "Onboarding call follow-up",
-    preview: "Really appreciated the walkthrough. Two quick questions on…",
-    time: "5h ago",
-    channel: "email",
-    status: "open",
-  },
-  {
-    id: "4",
-    name: "Diego Alvarez",
-    initials: "DA",
-    subject: "Webhook signature mismatch",
-    preview: "Getting 401 on every webhook since we deployed the new secret.",
-    time: "Yesterday",
-    channel: "chat",
-    status: "open",
-  },
-  {
-    id: "5",
-    name: "Emma Larsen",
-    initials: "EL",
-    subject: "Team seat upgrade",
-    preview: "We'd like to add three seats before end of quarter — is there…",
-    time: "Yesterday",
-    channel: "email",
-    status: "closed",
-  },
-  {
-    id: "6",
-    name: "Kenji Tanaka",
-    initials: "KT",
-    subject: "Slack integration questions",
-    preview: "Does the Slack app support routing by channel? We have separate…",
-    time: "2d ago",
-    channel: "telegram",
-    status: "open",
-  },
-  {
-    id: "7",
-    name: "Amelia Rossi",
-    initials: "AR",
-    subject: "Feature request: SLA timers",
-    preview: "Loving the product. Would pay for per-team SLA timers with alerts.",
-    time: "3d ago",
-    channel: "email",
-    status: "open",
-  },
-];
-
-const TEAMMATES_FALLBACK = [
-  "Jane Doe",
-  "Marcus Weiss",
-  "Priya Anand",
-  "Diego Alvarez",
-  "Emma Larsen",
-];
-
 type ApiConversation = {
   id: string;
   subject: string | null;
@@ -131,6 +49,29 @@ type ApiConversation = {
   created_at: number | null;
 };
 
+type ApiMessage = {
+  id: string;
+  sender_type: "customer" | "agent" | "system";
+  sender_id: string | null;
+  content: string;
+  content_type: string;
+  created_at: number;
+};
+
+type OrgMember = {
+  id: string;
+  organizationId: string;
+  userId: string;
+  role: string;
+  createdAt: Date;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    image?: string;
+  };
+};
+
 type FilterKey = "all" | Status;
 const FILTERS: { key: FilterKey; label: string }[] = [
   { key: "all", label: "All conversations" },
@@ -141,59 +82,98 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 
 export default function InboxPage() {
   const { toast } = useToast();
-  const [items, setItems] = useState<Conversation[]>(INITIAL);
+  const { data: session } = authClient.useSession();
+  const { activeOrganization: activeOrg } = useOrganizationState();
+  const [items, setItems] = useState<Conversation[]>([]);
   const [selectedId, setSelectedId] = useState("");
   const [filter, setFilter] = useState<FilterKey>("all");
-  const [teammates, setTeammates] = useState<string[]>(TEAMMATES_FALLBACK);
-  const [loading, setLoading] = useState(true);
+  const [messages, setMessages] = useState<ApiMessage[]>([]);
+  const [loadingConversations, setLoadingConversations] = useState(true);
+  const [loadingMessages, setLoadingMessages] = useState(false);
+
+  const teammates = useMemo(
+    () =>
+      ((activeOrg?.members as OrgMember[] | undefined) ?? []).map((m) => ({
+        id: m.id,
+        userId: m.userId,
+        name: m.user.name || m.user.email,
+      })),
+    [activeOrg?.members],
+  );
 
   useEffect(() => {
     let cancelled = false;
 
-    async function load() {
+    async function loadConversations() {
       try {
-        const [{ conversations }, { members }] = await Promise.all([
-          api.get<{ conversations: ApiConversation[] }>(
-            "/api/v1/conversations?status=all&limit=50",
-          ),
-          api.get<{ members: { name: string }[] }>("/api/v1/teams"),
-        ]);
-
+        const { conversations } = await api.get<{ conversations: ApiConversation[] }>(
+          "/api/v1/conversations?status=all&limit=50",
+        );
         if (cancelled) return;
         const mapped = conversations.map(mapConversation);
-        setItems(mapped.length ? mapped : []);
-        setSelectedId(mapped[0]?.id ?? "");
-        setTeammates(
-          members
-            .map((member) => member.name)
-            .filter(Boolean)
-            .slice(0, 10) || TEAMMATES_FALLBACK,
-        );
+        setItems(mapped);
+        setSelectedId((prev) => prev || mapped[0]?.id || "");
       } catch {
         if (!cancelled) {
-          toast({ title: "Using local sample inbox until the worker is reachable." });
-          setItems(INITIAL);
-          setSelectedId(INITIAL[0]?.id ?? "");
+          setItems([]);
+          setSelectedId("");
+          toast({ title: "Unable to load conversations from the worker.", tone: "error" });
         }
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) setLoadingConversations(false);
       }
     }
 
-    void load();
+    void loadConversations();
     return () => {
       cancelled = true;
     };
   }, [toast]);
+
+  useEffect(() => {
+    if (!selectedId) {
+      setMessages([]);
+      return;
+    }
+
+    let cancelled = false;
+
+    async function loadMessages() {
+      setLoadingMessages(true);
+      try {
+        const { messages } = await api.get<{ messages: ApiMessage[] }>(
+          `/api/v1/messages/${selectedId}`,
+        );
+        if (!cancelled) setMessages(messages ?? []);
+      } catch {
+        if (!cancelled) {
+          setMessages([]);
+          toast({ title: "Unable to load messages for this conversation.", tone: "error" });
+        }
+      } finally {
+        if (!cancelled) setLoadingMessages(false);
+      }
+    }
+
+    void loadMessages();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedId, toast]);
 
   const visible = useMemo(
     () => (filter === "all" ? items : items.filter((c) => c.status === filter)),
     [items, filter],
   );
   const selected = items.find((c) => c.id === selectedId) ?? visible[0] ?? items[0];
-
   const openCount = items.filter((c) => c.status === "open").length;
   const waitingCount = items.filter((c) => c.status === "waiting").length;
+
+  useEffect(() => {
+    if (selectedId && !items.some((item) => item.id === selectedId)) {
+      setSelectedId(items[0]?.id ?? "");
+    }
+  }, [items, selectedId]);
 
   const update = (id: string, patch: Partial<Conversation>) =>
     setItems((prev) => prev.map((c) => (c.id === id ? { ...c, ...patch } : c)));
@@ -202,11 +182,19 @@ export default function InboxPage() {
     id: string,
     patch: { status?: Status; assigned_to?: string | null },
   ) => {
-    await api.patch(`/api/v1/conversations/${id}`, patch);
+    await api.patch<{ conversation: ApiConversation }>(`/api/v1/conversations/${id}`, patch);
     update(id, {
       ...(patch.status ? { status: patch.status } : {}),
       ...(patch.assigned_to !== undefined ? { assignee: patch.assigned_to ?? undefined } : {}),
     });
+  };
+
+  const refreshMessages = async () => {
+    if (!selectedId) return;
+    const { messages: next } = await api.get<{ messages: ApiMessage[] }>(
+      `/api/v1/messages/${selectedId}`,
+    );
+    setMessages(next ?? []);
   };
 
   return (
@@ -261,12 +249,12 @@ export default function InboxPage() {
           </div>
 
           <ul className="flex-1 overflow-y-auto">
-            {loading && (
+            {loadingConversations && (
               <li className="px-6 py-10 text-center text-xs text-muted-foreground">
                 Loading conversations from the worker...
               </li>
             )}
-            {visible.length === 0 && (
+            {!loadingConversations && visible.length === 0 && (
               <li className="px-6 py-10 text-center text-xs text-muted-foreground">
                 No conversations match this filter.
               </li>
@@ -306,12 +294,7 @@ export default function InboxPage() {
                           {c.time}
                         </span>
                       </div>
-                      <div className="mt-0.5 flex items-center gap-1 truncate text-xs text-foreground/80">
-                        {c.starred && (
-                          <Star className="h-3 w-3 shrink-0 fill-[var(--warning)] text-[var(--warning)]" />
-                        )}
-                        <span className="truncate">{c.subject}</span>
-                      </div>
+                      <div className="mt-0.5 truncate text-xs text-foreground/80">{c.subject}</div>
                       <div className="mt-0.5 truncate text-xs text-muted-foreground">
                         {c.preview}
                       </div>
@@ -338,21 +321,34 @@ export default function InboxPage() {
               <ThreadHeader
                 conv={selected}
                 teammates={teammates}
-                onAssign={async (name) => {
-                  await syncConversation(selected.id, { assigned_to: name });
-                  toast({ title: `Assigned to ${name}`, tone: "success" });
+                onAssign={async (memberId, memberName) => {
+                  try {
+                    await syncConversation(selected.id, { assigned_to: memberId });
+                    update(selected.id, { assignee: memberName });
+                    toast({ title: `Assigned to ${memberName}`, tone: "success" });
+                  } catch {
+                    toast({ title: "Unable to assign conversation", tone: "error" });
+                  }
                 }}
                 onSnooze={async (label) => {
-                  await syncConversation(selected.id, { status: "waiting" });
-                  toast({ title: `Snoozed · ${label}` });
+                  try {
+                    await syncConversation(selected.id, { status: "waiting" });
+                    toast({ title: `Snoozed · ${label}` });
+                  } catch {
+                    toast({ title: "Unable to snooze conversation", tone: "error" });
+                  }
                 }}
                 onToggleClose={async () => {
                   const next: Status = selected.status === "closed" ? "open" : "closed";
-                  await syncConversation(selected.id, { status: next });
-                  toast({
-                    title: next === "closed" ? "Conversation closed" : "Reopened",
-                    tone: "success",
-                  });
+                  try {
+                    await syncConversation(selected.id, { status: next });
+                    toast({
+                      title: next === "closed" ? "Conversation closed" : "Reopened",
+                      tone: "success",
+                    });
+                  } catch {
+                    toast({ title: "Unable to update conversation", tone: "error" });
+                  }
                 }}
                 onStar={() => {
                   update(selected.id, { starred: !selected.starred });
@@ -367,17 +363,27 @@ export default function InboxPage() {
                   toast({ title: "Conversation deleted", tone: "error" });
                 }}
               />
-              <ThreadBody customer={selected.name} initials={selected.initials} />
+              <MessageThread
+                customer={selected.name}
+                messages={messages}
+                currentUserId={session?.user.id ?? null}
+                loading={loadingMessages}
+              />
               <Composer
                 to={selected.name}
                 onSend={async (msg) => {
-                  await api.post(`/api/v1/messages/${selected.id}`, { content: msg });
-                  toast({
-                    title: `Reply sent to ${selected.name}`,
-                    description: msg.slice(0, 60),
-                    tone: "success",
-                  });
-                  update(selected.id, { status: "open", preview: msg });
+                  try {
+                    await api.post(`/api/v1/messages/${selected.id}`, { content: msg });
+                    await refreshMessages();
+                    toast({
+                      title: `Reply sent to ${selected.name}`,
+                      description: msg.slice(0, 60),
+                      tone: "success",
+                    });
+                    update(selected.id, { status: "open", preview: msg });
+                  } catch {
+                    toast({ title: "Unable to send reply", tone: "error" });
+                  }
                 }}
                 onSaveDraft={() => toast({ title: "Draft saved" })}
               />
@@ -427,8 +433,8 @@ function ThreadHeader({
   onDelete,
 }: {
   conv: Conversation;
-  teammates: string[];
-  onAssign: (name: string) => void;
+  teammates: { id: string; userId: string; name: string }[];
+  onAssign: (memberId: string, memberName: string) => void;
   onSnooze: (label: string) => void;
   onToggleClose: () => void;
   onStar: () => void;
@@ -467,14 +473,14 @@ function ThreadHeader({
               <MenuLabel>Assign to</MenuLabel>
               {teammates.map((m) => (
                 <MenuItem
-                  key={m}
+                  key={m.id}
                   icon={<UserPlus className="h-3.5 w-3.5" />}
                   onClick={() => {
-                    onAssign(m);
+                    onAssign(m.userId, m.name);
                     close();
                   }}
                 >
-                  {m}
+                  {m.name}
                 </MenuItem>
               ))}
             </div>
@@ -615,108 +621,128 @@ function formatConversationTime(value: number | null) {
   return `${Math.round(hours / 24)}d ago`;
 }
 
-type Msg = {
-  author: string;
-  initials: string;
-  role: "customer" | "agent" | "automation";
-  time: string;
-  body: string;
-};
-
-function ThreadBody({ customer, initials }: { customer: string; initials: string }) {
-  const msgs: Msg[] = [
-    {
-      author: customer,
-      initials,
-      role: "customer",
-      time: "10:14",
-      body: "Hey team — we processed a refund for invoice #4821 but the customer still shows an open balance in our dashboard. Can you check on your side?",
-    },
-    {
-      author: "Automation",
-      initials: "AU",
-      role: "automation",
-      time: "10:14",
-      body: "Ticket assigned to Jane Doe. Priority set to High based on keyword 'refund'.",
-    },
-    {
-      author: "Jane Doe",
-      initials: "JD",
-      role: "agent",
-      time: "10:22",
-      body: "Thanks for flagging Sarah — looking into it now. Can you confirm the last four of the card the refund was issued to?",
-    },
-    {
-      author: customer,
-      initials,
-      role: "customer",
-      time: "10:41",
-      body: "Sure, last four is 4429. The customer said they got a confirmation email but nothing on their statement yet.",
-    },
-  ];
-
+function MessageThread({
+  customer,
+  messages,
+  currentUserId,
+  loading,
+}: {
+  customer: string;
+  messages: ApiMessage[];
+  currentUserId: string | null;
+  loading: boolean;
+}) {
   return (
     <div className="flex-1 overflow-y-auto px-6 py-6">
       <div className="mx-auto max-w-3xl space-y-6">
-        {msgs.map((m, i) => (
-          <MessageGroup key={i} msg={m} />
+        {loading && (
+          <div className="rounded-md border border-border px-4 py-3 text-xs text-muted-foreground">
+            Loading messages...
+          </div>
+        )}
+        {!loading && messages.length === 0 && (
+          <div className="rounded-md border border-dashed border-border px-4 py-6 text-center text-xs text-muted-foreground">
+            No messages yet for this conversation.
+          </div>
+        )}
+        {messages.map((message) => (
+          <MessageGroup
+            key={message.id}
+            message={message}
+            currentUserId={currentUserId}
+            customer={customer}
+          />
         ))}
-        <TypingIndicator name="Jane" />
       </div>
     </div>
   );
 }
 
-function MessageGroup({ msg }: { msg: Msg }) {
+function MessageGroup({
+  message,
+  currentUserId,
+  customer,
+}: {
+  message: ApiMessage;
+  currentUserId: string | null;
+  customer: string;
+}) {
+  const meta = messageMeta(message, currentUserId, customer);
   const borderColor =
-    msg.role === "agent"
+    meta.role === "agent"
       ? "border-primary"
-      : msg.role === "automation"
+      : meta.role === "system"
         ? "border-[var(--success)]"
         : "border-border-strong";
   const bg =
-    msg.role === "agent"
+    meta.role === "agent"
       ? "bg-primary/[0.04]"
-      : msg.role === "automation"
+      : meta.role === "system"
         ? "bg-[var(--success)]/[0.05]"
         : "bg-transparent";
 
   return (
     <div className={`flex gap-3 border-l-[3px] ${borderColor} ${bg} pl-4 pr-2 py-2`}>
       <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface-hover text-[10px] font-medium">
-        {msg.initials}
+        {meta.initials}
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline gap-2">
-          <span className="text-xs font-medium text-foreground">{msg.author}</span>
-          {msg.role === "agent" && (
+          <span className="text-xs font-medium text-foreground">{meta.author}</span>
+          {meta.label && (
             <span className="font-mono text-[10px] uppercase tracking-wider text-primary">
-              Agent
+              {meta.label}
             </span>
           )}
-          {msg.role === "automation" && (
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--success)]">
-              Auto
-            </span>
-          )}
-          <span className="ml-auto font-mono text-[11px] text-muted-foreground">{msg.time}</span>
+          <span className="ml-auto font-mono text-[11px] text-muted-foreground">
+            {formatMessageTime(message.created_at)}
+          </span>
         </div>
-        <p className="mt-1 max-w-[600px] text-sm leading-relaxed text-foreground/90">{msg.body}</p>
+        <p className="mt-1 max-w-[600px] text-sm leading-relaxed text-foreground/90">
+          {message.content}
+        </p>
       </div>
     </div>
   );
 }
 
-function TypingIndicator({ name }: { name: string }) {
-  return (
-    <div className="flex items-center gap-2 pl-4 text-xs text-muted-foreground">
-      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-surface-hover text-[10px] font-medium">
-        {name[0]}
-      </div>
-      <span>{name} is typing</span>
-      <span className="ofs-typing-dot inline-block h-1.5 w-1.5 rounded-full bg-primary" />
-    </div>
-  );
+function messageMeta(message: ApiMessage, currentUserId: string | null, customer: string) {
+  if (message.sender_type === "customer") {
+    return { author: customer, initials: initials(customer), role: "customer" as const, label: "" };
+  }
+
+  if (message.sender_type === "system") {
+    return {
+      author: "System",
+      initials: "SY",
+      role: "system" as const,
+      label: "Auto",
+    };
+  }
+
+  if (message.sender_id && currentUserId && message.sender_id === currentUserId) {
+    return { author: "You", initials: "YO", role: "agent" as const, label: "Agent" };
+  }
+
+  return { author: "Agent", initials: "AG", role: "agent" as const, label: "Agent" };
+}
+
+function initials(name: string) {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+function formatMessageTime(value: number) {
+  const ts = value > 10_000_000_000 ? value : value * 1000;
+  const date = new Date(ts);
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(date);
 }
 
 function Composer({

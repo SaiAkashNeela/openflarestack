@@ -30,31 +30,31 @@ export default function SignupPage() {
       return;
     }
 
-    const slug =
-      workspace
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "") || "workspace";
+    let session = await authClient.getSession();
+    if (!session.data) {
+      const { error: signInError } = await authClient.signIn.email({
+        email,
+        password,
+        rememberMe: true,
+      });
 
-    const { data: org, error: orgError } = await authClient.organization.create({
-      name: workspace || "Workspace",
-      slug,
-    });
+      if (signInError) {
+        setPending(false);
+        toast({ title: signInError.message ?? "Sign in failed", tone: "error" });
+        return;
+      }
 
-    if (orgError) {
-      setPending(false);
-      toast({ title: orgError.message ?? "Workspace setup failed", tone: "error" });
-      return;
-    }
-
-    if (org?.id) {
-      await authClient.organization.setActive({ organizationId: org.id });
+      session = await authClient.getSession();
+      if (!session.data) {
+        setPending(false);
+        toast({ title: "Session did not initialize. Please try again.", tone: "error" });
+        return;
+      }
     }
 
     setPending(false);
     toast({ title: "Workspace created", tone: "success" });
-    navigate("/welcome", { replace: true });
+    navigate("/welcome", { replace: true, state: { orgName: workspace || "Workspace" } });
   };
 
   return (
@@ -66,7 +66,7 @@ export default function SignupPage() {
         <Field
           label="Full name"
           icon={<User className="h-3.5 w-3.5" />}
-          placeholder="Jane Doe"
+          placeholder="Your name"
           autoComplete="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -83,7 +83,7 @@ export default function SignupPage() {
         <Field
           label="Workspace name"
           icon={<Building2 className="h-3.5 w-3.5" />}
-          placeholder="Acme Support"
+          placeholder="Your organization"
           value={workspace}
           onChange={(e) => setWorkspace(e.target.value)}
         />

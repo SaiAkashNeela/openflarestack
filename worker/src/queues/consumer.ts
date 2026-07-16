@@ -28,10 +28,21 @@ async function handleInbound(job: Extract<QueueJob, { type: 'inbound' }>, env: E
   // Upsert customer
   const customerId = nanoid()
   await env.DB.prepare(`
-    INSERT INTO customers (id, organization_id, name, external_id)
-    VALUES (?, ?, ?, ?)
-    ON CONFLICT(organization_id, external_id) DO NOTHING
-  `).bind(customerId, organizationId, incoming.customerName, incoming.externalCustomerId).run()
+    INSERT INTO customers (id, organization_id, name, external_id, email, phone)
+    VALUES (?, ?, ?, ?, ?, ?)
+    ON CONFLICT(organization_id, external_id) DO UPDATE SET
+      name = excluded.name,
+      email = COALESCE(customers.email, excluded.email),
+      phone = COALESCE(customers.phone, excluded.phone),
+      updated_at = unixepoch()
+  `).bind(
+    customerId,
+    organizationId,
+    incoming.customerName,
+    incoming.externalCustomerId,
+    incoming.customerEmail ?? null,
+    incoming.customerPhone ?? null,
+  ).run()
 
   const customer = await env.DB.prepare(
     'SELECT id FROM customers WHERE organization_id = ? AND external_id = ?'
@@ -51,6 +62,12 @@ async function handleInbound(job: Extract<QueueJob, { type: 'inbound' }>, env: E
     'SELECT id FROM conversations WHERE organization_id = ? AND external_id = ?'
   ).bind(organizationId, externalConvId).first<{ id: string }>()
   if (!conv) throw new Error('Conversation upsert failed')
+
+  if (incoming.subject) {
+    await env.DB.prepare(
+      'UPDATE conversations SET subject = COALESCE(subject, ?), updated_at = unixepoch() WHERE id = ? AND organization_id = ?'
+    ).bind(incoming.subject, conv.id, organizationId).run()
+  }
 
   // Insert message — fetch by external_id so duplicates (ON CONFLICT DO NOTHING) still broadcast
   const msgId = nanoid()

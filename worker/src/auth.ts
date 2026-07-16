@@ -8,7 +8,7 @@ export function createAuth(env: Env) {
     database: env.DB,
     secret: env.BETTER_AUTH_SECRET,
     baseURL: env.BETTER_AUTH_URL,
-    trustedOrigins: [env.FRONTEND_URL, 'http://localhost:5173'],
+    trustedOrigins: [env.FRONTEND_URL, 'http://localhost:5173', 'http://127.0.0.1:5173'],
     emailAndPassword: { enabled: true },
     plugins: [
       organization({

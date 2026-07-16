@@ -30,32 +30,40 @@ type Channel = Template & {
   status: Status;
 };
 
+type SetupField = {
+  key: string;
+  label: string;
+  placeholder: string;
+  type?: string;
+  required?: boolean;
+};
+
 const CATALOG: Template[] = [
   {
     type: "email",
     name: "Email",
-    description: "support@acme.com",
+    description: "Connect an inbox for support email",
     icon: Mail,
     meta: "IMAP · inbox routing",
   },
   {
     type: "telegram",
     name: "Telegram",
-    description: "@AcmeSupportBot",
+    description: "Connect a support bot",
     icon: MessageCircle,
     meta: "Bot API · webhook",
   },
   {
     type: "webchat",
     name: "Web Chat",
-    description: "widget on acme.com",
+    description: "Connect your site widget",
     icon: Globe,
     meta: "Widget · snippet install",
   },
   {
     type: "slack",
     name: "Slack",
-    description: "acme-workspace",
+    description: "Connect a Slack workspace",
     icon: Slack,
     meta: "Workspace app · routing",
   },
@@ -73,13 +81,73 @@ const CATALOG: Template[] = [
     icon: Globe,
     meta: "Import · read only",
   },
+  {
+    type: "webhook",
+    name: "API / Webhook",
+    description: "Post tickets from your platform",
+    icon: Globe,
+    meta: "POST /api/webhooks/:id",
+  },
 ];
+
+const SETUP_FIELDS: Record<string, SetupField[]> = {
+  email: [
+    { key: "host", label: "IMAP host", placeholder: "imap.example.com", required: true },
+    { key: "username", label: "Username", placeholder: "support@example.com", required: true },
+    {
+      key: "password",
+      label: "Password",
+      placeholder: "••••••••",
+      type: "password",
+      required: true,
+    },
+  ],
+  telegram: [
+    {
+      key: "botToken",
+      label: "Bot token",
+      placeholder: "123456:ABC-DEF...",
+      required: true,
+    },
+    { key: "webhookSecret", label: "Webhook secret", placeholder: "optional secret" },
+  ],
+  webchat: [
+    { key: "siteUrl", label: "Site URL", placeholder: "https://example.com", required: true },
+    { key: "widgetKey", label: "Widget key", placeholder: "public widget key", required: true },
+  ],
+  slack: [
+    { key: "workspaceId", label: "Workspace ID", placeholder: "T12345678", required: true },
+    { key: "botToken", label: "Bot token", placeholder: "xoxb-...", required: true },
+  ],
+  whatsapp: [
+    { key: "phoneNumber", label: "Phone number", placeholder: "+15551234567", required: true },
+    { key: "accessToken", label: "Access token", placeholder: "Bearer token", required: true },
+  ],
+  intercom: [
+    {
+      key: "workspaceId",
+      label: "Workspace ID",
+      placeholder: "intercom workspace",
+      required: true,
+    },
+    {
+      key: "accessToken",
+      label: "Access token",
+      placeholder: "Intercom token",
+      required: true,
+    },
+  ],
+  webhook: [],
+};
 
 export default function Integrations() {
   const { toast } = useToast();
   const [connected, setConnected] = useState<Channel[]>([]);
   const [available, setAvailable] = useState<Template[]>(CATALOG);
-  const [addOpen, setAddOpen] = useState(false);
+  const [setupOpen, setSetupOpen] = useState(false);
+  const [setupTemplate, setSetupTemplate] = useState<Template | null>(null);
+  const [setupConfig, setSetupConfig] = useState<Record<string, string>>({});
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -111,21 +179,47 @@ export default function Integrations() {
   const connectedCount = connected.length;
   const availableCount = available.length;
 
-  const connect = async (template: Template) => {
-    const { integration } = await api.post<{ integration: WorkerIntegration }>(
-      "/api/v1/integrations",
-      {
-        type: template.type,
-        name: template.name,
-        config: {},
-      },
-    );
-    const mapped = mapIntegration(
-      integration ?? { ...template, id: crypto.randomUUID(), enabled: true, created_at: null },
-    );
-    setConnected((prev) => [...prev, mapped]);
-    setAvailable((prev) => prev.filter((item) => item.type !== template.type));
-    toast({ title: `${template.name} connected`, tone: "success" });
+  const startSetup = (template?: Template | null) => {
+    const next = template ?? null;
+    setSetupTemplate(next);
+    setSetupConfig(defaultConfig(next?.type ?? ""));
+    setSetupOpen(true);
+  };
+
+  const submitConnect = async () => {
+    if (!setupTemplate) return;
+    setPending(true);
+    try {
+      const { integration } = await api.post<{ integration: WorkerIntegration }>(
+        "/api/v1/integrations",
+        {
+          type: setupTemplate.type,
+          name: setupTemplate.name,
+          config: setupConfig,
+        },
+      );
+      const mapped = mapIntegration(
+        integration ?? {
+          ...setupTemplate,
+          id: crypto.randomUUID(),
+          enabled: true,
+          created_at: null,
+        },
+      );
+      setConnected((prev) => [...prev, mapped]);
+      setAvailable((prev) => prev.filter((item) => item.type !== setupTemplate.type));
+      setSetupOpen(false);
+      setSetupTemplate(null);
+      setSetupConfig({});
+      toast({ title: `${setupTemplate.name} connected`, tone: "success" });
+    } catch (error) {
+      toast({
+        title: error instanceof Error ? error.message : "Channel setup failed",
+        tone: "error",
+      });
+    } finally {
+      setPending(false);
+    }
   };
 
   const disconnect = async (c: Channel) => {
@@ -157,7 +251,7 @@ export default function Integrations() {
             </p>
           </div>
           <button
-            onClick={() => setAddOpen(true)}
+            onClick={() => startSetup()}
             className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-[var(--primary-hover)]"
           >
             <Plus className="h-3.5 w-3.5" />
@@ -201,10 +295,7 @@ export default function Integrations() {
                   <div className="text-xs text-muted-foreground">{c.description}</div>
                 </div>
                 <button
-                  onClick={() => {
-                    void connect(c);
-                    if (available.length === 1) setAddOpen(false);
-                  }}
+                  onClick={() => startSetup(c)}
                   className="rounded-md border border-border px-2.5 py-1 text-xs hover:bg-surface-hover"
                 >
                   Connect
@@ -216,20 +307,102 @@ export default function Integrations() {
       </div>
 
       <Modal
-        open={addOpen}
-        onClose={() => setAddOpen(false)}
-        title="Add a channel"
-        description="Pick a source to route conversations from."
+        open={setupOpen}
+        onClose={() => {
+          setSetupOpen(false);
+          setSetupTemplate(null);
+          setSetupConfig({});
+        }}
+        title={setupTemplate ? `Connect ${setupTemplate.name}` : "Add a channel"}
+        description={
+          setupTemplate
+            ? setupTemplate.type === "webhook"
+              ? "Use this channel to send tickets from another platform straight into the inbox."
+              : `Enter the details we need to connect ${setupTemplate.name.toLowerCase()}.`
+            : "Pick a source to route conversations from."
+        }
         footer={
           <button
-            onClick={() => setAddOpen(false)}
+            onClick={() => {
+              setSetupOpen(false);
+              setSetupTemplate(null);
+              setSetupConfig({});
+            }}
             className="rounded-md border border-border px-3 py-1.5 text-xs hover:bg-surface-hover"
           >
-            Close
+            {setupTemplate ? "Back" : "Close"}
           </button>
         }
       >
-        {availableModal.length === 0 ? (
+        {setupTemplate ? (
+          <div className="space-y-4">
+            <div className="rounded-md border border-border bg-surface p-3 text-xs text-muted-foreground">
+              <div className="font-medium text-foreground">{setupTemplate.name}</div>
+              <div className="mt-1">{setupTemplate.description}</div>
+              <div className="mt-2 font-mono text-[10px] uppercase tracking-wider">
+                {setupTemplate.meta}
+              </div>
+            </div>
+            {setupTemplate.type === "webhook" ? (
+              <div className="space-y-2 rounded-md border border-border bg-background p-3 text-xs text-muted-foreground">
+                <div className="font-medium text-foreground">
+                  Send POST requests here after saving
+                </div>
+                <div className="font-mono text-[11px] break-all text-foreground">
+                  {webhookUrl(":integrationId")}
+                </div>
+                <pre className="overflow-x-auto rounded-md bg-surface p-2 font-mono text-[10px] leading-5 text-muted-foreground">
+                  {`{
+  "externalCustomerId": "user_123",
+  "customerName": "Ada Lovelace",
+  "customerEmail": "ada@example.com",
+  "subject": "Payment issue",
+  "text": "I need help with my invoice",
+  "channel": "platform"
+}`}
+                </pre>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {fieldsForType(setupTemplate.type).map((field) => (
+                  <label key={field.key} className="block">
+                    <span className="mb-1.5 block text-xs font-medium">
+                      {field.label}
+                      {field.required ? " *" : ""}
+                    </span>
+                    <input
+                      value={setupConfig[field.key] ?? ""}
+                      onChange={(e) =>
+                        setSetupConfig((prev) => ({ ...prev, [field.key]: e.target.value }))
+                      }
+                      type={field.type ?? "text"}
+                      placeholder={field.placeholder}
+                      className="w-full rounded-md border border-border bg-background px-2.5 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                    />
+                  </label>
+                ))}
+              </div>
+            )}
+            <div className="flex items-center justify-between gap-2">
+              <button
+                onClick={() => {
+                  setSetupTemplate(null);
+                  setSetupConfig({});
+                }}
+                className="rounded-md border border-border px-3 py-1.5 text-xs hover:bg-surface-hover"
+              >
+                Choose another
+              </button>
+              <button
+                onClick={() => void submitConnect()}
+                disabled={pending}
+                className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-[var(--primary-hover)] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {pending ? "Connecting..." : "Connect channel"}
+              </button>
+            </div>
+          </div>
+        ) : availableModal.length === 0 ? (
           <p className="text-xs text-muted-foreground">
             All available channels are already connected.
           </p>
@@ -248,10 +421,7 @@ export default function Integrations() {
                   <div className="text-xs text-muted-foreground">{c.description}</div>
                 </div>
                 <button
-                  onClick={() => {
-                    void connect(c);
-                    if (available.length === 1) setAddOpen(false);
-                  }}
+                  onClick={() => startSetup(c)}
                   className="rounded-md bg-primary px-2.5 py-1 text-xs font-medium text-primary-foreground hover:bg-[var(--primary-hover)]"
                 >
                   Connect
@@ -263,6 +433,41 @@ export default function Integrations() {
       </Modal>
     </AppLayout>
   );
+}
+
+function defaultConfig(type: string) {
+  switch (type) {
+    case "email":
+      return { host: "", username: "", password: "" };
+    case "telegram":
+      return { botToken: "", webhookSecret: "" };
+    case "webchat":
+      return { siteUrl: "", widgetKey: "" };
+    case "slack":
+      return { workspaceId: "", botToken: "" };
+    case "whatsapp":
+      return { phoneNumber: "", accessToken: "" };
+    case "intercom":
+      return { workspaceId: "", accessToken: "" };
+    case "webhook":
+      return {};
+    default:
+      return {};
+  }
+}
+
+function fieldsForType(type: string) {
+  return (
+    SETUP_FIELDS[type] ?? [
+      { key: "endpoint", label: "Endpoint", placeholder: "https://example.com", required: true },
+      { key: "token", label: "Token", placeholder: "token", required: true },
+    ]
+  );
+}
+
+function webhookUrl(id: string) {
+  const base = import.meta.env.VITE_API_URL ?? "";
+  return `${base.replace(/\/$/, "")}/api/webhooks/${id}`;
 }
 
 function ChannelRow({
@@ -369,7 +574,12 @@ function mapIntegration(integration: WorkerIntegration): Channel {
     name: integration.name || template.name,
     description: template.description,
     icon: template.icon,
-    meta: integration.enabled ? `Connected · ${formatDate(integration.created_at)}` : "Disabled",
+    meta:
+      integration.enabled && template.type === "webhook"
+        ? `POST ${webhookUrl(integration.id)}`
+        : integration.enabled
+          ? `Connected · ${formatDate(integration.created_at)}`
+          : "Disabled",
     status: integration.enabled ? "online" : "offline",
   };
 }

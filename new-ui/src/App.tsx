@@ -11,6 +11,7 @@ import SignupPage from "./routes/signup";
 import TeamPage from "./routes/team";
 import WelcomePage from "./routes/welcome";
 import { authClient } from "@/lib/auth-client";
+import { useOrganizationState } from "@/lib/organization";
 
 const PAGE_META: Record<string, { title: string; description: string }> = {
   "/": {
@@ -94,11 +95,15 @@ function RequireAuth({
   allowUnassigned?: boolean;
 }) {
   const { data: session, isPending } = authClient.useSession();
+  const { organizations, loading: orgsPending } = useOrganizationState({
+    enabled: !!session,
+  });
   const location = useLocation();
 
   if (isPending) return <LoadingScreen />;
   if (!session) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
-  if (!allowUnassigned && !session.session?.activeOrganizationId) {
+  if (orgsPending) return <LoadingScreen />;
+  if (!allowUnassigned && (organizations?.length ?? 0) === 0) {
     return <Navigate to="/welcome" replace />;
   }
 

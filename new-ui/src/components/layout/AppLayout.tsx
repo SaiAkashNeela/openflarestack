@@ -19,16 +19,16 @@ import { Menu, MenuItem, MenuDivider, MenuLabel } from "@/components/ui/Menu";
 import { useToast } from "@/components/ui/Toast";
 import { useTheme } from "@/lib/theme";
 import { authClient } from "@/lib/auth-client";
+import { useOrganizationState } from "@/lib/organization";
 
 type NavItem = {
   to: string;
   label: string;
   icon: typeof Inbox;
-  count?: number;
 };
 
 const NAV: NavItem[] = [
-  { to: "/", label: "Inbox", icon: Inbox, count: 42 },
+  { to: "/", label: "Inbox", icon: Inbox },
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/integrations", label: "Channels", icon: Plug },
   { to: "/team", label: "Team", icon: Users },
@@ -41,7 +41,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const { resolved, toggle } = useTheme();
   const { data: session } = authClient.useSession();
-  const { data: activeOrg } = authClient.useActiveOrganization();
+  const { activeOrganization: activeOrg } = useOrganizationState();
   const user = session?.user;
   const orgName = activeOrg?.name ?? "Workspace";
 
@@ -99,9 +99,6 @@ export function AppLayout({ children }: { children: ReactNode }) {
               >
                 <Icon className="h-4 w-4" strokeWidth={1.75} />
                 <span className="flex-1">{item.label}</span>
-                {item.count !== undefined && (
-                  <span className="font-mono text-[11px] text-muted-foreground">{item.count}</span>
-                )}
               </Link>
             );
           })}

@@ -2,7 +2,9 @@ export interface IncomingMessage {
   externalId: string
   externalCustomerId: string
   customerName: string
+  customerEmail?: string
   customerPhone?: string
+  subject?: string
   text: string
   channel: string
 }

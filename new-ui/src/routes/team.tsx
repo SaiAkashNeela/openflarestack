@@ -3,112 +3,128 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { Menu, MenuItem, MenuLabel, MenuDivider } from "@/components/ui/Menu";
 import { Modal } from "@/components/ui/Modal";
 import { useToast } from "@/components/ui/Toast";
-import { api } from "@/lib/api";
+import { authClient } from "@/lib/auth-client";
+import { useOrganizationState } from "@/lib/organization";
 import { Search, Plus, ChevronDown, X, Check, MoreHorizontal, Mail } from "lucide-react";
 
-type Role = "Admin" | "Agent" | "Viewer";
-type Member = {
+type Role = "owner" | "admin" | "member";
+
+type OrgMember = {
   id: string;
-  name: string;
-  initials: string;
-  email: string;
-  role: Role;
-  joinedAt: number | null;
+  organizationId: string;
+  userId: string;
+  role: string;
+  createdAt: Date;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    image?: string;
+  };
 };
 
-const INITIAL: Member[] = [];
-
-const ROLES: Role[] = ["Admin", "Agent", "Viewer"];
-
-type WorkerMember = {
+type OrgInvitation = {
   id: string;
-  name: string;
+  organizationId: string;
   email: string;
-  role: Role | string;
-  created_at: number | null;
+  role: string;
+  status: string;
+  inviterId: string;
+  expiresAt: Date;
+  createdAt: Date;
 };
+
+const ROLES: Role[] = ["owner", "admin", "member"];
 
 export default function Team() {
   const { toast } = useToast();
-  const [members, setMembers] = useState<Member[]>(INITIAL);
+  const { activeOrganization: activeOrg } = useOrganizationState();
+  const [members, setMembers] = useState<OrgMember[]>([]);
+  const [invitations, setInvitations] = useState<OrgInvitation[]>([]);
   const [query, setQuery] = useState("");
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteRole, setInviteRole] = useState<Role>("Agent");
+  const [inviteRole, setInviteRole] = useState<Role>("member");
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function load() {
-      try {
-        const { members: rows } = await api.get<{ members: WorkerMember[] }>("/api/v1/teams");
-        if (cancelled) return;
-        setMembers(rows.map(mapMember));
-      } catch {
-        if (!cancelled) {
-          setMembers([]);
-          toast({ title: "Worker team data is unavailable right now." });
-        }
-      }
-    }
-
-    void load();
-    return () => {
-      cancelled = true;
-    };
-  }, [toast]);
+    setMembers((activeOrg?.members as OrgMember[] | undefined) ?? []);
+    setInvitations((activeOrg?.invitations as OrgInvitation[] | undefined) ?? []);
+  }, [activeOrg?.id, activeOrg?.members, activeOrg?.invitations]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return members;
     return members.filter(
-      (m) => m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q),
+      (m) => m.user.name.toLowerCase().includes(q) || m.user.email.toLowerCase().includes(q),
     );
   }, [members, query]);
 
-  const roleCounts = useMemo(
+  const counts = useMemo(
     () =>
       members.reduce(
         (acc, member) => {
-          acc[member.role.toLowerCase() as keyof typeof acc] += 1;
+          const role = normalizeRole(member.role);
+          acc[role] += 1;
           return acc;
         },
-        { admin: 0, agent: 0, viewer: 0 },
+        { owner: 0, admin: 0, member: 0 },
       ),
     [members],
   );
 
-  const changeRole = (id: string, role: Role) => {
-    setMembers((prev) => prev.map((m) => (m.id === id ? { ...m, role } : m)));
+  const createInvite = async () => {
+    const email = inviteEmail.trim();
+    if (!email || !activeOrg?.id) return;
+    setPending(true);
+    const { data, error } = await authClient.organization.createInvitation({
+      email,
+      role: inviteRole,
+      organizationId: activeOrg.id,
+    });
+    setPending(false);
+
+    if (error) {
+      toast({ title: error.message ?? "Invite failed", tone: "error" });
+      return;
+    }
+
+    if (data) {
+      setInvitations((prev) => [data as OrgInvitation, ...prev]);
+    }
+    toast({ title: `Invite sent to ${email}`, tone: "success" });
+    setInviteEmail("");
+    setInviteRole("member");
+    setInviteOpen(false);
+  };
+
+  const updateRole = async (member: OrgMember, role: Role) => {
+    if (!activeOrg?.id) return;
+    const { error } = await authClient.organization.updateMemberRole({
+      memberId: member.id,
+      role,
+      organizationId: activeOrg.id,
+    });
+    if (error) {
+      toast({ title: error.message ?? "Role update failed", tone: "error" });
+      return;
+    }
+    setMembers((prev) => prev.map((m) => (m.id === member.id ? { ...m, role } : m)));
     toast({ title: `Role updated to ${role}`, tone: "success" });
   };
 
-  const removeMember = (m: Member) => {
-    setMembers((prev) => prev.filter((x) => x.id !== m.id));
-    toast({ title: `${m.name} removed`, tone: "error" });
-  };
-
-  const invite = () => {
-    const email = inviteEmail.trim();
-    if (!email) return;
-    const name = email
-      .split("@")[0]
-      .replace(/[._-]+/g, " ")
-      .replace(/\b\w/g, (s) => s.toUpperCase());
-    const initials = name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .slice(0, 2)
-      .toUpperCase();
-    setMembers((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), name, initials, email, role: inviteRole, joinedAt: null },
-    ]);
-    toast({ title: `Invite prepared for ${email}`, tone: "success" });
-    setInviteEmail("");
-    setInviteRole("Agent");
-    setInviteOpen(false);
+  const removeMember = async (member: OrgMember) => {
+    if (!activeOrg?.id) return;
+    const { error } = await authClient.organization.removeMember({
+      memberIdOrEmail: member.user.email,
+      organizationId: activeOrg.id,
+    });
+    if (error) {
+      toast({ title: error.message ?? "Remove failed", tone: "error" });
+      return;
+    }
+    setMembers((prev) => prev.filter((m) => m.id !== member.id));
+    toast({ title: `${member.user.name} removed`, tone: "success" });
   };
 
   return (
@@ -118,7 +134,7 @@ export default function Team() {
           <div>
             <h1 className="font-sans text-lg font-semibold">Team</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              {members.length} members · {roleCounts.admin} admins
+              {members.length} members · {counts.owner} owners · {invitations.length} invites
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -170,11 +186,11 @@ export default function Team() {
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-hover text-[11px] font-medium">
-                  {m.initials}
+                  {initials(m.user.name)}
                 </div>
-                <div className="text-sm font-medium">{m.name}</div>
+                <div className="text-sm font-medium">{m.user.name || "Unnamed member"}</div>
               </div>
-              <div className="truncate font-mono text-xs text-muted-foreground">{m.email}</div>
+              <div className="truncate font-mono text-xs text-muted-foreground">{m.user.email}</div>
               <div>
                 <Menu
                   align="left"
@@ -183,7 +199,7 @@ export default function Team() {
                       onClick={toggle}
                       className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-xs hover:bg-surface-hover"
                     >
-                      {m.role}
+                      {normalizeRole(m.role)}
                       <ChevronDown className="h-3 w-3 text-muted-foreground" />
                     </button>
                   )}
@@ -191,22 +207,22 @@ export default function Team() {
                   {(close) => (
                     <div>
                       <MenuLabel>Change role</MenuLabel>
-                      {ROLES.map((r) => (
+                      {ROLES.map((role) => (
                         <MenuItem
-                          key={r}
+                          key={role}
                           icon={
-                            m.role === r ? (
+                            normalizeRole(m.role) === role ? (
                               <Check className="h-3.5 w-3.5" />
                             ) : (
                               <span className="h-3.5 w-3.5" />
                             )
                           }
                           onClick={() => {
-                            changeRole(m.id, r);
+                            void updateRole(m, role);
                             close();
                           }}
                         >
-                          {r}
+                          {role}
                         </MenuItem>
                       ))}
                     </div>
@@ -214,7 +230,7 @@ export default function Team() {
                 </Menu>
               </div>
               <div className="font-mono text-[11px] text-muted-foreground">
-                {formatJoined(m.joinedAt)}
+                {formatJoined(m.createdAt)}
               </div>
               <Menu
                 align="right"
@@ -232,7 +248,7 @@ export default function Team() {
                     <MenuItem
                       icon={<Mail className="h-3.5 w-3.5" />}
                       onClick={() => {
-                        toast({ title: `Message drafted for ${m.name.split(" ")[0]}` });
+                        toast({ title: `Drafted a message to ${m.user.name}` });
                         close();
                       }}
                     >
@@ -243,7 +259,7 @@ export default function Team() {
                       icon={<X className="h-3.5 w-3.5" />}
                       destructive
                       onClick={() => {
-                        removeMember(m);
+                        void removeMember(m);
                         close();
                       }}
                     >
@@ -271,7 +287,7 @@ export default function Team() {
         open={inviteOpen}
         onClose={() => setInviteOpen(false)}
         title="Invite teammate"
-        description="They'll get an email to join your workspace."
+        description="They'll get an email invitation to join your workspace."
         footer={
           <>
             <button
@@ -281,11 +297,11 @@ export default function Team() {
               Cancel
             </button>
             <button
-              onClick={invite}
-              disabled={!inviteEmail.trim()}
+              onClick={() => void createInvite()}
+              disabled={pending || !inviteEmail.trim()}
               className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-[var(--primary-hover)] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Send invite
+              {pending ? "Sending..." : "Send invite"}
             </button>
           </>
         }
@@ -305,18 +321,18 @@ export default function Team() {
           <div>
             <label className="mb-1.5 block text-xs font-medium">Role</label>
             <div className="flex gap-2">
-              {ROLES.map((r) => (
+              {ROLES.map((role) => (
                 <button
-                  key={r}
+                  key={role}
                   type="button"
-                  onClick={() => setInviteRole(r)}
-                  className={`flex-1 rounded-md border px-2.5 py-1.5 text-xs ${
-                    inviteRole === r
+                  onClick={() => setInviteRole(role)}
+                  className={`flex-1 rounded-md border px-2.5 py-1.5 text-xs capitalize ${
+                    inviteRole === role
                       ? "border-primary bg-primary/10 text-foreground"
                       : "border-border text-muted-foreground hover:bg-surface-hover"
                   }`}
                 >
-                  {r}
+                  {role}
                 </button>
               ))}
             </div>
@@ -327,34 +343,22 @@ export default function Team() {
   );
 }
 
-function mapMember(member: WorkerMember): Member {
-  const name = member.name || member.email || "Teammate";
-  const initials = name
+function normalizeRole(role: string): Role {
+  if (role === "owner" || role === "admin" || role === "member") return role;
+  return "member";
+}
+
+function initials(name: string) {
+  return name
     .split(" ")
     .map((part) => part[0])
     .join("")
     .slice(0, 2)
     .toUpperCase();
-
-  return {
-    id: member.id,
-    name,
-    initials,
-    email: member.email,
-    role: normalizeRole(member.role),
-    joinedAt: member.created_at,
-  };
 }
 
-function normalizeRole(role: string): Role {
-  if (role === "Admin" || role === "Viewer") return role;
-  return "Agent";
-}
-
-function formatJoined(value: number | null) {
-  if (!value) return "Recently";
-  const ts = value > 10_000_000_000 ? value : value * 1000;
-  const diff = Date.now() - ts;
+function formatJoined(value: Date) {
+  const diff = Date.now() - value.getTime();
   const days = Math.max(1, Math.round(diff / 86_400_000));
   if (days < 30) return `${days}d ago`;
   const months = Math.round(days / 30);

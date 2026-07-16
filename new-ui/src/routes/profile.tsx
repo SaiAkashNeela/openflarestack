@@ -7,15 +7,15 @@ import { Camera } from "lucide-react";
 export default function ProfilePage() {
   const { toast } = useToast();
   const { data: session } = authClient.useSession();
-  const [name, setName] = useState("Jane Doe");
-  const [email, setEmail] = useState("jane@acme.com");
-  const [title, setTitle] = useState("Support Lead");
-  const [bio, setBio] = useState("Ships fast, replies faster.");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [title, setTitle] = useState("");
+  const [bio, setBio] = useState("");
 
   useEffect(() => {
     if (!session?.user) return;
-    setName(session.user.name ?? "Jane Doe");
-    setEmail(session.user.email ?? "jane@acme.com");
+    setName(session.user.name ?? "");
+    setEmail(session.user.email ?? "");
   }, [session]);
 
   return (
@@ -46,7 +46,7 @@ export default function ProfilePage() {
               </div>
               <button
                 type="button"
-                onClick={() => toast({ title: "Upload not available in demo" })}
+                onClick={() => toast({ title: "Avatar upload is not wired yet" })}
                 className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full border border-border bg-background text-muted-foreground hover:text-foreground"
               >
                 <Camera className="h-3.5 w-3.5" />

@@ -29,6 +29,12 @@ export default function LoginPage() {
     }
 
     toast({ title: "Welcome back", tone: "success" });
+    const session = await authClient.getSession();
+    if (!session.data) {
+      setPending(false);
+      toast({ title: "Session did not initialize. Please try again.", tone: "error" });
+      return;
+    }
     navigate("/", { replace: true });
   };
 
@@ -53,7 +59,7 @@ export default function LoginPage() {
             <label className="text-xs font-medium text-foreground">Password</label>
             <button
               type="button"
-              onClick={() => toast({ title: "Reset link sent (demo)" })}
+              onClick={() => toast({ title: "Password reset flow is not configured yet" })}
               className="font-mono text-[11px] text-primary hover:underline"
             >
               Forgot?

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useToast } from "@/components/ui/Toast";
 import { useTheme } from "@/lib/theme";
+import { useOrganizationState } from "@/lib/organization";
 
 const TABS = ["General", "Notifications", "Appearance", "Security"] as const;
 type Tab = (typeof TABS)[number];
@@ -10,15 +11,19 @@ export default function SettingsPage() {
   const [tab, setTab] = useState<Tab>("General");
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
+  const { activeOrganization: activeOrg } = useOrganizationState();
 
-  // simple local state for toggles
-  const [workspace, setWorkspace] = useState("Acme Support");
+  const [workspace, setWorkspace] = useState(activeOrg?.name ?? "");
   const [tz, setTz] = useState("Europe/Berlin");
   const [notifEmail, setNotifEmail] = useState(true);
   const [notifMentions, setNotifMentions] = useState(true);
   const [notifDigest, setNotifDigest] = useState(false);
   const [density, setDensity] = useState<"compact" | "cozy">("compact");
   const [twofa, setTwofa] = useState(false);
+
+  useEffect(() => {
+    if (activeOrg?.name) setWorkspace(activeOrg.name);
+  }, [activeOrg?.name]);
 
   return (
     <AppLayout>
@@ -51,7 +56,17 @@ export default function SettingsPage() {
             {tab === "General" && (
               <Section
                 title="General"
-                onSave={() => toast({ title: "Workspace saved", tone: "success" })}
+                onSave={async () => {
+                  if (!workspace.trim()) return;
+                  const { error } = await authClient.organization.updateOrganization({
+                    data: { name: workspace.trim() },
+                  });
+                  if (error) {
+                    toast({ title: error.message ?? "Workspace update failed", tone: "error" });
+                    return;
+                  }
+                  toast({ title: "Workspace saved", tone: "success" });
+                }}
               >
                 <Field label="Workspace name">
                   <input
@@ -193,7 +208,7 @@ function Section({
 }: {
   title: string;
   children: React.ReactNode;
-  onSave: () => void;
+  onSave: () => void | Promise<void>;
 }) {
   return (
     <form
