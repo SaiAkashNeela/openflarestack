@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { authClient } from './lib/auth-client'
 import { Layout } from './components/Layout'
 import { LoginPage } from './pages/LoginPage'
+import { OnboardingPage } from './pages/OnboardingPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { InboxPage } from './pages/InboxPage'
 import { ConversationPage } from './pages/ConversationPage'
@@ -12,6 +13,8 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
   const { data: session, isPending } = authClient.useSession()
   if (isPending) return <div className="flex h-screen items-center justify-center text-gray-500 text-sm">Loading…</div>
   if (!session) return <Navigate to="/login" replace />
+  // No active org → must onboard first
+  if (!session.session.activeOrganizationId) return <Navigate to="/onboarding" replace />
   return <>{children}</>
 }
 
@@ -19,6 +22,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/onboarding" element={<OnboardingPage />} />
       <Route path="/" element={<RequireAuth><Layout /></RequireAuth>}>
         <Route index element={<Navigate to="/inbox" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />

@@ -45,7 +45,10 @@ const app = new Hono<AppEnv>()
 
 app.use('*', logger())
 app.use('*', cors({
-  origin: (origin, c) => c.env.FRONTEND_URL,
+  origin: (origin, c) => {
+    const allowed = [c.env.FRONTEND_URL, 'http://localhost:5173']
+    return allowed.includes(origin) ? origin : null
+  },
   credentials: true,
 }))
 
