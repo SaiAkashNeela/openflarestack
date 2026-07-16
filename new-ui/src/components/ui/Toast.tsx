@@ -1,6 +1,11 @@
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
 
-type Toast = { id: number; title: string; description?: string; tone?: "default" | "success" | "error" };
+type Toast = {
+  id: number;
+  title: string;
+  description?: string;
+  tone?: "default" | "success" | "error";
+};
 
 type Ctx = { toast: (t: Omit<Toast, "id">) => void };
 
@@ -30,8 +35,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             t.tone === "success"
               ? "border-l-[var(--success)]"
               : t.tone === "error"
-              ? "border-l-[var(--error)]"
-              : "border-l-primary";
+                ? "border-l-[var(--error)]"
+                : "border-l-primary";
           return (
             <div
               key={t.id}

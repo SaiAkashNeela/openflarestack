@@ -1,4 +1,4 @@
-# FlareDesk Implementation Plan
+# openflarestack Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -23,7 +23,7 @@
 ## File Structure
 
 ```
-flaredesk/
+openflarestack/
   worker/
     src/
       index.ts                 # Hono app entry, route registration, DO + Queue exports
@@ -90,9 +90,9 @@ flaredesk/
   docs/
     superpowers/
       specs/
-        2026-07-11-flaredesk-design.md
+        2026-07-11-openflarestack-design.md
       plans/
-        2026-07-11-flaredesk-implementation.md
+        2026-07-11-openflarestack-implementation.md
   README.md
 ```
 
@@ -130,15 +130,15 @@ dist/
 
 ```json
 {
-  "name": "flaredesk-worker",
+  "name": "openflarestack-worker",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "db:migrate": "wrangler d1 migrations apply flaredesk-db",
-    "db:migrate:local": "wrangler d1 migrations apply flaredesk-db --local",
+    "db:migrate": "wrangler d1 migrations apply openflarestack-db",
+    "db:migrate:local": "wrangler d1 migrations apply openflarestack-db --local",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
@@ -176,14 +176,14 @@ dist/
 - [ ] **Step 4: Create worker/wrangler.toml**
 
 ```toml
-name = "flaredesk-worker"
+name = "openflarestack-worker"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
 [[d1_databases]]
 binding = "DB"
-database_name = "flaredesk-db"
+database_name = "openflarestack-db"
 database_id = "REPLACE_AFTER_CREATE"
 migrations_dir = "src/db/migrations"
 
@@ -197,16 +197,16 @@ new_classes = ["ConversationRoom"]
 
 [[queues.producers]]
 binding = "QUEUE"
-queue = "flaredesk-queue"
+queue = "openflarestack-queue"
 
 [[queues.consumers]]
-queue = "flaredesk-queue"
+queue = "openflarestack-queue"
 max_batch_size = 10
 max_batch_timeout = 5
 
 [[r2_buckets]]
 binding = "R2"
-bucket_name = "flaredesk-attachments"
+bucket_name = "openflarestack-attachments"
 
 [[kv_namespaces]]
 binding = "KV"
@@ -221,7 +221,7 @@ FRONTEND_URL = "http://localhost:5173"
 
 ```json
 {
-  "name": "flaredesk-frontend",
+  "name": "openflarestack-frontend",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -357,7 +357,7 @@ module.exports = {
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FlareDesk</title>
+    <title>openflarestack</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -380,18 +380,18 @@ cd ../frontend && npm install
 
 ```bash
 cd worker
-npx wrangler d1 create flaredesk-db
+npx wrangler d1 create openflarestack-db
 # Copy the database_id from output and update wrangler.toml [[d1_databases]] id field
 ```
 
 - [ ] **Step 14: Create R2 bucket + KV namespace**
 
 ```bash
-npx wrangler r2 bucket create flaredesk-attachments
-npx wrangler kv namespace create flaredesk-kv
+npx wrangler r2 bucket create openflarestack-attachments
+npx wrangler kv namespace create openflarestack-kv
 # Copy id from output, update wrangler.toml [[kv_namespaces]] id field
 
-npx wrangler queues create flaredesk-queue
+npx wrangler queues create openflarestack-queue
 ```
 
 - [ ] **Step 15: Commit**
@@ -1728,7 +1728,7 @@ export function Sidebar() {
   return (
     <aside className="flex h-full w-56 shrink-0 flex-col border-r border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
       <div className="flex h-14 items-center gap-2 border-b border-gray-200 px-4 dark:border-gray-800">
-        <span className="text-lg font-bold text-brand-600">FlareDesk</span>
+        <span className="text-lg font-bold text-brand-600">openflarestack</span>
       </div>
       <nav className="flex-1 space-y-0.5 p-2">
         {nav.map((item) => (
@@ -1878,7 +1878,7 @@ export function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950 p-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-brand-600">FlareDesk</h1>
+          <h1 className="text-2xl font-bold text-brand-600">openflarestack</h1>
           <p className="mt-1 text-sm text-gray-500">Customer support, reimagined</p>
         </div>
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
@@ -2771,7 +2771,7 @@ git commit -m "feat: dark/light mode toggle persisted to localStorage"
 - Modify: `worker/wrangler.toml` — add preview_id values after real IDs known
 
 **Interfaces:**
-- Produces: live Worker at `flaredesk-worker.*.workers.dev`, live Pages at `flaredesk.pages.dev`
+- Produces: live Worker at `openflarestack-worker.*.workers.dev`, live Pages at `openflarestack.pages.dev`
 
 - [ ] **Step 1: Run production D1 migration**
 
@@ -2786,11 +2786,11 @@ npm run db:migrate
 ```bash
 npx wrangler secret put BETTER_AUTH_SECRET
 npx wrangler secret put BETTER_AUTH_URL
-# Enter: https://flaredesk-worker.<account>.workers.dev
+# Enter: https://openflarestack-worker.<account>.workers.dev
 npx wrangler secret put GOOGLE_CLIENT_ID
 npx wrangler secret put GOOGLE_CLIENT_SECRET
 npx wrangler secret put FRONTEND_URL
-# Enter: https://flaredesk.pages.dev
+# Enter: https://openflarestack.pages.dev
 ```
 
 - [ ] **Step 3: Deploy Worker**
@@ -2805,8 +2805,8 @@ npm run deploy
 
 ```bash
 cd ../frontend
-VITE_API_URL=https://flaredesk-worker.<account>.workers.dev npm run build
-npx wrangler pages deploy dist --project-name=flaredesk
+VITE_API_URL=https://openflarestack-worker.<account>.workers.dev npm run build
+npx wrangler pages deploy dist --project-name=openflarestack
 ```
 
 - [ ] **Step 5: Update Worker FRONTEND_URL secret**
@@ -2814,17 +2814,17 @@ npx wrangler pages deploy dist --project-name=flaredesk
 ```bash
 cd ../worker
 npx wrangler secret put FRONTEND_URL
-# Enter: https://flaredesk.pages.dev (from Pages deploy output)
+# Enter: https://openflarestack.pages.dev (from Pages deploy output)
 ```
 
 - [ ] **Step 6: Smoke test**
 
 ```bash
-curl https://flaredesk-worker.<account>.workers.dev/api/health
+curl https://openflarestack-worker.<account>.workers.dev/api/health
 # Expected: {"ok":true}
 ```
 
-Open `https://flaredesk.pages.dev` — login page should load.
+Open `https://openflarestack.pages.dev` — login page should load.
 
 - [ ] **Step 7: Commit final state**
 
@@ -2844,7 +2844,7 @@ git commit -m "chore: production deployment verified"
 - [ ] **Step 1: Write README.md**
 
 ```markdown
-# FlareDesk
+# openflarestack
 
 Cloudflare-native customer support platform. Real-time conversations, Telegram integration, multi-tenant.
 
@@ -2869,8 +2869,8 @@ Cloudflare-native customer support platform. Real-time conversations, Telegram i
 
 ```bash
 # Clone
-git clone https://github.com/saiakashneela/flaredesk
-cd flaredesk
+git clone https://github.com/saiakashneela/openflarestack
+cd openflarestack
 
 # Install
 cd worker && npm install
@@ -2907,10 +2907,10 @@ Open http://localhost:5173
 ```bash
 # 1. Create Cloudflare resources (first time only)
 cd worker
-npx wrangler d1 create flaredesk-db
-npx wrangler r2 bucket create flaredesk-attachments
-npx wrangler kv namespace create flaredesk-kv
-npx wrangler queues create flaredesk-queue
+npx wrangler d1 create openflarestack-db
+npx wrangler r2 bucket create openflarestack-attachments
+npx wrangler kv namespace create openflarestack-kv
+npx wrangler queues create openflarestack-queue
 
 # 2. Update wrangler.toml with returned IDs
 
@@ -2930,18 +2930,18 @@ npm run deploy
 # 6. Deploy Frontend
 cd ../frontend
 VITE_API_URL=https://<worker-url> npm run build
-npx wrangler pages deploy dist --project-name=flaredesk
+npx wrangler pages deploy dist --project-name=openflarestack
 ```
 
 ## Telegram Integration
 
 1. Create a bot via @BotFather
-2. In FlareDesk → Integrations → Add Telegram Bot
+2. In openflarestack → Integrations → Add Telegram Bot
 3. Enter bot token, click Add
 4. Copy the webhook URL shown
 5. Register it: `curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=<WEBHOOK_URL>"`
 
-Messages from users will now appear in FlareDesk inbox in real time.
+Messages from users will now appear in openflarestack inbox in real time.
 ```
 
 - [ ] **Step 2: Commit**

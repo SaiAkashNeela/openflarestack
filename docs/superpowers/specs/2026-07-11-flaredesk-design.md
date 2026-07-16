@@ -1,9 +1,9 @@
-# FlareDesk Design Spec
+# openflarestack Design Spec
 _Date: 2026-07-11_
 
 ## What We're Building
 
-FlareDesk is a Cloudflare-native SaaS customer support platform. Think Intercom/Chatwoot but simpler, faster, and built entirely on Cloudflare's edge infrastructure — no external servers, no Redis, no Socket.IO.
+openflarestack is a Cloudflare-native SaaS customer support platform. Think Intercom/Chatwoot but simpler, faster, and built entirely on Cloudflare's edge infrastructure — no external servers, no Redis, no Socket.IO.
 
 ---
 
@@ -73,7 +73,7 @@ Customer message (Telegram / webhook / API)
   → broadcast via ConversationRoom DO to connected agents
   → agent sees message appear instantly (WebSocket push)
 
-Agent replies in FlareDesk UI
+Agent replies in openflarestack UI
   → POST /conversations/:id/messages (Worker)
   → insert message in D1
   → broadcast via DO to all connected agents

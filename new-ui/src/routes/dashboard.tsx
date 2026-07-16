@@ -1,18 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { AppLayout } from "@/components/layout/AppLayout";
-
-export const Route = createFileRoute("/dashboard")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — FlareDesk" },
-      {
-        name: "description",
-        content: "Key support metrics: open conversations, response time, team throughput.",
-      },
-    ],
-  }),
-  component: Dashboard,
-});
 
 type Stat = {
   label: string;
@@ -130,8 +116,8 @@ function StatCard({ stat }: { stat: Stat }) {
             stat.positive === undefined
               ? "text-muted-foreground"
               : stat.positive
-              ? "text-[var(--success)]"
-              : "text-[var(--warning)]"
+                ? "text-[var(--success)]"
+                : "text-[var(--warning)]"
           }`}
         >
           {stat.delta}
@@ -158,8 +144,8 @@ function Sparkline({ data, positive }: { data: number[]; positive?: boolean }) {
     positive === undefined
       ? "var(--muted-foreground)"
       : positive
-      ? "var(--success)"
-      : "var(--primary)";
+        ? "var(--success)"
+        : "var(--primary)";
 
   return (
     <svg width={w} height={h} className="shrink-0">

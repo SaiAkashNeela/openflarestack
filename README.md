@@ -1,14 +1,11 @@
-# FlareDesk
+# openflarestack
 
 Cloudflare-native customer support platform. Conversations, real-time messaging, Telegram integration, multi-tenant team inbox.
 
-**Live:** https://flaredesk-evf.pages.dev  
-**API:** https://flaredesk-worker.mrsan.workers.dev
-
 ## Stack
 
-- **Worker** — Hono v4, Better Auth, Durable Objects (WebSocket), D1, Queues, R2, KV
-- **Frontend** — React 18, Vite 5, Tailwind 3, React Router 6
+- **Worker** - Hono v4, Better Auth, Durable Objects (WebSocket), D1, Queues, R2, KV
+- **UI** - React 19, Vite 8, Tailwind 4, React Router 6
 
 ## Local dev
 
@@ -16,12 +13,12 @@ Cloudflare-native customer support platform. Conversations, real-time messaging,
 # Worker
 cd worker
 npm install
-npm run dev         # wrangler dev --local
+npm run dev
 
-# Frontend (separate terminal)
-cd frontend
+# UI
+cd new-ui
 npm install
-VITE_API_URL=http://localhost:8787 npm run dev
+npm run dev
 ```
 
 ## Deploy
@@ -31,10 +28,10 @@ VITE_API_URL=http://localhost:8787 npm run dev
 cd worker
 npx wrangler deploy
 
-# Frontend
-cd frontend
+# UI
+cd new-ui
 npm run build
-npx wrangler pages deploy dist --project-name flaredesk --branch main
+npx wrangler pages deploy dist --project-name openflarestack --branch main
 ```
 
 ### First-time setup
@@ -43,13 +40,13 @@ npx wrangler pages deploy dist --project-name flaredesk --branch main
 cd worker
 
 # Create resources
-npx wrangler d1 create flaredesk-db
-npx wrangler kv namespace create flaredesk-kv
-npx wrangler r2 bucket create flaredesk-attachments
-npx wrangler queues create flaredesk-queue
+npx wrangler d1 create openflarestack-db
+npx wrangler kv namespace create openflarestack-kv
+npx wrangler r2 bucket create openflarestack-attachments
+npx wrangler queues create openflarestack-queue
 
 # Fill in the IDs in wrangler.toml, then:
-npx wrangler d1 migrations apply flaredesk-db --remote
+npx wrangler d1 migrations apply openflarestack-db --remote
 npx wrangler secret put BETTER_AUTH_SECRET   # paste a 32-byte hex secret
 npx wrangler deploy
 ```
@@ -58,9 +55,9 @@ npx wrangler deploy
 
 - Multi-tenant: every DB row scoped to `organization_id`
 - Real-time conversation room via Durable Objects + WebSocket
-- Telegram bot webhook → inbound message queue → D1 → broadcast
+- Telegram bot webhook -> inbound message queue -> D1 -> broadcast
 - Google OAuth + email/password via Better Auth
-- Dark mode (persisted to localStorage)
+- Dark mode persisted in `localStorage`
 - Dashboard stats, conversation inbox, integrations management, team settings
 
 ## Environment variables (worker)
@@ -74,5 +71,5 @@ npx wrangler deploy
 ## Telegram integration
 
 1. Create a bot via BotFather
-2. Add integration in FlareDesk UI → copy the webhook URL
+2. Add integration in openflarestack UI -> copy the webhook URL
 3. Set webhook: `curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=<WEBHOOK_URL>"`

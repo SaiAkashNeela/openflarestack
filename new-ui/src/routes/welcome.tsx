@@ -1,20 +1,7 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useToast } from "@/components/ui/Toast";
 import { Mail, MessageCircle, ArrowRight } from "lucide-react";
-
-export const Route = createFileRoute("/welcome")({
-  head: () => ({
-    meta: [
-      { title: "Welcome — FlareDesk" },
-      {
-        name: "description",
-        content: "Connect your first channel to start managing customer conversations in FlareDesk.",
-      },
-    ],
-  }),
-  component: Welcome,
-});
 
 export default function Welcome() {
   const navigate = useNavigate();
@@ -34,18 +21,18 @@ export default function Welcome() {
             <div className="h-4 w-4 rounded-sm bg-primary" />
           </div>
           <h1 className="mt-6 font-sans text-3xl font-semibold tracking-tight">
-            Welcome to FlareDesk
+            Welcome to openflarestack
           </h1>
           <p className="mt-3 text-sm text-muted-foreground">
-            Connect your first channel to start managing customer conversations.
-            You can add more channels later.
+            Connect your first channel to start managing customer conversations. You can add more
+            channels later.
           </p>
 
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <button
               onClick={() => {
                 toast({ title: "Opening email setup" });
-                navigate({ to: "/integrations" });
+                navigate("/integrations");
               }}
               className="flex w-full items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-[var(--primary-hover)] sm:w-auto"
             >
@@ -55,7 +42,7 @@ export default function Welcome() {
             <button
               onClick={() => {
                 toast({ title: "Opening Telegram setup" });
-                navigate({ to: "/integrations" });
+                navigate("/integrations");
               }}
               className="flex w-full items-center justify-center gap-2 rounded-md border border-primary px-4 py-2 text-sm font-medium text-primary hover:bg-primary/[0.05] sm:w-auto"
             >
@@ -72,7 +59,7 @@ export default function Welcome() {
               {steps.map((s) => (
                 <li key={s.label}>
                   <button
-                    onClick={() => navigate({ to: s.to })}
+                    onClick={() => navigate(s.to)}
                     className="flex w-full items-center justify-between py-3 text-sm hover:text-primary"
                   >
                     <span>{s.label}</span>

@@ -1,20 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useToast } from "@/components/ui/Toast";
 import { Camera } from "lucide-react";
 
-export const Route = createFileRoute("/profile")({
-  head: () => ({
-    meta: [
-      { title: "Profile — FlareDesk" },
-      { name: "description", content: "Manage your FlareDesk profile and personal preferences." },
-    ],
-  }),
-  component: ProfilePage,
-});
-
-function ProfilePage() {
+export default function ProfilePage() {
   const { toast } = useToast();
   const [name, setName] = useState("Jane Doe");
   const [email, setEmail] = useState("jane@acme.com");

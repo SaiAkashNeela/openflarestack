@@ -1,11 +1,11 @@
-name = "flaredesk-worker"
+name = "openflarestack-worker"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
 [[d1_databases]]
 binding = "DB"
-database_name = "flaredesk-db"
+database_name = "openflarestack-db"
 database_id = "4b47ec00-8524-4936-a01d-c3125d89ef8d"
 migrations_dir = "src/db/migrations"
 
@@ -19,16 +19,16 @@ new_sqlite_classes = ["ConversationRoom"]
 
 [[queues.producers]]
 binding = "QUEUE"
-queue = "flaredesk-queue"
+queue = "openflarestack-queue"
 
 [[queues.consumers]]
-queue = "flaredesk-queue"
+queue = "openflarestack-queue"
 max_batch_size = 10
 max_batch_timeout = 5
 
 [[r2_buckets]]
 binding = "R2"
-bucket_name = "flaredesk-attachments"
+bucket_name = "openflarestack-attachments"
 
 [[kv_namespaces]]
 binding = "KV"
@@ -36,4 +36,4 @@ id = "44de25d9940f44a5ac8030ebad98a721"
 
 [vars]
 ENVIRONMENT = "production"
-FRONTEND_URL = "https://flaredesk-evf.pages.dev"
+FRONTEND_URL = "https://openflarestack.pages.dev"

@@ -1,23 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Menu, MenuItem, MenuLabel, MenuDivider } from "@/components/ui/Menu";
 import { Modal } from "@/components/ui/Modal";
 import { useToast } from "@/components/ui/Toast";
 import { Search, Plus, ChevronDown, X, Check, MoreHorizontal, Mail } from "lucide-react";
-
-export const Route = createFileRoute("/team")({
-  head: () => ({
-    meta: [
-      { title: "Team — FlareDesk" },
-      {
-        name: "description",
-        content: "Manage teammates, roles, and permissions across your FlareDesk workspace.",
-      },
-    ],
-  }),
-  component: Team,
-});
 
 type Role = "Admin" | "Agent" | "Viewer";
 type Member = {
@@ -30,12 +16,54 @@ type Member = {
 };
 
 const INITIAL: Member[] = [
-  { id: "1", name: "Jane Doe", initials: "JD", email: "jane@acme.com", role: "Admin", status: "online" },
-  { id: "2", name: "Marcus Weiss", initials: "MW", email: "marcus@acme.com", role: "Agent", status: "online" },
-  { id: "3", name: "Priya Anand", initials: "PA", email: "priya@acme.com", role: "Agent", status: "online" },
-  { id: "4", name: "Diego Alvarez", initials: "DA", email: "diego@acme.com", role: "Agent", status: "offline" },
-  { id: "5", name: "Emma Larsen", initials: "EL", email: "emma@acme.com", role: "Agent", status: "online" },
-  { id: "6", name: "Kenji Tanaka", initials: "KT", email: "kenji@acme.com", role: "Viewer", status: "offline" },
+  {
+    id: "1",
+    name: "Jane Doe",
+    initials: "JD",
+    email: "jane@acme.com",
+    role: "Admin",
+    status: "online",
+  },
+  {
+    id: "2",
+    name: "Marcus Weiss",
+    initials: "MW",
+    email: "marcus@acme.com",
+    role: "Agent",
+    status: "online",
+  },
+  {
+    id: "3",
+    name: "Priya Anand",
+    initials: "PA",
+    email: "priya@acme.com",
+    role: "Agent",
+    status: "online",
+  },
+  {
+    id: "4",
+    name: "Diego Alvarez",
+    initials: "DA",
+    email: "diego@acme.com",
+    role: "Agent",
+    status: "offline",
+  },
+  {
+    id: "5",
+    name: "Emma Larsen",
+    initials: "EL",
+    email: "emma@acme.com",
+    role: "Agent",
+    status: "online",
+  },
+  {
+    id: "6",
+    name: "Kenji Tanaka",
+    initials: "KT",
+    email: "kenji@acme.com",
+    role: "Viewer",
+    status: "offline",
+  },
 ];
 
 const ROLES: Role[] = ["Admin", "Agent", "Viewer"];
@@ -51,7 +79,9 @@ export default function Team() {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return members;
-    return members.filter((m) => m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q));
+    return members.filter(
+      (m) => m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q),
+    );
   }, [members, query]);
 
   const online = members.filter((m) => m.status === "online").length;
@@ -69,8 +99,16 @@ export default function Team() {
   const invite = () => {
     const email = inviteEmail.trim();
     if (!email) return;
-    const name = email.split("@")[0].replace(/[._-]+/g, " ").replace(/\b\w/g, (s) => s.toUpperCase());
-    const initials = name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
+    const name = email
+      .split("@")[0]
+      .replace(/[._-]+/g, " ")
+      .replace(/\b\w/g, (s) => s.toUpperCase());
+    const initials = name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
     setMembers((prev) => [
       ...prev,
       { id: crypto.randomUUID(), name, initials, email, role: inviteRole, status: "offline" },
@@ -101,7 +139,10 @@ export default function Team() {
                 className="w-48 bg-transparent text-xs outline-none placeholder:text-muted-foreground"
               />
               {query && (
-                <button onClick={() => setQuery("")} className="text-muted-foreground hover:text-foreground">
+                <button
+                  onClick={() => setQuery("")}
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   <X className="h-3 w-3" />
                 </button>
               )}
@@ -168,7 +209,13 @@ export default function Team() {
                       {ROLES.map((r) => (
                         <MenuItem
                           key={r}
-                          icon={m.role === r ? <Check className="h-3.5 w-3.5" /> : <span className="h-3.5 w-3.5" />}
+                          icon={
+                            m.role === r ? (
+                              <Check className="h-3.5 w-3.5" />
+                            ) : (
+                              <span className="h-3.5 w-3.5" />
+                            )
+                          }
                           onClick={() => {
                             changeRole(m.id, r);
                             close();

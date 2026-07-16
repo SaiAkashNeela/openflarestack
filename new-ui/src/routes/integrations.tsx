@@ -1,23 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Menu, MenuItem, MenuDivider } from "@/components/ui/Menu";
 import { Modal } from "@/components/ui/Modal";
 import { useToast } from "@/components/ui/Toast";
 import { Mail, MessageCircle, Globe, Slack, Settings, Plus, RotateCw, Trash2 } from "lucide-react";
-
-export const Route = createFileRoute("/integrations")({
-  head: () => ({
-    meta: [
-      { title: "Channels — FlareDesk" },
-      {
-        name: "description",
-        content: "Connect email, Telegram, web chat, and Slack to route conversations into FlareDesk.",
-      },
-    ],
-  }),
-  component: Integrations,
-});
 
 type Status = "online" | "offline" | "error";
 type Channel = {
@@ -30,15 +16,57 @@ type Channel = {
 };
 
 const INITIAL_CONNECTED: Channel[] = [
-  { id: "email", name: "Email", description: "support@acme.com", icon: Mail, status: "online", meta: "IMAP · 2 mailboxes" },
-  { id: "telegram", name: "Telegram", description: "@AcmeSupportBot", icon: MessageCircle, status: "online", meta: "Bot API · webhook" },
-  { id: "webchat", name: "Web Chat", description: "widget on acme.com", icon: Globe, status: "online", meta: "3 pages · v2.4.1" },
-  { id: "slack", name: "Slack", description: "acme-workspace", icon: Slack, status: "error", meta: "Reauth required" },
+  {
+    id: "email",
+    name: "Email",
+    description: "support@acme.com",
+    icon: Mail,
+    status: "online",
+    meta: "IMAP · 2 mailboxes",
+  },
+  {
+    id: "telegram",
+    name: "Telegram",
+    description: "@AcmeSupportBot",
+    icon: MessageCircle,
+    status: "online",
+    meta: "Bot API · webhook",
+  },
+  {
+    id: "webchat",
+    name: "Web Chat",
+    description: "widget on acme.com",
+    icon: Globe,
+    status: "online",
+    meta: "3 pages · v2.4.1",
+  },
+  {
+    id: "slack",
+    name: "Slack",
+    description: "acme-workspace",
+    icon: Slack,
+    status: "error",
+    meta: "Reauth required",
+  },
 ];
 
 const INITIAL_AVAILABLE: Channel[] = [
-  { id: "wa", name: "WhatsApp Business", description: "Cloud API", icon: MessageCircle, status: "offline", meta: "Not connected" },
-  { id: "intercom", name: "Intercom import", description: "One-way sync", icon: Globe, status: "offline", meta: "Not connected" },
+  {
+    id: "wa",
+    name: "WhatsApp Business",
+    description: "Cloud API",
+    icon: MessageCircle,
+    status: "offline",
+    meta: "Not connected",
+  },
+  {
+    id: "intercom",
+    name: "Intercom import",
+    description: "One-way sync",
+    icon: Globe,
+    status: "offline",
+    meta: "Not connected",
+  },
 ];
 
 export default function Integrations() {
@@ -60,7 +88,9 @@ export default function Integrations() {
   };
 
   const reauth = (c: Channel) => {
-    setConnected((prev) => prev.map((x) => (x.id === c.id ? { ...x, status: "online", meta: "Reauthorized" } : x)));
+    setConnected((prev) =>
+      prev.map((x) => (x.id === c.id ? { ...x, status: "online", meta: "Reauthorized" } : x)),
+    );
     toast({ title: `${c.name} reauthorized`, tone: "success" });
   };
 
@@ -70,7 +100,9 @@ export default function Integrations() {
         <header className="flex items-center justify-between border-b border-border px-8 py-6">
           <div>
             <h1 className="font-sans text-lg font-semibold">Channels</h1>
-            <p className="mt-1 text-sm text-muted-foreground">Connect the places customers reach out from.</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Connect the places customers reach out from.
+            </p>
           </div>
           <button
             onClick={() => setAddOpen(true)}
@@ -105,7 +137,10 @@ export default function Integrations() {
               <li className="py-6 text-xs text-muted-foreground">All channels connected.</li>
             )}
             {available.map((c) => (
-              <li key={c.id} className="group flex items-center gap-4 border-b border-border py-3.5 hover:bg-surface">
+              <li
+                key={c.id}
+                className="group flex items-center gap-4 border-b border-border py-3.5 hover:bg-surface"
+              >
                 <div className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-surface">
                   <c.icon className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
                 </div>
@@ -140,7 +175,9 @@ export default function Integrations() {
         }
       >
         {available.length === 0 ? (
-          <p className="text-xs text-muted-foreground">All available channels are already connected.</p>
+          <p className="text-xs text-muted-foreground">
+            All available channels are already connected.
+          </p>
         ) : (
           <ul className="space-y-1">
             {available.map((c) => (
@@ -189,8 +226,8 @@ function ChannelRow({
     channel.status === "online"
       ? "bg-[var(--success)]"
       : channel.status === "error"
-      ? "bg-[var(--error)]"
-      : "bg-muted-foreground";
+        ? "bg-[var(--error)]"
+        : "bg-muted-foreground";
   const statusText =
     channel.status === "online" ? "Online" : channel.status === "error" ? "Error" : "Offline";
 
@@ -209,7 +246,9 @@ function ChannelRow({
         </div>
         <div className="mt-0.5 text-xs text-muted-foreground">{channel.description}</div>
       </div>
-      <div className="hidden font-mono text-[11px] text-muted-foreground md:block">{channel.meta}</div>
+      <div className="hidden font-mono text-[11px] text-muted-foreground md:block">
+        {channel.meta}
+      </div>
 
       {channel.status === "error" && (
         <button

@@ -38,9 +38,7 @@ export function Modal({
         <div className="flex items-start justify-between border-b border-border px-5 py-4">
           <div>
             <h2 className="font-sans text-sm font-semibold">{title}</h2>
-            {description && (
-              <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>
-            )}
+            {description && <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>}
           </div>
           <button
             onClick={onClose}

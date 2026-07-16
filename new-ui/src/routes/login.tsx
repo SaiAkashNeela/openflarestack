@@ -1,35 +1,22 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
 
-export const Route = createFileRoute("/login")({
-  head: () => ({
-    meta: [
-      { title: "Sign in — FlareDesk" },
-      {
-        name: "description",
-        content: "Sign in to your FlareDesk workspace to manage customer conversations.",
-      },
-    ],
-  }),
-  component: LoginPage,
-});
-
-function LoginPage() {
+export default function LoginPage() {
   const [showPw, setShowPw] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   return (
     <AuthShell
-      title="Sign in to FlareDesk"
+      title="Sign in to openflarestack"
       subtitle="Welcome back. Enter your details to continue."
     >
       <form
         onSubmit={(e) => {
           e.preventDefault();
           toast({ title: "Welcome back", tone: "success" });
-          navigate({ to: "/" });
+          navigate("/");
         }}
         className="space-y-4"
       >
@@ -100,7 +87,7 @@ function LoginPage() {
           type="button"
           onClick={() => {
             toast({ title: "Signed in with Google", tone: "success" });
-            navigate({ to: "/" });
+            navigate("/");
           }}
           className="w-full rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-surface-hover"
         >
@@ -109,7 +96,7 @@ function LoginPage() {
       </form>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
-        New to FlareDesk?{" "}
+        New to openflarestack?{" "}
         <Link to="/signup" className="text-primary hover:underline">
           Create an account
         </Link>
@@ -133,9 +120,9 @@ export function AuthShell({
       <aside className="hidden w-1/2 flex-col justify-between border-r border-border bg-surface p-12 lg:flex">
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-6 w-6 items-center justify-center rounded-sm bg-primary">
-            <span className="text-[11px] font-bold text-primary-foreground">F</span>
+            <span className="text-[11px] font-bold text-primary-foreground">O</span>
           </div>
-          <span className="font-sans text-sm font-semibold tracking-tight">FlareDesk</span>
+          <span className="font-sans text-sm font-semibold tracking-tight">openflarestack</span>
         </Link>
 
         <div className="max-w-md">
@@ -146,9 +133,8 @@ export function AuthShell({
             One control room for every customer conversation.
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            FlareDesk unifies email, Telegram, and web chat into a fast,
-            keyboard-driven inbox built for support teams. Self-host it, fork it,
-            make it yours.
+            openflarestack unifies email, Telegram, and web chat into a fast, keyboard-driven inbox
+            built for support teams. Self-host it, fork it, make it yours.
           </p>
         </div>
 
@@ -161,8 +147,12 @@ export function AuthShell({
           >
             GitHub
           </a>
-          <a href="#" className="hover:text-foreground">Docs</a>
-          <a href="#" className="hover:text-foreground">Community</a>
+          <a href="#" className="hover:text-foreground">
+            Docs
+          </a>
+          <a href="#" className="hover:text-foreground">
+            Community
+          </a>
         </div>
       </aside>
 
@@ -171,9 +161,9 @@ export function AuthShell({
         <div className="w-full max-w-sm">
           <Link to="/" className="mb-8 inline-flex items-center gap-2 lg:hidden">
             <div className="flex h-6 w-6 items-center justify-center rounded-sm bg-primary">
-              <span className="text-[11px] font-bold text-primary-foreground">F</span>
+              <span className="text-[11px] font-bold text-primary-foreground">O</span>
             </div>
-            <span className="font-sans text-sm font-semibold tracking-tight">FlareDesk</span>
+            <span className="font-sans text-sm font-semibold tracking-tight">openflarestack</span>
           </Link>
 
           <h1 className="font-sans text-2xl font-semibold tracking-tight">{title}</h1>

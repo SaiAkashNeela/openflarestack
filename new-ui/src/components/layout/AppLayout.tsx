@@ -1,4 +1,4 @@
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { ReactNode } from "react";
 import {
   Inbox,
@@ -35,7 +35,7 @@ const NAV: NavItem[] = [
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { resolved, toggle } = useTheme();
@@ -46,9 +46,9 @@ export function AppLayout({ children }: { children: ReactNode }) {
         <div className="flex h-14 items-center justify-between gap-2 border-b border-border px-4">
           <div className="flex items-center gap-2">
             <div className="flex h-6 w-6 items-center justify-center rounded-sm bg-primary">
-              <span className="text-[11px] font-bold text-primary-foreground">F</span>
+              <span className="text-[11px] font-bold text-primary-foreground">O</span>
             </div>
-            <span className="font-sans text-sm font-semibold tracking-tight">FlareDesk</span>
+            <span className="font-sans text-sm font-semibold tracking-tight">openflarestack</span>
           </div>
           <button
             onClick={toggle}
@@ -80,8 +80,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
             Workspace
           </div>
           {NAV.map((item) => {
-            const active =
-              item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+            const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
             const Icon = item.icon;
             return (
               <Link
@@ -96,9 +95,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 <Icon className="h-4 w-4" strokeWidth={1.75} />
                 <span className="flex-1">{item.label}</span>
                 {item.count !== undefined && (
-                  <span className="font-mono text-[11px] text-muted-foreground">
-                    {item.count}
-                  </span>
+                  <span className="font-mono text-[11px] text-muted-foreground">{item.count}</span>
                 )}
               </Link>
             );
@@ -121,9 +118,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-xs font-medium">Jane Doe</div>
-                  <div className="truncate text-[11px] text-muted-foreground">
-                    Acme Support
-                  </div>
+                  <div className="truncate text-[11px] text-muted-foreground">Acme Support</div>
                 </div>
                 <ChevronsUpDown className="h-3.5 w-3.5 text-muted-foreground" />
               </button>
@@ -137,7 +132,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                   icon={<User className="h-3.5 w-3.5" />}
                   onClick={() => {
                     close();
-                    navigate({ to: "/profile" });
+                    navigate("/profile");
                   }}
                 >
                   Profile
@@ -146,7 +141,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                   icon={<Settings className="h-3.5 w-3.5" />}
                   onClick={() => {
                     close();
-                    navigate({ to: "/settings" });
+                    navigate("/settings");
                   }}
                 >
                   Settings
@@ -160,7 +155,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                   onClick={() => {
                     close();
                     toast({ title: "Signed out", tone: "success" });
-                    navigate({ to: "/login" });
+                    navigate("/login");
                   }}
                 >
                   Sign out

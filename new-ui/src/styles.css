@@ -45,7 +45,7 @@
 :root {
   --radius: 0.5rem;
 
-  /* Light mode — FlareDesk */
+  /* Light mode — openflarestack */
   --background: #ffffff;
   --foreground: #1f2937;
   --surface: #f9fafb;
@@ -137,22 +137,38 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-sans);
     letter-spacing: -0.01em;
   }
 
-  .font-mono, code, kbd, pre, samp {
+  .font-mono,
+  code,
+  kbd,
+  pre,
+  samp {
     font-family: var(--font-mono);
     font-feature-settings: "zero", "ss01";
   }
 }
 
-@keyframes fd-pulse-dot {
-  0%, 100% { opacity: 0.4; transform: scale(0.85); }
-  50% { opacity: 1; transform: scale(1); }
+@keyframes ofs-pulse-dot {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.fd-typing-dot {
-  animation: fd-pulse-dot 1.2s ease-in-out infinite;
+.ofs-typing-dot {
+  animation: ofs-pulse-dot 1.2s ease-in-out infinite;
 }

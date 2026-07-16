@@ -1,34 +1,21 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, User, Building2 } from "lucide-react";
 import { AuthShell, Field } from "./login";
 import { useToast } from "@/components/ui/Toast";
 
-export const Route = createFileRoute("/signup")({
-  head: () => ({
-    meta: [
-      { title: "Create your workspace — FlareDesk" },
-      {
-        name: "description",
-        content: "Start a new FlareDesk workspace and connect your first support channel in minutes.",
-      },
-    ],
-  }),
-  component: SignupPage,
-});
-
-function SignupPage() {
+export default function SignupPage() {
   const navigate = useNavigate();
   const { toast } = useToast();
   return (
     <AuthShell
       title="Create your workspace"
-      subtitle="Set up FlareDesk for your team in under two minutes."
+      subtitle="Set up openflarestack for your team in under two minutes."
     >
       <form
         onSubmit={(e) => {
           e.preventDefault();
           toast({ title: "Workspace created", tone: "success" });
-          navigate({ to: "/welcome" });
+          navigate("/welcome");
         }}
         className="space-y-4"
       >
@@ -86,7 +73,7 @@ function SignupPage() {
           type="button"
           onClick={() => {
             toast({ title: "Signed up with Google", tone: "success" });
-            navigate({ to: "/welcome" });
+            navigate("/welcome");
           }}
           className="w-full rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-surface-hover"
         >

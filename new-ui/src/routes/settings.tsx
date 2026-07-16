@@ -1,23 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useToast } from "@/components/ui/Toast";
 import { useTheme } from "@/lib/theme";
 
-export const Route = createFileRoute("/settings")({
-  head: () => ({
-    meta: [
-      { title: "Settings — FlareDesk" },
-      { name: "description", content: "Workspace preferences, notifications, and appearance." },
-    ],
-  }),
-  component: SettingsPage,
-});
-
 const TABS = ["General", "Notifications", "Appearance", "Security"] as const;
 type Tab = (typeof TABS)[number];
 
-function SettingsPage() {
+export default function SettingsPage() {
   const [tab, setTab] = useState<Tab>("General");
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
@@ -180,7 +169,9 @@ function SettingsPage() {
                   </div>
                   <button
                     type="button"
-                    onClick={() => toast({ title: "Signed out of other sessions", tone: "success" })}
+                    onClick={() =>
+                      toast({ title: "Signed out of other sessions", tone: "success" })
+                    }
                     className="rounded-md border border-border px-2.5 py-1 text-xs hover:bg-surface-hover"
                   >
                     Sign out others

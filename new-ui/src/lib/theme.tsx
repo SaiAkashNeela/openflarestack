@@ -17,7 +17,7 @@ const ThemeCtx = createContext<Ctx>({
   toggle: () => {},
 });
 
-const STORAGE_KEY = "flaredesk-theme";
+const STORAGE_KEY = "openflarestack-theme";
 
 function systemPref(): Resolved {
   if (typeof window === "undefined") return "light";
@@ -37,9 +37,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   // Load stored theme on mount
   useEffect(() => {
-    const stored = (typeof localStorage !== "undefined"
-      ? (localStorage.getItem(STORAGE_KEY) as Theme | null)
-      : null) ?? "system";
+    const stored =
+      (typeof localStorage !== "undefined"
+        ? (localStorage.getItem(STORAGE_KEY) as Theme | null)
+        : null) ?? "system";
     setThemeState(stored);
   }, []);
 
@@ -81,9 +82,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const toggle = () => setTheme(resolved === "dark" ? "light" : "dark");
 
   return (
-    <ThemeCtx.Provider value={{ theme, resolved, setTheme, toggle }}>
-      {children}
-    </ThemeCtx.Provider>
+    <ThemeCtx.Provider value={{ theme, resolved, setTheme, toggle }}>{children}</ThemeCtx.Provider>
   );
 }
 

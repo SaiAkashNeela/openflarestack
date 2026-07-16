@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Menu, MenuItem, MenuLabel, MenuDivider } from "@/components/ui/Menu";
@@ -16,20 +15,6 @@ import {
   Trash2,
   MailOpen,
 } from "lucide-react";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Inbox — FlareDesk" },
-      {
-        name: "description",
-        content:
-          "All customer conversations from email, Telegram, and web chat in one unified inbox.",
-      },
-    ],
-  }),
-  component: InboxPage,
-});
 
 type Channel = "email" | "telegram" | "chat";
 type Status = "open" | "waiting" | "closed";
@@ -49,13 +34,79 @@ type Conversation = {
 };
 
 const INITIAL: Conversation[] = [
-  { id: "1", name: "Sarah Chen", initials: "SC", subject: "Refund for invoice #4821", preview: "Thanks! Just confirming the refund window before we…", time: "2h ago", unread: true, channel: "email", status: "waiting", assignee: "Jane Doe" },
-  { id: "2", name: "Marcus Weiss", initials: "MW", subject: "API key rotation not working", preview: "I tried rotating the key from the dashboard but the old one still…", time: "3h ago", unread: true, channel: "telegram", status: "open" },
-  { id: "3", name: "Priya Anand", initials: "PA", subject: "Onboarding call follow-up", preview: "Really appreciated the walkthrough. Two quick questions on…", time: "5h ago", channel: "email", status: "open" },
-  { id: "4", name: "Diego Alvarez", initials: "DA", subject: "Webhook signature mismatch", preview: "Getting 401 on every webhook since we deployed the new secret.", time: "Yesterday", channel: "chat", status: "open" },
-  { id: "5", name: "Emma Larsen", initials: "EL", subject: "Team seat upgrade", preview: "We'd like to add three seats before end of quarter — is there…", time: "Yesterday", channel: "email", status: "closed" },
-  { id: "6", name: "Kenji Tanaka", initials: "KT", subject: "Slack integration questions", preview: "Does the Slack app support routing by channel? We have separate…", time: "2d ago", channel: "telegram", status: "open" },
-  { id: "7", name: "Amelia Rossi", initials: "AR", subject: "Feature request: SLA timers", preview: "Loving the product. Would pay for per-team SLA timers with alerts.", time: "3d ago", channel: "email", status: "open" },
+  {
+    id: "1",
+    name: "Sarah Chen",
+    initials: "SC",
+    subject: "Refund for invoice #4821",
+    preview: "Thanks! Just confirming the refund window before we…",
+    time: "2h ago",
+    unread: true,
+    channel: "email",
+    status: "waiting",
+    assignee: "Jane Doe",
+  },
+  {
+    id: "2",
+    name: "Marcus Weiss",
+    initials: "MW",
+    subject: "API key rotation not working",
+    preview: "I tried rotating the key from the dashboard but the old one still…",
+    time: "3h ago",
+    unread: true,
+    channel: "telegram",
+    status: "open",
+  },
+  {
+    id: "3",
+    name: "Priya Anand",
+    initials: "PA",
+    subject: "Onboarding call follow-up",
+    preview: "Really appreciated the walkthrough. Two quick questions on…",
+    time: "5h ago",
+    channel: "email",
+    status: "open",
+  },
+  {
+    id: "4",
+    name: "Diego Alvarez",
+    initials: "DA",
+    subject: "Webhook signature mismatch",
+    preview: "Getting 401 on every webhook since we deployed the new secret.",
+    time: "Yesterday",
+    channel: "chat",
+    status: "open",
+  },
+  {
+    id: "5",
+    name: "Emma Larsen",
+    initials: "EL",
+    subject: "Team seat upgrade",
+    preview: "We'd like to add three seats before end of quarter — is there…",
+    time: "Yesterday",
+    channel: "email",
+    status: "closed",
+  },
+  {
+    id: "6",
+    name: "Kenji Tanaka",
+    initials: "KT",
+    subject: "Slack integration questions",
+    preview: "Does the Slack app support routing by channel? We have separate…",
+    time: "2d ago",
+    channel: "telegram",
+    status: "open",
+  },
+  {
+    id: "7",
+    name: "Amelia Rossi",
+    initials: "AR",
+    subject: "Feature request: SLA timers",
+    preview: "Loving the product. Would pay for per-team SLA timers with alerts.",
+    time: "3d ago",
+    channel: "email",
+    status: "open",
+  },
 ];
 
 const TEAMMATES = ["Jane Doe", "Marcus Weiss", "Priya Anand", "Diego Alvarez", "Emma Larsen"];
@@ -68,7 +119,7 @@ const FILTERS: { key: FilterKey; label: string }[] = [
   { key: "closed", label: "Closed" },
 ];
 
-function InboxPage() {
+export default function InboxPage() {
   const { toast } = useToast();
   const [items, setItems] = useState<Conversation[]>(INITIAL);
   const [selectedId, setSelectedId] = useState("1");
@@ -78,8 +129,7 @@ function InboxPage() {
     () => (filter === "all" ? items : items.filter((c) => c.status === filter)),
     [items, filter],
   );
-  const selected =
-    items.find((c) => c.id === selectedId) ?? visible[0] ?? items[0];
+  const selected = items.find((c) => c.id === selectedId) ?? visible[0] ?? items[0];
 
   const openCount = items.filter((c) => c.status === "open").length;
   const waitingCount = items.filter((c) => c.status === "waiting").length;
@@ -118,7 +168,13 @@ function InboxPage() {
                   {FILTERS.map((f) => (
                     <MenuItem
                       key={f.key}
-                      icon={filter === f.key ? <Check className="h-3.5 w-3.5" /> : <span className="h-3.5 w-3.5" />}
+                      icon={
+                        filter === f.key ? (
+                          <Check className="h-3.5 w-3.5" />
+                        ) : (
+                          <span className="h-3.5 w-3.5" />
+                        )
+                      }
                       onClick={() => {
                         setFilter(f.key);
                         close();
@@ -162,7 +218,9 @@ function InboxPage() {
                       <div className="flex items-baseline justify-between gap-2">
                         <span
                           className={`truncate text-sm ${
-                            c.unread ? "font-semibold text-foreground" : "font-medium text-foreground"
+                            c.unread
+                              ? "font-semibold text-foreground"
+                              : "font-medium text-foreground"
                           }`}
                         >
                           {c.name}
@@ -172,7 +230,9 @@ function InboxPage() {
                         </span>
                       </div>
                       <div className="mt-0.5 flex items-center gap-1 truncate text-xs text-foreground/80">
-                        {c.starred && <Star className="h-3 w-3 shrink-0 fill-[var(--warning)] text-[var(--warning)]" />}
+                        {c.starred && (
+                          <Star className="h-3 w-3 shrink-0 fill-[var(--warning)] text-[var(--warning)]" />
+                        )}
                         <span className="truncate">{c.subject}</span>
                       </div>
                       <div className="mt-0.5 truncate text-xs text-muted-foreground">
@@ -233,7 +293,11 @@ function InboxPage() {
               <Composer
                 to={selected.name}
                 onSend={(msg) => {
-                  toast({ title: `Reply sent to ${selected.name}`, description: msg.slice(0, 60), tone: "success" });
+                  toast({
+                    title: `Reply sent to ${selected.name}`,
+                    description: msg.slice(0, 60),
+                    tone: "success",
+                  });
                   update(selected.id, { status: "open", preview: msg });
                 }}
                 onSaveDraft={() => toast({ title: "Draft saved" })}
@@ -404,10 +468,7 @@ function ThreadHeader({
               >
                 Mark as unread
               </MenuItem>
-              <MenuItem
-                icon={<Archive className="h-3.5 w-3.5" />}
-                onClick={close}
-              >
+              <MenuItem icon={<Archive className="h-3.5 w-3.5" />} onClick={close}>
                 Archive
               </MenuItem>
               <MenuDivider />
@@ -439,10 +500,34 @@ type Msg = {
 
 function ThreadBody({ customer, initials }: { customer: string; initials: string }) {
   const msgs: Msg[] = [
-    { author: customer, initials, role: "customer", time: "10:14", body: "Hey team — we processed a refund for invoice #4821 but the customer still shows an open balance in our dashboard. Can you check on your side?" },
-    { author: "Automation", initials: "AU", role: "automation", time: "10:14", body: "Ticket assigned to Jane Doe. Priority set to High based on keyword 'refund'." },
-    { author: "Jane Doe", initials: "JD", role: "agent", time: "10:22", body: "Thanks for flagging Sarah — looking into it now. Can you confirm the last four of the card the refund was issued to?" },
-    { author: customer, initials, role: "customer", time: "10:41", body: "Sure, last four is 4429. The customer said they got a confirmation email but nothing on their statement yet." },
+    {
+      author: customer,
+      initials,
+      role: "customer",
+      time: "10:14",
+      body: "Hey team — we processed a refund for invoice #4821 but the customer still shows an open balance in our dashboard. Can you check on your side?",
+    },
+    {
+      author: "Automation",
+      initials: "AU",
+      role: "automation",
+      time: "10:14",
+      body: "Ticket assigned to Jane Doe. Priority set to High based on keyword 'refund'.",
+    },
+    {
+      author: "Jane Doe",
+      initials: "JD",
+      role: "agent",
+      time: "10:22",
+      body: "Thanks for flagging Sarah — looking into it now. Can you confirm the last four of the card the refund was issued to?",
+    },
+    {
+      author: customer,
+      initials,
+      role: "customer",
+      time: "10:41",
+      body: "Sure, last four is 4429. The customer said they got a confirmation email but nothing on their statement yet.",
+    },
   ];
 
   return (
@@ -459,9 +544,17 @@ function ThreadBody({ customer, initials }: { customer: string; initials: string
 
 function MessageGroup({ msg }: { msg: Msg }) {
   const borderColor =
-    msg.role === "agent" ? "border-primary" : msg.role === "automation" ? "border-[var(--success)]" : "border-border-strong";
+    msg.role === "agent"
+      ? "border-primary"
+      : msg.role === "automation"
+        ? "border-[var(--success)]"
+        : "border-border-strong";
   const bg =
-    msg.role === "agent" ? "bg-primary/[0.04]" : msg.role === "automation" ? "bg-[var(--success)]/[0.05]" : "bg-transparent";
+    msg.role === "agent"
+      ? "bg-primary/[0.04]"
+      : msg.role === "automation"
+        ? "bg-[var(--success)]/[0.05]"
+        : "bg-transparent";
 
   return (
     <div className={`flex gap-3 border-l-[3px] ${borderColor} ${bg} pl-4 pr-2 py-2`}>
@@ -472,10 +565,14 @@ function MessageGroup({ msg }: { msg: Msg }) {
         <div className="flex items-baseline gap-2">
           <span className="text-xs font-medium text-foreground">{msg.author}</span>
           {msg.role === "agent" && (
-            <span className="font-mono text-[10px] uppercase tracking-wider text-primary">Agent</span>
+            <span className="font-mono text-[10px] uppercase tracking-wider text-primary">
+              Agent
+            </span>
           )}
           {msg.role === "automation" && (
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--success)]">Auto</span>
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--success)]">
+              Auto
+            </span>
           )}
           <span className="ml-auto font-mono text-[11px] text-muted-foreground">{msg.time}</span>
         </div>
@@ -492,7 +589,7 @@ function TypingIndicator({ name }: { name: string }) {
         {name[0]}
       </div>
       <span>{name} is typing</span>
-      <span className="fd-typing-dot inline-block h-1.5 w-1.5 rounded-full bg-primary" />
+      <span className="ofs-typing-dot inline-block h-1.5 w-1.5 rounded-full bg-primary" />
     </div>
   );
 }
