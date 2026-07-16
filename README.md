@@ -21,6 +21,9 @@ npm install
 npm run dev
 ```
 
+The UI talks to the local worker through a Vite proxy on `/api`, so the worker
+needs to be running on `http://127.0.0.1:8787` while you use the frontend.
+
 ## Deploy
 
 ```bash
