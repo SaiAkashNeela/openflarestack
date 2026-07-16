@@ -10,12 +10,6 @@ export function createAuth(env: Env) {
     baseURL: env.BETTER_AUTH_URL,
     trustedOrigins: [env.FRONTEND_URL, 'http://localhost:5173'],
     emailAndPassword: { enabled: true },
-    socialProviders: {
-      google: {
-        clientId: env.GOOGLE_CLIENT_ID,
-        clientSecret: env.GOOGLE_CLIENT_SECRET,
-      },
-    },
     plugins: [
       organization({
         allowUserToCreateOrganization: true,

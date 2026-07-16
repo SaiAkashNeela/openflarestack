@@ -1,4 +1,6 @@
+import { useEffect, useMemo, useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { api } from "@/lib/api";
 
 type Stat = {
   label: string;
@@ -8,91 +10,165 @@ type Stat = {
   positive?: boolean;
 };
 
-const STATS: Stat[] = [
+type WorkerStats = {
+  open: number;
+  resolved: number;
+  today: number;
+};
+
+type TeamMember = {
+  id: string;
+  name: string;
+  email: string;
+  role: "Admin" | "Agent" | "Viewer";
+  created_at: number | null;
+};
+
+const BASE_STATS: Stat[] = [
   {
     label: "Open conversations",
-    value: "42",
-    delta: "+6 vs. last week",
+    value: "0",
+    delta: "Live from the worker",
     trend: [12, 18, 15, 22, 28, 34, 42],
     positive: false,
   },
   {
-    label: "Avg. response time",
-    value: "14 min",
-    delta: "−3 min vs. last week",
+    label: "Resolved conversations",
+    value: "0",
+    delta: "Closed conversations",
     trend: [22, 20, 19, 18, 17, 15, 14],
     positive: true,
   },
   {
-    label: "Team members online",
-    value: "8",
-    delta: "of 12 total",
-    trend: [5, 6, 6, 7, 8, 8, 8],
-  },
-  {
-    label: "Messages today",
-    value: "234",
-    delta: "+18% vs. yesterday",
+    label: "Conversations today",
+    value: "0",
+    delta: "Created in the workspace today",
     trend: [140, 160, 155, 180, 200, 220, 234],
     positive: true,
   },
   {
-    label: "First response SLA",
-    value: "96%",
-    delta: "goal: 95%",
-    trend: [92, 93, 94, 95, 96, 95, 96],
+    label: "Team members",
+    value: "0",
+    delta: "Synced from /api/v1/teams",
+    trend: [5, 6, 6, 7, 8, 8, 8],
+  },
+  {
+    label: "Admins",
+    value: "0",
+    delta: "Role distribution",
+    trend: [2, 2, 2, 3, 3, 3, 3],
     positive: true,
   },
   {
-    label: "Customer satisfaction",
-    value: "4.7",
-    delta: "of 5.0 · 128 ratings",
-    trend: [4.4, 4.5, 4.5, 4.6, 4.6, 4.7, 4.7],
+    label: "Agents",
+    value: "0",
+    delta: "Role distribution",
+    trend: [5, 6, 6, 6, 7, 7, 7],
     positive: true,
   },
 ];
 
 export default function Dashboard() {
+  const [stats, setStats] = useState<WorkerStats>({ open: 0, resolved: 0, today: 0 });
+  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const [statsRes, teamRes] = await Promise.all([
+          api.get<WorkerStats>("/api/v1/conversations/stats"),
+          api.get<{ members: TeamMember[] }>("/api/v1/teams"),
+        ]);
+
+        if (cancelled) return;
+        setStats(statsRes);
+        setMembers(teamRes.members ?? []);
+      } catch {
+        if (!cancelled) {
+          setStats({ open: 0, resolved: 0, today: 0 });
+          setMembers([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const roleCounts = useMemo(
+    () =>
+      members.reduce(
+        (acc, member) => {
+          acc[member.role.toLowerCase() as keyof typeof acc] += 1;
+          return acc;
+        },
+        { admin: 0, agent: 0, viewer: 0 },
+      ),
+    [members],
+  );
+
+  const cards = [
+    { ...BASE_STATS[0], value: String(stats.open) },
+    { ...BASE_STATS[1], value: String(stats.resolved) },
+    { ...BASE_STATS[2], value: String(stats.today) },
+    { ...BASE_STATS[3], value: String(members.length) },
+    { ...BASE_STATS[4], value: String(roleCounts.admin) },
+    { ...BASE_STATS[5], value: String(roleCounts.agent) },
+  ];
+
   return (
     <AppLayout>
       <div className="flex-1 overflow-y-auto">
         <header className="border-b border-border px-8 py-6">
           <h1 className="font-sans text-lg font-semibold">Dashboard</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Last 7 days · updated <span className="font-mono">2 min ago</span>
+            Last 7 days · {loading ? "syncing worker data" : "updated from the worker"}
           </p>
         </header>
 
         <div className="grid grid-cols-1 gap-px bg-border md:grid-cols-2">
-          {STATS.map((s) => (
+          {cards.map((s) => (
             <StatCard key={s.label} stat={s} />
           ))}
         </div>
 
         <section className="border-t border-border px-8 py-8">
-          <h2 className="font-sans text-sm font-semibold">Team activity</h2>
-          <p className="mt-1 text-xs text-muted-foreground">Replies sent per agent today</p>
-          <div className="mt-6 space-y-3">
-            {[
-              { name: "Jane Doe", replies: 48, share: 100 },
-              { name: "Marcus Weiss", replies: 41, share: 85 },
-              { name: "Priya Anand", replies: 33, share: 68 },
-              { name: "Diego Alvarez", replies: 27, share: 56 },
-              { name: "Emma Larsen", replies: 19, share: 39 },
-            ].map((a) => (
-              <div key={a.name} className="flex items-center gap-4">
-                <div className="w-32 shrink-0 text-xs text-foreground">{a.name}</div>
-                <div className="relative h-1.5 flex-1 bg-surface-hover">
-                  <div
-                    className="absolute inset-y-0 left-0 bg-primary"
-                    style={{ width: `${a.share}%` }}
-                  />
-                </div>
-                <div className="w-10 shrink-0 text-right font-mono text-xs text-muted-foreground">
-                  {a.replies}
-                </div>
+          <h2 className="font-sans text-sm font-semibold">Team roster</h2>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Members synced from <span className="font-mono">/api/v1/teams</span>
+          </p>
+          <div className="mt-6 divide-y divide-border">
+            {members.length === 0 ? (
+              <div className="py-8 text-xs text-muted-foreground">
+                No teammates were returned by the worker.
               </div>
-            ))}
+            ) : (
+              members.slice(0, 6).map((member) => (
+                <div key={member.id} className="flex items-center justify-between py-3">
+                  <div>
+                    <div className="text-sm font-medium">{member.name}</div>
+                    <div className="font-mono text-[11px] text-muted-foreground">
+                      {member.email}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-mono text-[10px] uppercase tracking-wider text-foreground">
+                      {member.role}
+                    </div>
+                    <div className="font-mono text-[11px] text-muted-foreground">
+                      {formatJoined(member.created_at)}
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </section>
       </div>
@@ -159,4 +235,14 @@ function Sparkline({ data, positive }: { data: number[]; positive?: boolean }) {
       />
     </svg>
   );
+}
+
+function formatJoined(value: number | null) {
+  if (!value) return "Joined recently";
+  const ts = value > 10_000_000_000 ? value : value * 1000;
+  const diff = Date.now() - ts;
+  const days = Math.max(1, Math.round(diff / 86_400_000));
+  if (days < 30) return `Joined ${days}d ago`;
+  const months = Math.round(days / 30);
+  return `Joined ${months}mo ago`;
 }

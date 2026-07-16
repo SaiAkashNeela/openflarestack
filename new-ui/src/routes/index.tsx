@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Menu, MenuItem, MenuLabel, MenuDivider } from "@/components/ui/Menu";
 import { useToast } from "@/components/ui/Toast";
+import { api } from "@/lib/api";
 import {
   MoreHorizontal,
   Paperclip,
@@ -109,7 +110,26 @@ const INITIAL: Conversation[] = [
   },
 ];
 
-const TEAMMATES = ["Jane Doe", "Marcus Weiss", "Priya Anand", "Diego Alvarez", "Emma Larsen"];
+const TEAMMATES_FALLBACK = [
+  "Jane Doe",
+  "Marcus Weiss",
+  "Priya Anand",
+  "Diego Alvarez",
+  "Emma Larsen",
+];
+
+type ApiConversation = {
+  id: string;
+  subject: string | null;
+  channel: string | null;
+  status: string;
+  customer_name: string;
+  customer_email: string | null;
+  assigned_to_name: string | null;
+  last_message_at: number | null;
+  updated_at: number | null;
+  created_at: number | null;
+};
 
 type FilterKey = "all" | Status;
 const FILTERS: { key: FilterKey; label: string }[] = [
@@ -122,8 +142,49 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 export default function InboxPage() {
   const { toast } = useToast();
   const [items, setItems] = useState<Conversation[]>(INITIAL);
-  const [selectedId, setSelectedId] = useState("1");
+  const [selectedId, setSelectedId] = useState("");
   const [filter, setFilter] = useState<FilterKey>("all");
+  const [teammates, setTeammates] = useState<string[]>(TEAMMATES_FALLBACK);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const [{ conversations }, { members }] = await Promise.all([
+          api.get<{ conversations: ApiConversation[] }>(
+            "/api/v1/conversations?status=all&limit=50",
+          ),
+          api.get<{ members: { name: string }[] }>("/api/v1/teams"),
+        ]);
+
+        if (cancelled) return;
+        const mapped = conversations.map(mapConversation);
+        setItems(mapped.length ? mapped : []);
+        setSelectedId(mapped[0]?.id ?? "");
+        setTeammates(
+          members
+            .map((member) => member.name)
+            .filter(Boolean)
+            .slice(0, 10) || TEAMMATES_FALLBACK,
+        );
+      } catch {
+        if (!cancelled) {
+          toast({ title: "Using local sample inbox until the worker is reachable." });
+          setItems(INITIAL);
+          setSelectedId(INITIAL[0]?.id ?? "");
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [toast]);
 
   const visible = useMemo(
     () => (filter === "all" ? items : items.filter((c) => c.status === filter)),
@@ -136,6 +197,17 @@ export default function InboxPage() {
 
   const update = (id: string, patch: Partial<Conversation>) =>
     setItems((prev) => prev.map((c) => (c.id === id ? { ...c, ...patch } : c)));
+
+  const syncConversation = async (
+    id: string,
+    patch: { status?: Status; assigned_to?: string | null },
+  ) => {
+    await api.patch(`/api/v1/conversations/${id}`, patch);
+    update(id, {
+      ...(patch.status ? { status: patch.status } : {}),
+      ...(patch.assigned_to !== undefined ? { assignee: patch.assigned_to ?? undefined } : {}),
+    });
+  };
 
   return (
     <AppLayout>
@@ -189,6 +261,11 @@ export default function InboxPage() {
           </div>
 
           <ul className="flex-1 overflow-y-auto">
+            {loading && (
+              <li className="px-6 py-10 text-center text-xs text-muted-foreground">
+                Loading conversations from the worker...
+              </li>
+            )}
             {visible.length === 0 && (
               <li className="px-6 py-10 text-center text-xs text-muted-foreground">
                 No conversations match this filter.
@@ -260,17 +337,18 @@ export default function InboxPage() {
             <>
               <ThreadHeader
                 conv={selected}
-                onAssign={(name) => {
-                  update(selected.id, { assignee: name });
+                teammates={teammates}
+                onAssign={async (name) => {
+                  await syncConversation(selected.id, { assigned_to: name });
                   toast({ title: `Assigned to ${name}`, tone: "success" });
                 }}
-                onSnooze={(label) => {
-                  update(selected.id, { status: "waiting" });
+                onSnooze={async (label) => {
+                  await syncConversation(selected.id, { status: "waiting" });
                   toast({ title: `Snoozed · ${label}` });
                 }}
-                onToggleClose={() => {
+                onToggleClose={async () => {
                   const next: Status = selected.status === "closed" ? "open" : "closed";
-                  update(selected.id, { status: next });
+                  await syncConversation(selected.id, { status: next });
                   toast({
                     title: next === "closed" ? "Conversation closed" : "Reopened",
                     tone: "success",
@@ -292,7 +370,8 @@ export default function InboxPage() {
               <ThreadBody customer={selected.name} initials={selected.initials} />
               <Composer
                 to={selected.name}
-                onSend={(msg) => {
+                onSend={async (msg) => {
+                  await api.post(`/api/v1/messages/${selected.id}`, { content: msg });
                   toast({
                     title: `Reply sent to ${selected.name}`,
                     description: msg.slice(0, 60),
@@ -339,6 +418,7 @@ function StatusBadge({ status }: { status: Status }) {
 
 function ThreadHeader({
   conv,
+  teammates,
   onAssign,
   onSnooze,
   onToggleClose,
@@ -347,6 +427,7 @@ function ThreadHeader({
   onDelete,
 }: {
   conv: Conversation;
+  teammates: string[];
   onAssign: (name: string) => void;
   onSnooze: (label: string) => void;
   onToggleClose: () => void;
@@ -384,7 +465,7 @@ function ThreadHeader({
           {(close) => (
             <div>
               <MenuLabel>Assign to</MenuLabel>
-              {TEAMMATES.map((m) => (
+              {teammates.map((m) => (
                 <MenuItem
                   key={m}
                   icon={<UserPlus className="h-3.5 w-3.5" />}
@@ -488,6 +569,50 @@ function ThreadHeader({
       </div>
     </div>
   );
+}
+
+function mapConversation(conv: ApiConversation): Conversation {
+  const name = conv.customer_name || conv.customer_email || "Customer";
+  const initials = name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+  const status: Status =
+    conv.status === "waiting" || conv.status === "closed" || conv.status === "resolved"
+      ? "closed"
+      : "open";
+  const time = formatConversationTime(conv.last_message_at ?? conv.updated_at ?? conv.created_at);
+
+  return {
+    id: conv.id,
+    name,
+    initials,
+    subject: conv.subject ?? "Conversation",
+    preview: conv.subject ?? conv.channel ?? "New message",
+    time,
+    channel: normalizeChannel(conv.channel),
+    status,
+    assignee: conv.assigned_to_name ?? undefined,
+    unread: status !== "closed",
+  };
+}
+
+function normalizeChannel(channel: string | null): Channel {
+  if (channel === "telegram" || channel === "chat" || channel === "email") return channel;
+  return "chat";
+}
+
+function formatConversationTime(value: number | null) {
+  if (!value) return "now";
+  const ts = value > 10_000_000_000 ? value : value * 1000;
+  const diff = Date.now() - ts;
+  const mins = Math.max(1, Math.round(diff / 60_000));
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.round(hours / 24)}d ago`;
 }
 
 type Msg = {

@@ -1,31 +1,51 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, type FormEvent, type InputHTMLAttributes, type ReactNode } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
+  const [keepSignedIn, setKeepSignedIn] = useState(true);
+  const [pending, setPending] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPending(true);
+    const { error } = await authClient.signIn.email({
+      email,
+      password,
+      rememberMe: keepSignedIn,
+    });
+    setPending(false);
+
+    if (error) {
+      toast({ title: error.message ?? "Sign in failed", tone: "error" });
+      return;
+    }
+
+    toast({ title: "Welcome back", tone: "success" });
+    navigate("/", { replace: true });
+  };
+
   return (
     <AuthShell
       title="Sign in to openflarestack"
       subtitle="Welcome back. Enter your details to continue."
     >
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          toast({ title: "Welcome back", tone: "success" });
-          navigate("/");
-        }}
-        className="space-y-4"
-      >
+      <form onSubmit={submit} className="space-y-4">
         <Field
           label="Work email"
           icon={<Mail className="h-3.5 w-3.5" />}
           type="email"
           placeholder="you@company.com"
           autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <div>
@@ -46,6 +66,8 @@ export default function LoginPage() {
               placeholder="••••••••"
               autoComplete="current-password"
               className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"
@@ -61,15 +83,18 @@ export default function LoginPage() {
           <input
             type="checkbox"
             className="h-3.5 w-3.5 rounded border-border accent-[var(--primary)]"
+            checked={keepSignedIn}
+            onChange={(e) => setKeepSignedIn(e.target.checked)}
           />
           Keep me signed in on this device
         </label>
 
         <button
           type="submit"
+          disabled={pending}
           className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-[var(--primary-hover)]"
         >
-          Sign in
+          {pending ? "Signing in..." : "Sign in"}
         </button>
 
         <div className="relative py-1">
@@ -82,17 +107,6 @@ export default function LoginPage() {
             </span>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => {
-            toast({ title: "Signed in with Google", tone: "success" });
-            navigate("/");
-          }}
-          className="w-full rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-surface-hover"
-        >
-          Continue with Google
-        </button>
       </form>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
@@ -112,7 +126,7 @@ export function AuthShell({
 }: {
   title: string;
   subtitle: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <div className="flex min-h-screen bg-background">
@@ -180,9 +194,9 @@ export function Field({
   label,
   icon,
   ...props
-}: React.InputHTMLAttributes<HTMLInputElement> & {
+}: InputHTMLAttributes<HTMLInputElement> & {
   label: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 }) {
   return (
     <div>

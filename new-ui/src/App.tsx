@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import DashboardPage from "./routes/dashboard";
 import InboxPage from "./routes";
@@ -10,50 +10,51 @@ import SettingsPage from "./routes/settings";
 import SignupPage from "./routes/signup";
 import TeamPage from "./routes/team";
 import WelcomePage from "./routes/welcome";
+import { authClient } from "@/lib/auth-client";
 
 const PAGE_META: Record<string, { title: string; description: string }> = {
   "/": {
-    title: "Inbox — openflarestack",
+    title: "Inbox - openflarestack",
     description:
       "All customer conversations from email, Telegram, and web chat in one unified inbox.",
   },
   "/dashboard": {
-    title: "Dashboard — openflarestack",
+    title: "Dashboard - openflarestack",
     description: "Key support metrics: open conversations, response time, team throughput.",
   },
   "/integrations": {
-    title: "Channels — openflarestack",
+    title: "Channels - openflarestack",
     description:
       "Connect email, Telegram, web chat, and Slack to route conversations into openflarestack.",
   },
   "/team": {
-    title: "Team — openflarestack",
+    title: "Team - openflarestack",
     description: "Manage teammates, roles, and permissions across your openflarestack workspace.",
   },
   "/welcome": {
-    title: "Welcome — openflarestack",
+    title: "Welcome - openflarestack",
     description:
       "Connect your first channel to start managing customer conversations in openflarestack.",
   },
   "/login": {
-    title: "Sign in — openflarestack",
+    title: "Sign in - openflarestack",
     description: "Sign in to your openflarestack workspace to manage customer conversations.",
   },
   "/signup": {
-    title: "Create your workspace — openflarestack",
+    title: "Create your workspace - openflarestack",
     description:
       "Start a new openflarestack workspace and connect your first support channel in minutes.",
   },
   "/profile": {
-    title: "Profile — openflarestack",
+    title: "Profile - openflarestack",
     description: "Manage your openflarestack profile and personal preferences.",
   },
   "/settings": {
-    title: "Settings — openflarestack",
+    title: "Settings - openflarestack",
     description: "Workspace preferences, notifications, and appearance.",
   },
   "*": {
-    title: "Not found — openflarestack",
+    title: "Not found - openflarestack",
     description: "The page you tried to open does not exist in openflarestack.",
   },
 };
@@ -77,20 +78,96 @@ function MetaSync() {
   return null;
 }
 
+function LoadingScreen() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4 text-sm text-muted-foreground">
+      Loading openflarestack...
+    </div>
+  );
+}
+
+function RequireAuth({
+  children,
+  allowUnassigned = false,
+}: {
+  children: React.ReactNode;
+  allowUnassigned?: boolean;
+}) {
+  const { data: session, isPending } = authClient.useSession();
+  const location = useLocation();
+
+  if (isPending) return <LoadingScreen />;
+  if (!session) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  if (!allowUnassigned && !session.session?.activeOrganizationId) {
+    return <Navigate to="/welcome" replace />;
+  }
+
+  return <>{children}</>;
+}
+
 export default function App() {
   return (
     <>
       <MetaSync />
       <Routes>
-        <Route path="/" element={<InboxPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/integrations" element={<IntegrationsPage />} />
-        <Route path="/team" element={<TeamPage />} />
-        <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route
+          path="/welcome"
+          element={
+            <RequireAuth allowUnassigned>
+              <WelcomePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <InboxPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <DashboardPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/integrations"
+          element={
+            <RequireAuth>
+              <IntegrationsPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/team"
+          element={
+            <RequireAuth>
+              <TeamPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth>
+              <ProfilePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <RequireAuth>
+              <SettingsPage />
+            </RequireAuth>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>

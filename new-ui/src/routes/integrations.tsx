@@ -1,98 +1,150 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { Menu, MenuItem, MenuDivider } from "@/components/ui/Menu";
 import { Modal } from "@/components/ui/Modal";
 import { useToast } from "@/components/ui/Toast";
-import { Mail, MessageCircle, Globe, Slack, Settings, Plus, RotateCw, Trash2 } from "lucide-react";
+import { api } from "@/lib/api";
+import { Mail, MessageCircle, Globe, Slack, Plus, RotateCw, Trash2 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { Menu, MenuDivider, MenuItem } from "@/components/ui/Menu";
 
 type Status = "online" | "offline" | "error";
-type Channel = {
-  id: string;
+
+type Template = {
+  type: string;
   name: string;
   description: string;
-  icon: typeof Mail;
-  status: Status;
+  icon: LucideIcon;
   meta: string;
 };
 
-const INITIAL_CONNECTED: Channel[] = [
+type WorkerIntegration = {
+  id: string;
+  type: string;
+  name: string;
+  enabled: number | boolean;
+  created_at: number | null;
+};
+
+type Channel = Template & {
+  id: string;
+  status: Status;
+};
+
+const CATALOG: Template[] = [
   {
-    id: "email",
+    type: "email",
     name: "Email",
     description: "support@acme.com",
     icon: Mail,
-    status: "online",
-    meta: "IMAP · 2 mailboxes",
+    meta: "IMAP · inbox routing",
   },
   {
-    id: "telegram",
+    type: "telegram",
     name: "Telegram",
     description: "@AcmeSupportBot",
     icon: MessageCircle,
-    status: "online",
     meta: "Bot API · webhook",
   },
   {
-    id: "webchat",
+    type: "webchat",
     name: "Web Chat",
     description: "widget on acme.com",
     icon: Globe,
-    status: "online",
-    meta: "3 pages · v2.4.1",
+    meta: "Widget · snippet install",
   },
   {
-    id: "slack",
+    type: "slack",
     name: "Slack",
     description: "acme-workspace",
     icon: Slack,
-    status: "error",
-    meta: "Reauth required",
+    meta: "Workspace app · routing",
   },
-];
-
-const INITIAL_AVAILABLE: Channel[] = [
   {
-    id: "wa",
+    type: "whatsapp",
     name: "WhatsApp Business",
     description: "Cloud API",
     icon: MessageCircle,
-    status: "offline",
-    meta: "Not connected",
+    meta: "Cloud API · phone number",
   },
   {
-    id: "intercom",
+    type: "intercom",
     name: "Intercom import",
     description: "One-way sync",
     icon: Globe,
-    status: "offline",
-    meta: "Not connected",
+    meta: "Import · read only",
   },
 ];
 
 export default function Integrations() {
   const { toast } = useToast();
-  const [connected, setConnected] = useState(INITIAL_CONNECTED);
-  const [available, setAvailable] = useState(INITIAL_AVAILABLE);
+  const [connected, setConnected] = useState<Channel[]>([]);
+  const [available, setAvailable] = useState<Template[]>(CATALOG);
   const [addOpen, setAddOpen] = useState(false);
 
-  const connect = (c: Channel) => {
-    setAvailable((prev) => prev.filter((x) => x.id !== c.id));
-    setConnected((prev) => [...prev, { ...c, status: "online", meta: "Just connected" }]);
-    toast({ title: `${c.name} connected`, tone: "success" });
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const { integrations } = await api.get<{ integrations: WorkerIntegration[] }>(
+          "/api/v1/integrations",
+        );
+        if (cancelled) return;
+        const mapped = integrations.map(mapIntegration);
+        setConnected(mapped);
+        setAvailable(
+          CATALOG.filter((item) => !mapped.some((integration) => integration.type === item.type)),
+        );
+      } catch {
+        if (!cancelled) {
+          toast({ title: "Worker integrations are unavailable right now." });
+        }
+      }
+    }
+
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [toast]);
+
+  const connectedCount = connected.length;
+  const availableCount = available.length;
+
+  const connect = async (template: Template) => {
+    const { integration } = await api.post<{ integration: WorkerIntegration }>(
+      "/api/v1/integrations",
+      {
+        type: template.type,
+        name: template.name,
+        config: {},
+      },
+    );
+    const mapped = mapIntegration(
+      integration ?? { ...template, id: crypto.randomUUID(), enabled: true, created_at: null },
+    );
+    setConnected((prev) => [...prev, mapped]);
+    setAvailable((prev) => prev.filter((item) => item.type !== template.type));
+    toast({ title: `${template.name} connected`, tone: "success" });
   };
 
-  const disconnect = (c: Channel) => {
+  const disconnect = async (c: Channel) => {
+    await api.del(`/api/v1/integrations/${c.id}`);
     setConnected((prev) => prev.filter((x) => x.id !== c.id));
-    setAvailable((prev) => [...prev, { ...c, status: "offline", meta: "Not connected" }]);
+    setAvailable((prev) => [...prev, stripChannel(c)]);
     toast({ title: `${c.name} disconnected`, tone: "error" });
   };
 
   const reauth = (c: Channel) => {
     setConnected((prev) =>
-      prev.map((x) => (x.id === c.id ? { ...x, status: "online", meta: "Reauthorized" } : x)),
+      prev.map((x) =>
+        x.id === c.id ? { ...x, status: "online", meta: "Reauthorized locally" } : x,
+      ),
     );
     toast({ title: `${c.name} reauthorized`, tone: "success" });
   };
+
+  const availableModal = useMemo(() => available, [available]);
 
   return (
     <AppLayout>
@@ -101,7 +153,7 @@ export default function Integrations() {
           <div>
             <h1 className="font-sans text-lg font-semibold">Channels</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Connect the places customers reach out from.
+              {connectedCount} connected · {availableCount} available
             </p>
           </div>
           <button
@@ -138,7 +190,7 @@ export default function Integrations() {
             )}
             {available.map((c) => (
               <li
-                key={c.id}
+                key={c.type}
                 className="group flex items-center gap-4 border-b border-border py-3.5 hover:bg-surface"
               >
                 <div className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-surface">
@@ -149,7 +201,10 @@ export default function Integrations() {
                   <div className="text-xs text-muted-foreground">{c.description}</div>
                 </div>
                 <button
-                  onClick={() => connect(c)}
+                  onClick={() => {
+                    void connect(c);
+                    if (available.length === 1) setAddOpen(false);
+                  }}
                   className="rounded-md border border-border px-2.5 py-1 text-xs hover:bg-surface-hover"
                 >
                   Connect
@@ -174,15 +229,15 @@ export default function Integrations() {
           </button>
         }
       >
-        {available.length === 0 ? (
+        {availableModal.length === 0 ? (
           <p className="text-xs text-muted-foreground">
             All available channels are already connected.
           </p>
         ) : (
           <ul className="space-y-1">
-            {available.map((c) => (
+            {availableModal.map((c) => (
               <li
-                key={c.id}
+                key={c.type}
                 className="flex items-center gap-3 rounded-md border border-border p-2.5 hover:bg-surface-hover"
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-md bg-surface">
@@ -194,7 +249,7 @@ export default function Integrations() {
                 </div>
                 <button
                   onClick={() => {
-                    connect(c);
+                    void connect(c);
                     if (available.length === 1) setAddOpen(false);
                   }}
                   className="rounded-md bg-primary px-2.5 py-1 text-xs font-medium text-primary-foreground hover:bg-[var(--primary-hover)]"
@@ -264,31 +319,22 @@ function ChannelRow({
         trigger={({ toggle }) => (
           <button
             onClick={toggle}
-            className="rounded-md p-1.5 text-muted-foreground opacity-0 transition-opacity hover:bg-surface-hover hover:text-foreground group-hover:opacity-100"
+            className="rounded-md p-1.5 text-muted-foreground hover:bg-surface-hover hover:text-foreground"
           >
-            <Settings className="h-4 w-4" strokeWidth={1.75} />
+            <RotateCw className="h-4 w-4" />
           </button>
         )}
       >
         {(close) => (
           <div>
             <MenuItem
-              icon={<Settings className="h-3.5 w-3.5" />}
+              icon={<RotateCw className="h-3.5 w-3.5" />}
               onClick={() => {
                 onConfigure();
                 close();
               }}
             >
               Configure
-            </MenuItem>
-            <MenuItem
-              icon={<RotateCw className="h-3.5 w-3.5" />}
-              onClick={() => {
-                onReauth();
-                close();
-              }}
-            >
-              Reauthorize
             </MenuItem>
             <MenuDivider />
             <MenuItem
@@ -306,4 +352,44 @@ function ChannelRow({
       </Menu>
     </li>
   );
+}
+
+function mapIntegration(integration: WorkerIntegration): Channel {
+  const template = CATALOG.find((item) => item.type === integration.type) ?? {
+    type: integration.type,
+    name: integration.name,
+    description: integration.name,
+    icon: Globe,
+    meta: "Connected",
+  };
+
+  return {
+    id: integration.id,
+    type: template.type,
+    name: integration.name || template.name,
+    description: template.description,
+    icon: template.icon,
+    meta: integration.enabled ? `Connected · ${formatDate(integration.created_at)}` : "Disabled",
+    status: integration.enabled ? "online" : "offline",
+  };
+}
+
+function stripChannel(channel: Channel): Template {
+  return {
+    type: channel.type,
+    name: channel.name,
+    description: channel.description,
+    icon: channel.icon,
+    meta: channel.meta,
+  };
+}
+
+function formatDate(value: number | null) {
+  if (!value) return "recently";
+  const ts = value > 10_000_000_000 ? value : value * 1000;
+  const diff = Date.now() - ts;
+  const days = Math.max(1, Math.round(diff / 86_400_000));
+  if (days < 30) return `${days}d ago`;
+  const months = Math.round(days / 30);
+  return `${months}mo ago`;
 }

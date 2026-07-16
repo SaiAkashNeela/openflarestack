@@ -1,29 +1,75 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState, type FormEvent } from "react";
 import { Mail, Lock, User, Building2 } from "lucide-react";
 import { AuthShell, Field } from "./login";
 import { useToast } from "@/components/ui/Toast";
+import { authClient } from "@/lib/auth-client";
 
 export default function SignupPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [workspace, setWorkspace] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
+  const [pending, setPending] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPending(true);
+    const { error: signUpError } = await authClient.signUp.email({
+      name,
+      email,
+      password,
+    });
+
+    if (signUpError) {
+      setPending(false);
+      toast({ title: signUpError.message ?? "Sign up failed", tone: "error" });
+      return;
+    }
+
+    const slug =
+      workspace
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "") || "workspace";
+
+    const { data: org, error: orgError } = await authClient.organization.create({
+      name: workspace || "Workspace",
+      slug,
+    });
+
+    if (orgError) {
+      setPending(false);
+      toast({ title: orgError.message ?? "Workspace setup failed", tone: "error" });
+      return;
+    }
+
+    if (org?.id) {
+      await authClient.organization.setActive({ organizationId: org.id });
+    }
+
+    setPending(false);
+    toast({ title: "Workspace created", tone: "success" });
+    navigate("/welcome", { replace: true });
+  };
+
   return (
     <AuthShell
       title="Create your workspace"
       subtitle="Set up openflarestack for your team in under two minutes."
     >
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          toast({ title: "Workspace created", tone: "success" });
-          navigate("/welcome");
-        }}
-        className="space-y-4"
-      >
+      <form onSubmit={submit} className="space-y-4">
         <Field
           label="Full name"
           icon={<User className="h-3.5 w-3.5" />}
           placeholder="Jane Doe"
           autoComplete="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <Field
           label="Work email"
@@ -31,19 +77,37 @@ export default function SignupPage() {
           type="email"
           placeholder="you@company.com"
           autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Field
           label="Workspace name"
           icon={<Building2 className="h-3.5 w-3.5" />}
           placeholder="Acme Support"
+          value={workspace}
+          onChange={(e) => setWorkspace(e.target.value)}
         />
-        <Field
-          label="Password"
-          icon={<Lock className="h-3.5 w-3.5" />}
-          type="password"
-          placeholder="At least 8 characters"
-          autoComplete="new-password"
-        />
+        <div>
+          <label className="mb-1.5 block text-xs font-medium text-foreground">Password</label>
+          <div className="flex items-center gap-2 rounded-md border border-border bg-background px-2.5 py-2 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+            <Lock className="h-3.5 w-3.5 text-muted-foreground" />
+            <input
+              type={showPw ? "text" : "password"}
+              placeholder="At least 8 characters"
+              autoComplete="new-password"
+              className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPw((v) => !v)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              {showPw ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
 
         <p className="font-mono text-[11px] leading-relaxed text-muted-foreground">
           By creating an account you agree to the{" "}
@@ -53,9 +117,10 @@ export default function SignupPage() {
 
         <button
           type="submit"
+          disabled={pending}
           className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-[var(--primary-hover)]"
         >
-          Create workspace
+          {pending ? "Creating..." : "Create workspace"}
         </button>
 
         <div className="relative py-1">
@@ -68,17 +133,6 @@ export default function SignupPage() {
             </span>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => {
-            toast({ title: "Signed up with Google", tone: "success" });
-            navigate("/welcome");
-          }}
-          className="w-full rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-surface-hover"
-        >
-          Continue with Google
-        </button>
       </form>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">

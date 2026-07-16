@@ -18,6 +18,7 @@ import {
 import { Menu, MenuItem, MenuDivider, MenuLabel } from "@/components/ui/Menu";
 import { useToast } from "@/components/ui/Toast";
 import { useTheme } from "@/lib/theme";
+import { authClient } from "@/lib/auth-client";
 
 type NavItem = {
   to: string;
@@ -39,6 +40,10 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { resolved, toggle } = useTheme();
+  const { data: session } = authClient.useSession();
+  const { data: activeOrg } = authClient.useActiveOrganization();
+  const user = session?.user;
+  const orgName = activeOrg?.name ?? "Workspace";
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
@@ -114,11 +119,16 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 }`}
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-hover text-xs font-medium">
-                  JD
+                  {(user?.name ?? "O")
+                    .split(" ")
+                    .map((part) => part[0])
+                    .join("")
+                    .slice(0, 2)
+                    .toUpperCase()}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="truncate text-xs font-medium">Jane Doe</div>
-                  <div className="truncate text-[11px] text-muted-foreground">Acme Support</div>
+                  <div className="truncate text-xs font-medium">{user?.name ?? "Signed in"}</div>
+                  <div className="truncate text-[11px] text-muted-foreground">{orgName}</div>
                 </div>
                 <ChevronsUpDown className="h-3.5 w-3.5 text-muted-foreground" />
               </button>
@@ -127,7 +137,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
           >
             {(close) => (
               <div>
-                <MenuLabel>jane@acme.com</MenuLabel>
+                <MenuLabel>{user?.email ?? "Account"}</MenuLabel>
                 <MenuItem
                   icon={<User className="h-3.5 w-3.5" />}
                   onClick={() => {
@@ -152,10 +162,14 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 <MenuItem
                   icon={<LogOut className="h-3.5 w-3.5" />}
                   destructive
-                  onClick={() => {
+                  onClick={async () => {
                     close();
+                    await authClient.signOut({
+                      fetchOptions: {
+                        onSuccess: () => navigate("/login"),
+                      },
+                    });
                     toast({ title: "Signed out", tone: "success" });
-                    navigate("/login");
                   }}
                 >
                   Sign out
@@ -163,21 +177,6 @@ export function AppLayout({ children }: { children: ReactNode }) {
               </div>
             )}
           </Menu>
-
-          <div className="mt-3 flex items-center gap-2 border-t border-border pt-3">
-            <Link
-              to="/login"
-              className="flex-1 rounded-md border border-border px-2 py-1 text-center text-[11px] font-medium hover:bg-surface-hover"
-            >
-              Sign in
-            </Link>
-            <Link
-              to="/signup"
-              className="flex-1 rounded-md bg-primary px-2 py-1 text-center text-[11px] font-medium text-primary-foreground hover:bg-[var(--primary-hover)]"
-            >
-              Sign up
-            </Link>
-          </div>
         </div>
       </aside>
 

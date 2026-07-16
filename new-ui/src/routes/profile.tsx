@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useToast } from "@/components/ui/Toast";
+import { authClient } from "@/lib/auth-client";
 import { Camera } from "lucide-react";
 
 export default function ProfilePage() {
   const { toast } = useToast();
+  const { data: session } = authClient.useSession();
   const [name, setName] = useState("Jane Doe");
   const [email, setEmail] = useState("jane@acme.com");
   const [title, setTitle] = useState("Support Lead");
   const [bio, setBio] = useState("Ships fast, replies faster.");
+
+  useEffect(() => {
+    if (!session?.user) return;
+    setName(session.user.name ?? "Jane Doe");
+    setEmail(session.user.email ?? "jane@acme.com");
+  }, [session]);
 
   return (
     <AppLayout>

@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Menu, MenuItem, MenuLabel, MenuDivider } from "@/components/ui/Menu";
 import { Modal } from "@/components/ui/Modal";
 import { useToast } from "@/components/ui/Toast";
+import { api } from "@/lib/api";
 import { Search, Plus, ChevronDown, X, Check, MoreHorizontal, Mail } from "lucide-react";
 
 type Role = "Admin" | "Agent" | "Viewer";
@@ -12,61 +13,20 @@ type Member = {
   initials: string;
   email: string;
   role: Role;
-  status: "online" | "offline";
+  joinedAt: number | null;
 };
 
-const INITIAL: Member[] = [
-  {
-    id: "1",
-    name: "Jane Doe",
-    initials: "JD",
-    email: "jane@acme.com",
-    role: "Admin",
-    status: "online",
-  },
-  {
-    id: "2",
-    name: "Marcus Weiss",
-    initials: "MW",
-    email: "marcus@acme.com",
-    role: "Agent",
-    status: "online",
-  },
-  {
-    id: "3",
-    name: "Priya Anand",
-    initials: "PA",
-    email: "priya@acme.com",
-    role: "Agent",
-    status: "online",
-  },
-  {
-    id: "4",
-    name: "Diego Alvarez",
-    initials: "DA",
-    email: "diego@acme.com",
-    role: "Agent",
-    status: "offline",
-  },
-  {
-    id: "5",
-    name: "Emma Larsen",
-    initials: "EL",
-    email: "emma@acme.com",
-    role: "Agent",
-    status: "online",
-  },
-  {
-    id: "6",
-    name: "Kenji Tanaka",
-    initials: "KT",
-    email: "kenji@acme.com",
-    role: "Viewer",
-    status: "offline",
-  },
-];
+const INITIAL: Member[] = [];
 
 const ROLES: Role[] = ["Admin", "Agent", "Viewer"];
+
+type WorkerMember = {
+  id: string;
+  name: string;
+  email: string;
+  role: Role | string;
+  created_at: number | null;
+};
 
 export default function Team() {
   const { toast } = useToast();
@@ -76,6 +36,28 @@ export default function Team() {
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState<Role>("Agent");
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const { members: rows } = await api.get<{ members: WorkerMember[] }>("/api/v1/teams");
+        if (cancelled) return;
+        setMembers(rows.map(mapMember));
+      } catch {
+        if (!cancelled) {
+          setMembers([]);
+          toast({ title: "Worker team data is unavailable right now." });
+        }
+      }
+    }
+
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [toast]);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return members;
@@ -84,7 +66,17 @@ export default function Team() {
     );
   }, [members, query]);
 
-  const online = members.filter((m) => m.status === "online").length;
+  const roleCounts = useMemo(
+    () =>
+      members.reduce(
+        (acc, member) => {
+          acc[member.role.toLowerCase() as keyof typeof acc] += 1;
+          return acc;
+        },
+        { admin: 0, agent: 0, viewer: 0 },
+      ),
+    [members],
+  );
 
   const changeRole = (id: string, role: Role) => {
     setMembers((prev) => prev.map((m) => (m.id === id ? { ...m, role } : m)));
@@ -111,9 +103,9 @@ export default function Team() {
       .toUpperCase();
     setMembers((prev) => [
       ...prev,
-      { id: crypto.randomUUID(), name, initials, email, role: inviteRole, status: "offline" },
+      { id: crypto.randomUUID(), name, initials, email, role: inviteRole, joinedAt: null },
     ]);
-    toast({ title: `Invite sent to ${email}`, tone: "success" });
+    toast({ title: `Invite prepared for ${email}`, tone: "success" });
     setInviteEmail("");
     setInviteRole("Agent");
     setInviteOpen(false);
@@ -126,7 +118,7 @@ export default function Team() {
           <div>
             <h1 className="font-sans text-lg font-semibold">Team</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              {members.length} members · {online} online
+              {members.length} members · {roleCounts.admin} admins
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -162,7 +154,7 @@ export default function Team() {
             <div>Member</div>
             <div>Email</div>
             <div>Role</div>
-            <div />
+            <div>Joined</div>
           </div>
 
           {filtered.length === 0 && (
@@ -177,15 +169,8 @@ export default function Team() {
               className="group grid grid-cols-[minmax(0,2fr)_minmax(0,2fr)_minmax(0,1fr)_auto] items-center gap-4 border-b border-border py-3 hover:bg-surface"
             >
               <div className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-hover text-[11px] font-medium">
-                    {m.initials}
-                  </div>
-                  <span
-                    className={`absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-background ${
-                      m.status === "online" ? "bg-[var(--success)]" : "bg-muted-foreground"
-                    }`}
-                  />
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-hover text-[11px] font-medium">
+                  {m.initials}
                 </div>
                 <div className="text-sm font-medium">{m.name}</div>
               </div>
@@ -228,6 +213,9 @@ export default function Team() {
                   )}
                 </Menu>
               </div>
+              <div className="font-mono text-[11px] text-muted-foreground">
+                {formatJoined(m.joinedAt)}
+              </div>
               <Menu
                 align="right"
                 trigger={({ toggle }) => (
@@ -244,7 +232,7 @@ export default function Team() {
                     <MenuItem
                       icon={<Mail className="h-3.5 w-3.5" />}
                       onClick={() => {
-                        toast({ title: `Message sent to ${m.name.split(" ")[0]}` });
+                        toast({ title: `Message drafted for ${m.name.split(" ")[0]}` });
                         close();
                       }}
                     >
@@ -337,4 +325,38 @@ export default function Team() {
       </Modal>
     </AppLayout>
   );
+}
+
+function mapMember(member: WorkerMember): Member {
+  const name = member.name || member.email || "Teammate";
+  const initials = name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  return {
+    id: member.id,
+    name,
+    initials,
+    email: member.email,
+    role: normalizeRole(member.role),
+    joinedAt: member.created_at,
+  };
+}
+
+function normalizeRole(role: string): Role {
+  if (role === "Admin" || role === "Viewer") return role;
+  return "Agent";
+}
+
+function formatJoined(value: number | null) {
+  if (!value) return "Recently";
+  const ts = value > 10_000_000_000 ? value : value * 1000;
+  const diff = Date.now() - ts;
+  const days = Math.max(1, Math.round(diff / 86_400_000));
+  if (days < 30) return `${days}d ago`;
+  const months = Math.round(days / 30);
+  return `${months}mo ago`;
 }
