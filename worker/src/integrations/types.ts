@@ -4,6 +4,7 @@ export interface IncomingMessage {
   customerName: string
   customerEmail?: string
   customerPhone?: string
+  metadata?: Record<string, unknown>
   subject?: string
   text: string
   channel: string

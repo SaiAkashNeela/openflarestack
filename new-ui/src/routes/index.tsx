@@ -980,15 +980,22 @@ function CustomerPanel({
               </p>
               <div className="mt-3 space-y-3 text-xs">
                 {metadata ? (
-                  <DetailRow
-                    label="Metadata"
-                    value={
-                      <pre className="max-h-32 overflow-y-auto whitespace-pre-wrap rounded-md bg-surface p-2 text-[11px] text-foreground">
-                        {metadata}
-                      </pre>
-                    }
-                    alignTop
-                  />
+                  metadata.length > 0 ? (
+                    <div className="space-y-2">
+                      {metadata.map((entry) => (
+                        <div key={entry.key} className="rounded-xl border border-border px-3 py-2">
+                          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                            {humanizeMetadataKey(entry.key)}
+                          </div>
+                          <div className="mt-1 whitespace-pre-wrap break-words text-xs text-foreground">
+                            {entry.value}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-muted-foreground">No customer metadata provided.</div>
+                  )
                 ) : (
                   <div className="text-muted-foreground">No customer metadata provided.</div>
                 )}
@@ -1058,14 +1065,40 @@ function DetailRow({
   );
 }
 
-function parseMetadata(value: string | null) {
+type MetadataEntry = {
+  key: string;
+  value: string;
+};
+
+function parseMetadata(value: string | null): MetadataEntry[] | null {
   if (!value) return null;
   try {
     const parsed = JSON.parse(value);
-    return JSON.stringify(parsed, null, 2);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return [{ key: "value", value: formatMetadataValue(parsed) }];
+    }
+    return Object.entries(parsed as Record<string, unknown>).map(([key, item]) => ({
+      key,
+      value: formatMetadataValue(item),
+    }));
   } catch {
-    return value;
+    return [{ key: "value", value }];
   }
+}
+
+function formatMetadataValue(value: unknown) {
+  if (value === null || value === undefined) return "n/a";
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  try {
+    return JSON.stringify(value, null, 2);
+  } catch {
+    return String(value);
+  }
+}
+
+function humanizeMetadataKey(value: string) {
+  return value.replace(/[_-]+/g, " ").replace(/\b\w/g, (match) => match.toUpperCase());
 }
 
 function Composer({

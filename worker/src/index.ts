@@ -10,6 +10,7 @@ import messagesRoute from './routes/messages'
 import customersRoute from './routes/customers'
 import teamsRoute from './routes/teams'
 import integrationsRoute from './routes/integrations'
+import { extractMetadataFields } from './lib/customer-metadata'
 import { queueConsumer } from './queues/consumer'
 import { parseTelegramUpdate } from './integrations/telegram'
 import type { IncomingMessage } from './integrations/types'
@@ -32,7 +33,7 @@ type BaseSession = NonNullable<Awaited<ReturnType<Auth['api']['getSession']>>>['
 // Extend base session with org plugin field so tenantMiddleware can access it
 type SessionObj = (BaseSession & { activeOrganizationId?: string | null }) | null
 
-type WebhookPayload = {
+type WebhookPayload = Record<string, unknown> & {
   externalCustomerId?: string
   customerId?: string
   customerEmail?: string
@@ -169,6 +170,24 @@ function parseGenericWebhook(body: WebhookPayload | Record<string, string>): Inc
 
   if (!externalCustomerId) return null
 
+  const metadata = extractMetadataFields(body, [
+    'externalCustomerId',
+    'customerId',
+    'customerEmail',
+    'email',
+    'customerPhone',
+    'phone',
+    'customerName',
+    'name',
+    'externalId',
+    'ticketId',
+    'subject',
+    'title',
+    'text',
+    'body',
+    'channel',
+  ])
+
   return {
     externalId: body.externalId ?? body.ticketId ?? externalCustomerId,
     externalCustomerId,
@@ -176,6 +195,7 @@ function parseGenericWebhook(body: WebhookPayload | Record<string, string>): Inc
       body.customerName ?? body.name ?? body.customerEmail ?? body.email ?? 'Unknown customer',
     customerEmail: body.customerEmail ?? body.email,
     customerPhone: body.customerPhone ?? body.phone,
+    metadata,
     subject: body.subject ?? body.title,
     text,
     channel: body.channel ?? 'webhook',

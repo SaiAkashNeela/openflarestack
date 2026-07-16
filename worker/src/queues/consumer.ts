@@ -2,6 +2,7 @@ import type { Env } from '../index'
 import type { InboundJob, OutboundJob } from '../integrations/types'
 import { sendTelegramMessage } from '../integrations/telegram'
 import { nanoid } from '../lib/id'
+import { mergeMetadata } from '../lib/customer-metadata'
 
 type QueueJob = InboundJob | OutboundJob
 
@@ -25,27 +26,43 @@ async function processJob(job: QueueJob, env: Env) {
 async function handleInbound(job: Extract<QueueJob, { type: 'inbound' }>, env: Env) {
   const { organizationId, integrationId, incoming } = job
 
-  // Upsert customer
-  const customerId = nanoid()
-  await env.DB.prepare(`
-    INSERT INTO customers (id, organization_id, name, external_id, email, phone)
-    VALUES (?, ?, ?, ?, ?, ?)
-    ON CONFLICT(organization_id, external_id) DO UPDATE SET
-      name = excluded.name,
-      email = COALESCE(customers.email, excluded.email),
-      phone = COALESCE(customers.phone, excluded.phone),
-      updated_at = unixepoch()
-  `).bind(
-    customerId,
-    organizationId,
-    incoming.customerName,
-    incoming.externalCustomerId,
-    incoming.customerEmail ?? null,
-    incoming.customerPhone ?? null,
-  ).run()
+  const existingCustomer = await env.DB.prepare(
+    'SELECT id, metadata FROM customers WHERE organization_id = ? AND external_id = ?',
+  ).bind(organizationId, incoming.externalCustomerId).first<{ id: string; metadata: string | null }>()
+
+  const customerId = existingCustomer?.id ?? nanoid()
+  const metadata = mergeMetadata(existingCustomer?.metadata, incoming.metadata)
+
+  if (existingCustomer) {
+    await env.DB.prepare(`
+      UPDATE customers
+      SET name = ?, email = COALESCE(?, email), phone = COALESCE(?, phone), metadata = ?, updated_at = unixepoch()
+      WHERE id = ? AND organization_id = ?
+    `).bind(
+      incoming.customerName,
+      incoming.customerEmail ?? null,
+      incoming.customerPhone ?? null,
+      JSON.stringify(metadata),
+      customerId,
+      organizationId,
+    ).run()
+  } else {
+    await env.DB.prepare(`
+      INSERT INTO customers (id, organization_id, name, external_id, email, phone, metadata)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).bind(
+      customerId,
+      organizationId,
+      incoming.customerName,
+      incoming.externalCustomerId,
+      incoming.customerEmail ?? null,
+      incoming.customerPhone ?? null,
+      JSON.stringify(metadata),
+    ).run()
+  }
 
   const customer = await env.DB.prepare(
-    'SELECT id FROM customers WHERE organization_id = ? AND external_id = ?'
+    'SELECT id FROM customers WHERE organization_id = ? AND external_id = ?',
   ).bind(organizationId, incoming.externalCustomerId).first<{ id: string }>()
   if (!customer) throw new Error('Customer upsert failed')
 
