@@ -2,6 +2,19 @@ import { betterAuth } from 'better-auth'
 import { organization, bearer } from 'better-auth/plugins'
 import type { Env } from './index'
 import { getTrustedFrontendOrigins } from './lib/frontend-origin'
+import { prismaAdapter } from 'better-auth/adapters/prisma'
+import { PrismaClient } from './generated/prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
+
+let prismaInstance: PrismaClient | null = null
+
+function getPrisma(pool: any) {
+  if (!prismaInstance) {
+    const adapter = new PrismaPg(pool)
+    prismaInstance = new PrismaClient({ adapter })
+  }
+  return prismaInstance
+}
 
 // ponytail: factory pattern needed because the DB binding comes from request env
 export function createAuth(env: Env) {
@@ -17,7 +30,9 @@ export function createAuth(env: Env) {
       : undefined
 
   return betterAuth({
-    database: env.DB.pool,
+    database: prismaAdapter(getPrisma(env.DB.pool), {
+      provider: 'postgresql',
+    }),
     secret: env.BETTER_AUTH_SECRET,
     baseURL: env.BETTER_AUTH_URL,
     trustedOrigins: [
@@ -45,3 +60,4 @@ export function createAuth(env: Env) {
     ],
   })
 }
+

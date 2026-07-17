@@ -1,6 +1,7 @@
 import { readFile, readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import { Pool, type PoolClient, types } from 'pg'
+import { execSync } from 'node:child_process'
 
 types.setTypeParser(20, (value) => Number.parseInt(value, 10))
 
@@ -146,29 +147,13 @@ export async function createPostgresDatabase(options: {
 }
 
 async function applyMigrations(pool: Pool, migrationsDir: string) {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS runtime_migrations (
-      name TEXT PRIMARY KEY,
-      applied_at INTEGER NOT NULL DEFAULT (extract(epoch from now())::int)
-    )
-  `)
-
-  const appliedRows = await pool.query<{ name: string }>('SELECT name FROM runtime_migrations ORDER BY name')
-  const applied = new Set(appliedRows.rows.map((row) => row.name))
-
-  const entries = await readdir(migrationsDir, { withFileTypes: true })
-  const files = entries
-    .filter((entry) => entry.isFile() && entry.name.endsWith('.sql'))
-    .map((entry) => entry.name)
-    .sort()
-
-  for (const fileName of files) {
-    if (applied.has(fileName)) continue
-    const sql = await readFile(join(migrationsDir, fileName), 'utf8')
-    for (const statement of splitSqlStatements(sql)) {
-      await pool.query(rewriteSql(statement))
-    }
-    await pool.query('INSERT INTO runtime_migrations (name) VALUES ($1)', [fileName])
+  try {
+    console.log("Checking database schema sync via Prisma...")
+    execSync('npx prisma db push --accept-data-loss', { stdio: 'inherit' })
+  } catch (error) {
+    console.error("Prisma db push failed, regenerating and pushing...", error)
+    execSync('npx prisma generate', { stdio: 'inherit' })
+    execSync('npx prisma db push --accept-data-loss', { stdio: 'inherit' })
   }
 }
 
@@ -176,12 +161,12 @@ function rewriteSql(sql: string) {
   let next = sql.replace(/\bunixepoch\(\)/gi, UNIX_EPOCH_REPLACEMENT)
 
   for (const identifier of RESERVED_IDENTIFIERS) {
-    const pattern = new RegExp(`\\b${identifier}\\b`, 'g')
+    const pattern = new RegExp(`(?<!")\\b${identifier}\\b(?!")`, 'g')
     next = next.replace(pattern, `"${identifier}"`)
   }
 
   for (const identifier of [...CAMEL_CASE_IDENTIFIERS].sort((a, b) => b.length - a.length)) {
-    const pattern = new RegExp(`\\b${identifier}\\b`, 'g')
+    const pattern = new RegExp(`(?<!")\\b${identifier}\\b(?!")`, 'g')
     next = next.replace(pattern, `"${identifier}"`)
   }
 

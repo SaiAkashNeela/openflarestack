@@ -6,3 +6,4 @@ server/.data/
 *.local
 .DS_Store
 .wrangler/
+.env

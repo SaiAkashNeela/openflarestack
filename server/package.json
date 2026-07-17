@@ -11,17 +11,21 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1090.0",
     "@aws-sdk/s3-request-presigner": "^3.1090.0",
-    "better-auth": "^1.6.11",
+    "@prisma/adapter-pg": "^7.8.0",
+    "better-auth": "^1.6.23",
     "bullmq": "^5.80.7",
-    "hono": "^4.8.0",
+    "hono": "^4.12.30",
     "ioredis": "^5.11.1",
     "pg": "^8.22.0",
     "postal-mime": "^2.7.5",
     "ws": "^8.21.1"
   },
   "devDependencies": {
+    "@better-auth/prisma-adapter": "^1.6.23",
+    "@prisma/client": "^7.8.0",
     "@types/node": "^26.1.1",
     "@types/pg": "^8.20.0",
-    "typescript": "^5.7.0"
+    "prisma": "^7.8.0",
+    "typescript": "^5.9.3"
   }
 }

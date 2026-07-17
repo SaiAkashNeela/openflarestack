@@ -1,0 +1,293 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime? @db.Timestamptz(6)
+  refreshTokenExpiresAt DateTime? @db.Timestamptz(6)
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt             DateTime  @default(now()) @db.Timestamptz(6)
+  user                  user      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model conversation_reads {
+  organization_id String
+  conversation_id String
+  user_id         String
+  last_read_at    Int           @default(0)
+  created_at      Int           @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  updated_at      Int           @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  conversations   conversations @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  organization    organization  @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user            user          @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([organization_id, conversation_id, user_id])
+  @@index([organization_id, user_id, conversation_id], map: "idx_conversation_reads_org_user")
+}
+
+model conversations {
+  id                 String               @id
+  organization_id    String
+  customer_id        String
+  integration_id     String?
+  external_id        String?
+  channel            String               @default("api")
+  status             String               @default("open")
+  assigned_to        String?
+  subject            String?
+  last_message_at    Int?
+  created_at         Int                  @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  updated_at         Int                  @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  conversation_reads conversation_reads[]
+  user               user?                @relation(fields: [assigned_to], references: [id], onUpdate: NoAction)
+  customers          customers            @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  integrations       integrations?        @relation(fields: [integration_id], references: [id], onUpdate: NoAction)
+  organization       organization         @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  messages           messages[]
+
+  @@unique([organization_id, external_id])
+  @@index([organization_id, status, last_message_at(sort: Desc)], map: "idx_conversations_org")
+}
+
+model customers {
+  id              String          @id
+  organization_id String
+  external_id     String?
+  name            String
+  email           String?
+  phone           String?
+  avatar_url      String?
+  metadata        String?         @default("{}")
+  created_at      Int             @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  updated_at      Int             @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  conversations   conversations[]
+  organization    organization    @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([organization_id, external_id])
+  @@index([organization_id], map: "idx_customers_org")
+}
+
+model events {
+  id                 String               @id
+  organization_id    String
+  type               String
+  entity_type        String
+  entity_id          String
+  actor_type         String               @default("system")
+  actor_id           String?
+  payload            String?              @default("{}")
+  created_at         Int                  @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  organization       organization         @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  webhook_deliveries webhook_deliveries[]
+
+  @@index([organization_id, entity_type, entity_id, created_at(sort: Desc)], map: "idx_events_entity")
+}
+
+model integrations {
+  id                 String               @id
+  organization_id    String
+  type               String
+  name               String
+  config             String               @default("{}")
+  enabled            Int                  @default(1)
+  created_at         Int                  @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  updated_at         Int                  @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  conversations      conversations[]
+  organization       organization         @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  webhook_deliveries webhook_deliveries[]
+}
+
+model invitation {
+  id             String       @id
+  organizationId String
+  email          String
+  role           String?
+  status         String       @default("pending")
+  expiresAt      DateTime     @db.Timestamptz(6)
+  inviterId      String
+  createdAt      DateTime     @default(now()) @db.Timestamptz(6)
+  user           user         @relation(fields: [inviterId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  organization   organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model member {
+  id             String       @id
+  organizationId String
+  userId         String
+  role           String       @default("member")
+  createdAt      DateTime     @default(now()) @db.Timestamptz(6)
+  organization   organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user           user         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([organizationId, userId])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model messages {
+  id              String        @id
+  conversation_id String
+  organization_id String
+  sender_type     String
+  sender_id       String?
+  content         String
+  content_type    String        @default("text")
+  metadata        String?       @default("{}")
+  external_id     String?
+  delivered_at    Int?
+  read_at         Int?
+  created_at      Int           @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  conversations   conversations @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  organization    organization  @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([conversation_id, created_at], map: "idx_messages_conv")
+}
+
+model notification_preferences {
+  organization_id       String
+  user_id               String
+  email_notifications   Int          @default(1)
+  mention_notifications Int          @default(1)
+  digest_notifications  Int          @default(0)
+  created_at            Int          @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  updated_at            Int          @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  organization          organization @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user                  user         @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([organization_id, user_id])
+}
+
+model notifications {
+  id                                     String       @id
+  organization_id                        String
+  user_id                                String
+  actor_user_id                          String?
+  type                                   String
+  title                                  String
+  body                                   String?
+  entity_type                            String
+  entity_id                              String
+  data                                   String?      @default("{}")
+  read_at                                Int?
+  created_at                             Int          @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  user_notifications_actor_user_idTouser user?        @relation("notifications_actor_user_idTouser", fields: [actor_user_id], references: [id], onUpdate: NoAction)
+  organization                           organization @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user_notifications_user_idTouser       user         @relation("notifications_user_idTouser", fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([organization_id, user_id, type, entity_type, entity_id], map: "idx_notifications_unique")
+  @@index([organization_id, user_id, read_at, created_at(sort: Desc)], map: "idx_notifications_org_user")
+}
+
+model organization {
+  id                       String                     @id
+  name                     String
+  slug                     String                     @unique
+  logo                     String?
+  metadata                 String?
+  createdAt                DateTime                   @default(now()) @db.Timestamptz(6)
+  conversation_reads       conversation_reads[]
+  conversations            conversations[]
+  customers                customers[]
+  events                   events[]
+  integrations             integrations[]
+  invitation               invitation[]
+  member                   member[]
+  messages                 messages[]
+  notification_preferences notification_preferences[]
+  notifications            notifications[]
+  organization_meta        organization_meta?
+  session                  session[]
+  webhook_deliveries       webhook_deliveries[]
+}
+
+model organization_meta {
+  organization_id String       @id
+  plan            String       @default("free")
+  created_at      Int          @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  organization    organization @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model runtime_migrations {
+  name       String @id
+  applied_at Int    @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+}
+
+model session {
+  id                   String        @id
+  expiresAt            DateTime      @db.Timestamptz(6)
+  token                String        @unique
+  createdAt            DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt            DateTime      @default(now()) @db.Timestamptz(6)
+  ipAddress            String?
+  userAgent            String?
+  userId               String
+  activeOrganizationId String?
+  organization         organization? @relation(fields: [activeOrganizationId], references: [id], onUpdate: NoAction)
+  user                 user          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([token], map: "idx_session_token")
+  @@index([userId], map: "idx_session_user")
+}
+
+model user {
+  id                                              String                     @id
+  name                                            String
+  email                                           String                     @unique
+  emailVerified                                   Boolean                    @default(false)
+  image                                           String?
+  createdAt                                       DateTime                   @default(now()) @db.Timestamptz(6)
+  updatedAt                                       DateTime                   @default(now()) @db.Timestamptz(6)
+  account                                         account[]
+  conversation_reads                              conversation_reads[]
+  conversations                                   conversations[]
+  invitation                                      invitation[]
+  member                                          member[]
+  notification_preferences                        notification_preferences[]
+  notifications_notifications_actor_user_idTouser notifications[]            @relation("notifications_actor_user_idTouser")
+  notifications_notifications_user_idTouser       notifications[]            @relation("notifications_user_idTouser")
+  session                                         session[]
+}
+
+model verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime @db.Timestamptz(6)
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model webhook_deliveries {
+  id              String       @id
+  organization_id String
+  integration_id  String
+  event_id        String
+  status          String       @default("pending")
+  attempts        Int          @default(0)
+  response_code   Int?
+  response_body   String?
+  error           String?
+  next_retry_at   Int?
+  delivered_at    Int?
+  created_at      Int          @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  updated_at      Int          @default(dbgenerated("(EXTRACT(epoch FROM now()))::integer"))
+  events          events       @relation(fields: [event_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  integrations    integrations @relation(fields: [integration_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  organization    organization @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([event_id, integration_id], map: "idx_webhook_deliveries_event")
+  @@index([organization_id, status, created_at(sort: Desc)], map: "idx_webhook_deliveries_org")
+}

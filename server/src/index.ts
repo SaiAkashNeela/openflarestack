@@ -148,7 +148,7 @@ async function handleWebhook(c: Context<AppEnv>) {
       : integration.type === 'discord'
         ? parseDiscordMessage(request.body) ?? null
       : integration.type === 'webhook'
-        ? parseWebhookPayload(request.body)
+        ? await handleGenericWebhookPayload(integration, request, c)
         : null
 
   if (!incoming) return c.json({ error: 'Invalid webhook payload' }, 400)
@@ -254,6 +254,29 @@ async function handleGitHubWebhookPayload(
     if (!ok) return null
   }
   return parseGitHubIssueWebhook(request.body) ?? parseWebhookPayload(request.body)
+}
+
+async function handleGenericWebhookPayload(
+  integration: { id: string; organization_id: string; config: string },
+  request: { raw: string; body: Record<string, unknown> },
+  c: Context<AppEnv>,
+) {
+  let secret: string | undefined
+  try {
+    const config = JSON.parse(integration.config)
+    secret = config.secret
+  } catch {}
+
+  if (secret) {
+    const signature = c.req.header('x-openflarestack-signature')
+    const timestamp = c.req.header('x-openflarestack-timestamp')
+    if (!signature || !timestamp) return null
+
+    const { verifyHmacSha256 } = await import('./lib/crypto')
+    const ok = await verifyHmacSha256(secret, `${timestamp}.${request.raw}`, signature)
+    if (!ok) return null
+  }
+  return parseWebhookPayload(request.body)
 }
 
 // WebSocket upgrade → delegate to the local room namespace
