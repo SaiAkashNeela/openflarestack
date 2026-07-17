@@ -1,6 +1,8 @@
 node_modules/
 dist/
-.wrangler/
+.bootstrap/
 .dev.vars
+server/.data/
 *.local
 .DS_Store
+.wrangler/

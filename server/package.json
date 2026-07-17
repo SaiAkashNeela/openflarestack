@@ -1,0 +1,27 @@
+{
+  "name": "openflarestack-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --env-file-if-exists=.dev.vars --experimental-strip-types --import ./src/node/register-ts-loader.mjs --watch src/main.ts",
+    "start": "node --env-file-if-exists=.dev.vars --experimental-strip-types --import ./src/node/register-ts-loader.mjs src/main.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1090.0",
+    "@aws-sdk/s3-request-presigner": "^3.1090.0",
+    "better-auth": "^1.6.11",
+    "bullmq": "^5.80.7",
+    "hono": "^4.8.0",
+    "ioredis": "^5.11.1",
+    "pg": "^8.22.0",
+    "postal-mime": "^2.7.5",
+    "ws": "^8.21.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/pg": "^8.20.0",
+    "typescript": "^5.7.0"
+  }
+}

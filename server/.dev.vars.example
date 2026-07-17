@@ -1,0 +1,13 @@
+# Copy this file to .dev.vars and fill in real values.
+# .dev.vars is git-ignored and must NOT be committed.
+ENVIRONMENT=development
+BETTER_AUTH_SECRET=replace-with-a-long-random-secret
+BETTER_AUTH_URL=http://127.0.0.1:8787
+FRONTEND_URL=http://localhost:5173
+WEBCHAT_SECRET=replace-with-a-long-random-secret
+
+# Optional:
+# GOOGLE_CLIENT_ID=your-google-client-id
+# GOOGLE_CLIENT_SECRET=your-google-client-secret
+# GITHUB_APP_ID=your-github-app-id
+# GITHUB_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n..."
