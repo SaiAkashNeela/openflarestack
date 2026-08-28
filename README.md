@@ -26,23 +26,23 @@ needs to be running on `http://127.0.0.1:8787` while you use the frontend.
 
 ## Deploy
 
-```bash
-# Worker
-cd worker
-npx wrangler deploy
+Workers-only deployment (API + UI from one Worker — no Pages):
 
-# UI
-cd new-ui
-npm run build
-npx wrangler pages deploy dist --project-name openflarestack --branch main
+```bash
+# From repo root
+npm install --prefix worker
+npm install --prefix new-ui
+npm run deploy
 ```
+
+This builds `new-ui` and deploys the Worker with static assets via the `ASSETS` binding.
 
 ### First-time setup
 
 ```bash
 cd worker
 
-# Create resources
+# Create resources (if not already created)
 npx wrangler d1 create openflarestack-db
 npx wrangler kv namespace create openflarestack-kv
 npx wrangler r2 bucket create openflarestack-attachments
@@ -51,8 +51,11 @@ npx wrangler queues create openflarestack-queue
 # Fill in the IDs in wrangler.toml, then:
 npx wrangler d1 migrations apply openflarestack-db --remote
 npx wrangler secret put BETTER_AUTH_SECRET   # paste a 32-byte hex secret
+npx wrangler secret put TURNSTILE_SECRET_KEY # optional, for signup protection
 npx wrangler deploy
 ```
+
+Update `FRONTEND_URL` and `BETTER_AUTH_URL` in `wrangler.toml` to your Worker URL after the first deploy.
 
 ## Features
 

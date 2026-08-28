@@ -5,6 +5,7 @@ import type { Context } from 'hono'
 import type { Auth } from 'better-auth'
 import { sessionMiddleware } from './middleware/session'
 import { tenantMiddleware } from './middleware/tenant'
+import { securityHeadersMiddleware } from './middleware/security-headers'
 import conversationsRoute from './routes/conversations'
 import messagesRoute from './routes/messages'
 import customersRoute from './routes/customers'
@@ -33,6 +34,7 @@ export type Env = {
   QUEUE: Queue
   R2: R2Bucket
   KV: KVNamespace
+  ASSETS?: Fetcher
   EMAIL: {
     send(message: {
       to: string | { email: string; name?: string }
@@ -69,6 +71,7 @@ export type AppEnv = {
 
 const app = new Hono<AppEnv>()
 
+app.use('*', securityHeadersMiddleware)
 app.use('*', logger())
 app.use('*', cors({
   origin: (origin, c) => {
@@ -252,7 +255,16 @@ app.get('/api/v1/ws/:conversationId', async (c) => {
 })
 
 export default {
-  fetch: app.fetch,
+  async fetch(request: Request, env: Env, ctx: ExecutionContext) {
+    const url = new URL(request.url)
+    if (url.pathname.startsWith('/api')) {
+      return app.fetch(request, env, ctx)
+    }
+    if (env.ASSETS) {
+      return env.ASSETS.fetch(request)
+    }
+    return new Response('openflarestack worker active', { status: 200 })
+  },
   queue: queueConsumer,
   email: handleEmail,
 } satisfies ExportedHandler<Env>

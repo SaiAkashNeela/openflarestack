@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import type { Context } from 'hono'
 import type { AppEnv } from '../index'
 import { nanoid } from '../lib/id'
+import { createAuth } from '../auth'
 import { parseGenericWebhook } from '../integrations/webhook'
 import {
   readWebChatIntegrationConfig,
@@ -35,13 +36,32 @@ route.get('/avatars/:userId', async (c) => {
 })
 
 route.get('/uploads/:objectId', async (c) => {
-  const object = await c.env.R2.get(`uploads/${c.req.param('objectId')}`)
+  const objectId = c.req.param('objectId')
+  const auth = createAuth(c.env)
+  const session = await auth.api.getSession({ headers: c.req.raw.headers })
+  const orgId = session?.session?.activeOrganizationId
+
+  let object: R2ObjectBody | null = null
+  if (orgId) {
+    object = await c.env.R2.get(`uploads/${orgId}/${objectId}`)
+  }
+  if (!object) {
+    object = await c.env.R2.get(`uploads/${objectId}`)
+  }
   if (!object) return c.json({ error: 'Not found' }, 404)
+
+  const ownerOrg = object.customMetadata?.organizationId
+  if (ownerOrg) {
+    if (!orgId || ownerOrg !== orgId) {
+      return c.json({ error: 'Forbidden' }, 403)
+    }
+  }
 
   return new Response(object.body, {
     headers: {
       'content-type': object.httpMetadata?.contentType ?? 'application/octet-stream',
-      'cache-control': 'public, max-age=31536000, immutable',
+      'cache-control': 'private, max-age=3600',
+      'X-Content-Type-Options': 'nosniff',
     },
   })
 })

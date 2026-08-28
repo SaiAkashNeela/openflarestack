@@ -1,12 +1,18 @@
-name = "openflarestack-worker"
+name = "openflarestack"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+[assets]
+directory = "../new-ui/dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "openflarestack-db"
-database_id = "4b47ec00-8524-4936-a01d-c3125d89ef8d"
+database_id = "fb72de2d-283f-4310-945e-434cfaa33dd6"
 migrations_dir = "src/db/migrations"
 
 [[durable_objects.bindings]]
@@ -43,8 +49,9 @@ bucket_name = "openflarestack-attachments"
 
 [[kv_namespaces]]
 binding = "KV"
-id = "44de25d9940f44a5ac8030ebad98a721"
+id = "6a8a0b8cbf3d4b62b736798ed77475b0"
 
 [vars]
 ENVIRONMENT = "production"
-FRONTEND_URL = "https://openflarestack.pages.dev"
+FRONTEND_URL = "https://openflarestack.mrsan.workers.dev"
+BETTER_AUTH_URL = "https://openflarestack.mrsan.workers.dev"

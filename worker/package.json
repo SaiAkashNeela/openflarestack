@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "db:migrate": "wrangler d1 migrations apply openflarestack-db",
+    "db:migrate": "wrangler d1 migrations apply openflarestack-db --remote",
     "db:migrate:local": "wrangler d1 migrations apply openflarestack-db --local",
     "type-check": "tsc --noEmit"
   },

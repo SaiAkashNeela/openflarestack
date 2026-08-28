@@ -1,28 +1,36 @@
 import { Hono } from 'hono'
 import type { AppEnv } from '../index'
 import { nanoid } from '../lib/id'
+import { sanitizeFilename, validateUpload } from '../lib/upload-validation'
 
 const route = new Hono<AppEnv>()
 
 route.post('/', async (c) => {
   const user = c.get('user')
+  const orgId = c.var.orgId
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (!orgId) return c.json({ error: 'No active organization' }, 403)
 
   const form = await c.req.formData().catch(() => null)
   if (!form) return c.json({ error: 'Invalid form data' }, 400)
 
   const file = form.get('file')
   if (!isUploadedFile(file)) return c.json({ error: 'file required' }, 400)
-  if (file.size > 10_000_000) return c.json({ error: 'file too large' }, 400)
+
+  const validationError = validateUpload(file)
+  if (validationError) return c.json({ error: validationError }, 400)
 
   const objectId = nanoid()
-  const key = `uploads/${objectId}`
+  const key = `uploads/${orgId}/${objectId}`
+  const safeName = sanitizeFilename(file.name)
   await c.env.R2.put(key, await file.arrayBuffer(), {
     httpMetadata: {
       contentType: file.type || 'application/octet-stream',
     },
     customMetadata: {
-      filename: file.name,
+      filename: safeName,
+      organizationId: orgId,
+      uploadedBy: user.id,
     },
   })
 
