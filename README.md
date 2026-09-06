@@ -41,6 +41,40 @@ The MCP server exposes high-level tools for workspace summary, conversations,
 customers, integrations, notifications, and safe message replies. The bearer
 token comes from the web app's Security tab after sign-in.
 
+## Worker deployment
+
+The Worker deployment path keeps the app and static frontend in one Cloudflare
+Worker.
+
+```bash
+# From repo root
+npm install --prefix worker
+npm install --prefix frontend
+npm run deploy --prefix worker
+```
+
+The Worker serves the frontend from `frontend/dist` via the `ASSETS` binding.
+
+### First-time setup
+
+```bash
+cd worker
+
+# Create resources (if not already created)
+npx wrangler d1 create openflarestack-db
+npx wrangler kv namespace create openflarestack-kv
+npx wrangler r2 bucket create openflarestack-attachments
+npx wrangler queues create openflarestack-queue
+
+# Fill in the IDs in wrangler.toml, then:
+npx wrangler d1 migrations apply openflarestack-db --remote
+npx wrangler secret put BETTER_AUTH_SECRET   # paste a 32-byte hex secret
+npx wrangler secret put TURNSTILE_SECRET_KEY # optional, for signup protection
+npx wrangler deploy
+```
+
+Update `FRONTEND_URL` and `BETTER_AUTH_URL` in `wrangler.toml` to your Worker URL after the first deploy.
+
 ## Features
 
 - Multi-tenant: every DB row scoped to `organization_id`

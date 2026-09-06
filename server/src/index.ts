@@ -7,6 +7,7 @@ import type { SqlDatabase } from './lib/postgres-db'
 import type { ObjectStorage } from './lib/object-storage'
 import { sessionMiddleware } from './middleware/session'
 import { tenantMiddleware } from './middleware/tenant'
+import { securityHeadersMiddleware } from './middleware/security-headers'
 import conversationsRoute from './routes/conversations'
 import messagesRoute from './routes/messages'
 import customersRoute from './routes/customers'
@@ -84,6 +85,7 @@ export type AppEnv = {
 
 export const app = new Hono<AppEnv>()
 
+app.use('*', securityHeadersMiddleware)
 app.use('*', logger())
 app.use('*', cors({
   origin: (origin, c) => {

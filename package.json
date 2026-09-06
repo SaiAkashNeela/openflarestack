@@ -1,0 +1,14 @@
+{
+  "name": "openflarestack",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:worker": "npm run dev --prefix worker",
+    "dev:ui": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "type-check": "npm run type-check --prefix server",
+    "deploy": "npm run build && npm run deploy --prefix worker",
+    "db:migrate": "npm run db:migrate --prefix worker",
+    "db:migrate:local": "npm run db:migrate:local --prefix worker"
+  }
+}
