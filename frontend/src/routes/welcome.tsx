@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useToast } from "@/components/ui/Toast";
 import { authClient } from "@/lib/auth-client";
@@ -44,14 +44,10 @@ export default function Welcome() {
 
     toast({ title: "Organization created", tone: "success" });
     if (data?.id) {
-      await authClient.organization.setActiveOrganization({ organizationId: data.id }).catch(() => {});
+      await (authClient.organization as any).setActiveOrganization({ organizationId: data.id }).catch(() => {});
     }
-    await Promise.allSettled([
-      authClient.organization.listOrganizations.refetch(),
-      authClient.organization.activeOrganization.refetch(),
-    ]);
     setPending(false);
-    navigate("/", { replace: true });
+    navigate({ to: "/", replace: true });
   };
 
   return (
@@ -109,14 +105,14 @@ export default function Welcome() {
             <>
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                 <button
-                  onClick={() => navigate("/integrations")}
+                  onClick={() => navigate({ to: "/integrations" })}
                   className="flex w-full items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-[var(--primary-hover)] sm:w-auto"
                 >
                   <Mail className="h-4 w-4" strokeWidth={1.75} />
                   Connect Email
                 </button>
                 <button
-                  onClick={() => navigate("/integrations")}
+                  onClick={() => navigate({ to: "/integrations" })}
                   className="flex w-full items-center justify-center gap-2 rounded-md border border-primary px-4 py-2 text-sm font-medium text-primary hover:bg-primary/[0.05] sm:w-auto"
                 >
                   <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
@@ -140,7 +136,7 @@ export default function Welcome() {
                   ].map((s) => (
                     <li key={s.label}>
                       <button
-                        onClick={() => navigate(s.to)}
+                        onClick={() => navigate({ to: s.to })}
                         className="flex w-full items-center justify-between py-3 text-sm hover:text-primary"
                       >
                         <span>{s.label}</span>

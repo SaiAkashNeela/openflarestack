@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useLocation } from "@tanstack/react-router";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Menu, MenuItem, MenuLabel, MenuDivider } from "@/components/ui/Menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -127,7 +127,7 @@ export default function InboxPage() {
   const { toast } = useToast();
   const { data: session } = authClient.useSession();
   const { activeOrganization: activeOrg } = useOrganizationState();
-  const [searchParams] = useSearchParams();
+  const pathname = useLocation({ select: (location) => location.pathname });
   const [items, setItems] = useState<Conversation[]>([]);
   const [selectedId, setSelectedId] = useState("");
   const [filter, setFilter] = useState<FilterKey>("all");
@@ -152,7 +152,11 @@ export default function InboxPage() {
       })),
     [activeOrg?.members],
   );
-  const query = searchParams.get("q")?.trim().toLowerCase() ?? "";
+  const query = new URLSearchParams(window.location.search).get("q")?.trim().toLowerCase() ?? "";
+
+  useEffect(() => {
+    void pathname;
+  }, [pathname]);
 
   useEffect(() => {
     let cancelled = false;

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import {
   Bell,
@@ -42,8 +42,7 @@ const NAV: NavItem[] = [
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {
-  const location = useLocation();
-  const { pathname, search } = location;
+  const pathname = useLocation({ select: (location) => location.pathname });
   const navigate = useNavigate();
   const { toast } = useToast();
   const { resolved, toggle } = useTheme();
@@ -52,12 +51,12 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const user = session?.user;
   const orgName = activeOrg?.name ?? "Workspace";
   const [unreadCount, setUnreadCount] = useState(0);
-  const [searchQuery, setSearchQuery] = useState(() => new URLSearchParams(search).get("q") ?? "");
+  const [searchQuery, setSearchQuery] = useState(() => new URLSearchParams(window.location.search).get("q") ?? "");
   const searchRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    setSearchQuery(new URLSearchParams(search).get("q") ?? "");
-  }, [search]);
+    setSearchQuery(new URLSearchParams(window.location.search).get("q") ?? "");
+  }, [pathname]);
 
   useEffect(() => {
     const token = session?.session?.token;
@@ -159,8 +158,8 @@ export function AppLayout({ children }: { children: ReactNode }) {
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   navigate({
-                    pathname: "/",
-                    search: searchQuery.trim() ? `?q=${encodeURIComponent(searchQuery.trim())}` : "",
+                    to: "/",
+                    search: searchQuery.trim() ? { q: searchQuery.trim() } : {},
                   });
                 }
               }}
@@ -233,7 +232,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                   icon={<User className="h-3.5 w-3.5" />}
                   onClick={() => {
                     close();
-                    navigate("/profile");
+                    navigate({ to: "/profile" });
                   }}
                 >
                   Profile
@@ -242,7 +241,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                   icon={<Settings className="h-3.5 w-3.5" />}
                   onClick={() => {
                     close();
-                    navigate("/settings");
+                    navigate({ to: "/settings" });
                   }}
                 >
                   Settings
@@ -257,7 +256,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                     close();
                     await authClient.signOut({
                       fetchOptions: {
-                        onSuccess: () => navigate("/login"),
+                        onSuccess: () => navigate({ to: "/login" }),
                       },
                     });
                     setAuthToken(null);

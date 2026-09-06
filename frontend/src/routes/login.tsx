@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent, type InputHTMLAttributes, type ReactNode } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/components/ui/Toast";
@@ -39,7 +39,7 @@ export default function LoginPage() {
       toast({ title: "Session did not initialize. Please try again.", tone: "error" });
       return;
     }
-    navigate("/", { replace: true });
+    navigate({ to: "/", replace: true });
   };
 
   return (

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { Mail, Lock, User, Building2 } from "lucide-react";
 import { AuthShell, Field, GoogleSignInButton } from "./login";
@@ -57,7 +57,7 @@ export default function SignupPage() {
 
     setPending(false);
     toast({ title: "Workspace created", tone: "success" });
-    navigate("/welcome", { replace: true, state: { orgName: workspace || "Workspace" } });
+    navigate({ to: "/welcome", replace: true });
   };
 
   return (

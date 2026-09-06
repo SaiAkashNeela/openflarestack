@@ -2,13 +2,31 @@
   "name": "openflarestack",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "frontend",
+    "server"
+  ],
   "scripts": {
-    "dev:worker": "npm run dev --prefix worker",
-    "dev:ui": "npm run dev --prefix frontend",
-    "build": "npm run build --prefix frontend",
-    "type-check": "npm run type-check --prefix server",
-    "deploy": "npm run build && npm run deploy --prefix worker",
-    "db:migrate": "npm run db:migrate --prefix worker",
-    "db:migrate:local": "npm run db:migrate:local --prefix worker"
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:server": "npm run dev --prefix server",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:server": "npm run type-check --prefix server"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "^1.118.13"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.13.0",
+    "@tanstack/react-start": "^1.118.13",
+    "@types/node": "^26.4.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.2.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.1.5"
   }
 }
