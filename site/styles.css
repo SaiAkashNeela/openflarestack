@@ -329,8 +329,6 @@ section{scroll-margin-top:5rem}
 .gh-star{display:inline-flex;align-items:center;gap:.45rem;margin-left:auto;padding:.4rem .7rem;border:1px solid var(--rule);border-radius:10px;background:var(--sheet);text-decoration:none;font-size:.88rem;font-weight:600;white-space:nowrap}
 .gh-star:hover{border-color:var(--quiet)}
 .gh-star>svg{width:1.05rem;height:1.05rem}
-.gh-star b{display:inline-flex;align-items:center;gap:.25rem;padding-left:.5rem;border-left:1px solid var(--rule);font-weight:650;font-variant-numeric:tabular-nums}
-.gh-star b svg{width:.8rem;height:.8rem;color:#C98A00}
 .nav+.gh-star{margin-left:0}
 .top .wrap{gap:1.25rem}
 

@@ -25,13 +25,6 @@ const ASSET_V = createHash('sha256').update(ASSET_FILES.map((f) => readFileSync(
 const OG_IMAGE = `${SITE_URL}/og.png`;
 const FONTS = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Space+Grotesk:wght@500..700&family=Geist+Mono:wght@400..500&display=swap';
 
-// Stars for the header's GitHub button. Fetched at build time (the site rebuilds every night), so
-// visitors make no extra request. If GitHub can't be reached, the button just says "Star".
-const repoStars = await fetch(`https://api.github.com/repos/${CATALOG_REPO}`, {
-  headers: { Accept: 'application/vnd.github+json', ...(process.env.GH_SEARCH_TOKEN ? { Authorization: `Bearer ${process.env.GH_SEARCH_TOKEN}` } : {}) },
-  signal: AbortSignal.timeout(5000),
-}).then((r) => (r.ok ? r.json() : null)).then((j) => j?.stargazers_count ?? null).catch(() => null);
-
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 
@@ -98,7 +91,7 @@ ${SPRITE}
       <a href="/#how">How it works</a>
       <a href="/#submit">Submit a repo</a>
     </nav>
-    <a class="gh-star" href="https://github.com/${CATALOG_REPO}" rel="noopener" aria-label="Star OpenFlareStack on GitHub${repoStars != null ? `, ${repoStars} stars` : ''}">${ICONS.github}<span>Star</span>${repoStars != null ? `<b>${ICONS.star}${k(repoStars)}</b>` : ''}</a>
+    <a class="gh-star" href="https://github.com/${CATALOG_REPO}" rel="noopener" aria-label="Star OpenFlareStack on GitHub">${ICONS.github}<span>Star this repo</span></a>
   </div>
 </header>
 ${body}
