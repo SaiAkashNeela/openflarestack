@@ -89,7 +89,7 @@ ${SPRITE}
       <a href="/#catalog">Catalog</a>
       <a href="/alternatives/">Alternatives</a>
       <a href="/#how">How it works</a>
-      <a href="/#submit">Submit a repo</a>
+      <a class="nav-cta" href="/#submit">Submit a repo</a>
     </nav>
     <a class="gh-star" href="https://github.com/${CATALOG_REPO}" rel="noopener" aria-label="Star OpenFlareStack on GitHub">${ICONS.github}<span>Star this repo</span></a>
   </div>
@@ -101,7 +101,7 @@ ${body}
       <div class="foot-brand">
         <a class="brand" href="/" aria-label="OpenFlareStack home">${MARK}<span class="wm">openflarestack</span></a>
         <p>Open-source apps you run on your own Cloudflare account. Found on GitHub and ranked every night.</p>
-        <a class="foot-cta" href="/#submit">Submit your app ${ICONS.arrow}</a>
+        <a class="btn primary foot-cta" href="/#submit">Submit your app ${ICONS.arrow}</a>
       </div>
       <nav aria-label="Categories"><h2>Categories</h2><ul>${catalog.categories.map((c) => `<li><a href="${catPath(c.name)}">${esc(c.name)}</a></li>`).join('')}</ul></nav>
       <nav aria-label="Alternatives"><h2>Instead of</h2><ul>${ALTS.filter(hasPage).slice(0, 10).map((x) => `<li><a href="${altPath(x)}">${esc(x.name)}</a></li>`).join('')}<li><a href="/alternatives/">All alternatives</a></li></ul></nav>
@@ -115,8 +115,9 @@ ${body}
       </ul></nav>
     </div>
     <div class="foot-bottom">
-      <p>Built by <a href="${AUTHOR.url}" rel="noopener author">${esc(AUTHOR.name)}</a>. Seeded from <a href="https://github.com/theoephraim/awesome-cloudflare-selfhosted" rel="noopener">awesome-cloudflare-selfhosted</a>. Last update ${built}.</p>
-      <p>Not affiliated with Cloudflare, Inc. Cloudflare and Workers are trademarks of Cloudflare, Inc. Every app belongs to its authors and installs from their own repository.</p>
+      <p>Built by <a href="${AUTHOR.url}" rel="noopener author">${esc(AUTHOR.name)}</a>. Last update ${built}.</p>
+      <p>Apps are listed as-is. We don’t review, audit or guarantee any of them, and you install and run them at your own risk. Every app belongs to its authors and installs from their own repository.</p>
+      <p>Not affiliated with Cloudflare, Inc. Cloudflare and Workers are trademarks of Cloudflare, Inc.</p>
     </div>
   </div>
 </footer>
@@ -207,8 +208,9 @@ function home() {
       <div class="search" role="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <label for="q" class="vh">Search apps</label>
-        <input id="q" type="search" autocomplete="off" placeholder="Search apps, or the tool you want to replace">
+        <input id="q" type="search" autocomplete="off" placeholder="Search apps, or the tool you want to replace" role="combobox" aria-expanded="false" aria-controls="suggest" aria-autocomplete="list">
         <span class="kbd" aria-hidden="true">/</span>
+        <div class="suggest" id="suggest" role="listbox" aria-label="Matching apps" hidden></div>
       </div>
       ${swaps.length ? `<div class="swaps" id="swaps"><span>Popular swaps</span>${swaps.map((a) => `<button class="swap-chip" type="button" data-q="${esc(a.replaces)}"><s>${esc(a.replaces)}</s>${ICONS.arrow}<b>${esc(a.name)}</b></button>`).join('')}</div>` : ''}
     </div>

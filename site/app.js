@@ -1,7 +1,7 @@
 // Runs on top of the pre-rendered pages: search, filters, sort, layout, the detail sheet,
 // copy buttons and the "Submit your repo" checker. No framework, no build step.
 
-import { esc, k, row, tiles, appDetail, ICONS } from './lib/render.js';
+import { esc, k, row, tiles, appDetail, avatar, ICONS } from './lib/render.js';
 import { BINDINGS } from './lib/bindings.js';
 import { STEPS, runCheck, parseRepo, apiSource } from './lib/check.js';
 import { TOP_N, submitIssueUrl, deployUrl } from './lib/config.js';
@@ -110,8 +110,52 @@ function initHome() {
   statusEl.addEventListener('click', (e) => { if (e.target.id === 'clearAll') clearAll(); });
   listEl.addEventListener('click', (e) => { if (e.target.id === 'clearEmpty') clearAll(); });
   $('showAll').addEventListener('click', () => { state.all = true; render(); });
-  q.addEventListener('input', () => { state.q = q.value.trim(); render(); });
-  q.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); toCatalog(); } });
+  // Live suggestions under the hero search, so typing shows results right away. The full list
+  // below filters at the same time; Enter or "See all" jumps to it.
+  const suggest = $('suggest');
+  let active = -1;
+  const hits = (apps) => apps.filter((a) => {
+    const hay = `${a.name} ${a.replaces || ''} ${a.description} ${a.category} ${a.repo}`.toLowerCase();
+    return state.q.toLowerCase().split(/\s+/).every((w) => hay.includes(w));
+  });
+  function closeSuggest() { suggest.hidden = true; q.setAttribute('aria-expanded', 'false'); active = -1; }
+  async function showSuggest() {
+    if (!state.q) { closeSuggest(); return; }
+    const found = hits((await loadCatalog()).apps);
+    suggest.innerHTML = (found.length
+      ? found.slice(0, 6).map((a, i) => `<a class="sg" id="sg${i}" role="option" href="/apps/${esc(a.slug)}/" data-repo="${esc(a.repo)}">${avatar(a, 'av-sm')}<span><b>${esc(a.name)}</b><small>${a.replaces ? `Instead of ${esc(a.replaces)}` : esc(a.category)}</small></span></a>`).join('')
+      : '<p class="sg-empty">No apps match that yet. Try the name of a tool you pay for.</p>')
+      + (found.length ? `<button type="button" class="sg-all" id="sgAll">See all ${found.length} result${found.length === 1 ? '' : 's'} in the catalog ${ICONS.arrow}</button>` : '');
+    suggest.hidden = false;
+    q.setAttribute('aria-expanded', 'true');
+    active = -1;
+  }
+  function move(d) {
+    const items = [...suggest.querySelectorAll('.sg')];
+    if (!items.length) return;
+    active = (active + d + items.length) % items.length;
+    items.forEach((el, i) => el.classList.toggle('on', i === active));
+    q.setAttribute('aria-activedescendant', items[active].id);
+  }
+  sheetLinks(suggest, '.sg');
+  suggest.addEventListener('click', (e) => {
+    if (e.target.closest('.sg')) closeSuggest();
+    if (e.target.closest('#sgAll')) { closeSuggest(); toCatalog(); }
+  });
+  q.addEventListener('input', () => { state.q = q.value.trim(); render(); showSuggest(); });
+  q.addEventListener('focus', () => { if (state.q) showSuggest(); });
+  q.addEventListener('blur', () => setTimeout(closeSuggest, 150));
+  q.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+    else if (e.key === 'Escape') closeSuggest();
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      const pick = active >= 0 && suggest.querySelectorAll('.sg')[active];
+      closeSuggest();
+      if (pick) openSheet(pick.dataset.repo); else toCatalog();
+    }
+  });
   document.addEventListener('keydown', (e) => {
     if (e.key === '/' && !/input|select|textarea/i.test(document.activeElement.tagName) && !sheet.open) { e.preventDefault(); q.focus(); }
   });
@@ -119,7 +163,7 @@ function initHome() {
     const b = e.target.closest('.swap-chip');
     if (!b) return;
     q.value = state.q = b.dataset.q;
-    setCat('All'); render(); toCatalog();
+    setCat('All'); render(); closeSuggest(); toCatalog();
   });
   $('newPill')?.addEventListener('click', () => { state.onlyNew = true; fNew.setAttribute('aria-pressed', 'true'); render(); toCatalog(); });
   $('sort').addEventListener('change', (e) => { state.sort = e.target.value; render(); });
