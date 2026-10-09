@@ -2,12 +2,13 @@
 // as finished HTML so search engines see the full content, and site/app.js adds search, filters,
 // the detail sheet and the repo checker on top.
 
-import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BINDINGS, GROUPS } from '../lib/bindings.js';
-import { SITE_URL, CATALOG_REPO, TOP_N, slugify } from '../lib/config.js';
-import { esc, row, mqCard, tile, tiles, appDetail, appPath, avatar, ICONS } from '../lib/render.js';
+import { SITE_URL, CATALOG_REPO, TOP_N, AUTHOR, slugify } from '../lib/config.js';
+import { esc, row, mqCard, tile, tiles, appDetail, appPath, avatar, ICONS, SPRITE_SYMBOLS, k, ago, daysSince } from '../lib/render.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'dist');
@@ -17,7 +18,19 @@ const apps = catalog.apps;
 const total = apps.length;
 const now = Date.parse(catalog.generated_at);
 const built = new Date(now).toISOString().slice(0, 10);
-const ASSET_V = String(now).slice(-8); // cache-busts css/js after each nightly build
+// Content hash of the CSS and JS. Every reference carries ?v=<hash>, so those files can be cached for a
+// year and still update the moment they change.
+const ASSET_FILES = [join(SITE, 'styles.css'), join(SITE, 'app.js'), ...readdirSync(join(ROOT, 'lib')).map((f) => join(ROOT, 'lib', f))];
+const ASSET_V = createHash('sha256').update(ASSET_FILES.map((f) => readFileSync(f)).join('\n')).digest('hex').slice(0, 10);
+const OG_IMAGE = `${SITE_URL}/og.png`;
+const FONTS = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Space+Grotesk:wght@500..700&family=Geist+Mono:wght@400..500&display=swap';
+
+// Stars for the header's GitHub button. Fetched at build time (the site rebuilds every night), so
+// visitors make no extra request. If GitHub can't be reached, the button just says "Star".
+const repoStars = await fetch(`https://api.github.com/repos/${CATALOG_REPO}`, {
+  headers: { Accept: 'application/vnd.github+json', ...(process.env.GH_SEARCH_TOKEN ? { Authorization: `Bearer ${process.env.GH_SEARCH_TOKEN}` } : {}) },
+  signal: AbortSignal.timeout(5000),
+}).then((r) => (r.ok ? r.json() : null)).then((j) => j?.stargazers_count ?? null).catch(() => null);
 
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
@@ -32,30 +45,46 @@ function write(path, html) {
 const lower = (c) => c.replace(/\b([A-Z])(?=[a-z])/g, (m) => m.toLowerCase());
 const catPath = (name) => `/category/${slugify(name)}/`;
 const MARK = `<svg class="mark" aria-hidden="true"><use href="#ofs-mark"/></svg>`;
-const SPRITE = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ofs-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EE2463"/><stop offset="1" stop-color="#FF7A3D"/></linearGradient></defs><symbol id="ofs-mark" viewBox="0 0 40 40"><rect width="40" height="40" rx="11" fill="url(#ofs-g)"/><rect x=".5" y=".5" width="39" height="39" rx="10.5" fill="none" stroke="#fff" stroke-opacity=".18"/><g fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17.5 20 10.5l9 7"/><path d="M11 25 20 18l9 7" stroke-opacity=".7"/><path d="M11 32.5 20 25.5l9 7" stroke-opacity=".42"/></g></symbol></svg>`;
+const SPRITE = `<svg width="0" height="0" style="position:absolute" aria-hidden="true">${SPRITE_SYMBOLS}<defs><linearGradient id="ofs-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EE2463"/><stop offset="1" stop-color="#FF7A3D"/></linearGradient></defs><symbol id="ofs-mark" viewBox="0 0 40 40"><rect width="40" height="40" rx="11" fill="url(#ofs-g)"/><rect x=".5" y=".5" width="39" height="39" rx="10.5" fill="none" stroke="#fff" stroke-opacity=".18"/><g fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17.5 20 10.5l9 7"/><path d="M11 25 20 18l9 7" stroke-opacity=".7"/><path d="M11 32.5 20 25.5l9 7" stroke-opacity=".42"/></g></symbol></svg>`;
 
-function layout({ title, description, path, body, jsonld = [], page = 'page', noindex = false }) {
+function layout({ title, description, path, body, jsonld = [], page = 'page', noindex = false, markdown = null, type = 'website' }) {
   const url = SITE_URL + path;
+  const full = title.includes('OpenFlareStack') ? title : `${title} | OpenFlareStack`;
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>${esc(title)}</title>
+<title>${esc(full)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${esc(url)}">
-${noindex ? '<meta name="robots" content="noindex">\n' : ''}<meta property="og:type" content="website">
+<meta name="robots" content="${noindex ? 'noindex' : 'index, follow, max-image-preview:large, max-snippet:-1'}">
+<meta property="og:type" content="${type}">
 <meta property="og:site_name" content="OpenFlareStack">
+<meta property="og:locale" content="en_GB">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${esc(url)}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="${OG_IMAGE}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="OpenFlareStack: open-source apps you run on your own Cloudflare account">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(title)}">
+<meta name="twitter:description" content="${esc(description)}">
+<meta name="twitter:image" content="${OG_IMAGE}">
 <meta name="theme-color" content="#F6F7F5">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
+${markdown ? `<link rel="alternate" type="text/markdown" href="${esc(markdown)}">\n` : ''}<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin>
+<link rel="stylesheet" href="${FONTS}">
 <link rel="stylesheet" href="/styles.css?v=${ASSET_V}">
+<link rel="modulepreload" href="/app.js?v=${ASSET_V}">
+${['render', 'bindings', 'check', 'config'].map((m) => `<link rel="modulepreload" href="/lib/${m}.js?v=${ASSET_V}">`).join('\n')}
 ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j).replace(/</g, '\\u003c')}</script>`).join('\n')}
 </head>
 <body data-page="${page}">
@@ -65,26 +94,36 @@ ${SPRITE}
     <a class="brand" href="/" aria-label="OpenFlareStack home">${MARK}<span class="wm">openflarestack</span></a>
     <nav class="nav" aria-label="Sections">
       <a href="/#catalog">Catalog</a>
+      <a href="/alternatives/">Alternatives</a>
       <a href="/#how">How it works</a>
       <a href="/#submit">Submit a repo</a>
     </nav>
+    <a class="gh-star" href="https://github.com/${CATALOG_REPO}" rel="noopener" aria-label="Star OpenFlareStack on GitHub${repoStars != null ? `, ${repoStars} stars` : ''}">${ICONS.github}<span>Star</span>${repoStars != null ? `<b>${ICONS.star}${k(repoStars)}</b>` : ''}</a>
   </div>
 </header>
 ${body}
 <footer class="foot">
   <div class="wrap">
-    <a class="brand" href="/" aria-label="OpenFlareStack home">${MARK}<span class="wm">openflarestack</span></a>
-    <div>
-      <p>An independent project, not affiliated with Cloudflare, Inc. Cloudflare and Workers are trademarks of Cloudflare, Inc. Every app listed belongs to its authors and installs from their own repository.</p>
-      <p>Rebuilt every night. Last update ${built}.</p>
-      <nav aria-label="Footer">
-        ${catalog.categories.map((c) => `<a href="${catPath(c.name)}">${esc(c.name)}</a>`).join('')}
-      </nav>
-      <nav aria-label="About">
-        <a href="/credits/">Credits</a>
-        <a href="https://github.com/${CATALOG_REPO}" rel="noopener">Source on GitHub</a>
-        <a href="/#submit">Submit a repo</a>
-      </nav>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/" aria-label="OpenFlareStack home">${MARK}<span class="wm">openflarestack</span></a>
+        <p>Open-source apps you run on your own Cloudflare account. Found on GitHub and ranked every night.</p>
+        <a class="foot-cta" href="/#submit">Submit your app ${ICONS.arrow}</a>
+      </div>
+      <nav aria-label="Categories"><h2>Categories</h2><ul>${catalog.categories.map((c) => `<li><a href="${catPath(c.name)}">${esc(c.name)}</a></li>`).join('')}</ul></nav>
+      <nav aria-label="Alternatives"><h2>Instead of</h2><ul>${ALTS.filter(hasPage).slice(0, 10).map((x) => `<li><a href="${altPath(x)}">${esc(x.name)}</a></li>`).join('')}<li><a href="/alternatives/">All alternatives</a></li></ul></nav>
+      <nav aria-label="Project"><h2>Project</h2><ul>
+        <li><a href="/#how">How it works</a></li>
+        <li><a href="/#submit">Submit a repo</a></li>
+        <li><a href="/credits/">Credits</a></li>
+        <li><a href="https://github.com/${CATALOG_REPO}" rel="noopener">Source on GitHub</a></li>
+        <li><a href="/llms.txt">llms.txt</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+      </ul></nav>
+    </div>
+    <div class="foot-bottom">
+      <p>Built by <a href="${AUTHOR.url}" rel="noopener author">${esc(AUTHOR.name)}</a>. Seeded from <a href="https://github.com/theoephraim/awesome-cloudflare-selfhosted" rel="noopener">awesome-cloudflare-selfhosted</a>. Last update ${built}.</p>
+      <p>Not affiliated with Cloudflare, Inc. Cloudflare and Workers are trademarks of Cloudflare, Inc. Every app belongs to its authors and installs from their own repository.</p>
     </div>
   </div>
 </footer>
@@ -102,6 +141,42 @@ const crumbsLd = (items) => ({
   itemListElement: items.map(([name, href], i) => ({ '@type': 'ListItem', position: i + 1, name, ...(href ? { item: SITE_URL + href } : {}) })),
 });
 
+// Questions and answers, shown on the page and repeated as FAQPage data for search and answer engines.
+const faqHtml = (heading, items) => `<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">${esc(heading)}</h2><div class="qa">${items.map(([q, a]) => `<div><h3>${esc(q)}</h3><p>${a}</p></div>`).join('')}</div></section>`;
+const faqLd = (items) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, '') } })),
+});
+const ORG = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'OpenFlareStack',
+  url: SITE_URL + '/',
+  logo: `${SITE_URL}/apple-touch-icon.png`,
+  sameAs: [`https://github.com/${CATALOG_REPO}`],
+};
+const list = (xs) => (xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1]);
+const swapsFor = (xs, n = 4) => [...new Set(xs.map((a) => a.replaces).filter(Boolean))].slice(0, n);
+
+// "Instead of X" groups: one landing page per product the apps replace.
+const ALTS = (() => {
+  const m = new Map();
+  for (const a of apps) {
+    if (!a.replaces) continue;
+    const key = slugify(a.replaces);
+    if (!key) continue;
+    if (!m.has(key)) m.set(key, { name: a.replaces, slug: key, apps: [] });
+    m.get(key).apps.push(a);
+  }
+  return [...m.values()].sort((x, y) => y.apps.length - x.apps.length || x.name.localeCompare(y.name));
+})();
+// One app on its own makes a thin page, so only products with two or more alternatives get one;
+// the index links single ones straight to the app.
+const hasPage = (alt) => alt.apps.length >= 2;
+const altPath = (alt) => (hasPage(alt) ? `/alternatives/${alt.slug}/` : appPath(alt.apps[0]));
+const altOf = (a) => ALTS.find((x) => x.apps.includes(a));
+
 // ---------- Home ----------
 function home() {
   const newN = catalog.counts.new || 0;
@@ -117,6 +192,17 @@ function home() {
   const cats = [['All', total], ...catalog.categories.map((c) => [c.name, c.count])];
   const exButton = apps.find((a) => a.has_deploy_button && a.config_file && !a.config_file.includes('/'));
   const exConfig = apps.find((a) => !a.has_deploy_button && a.config_file && !a.config_file.includes('/'));
+  const famous = swapsFor(apps, 6);
+  const HOME_FAQ = [
+    ['What is OpenFlareStack?', `A free catalog of ${total} open-source apps you can run on your own Cloudflare account, such as self-hosted alternatives to ${list(famous.slice(0, 4))}. A GitHub Action finds new apps every night and ranks them by stars and recent commits.`],
+    ['How do I self-host an app on Cloudflare?', 'Open an app and press Deploy to Cloudflare. Cloudflare copies the repository into your GitHub account, creates the databases and storage it needs (like D1, KV or R2) and deploys it to Workers. Apps without a Deploy button have install steps in their README.'],
+    ['Do I need a server?', 'No. The apps run on Cloudflare Workers, so there is no server, container or VPS to look after. Your data stays in your own Cloudflare account.'],
+    ['Is it free?', 'The apps are open source and free to use. Many small apps fit inside Cloudflare’s free plan. Busy apps can need a paid Workers plan, so check the app’s README and Cloudflare’s current pricing.'],
+    ['How do I keep a deployed app up to date?', 'The Deploy button makes a copy, not a fork, so updates are not automatic. Every app page has a three-line snippet that pulls the latest version from the original repository and redeploys it.'],
+    ['How are apps ranked?', 'By GitHub stars, how recently the code changed, and whether there is a published release. Forks, archived projects, repos without an open-source licence and starter templates are left out.'],
+    ['How do I get my app listed?', 'Use the checker below. It runs the same checks as the nightly scan, and if your repo passes it opens a pre-filled GitHub issue. Apps with a Deploy to Cloudflare button in their README are found automatically.'],
+    ['Is OpenFlareStack part of Cloudflare?', 'No. It is an independent project. Every app belongs to its authors and installs from their own repository.'],
+  ];
 
   const body = `<main id="top">
   <section class="hero" aria-labelledby="h1">
@@ -124,7 +210,7 @@ function home() {
     <div class="wrap hero-inner">
       ${announce}
       <h1 id="h1">Stop renting software. <span class="l2">Run it on your own Cloudflare.</span></h1>
-      <p class="lede">Open-source booking pages, analytics, email, password vaults and more, ranked every night. Deploy in one click and keep your data in your own account.</p>
+      <p class="lede">${total} open-source, self-hosted apps for Cloudflare Workers: booking pages, analytics, email, password vaults and more, ranked every night. Deploy in one click and keep your data in your own account.</p>
       <div class="search" role="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <label for="q" class="vh">Search apps</label>
@@ -180,50 +266,26 @@ function home() {
     </section>
   </div>
 
-  <section class="band" id="how" aria-labelledby="howh">
+  <section class="band band-tight" id="how" aria-labelledby="howh">
     <div class="wrap">
       <div class="band-head">
         <h2 id="howh">How apps get on the list</h2>
-        <p>Two ways in. Every night a GitHub Action searches public READMEs for Deploy to Cloudflare buttons. Anyone can also submit a repo below, and it goes through the same checks straight away. Either way we read the app's wrangler config and turn each binding into a tile, so you see what gets created in your account before you deploy.</p>
+        <p>No hand-picking and no paid spots. A GitHub Action rebuilds the list every night.</p>
       </div>
-      <div class="how">
-        <div>
-          <div class="codecard">
-            <header><span>CCCrafts/punctual/wrangler.toml</span><span>excerpt</span></header>
-<pre><code><span class="c"># what Punctual asks Cloudflare for</span>
-name = "punctual"
-
-[[<span class="k">d1_databases</span>]]
-binding = "DB"
-
-[[<span class="k">kv_namespaces</span>]]
-binding = "CACHE"
-
-[[<span class="k">r2_buckets</span>]]
-binding = "AVATARS"
-
-[[<span class="k">durable_objects</span>.bindings]]
-name = "HOST_CALENDAR"
-
-[[<span class="k">analytics_engine_datasets</span>]]
-binding = "INSIGHTS"
-
-[[<span class="k">queues</span>.producers]]
-binding = "TASKS"
-
-[<span class="k">triggers</span>]
-crons = ["*/5 * * * *"]</code></pre>
-            <div class="becomes"><span>Shows up as</span><span class="tiles">${tiles(['D1', 'KV', 'R2', 'DO', 'Q', 'Cr', 'AE'])}</span></div>
-          </div>
-          <div class="skip">
-            <h3>What stays off the list</h3>
-            <p>Forks, archived repos, anything without an open licence, and projects with no commits for a year. Starters, demos and libraries are skipped too. If it isn't a finished app you'd actually use, it doesn't get ranked.</p>
-          </div>
-        </div>
-        <ul class="groups">${GROUPS.map((g) => `<li><h3>${g.n}</h3><span class="tiles">${tiles(g.k)}</span><p>${g.d}</p></li>`).join('')}</ul>
+      <ol class="steps">
+        <li><span class="idx">1</span><h3>Found</h3><p>We search every public README on GitHub for a Deploy to Cloudflare button, and add hand-picked apps and submissions.</p></li>
+        <li><span class="idx">2</span><h3>Checked</h3><p>Forks, archived repos, Deploy-button copies, stale projects and anything without an open licence drop out.</p></li>
+        <li><span class="idx">3</span><h3>Read</h3><p>We read the README and wrangler config, keep finished apps (not starters or demos) and turn each binding into a tile.</p></li>
+        <li><span class="idx">4</span><h3>Ranked</h3><p>Stars, recent commits and releases set the order. Stars and dates refresh every night.</p></li>
+      </ol>
+      <div class="legend">
+        <p>The tiles show what an app creates in your Cloudflare account:</p>
+        <ul>${GROUPS.map((g) => `<li title="${esc(g.d)}"><span class="tiles">${tiles(g.k)}</span>${g.n}</li>`).join('')}</ul>
       </div>
     </div>
   </section>
+
+  <div class="band"><div class="wrap">${faqHtml('Questions people ask', HOME_FAQ)}</div></div>
 
   <section class="band" id="submit" aria-labelledby="subh">
     <div class="wrap submit">
@@ -262,18 +324,20 @@ crons = ["*/5 * * * *"]</code></pre>
 </main>`;
 
   write('index.html', layout({
-    title: 'OpenFlareStack: open-source apps for your own Cloudflare account',
-    description: `${total} open-source apps you can deploy to your own Cloudflare account in one click. Alternatives to Calendly, Google Analytics, Mailchimp and more, ranked every night.`,
+    title: 'OpenFlareStack: self-hosted open-source apps for Cloudflare',
+    description: `${total} open-source apps you can deploy to your own Cloudflare account in one click. Self-hosted alternatives to ${list(famous.slice(0, 3))} and more, ranked every night.`,
     path: '/',
     page: 'home',
     body,
-    jsonld: [{
+    markdown: '/llms.txt',
+    jsonld: [ORG, {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: 'OpenFlareStack',
       url: SITE_URL + '/',
       description: 'A catalog of open-source apps that deploy to your own Cloudflare account.',
-    }, {
+      publisher: { '@type': 'Organization', name: 'OpenFlareStack', url: SITE_URL + '/' },
+    }, faqLd(HOME_FAQ), {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
       name: 'Top open-source apps for Cloudflare',
@@ -296,6 +360,15 @@ function appPage(a) {
   const related = apps.filter((x) => x.category === a.category && x.repo !== a.repo).slice(0, 6);
   const trail = [['Catalog', '/'], [a.category, catPath(a.category)], [a.name, null]];
   const description = `${a.description.replace(/\.?$/, '.')} Open source (${a.license}). ${a.deploy_url ? 'Deploy it to your own Cloudflare account in one click.' : 'Install it on your own Cloudflare account.'}`;
+  const b = a.bindings || [];
+  const alt = altOf(a);
+  const faq = [
+    [`What is ${a.name}?`, `${esc(a.description.replace(/\.?$/, '.'))}${a.replaces ? ` It’s an open-source, self-hosted alternative to ${esc(a.replaces)}.` : ''} It runs on Cloudflare Workers in your own account.`],
+    [`What does ${a.name} set up in my Cloudflare account?`, b.length ? `${esc(list(b.map((x) => BINDINGS[x].n)))}. They are created in your account, so the data stays yours.` : 'We didn’t find any bindings in its wrangler config, so it may be a plain Worker. Check its README for setup steps.'],
+    [`How do I deploy ${a.name}?`, a.deploy_url ? 'Press Deploy to Cloudflare. Cloudflare copies the repository into your GitHub account, creates what it needs and deploys it with Workers Builds.' : `It installs from the command line. Follow the steps in the <a href="https://github.com/${esc(a.repo)}#readme" rel="noopener">${esc(a.repo)} README</a>.`],
+    [`Is ${a.name} free and open source?`, `Yes. It’s published under the ${esc(a.license)} licence. Running it uses your own Cloudflare account, and small setups usually fit in the free plan.`],
+    [`How do I update ${a.name}?`, `Pull from the original repository and redeploy: add <code>https://github.com/${esc(a.repo)}.git</code> as an upstream remote, run <code>git pull upstream ${esc(a.default_branch || 'main')}</code>, then <code>npx wrangler deploy</code>.`],
+  ];
   const body = `<main class="wrap page">
   ${crumbs(trail)}
   <div class="app-page">
@@ -309,19 +382,22 @@ function appPage(a) {
         ${related.length ? `<ul class="related">${related.map((x) => `<li><a href="${appPath(x)}">${avatar(x, 'av-sm')}<b>${esc(x.name)}</b><small>${x.replaces ? `Instead of ${esc(x.replaces)}` : esc(x.repo)}</small></a></li>`).join('')}</ul>` : '<p>This is the only one so far.</p>'}
         <p style="margin-top:.7rem"><a href="${catPath(a.category)}">See all ${esc(a.category)} apps</a></p>
       </div>
+      ${alt && alt.apps.length > 1 ? `<div class="aside-box"><h2>Other ${esc(alt.name)} alternatives</h2><p>${alt.apps.length} apps in the catalog replace ${esc(alt.name)}. <a href="${altPath(alt)}">Compare them</a>.</p></div>` : ''}
       <div class="aside-box">
         <h2>About this listing</h2>
         <p>Found by OpenFlareStack's nightly scan and ranked by stars and recent commits. The code, licence and support all come from <a href="https://github.com/${esc(a.repo)}" rel="noopener">${esc(a.repo)}</a>.</p>
       </div>
     </aside>
   </div>
+  ${faqHtml(`${a.name} questions`, faq)}
 </main>`;
   write(`apps/${a.slug}/index.html`, layout({
     title: appTitle(a),
     description,
     path: appPath(a),
     body,
-    jsonld: [{
+    markdown: `/apps/${a.slug}.md`,
+    jsonld: [faqLd(faq), {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
       name: a.name,
@@ -331,6 +407,11 @@ function appPage(a) {
       operatingSystem: 'Cloudflare Workers',
       license: a.license ? `https://spdx.org/licenses/${a.license}.html` : undefined,
       codeRepository: `https://github.com/${a.repo}`,
+      image: a.owner?.avatar_url || undefined,
+      author: { '@type': 'Person', name: a.owner?.login || a.repo.split('/')[0], url: `https://github.com/${a.repo.split('/')[0]}` },
+      dateModified: a.pushed_at,
+      softwareVersion: a.latest_release?.tag || undefined,
+      isAccessibleForFree: true,
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     }, crumbsLd(trail)],
   }));
@@ -366,26 +447,140 @@ function categoryPage(c) {
   }));
 }
 
+// ---------- "X alternatives" pages ----------
+function alternativePage(alt) {
+  const trail = [['Catalog', '/'], ['Alternatives', '/alternatives/'], [`${alt.name} alternatives`, null]];
+  const best = alt.apps[0];
+  const n = alt.apps.length;
+  const lede = `${n} open-source, self-hosted ${alt.name} alternative${n === 1 ? '' : 's'} you can deploy to your own Cloudflare account. No subscription, no seat limits, and your data stays in your account.`;
+  const faq = [
+    [`What is the best open-source ${alt.name} alternative on Cloudflare?`, `${esc(best.name)} ranks highest right now, with ${k(best.stars)} GitHub stars and its last commit ${ago(daysSince(best.pushed_at, now))}. ${esc(best.description)}`],
+    [`Can I self-host a ${alt.name} alternative for free?`, `Yes. ${n === 1 ? 'This app is' : 'These apps are'} open source, and ${n === 1 ? 'it runs' : 'they run'} on Cloudflare Workers in your own account. Small setups usually fit in Cloudflare’s free plan.`],
+    ['How do I install one?', 'Open the app and press Deploy to Cloudflare, or follow the install steps in its README. Cloudflare creates the databases and storage it needs in your account.'],
+  ];
+  const body = `<main class="wrap page">
+  ${crumbs(trail)}
+  <div class="page-head">
+    <h1>Self-hosted ${esc(alt.name)} alternatives on Cloudflare</h1>
+    <p>${esc(lede)}</p>
+  </div>
+  <div class="view-rows"><ol class="list">${alt.apps.map((a) => row(a, now)).join('')}</ol></div>
+  ${faqHtml(`${alt.name} alternative questions`, faq)}
+</main>`;
+  write(`alternatives/${alt.slug}/index.html`, layout({
+    title: `Open-source ${alt.name} alternatives you can self-host on Cloudflare`,
+    description: lede,
+    path: altPath(alt),
+    body,
+    jsonld: [crumbsLd(trail), faqLd(faq), {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: `Self-hosted ${alt.name} alternatives on Cloudflare`,
+      numberOfItems: n,
+      itemListElement: alt.apps.map((a, i) => ({ '@type': 'ListItem', position: i + 1, url: SITE_URL + appPath(a), name: a.name })),
+    }],
+  }));
+}
+
+function alternativesIndex() {
+  const trail = [['Catalog', '/'], ['Alternatives', null]];
+  const body = `<main class="wrap page">
+  ${crumbs(trail)}
+  <div class="page-head">
+    <h1>Self-hosted alternatives to the tools you pay for</h1>
+    <p>Open-source apps that replace ${ALTS.length} paid products, and run on your own Cloudflare account. Pick the tool you want to stop renting.</p>
+  </div>
+  <ul class="alt-grid">${ALTS.map((x) => `<li><a href="${altPath(x)}"><s>${esc(x.name)}</s><span>${x.apps.length} alternative${x.apps.length === 1 ? '' : 's'}: ${esc(list(x.apps.slice(0, 3).map((a) => a.name)))}</span></a></li>`).join('')}</ul>
+</main>`;
+  write('alternatives/index.html', layout({
+    title: 'Self-hosted alternatives to paid software, on Cloudflare',
+    description: `Open-source alternatives to ${list(ALTS.slice(0, 5).map((x) => x.name))} and ${Math.max(0, ALTS.length - 5)} more paid tools, deployable to your own Cloudflare account.`,
+    path: '/alternatives/',
+    body,
+    jsonld: [crumbsLd(trail)],
+  }));
+}
+
+// ---------- Machine-readable copies for LLMs and answer engines (llmstxt.org) ----------
+function appMarkdown(a) {
+  const b = a.bindings || [];
+  return [
+    `# ${a.name}`,
+    '',
+    `> ${a.description}`,
+    '',
+    `- Category: ${a.category}`,
+    a.replaces ? `- Self-hosted alternative to: ${a.replaces}` : null,
+    `- Repository: https://github.com/${a.repo}`,
+    `- Licence: ${a.license}`,
+    `- GitHub stars: ${a.stars}`,
+    `- Last commit: ${String(a.pushed_at).slice(0, 10)}`,
+    a.latest_release ? `- Latest release: ${a.latest_release.tag}` : null,
+    `- Rank: ${a.rank} of ${total} on OpenFlareStack`,
+    `- Cloudflare resources it creates: ${b.length ? b.map((x) => BINDINGS[x].n).join(', ') : 'none found in its wrangler config'}`,
+    a.deploy_url ? `- Deploy: ${a.deploy_url}` : `- Install: see https://github.com/${a.repo}#readme`,
+    `- Page: ${SITE_URL}${appPath(a)}`,
+    '',
+    '## Keeping it up to date',
+    '',
+    '```bash',
+    `git remote add upstream https://github.com/${a.repo}.git`,
+    `git pull upstream ${a.default_branch || 'main'}`,
+    'npx wrangler deploy',
+    '```',
+    '',
+  ].filter((x) => x != null).join('\n');
+}
+
+function llmsFiles() {
+  const line = (a) => `- [${a.name}](${SITE_URL}/apps/${a.slug}.md): ${a.description}${a.replaces ? ` Replaces ${a.replaces}.` : ''}`;
+  const head = [
+    '# OpenFlareStack',
+    '',
+    `> A free, independent catalog of ${total} open-source apps that deploy to your own Cloudflare account (Cloudflare Workers), discovered from GitHub and ranked every night by stars and recent commits. Updated ${built}.`,
+    '',
+    'Every app listed is open source, not a fork, not archived, and has a commit in the last 12 months. Most have a "Deploy to Cloudflare" button that copies the repository into the user’s GitHub account, creates the D1 databases, KV namespaces, R2 buckets and other resources it needs, and deploys it with Workers Builds. OpenFlareStack never hosts the apps’ code; it links to each author’s repository. It is not affiliated with Cloudflare, Inc.',
+    '',
+  ];
+  const llms = [...head,
+    '## Categories', '',
+    ...catalog.categories.map((c) => `- [${c.name}](${SITE_URL}${catPath(c.name)}): ${c.count} apps`), '',
+    '## Self-hosted alternatives', '',
+    ...ALTS.map((x) => `- [${x.name} alternative${hasPage(x) ? 's' : ''}](${SITE_URL}${altPath(x)}): ${list(x.apps.slice(0, 3).map((a) => a.name))}`), '',
+    '## Top apps', '',
+    ...apps.slice(0, 50).map(line), '',
+    '## Optional', '',
+    `- [Full catalog](${SITE_URL}/llms-full.txt): every app with its category, licence, stars and Cloudflare resources`,
+    `- [Catalog data (JSON)](${SITE_URL}/catalog.json): machine-readable catalog, rebuilt nightly`,
+    `- [Source code](https://github.com/${CATALOG_REPO}): how apps are discovered, filtered and ranked`,
+    '',
+  ];
+  write('llms.txt', llms.join('\n'));
+  const full = [...head, ...catalog.categories.flatMap((c) => [`## ${c.name}`, '', ...apps.filter((a) => a.category === c.name).map((a) =>
+    `### ${a.name}\n\n${a.description}${a.replaces ? ` Self-hosted alternative to ${a.replaces}.` : ''}\n\n- Repository: https://github.com/${a.repo} (${a.license}, ${a.stars} stars, last commit ${String(a.pushed_at).slice(0, 10)})\n- Creates: ${(a.bindings || []).map((x) => BINDINGS[x].n).join(', ') || 'no bindings found'}\n- ${a.deploy_url ? `Deploy: ${a.deploy_url}` : 'Install with the CLI, see the README'}\n- Page: ${SITE_URL}${appPath(a)}\n`), ''])];
+  write('llms-full.txt', full.join('\n'));
+  for (const a of apps) write(`apps/${a.slug}.md`, appMarkdown(a));
+}
+
 // ---------- Credits ----------
 function credits() {
   const notice = readFileSync(join(ROOT, 'THIRD_PARTY_NOTICES.md'), 'utf8');
   const mit = notice.split('```')[1]?.trim() || '';
+  const authors = new Set(apps.map((a) => a.repo.split('/')[0].toLowerCase())).size;
+  const card = (title, body) => `<section class="credit"><h2>${title}</h2>${body}</section>`;
   const body = `<main class="wrap page">
   ${crumbs([['Catalog', '/'], ['Credits', null]])}
-  <div class="page-head"><h1>Credits</h1><p>OpenFlareStack stands on other people's work. Thank you.</p></div>
-  <div class="prose">
-    <h2>awesome-cloudflare-selfhosted</h2>
-    <p>The first apps in this catalog came from <a href="https://github.com/theoephraim/awesome-cloudflare-selfhosted" rel="noopener">awesome-cloudflare-selfhosted</a>, a hand-picked list kept by its contributors. Their list is MIT licensed, and their notice is below.</p>
-    <pre>${esc(mit)}</pre>
-    <h2>The apps</h2>
-    <p>Every app listed belongs to its authors. We link to their repositories and never host or mirror their code. Each one keeps its own licence.</p>
-    <h2>Data</h2>
-    <p>Stars, commit dates, licences and owner avatars come from the GitHub API. Deploy links go to Cloudflare's Deploy to Cloudflare service.</p>
-    <h2>Fonts</h2>
-    <p>Space Grotesk, Manrope and Geist Mono, all under the SIL Open Font License, served by Google Fonts.</p>
+  <div class="page-head"><h1>Credits</h1><p>OpenFlareStack stands on other people’s work. Here’s who and what makes it possible.</p></div>
+  <div class="credits">
+    ${card('Made by', `<p>OpenFlareStack is built and run by <a href="${AUTHOR.url}" rel="noopener author">${esc(AUTHOR.name)}</a>. The code is on <a href="https://github.com/${CATALOG_REPO}" rel="noopener">GitHub</a>; issues and ideas are welcome there.</p>`)}
+    ${card(`The ${total} apps and their ${authors} authors`, `<p>Every app listed belongs to the people who build it. We link to their repositories and never host or mirror their code, and each app keeps its own licence. If you use one, star its repo or sponsor its author.</p>`)}
+    ${card('awesome-cloudflare-selfhosted', `<p>The first apps in this catalog came from <a href="https://github.com/theoephraim/awesome-cloudflare-selfhosted" rel="noopener">awesome-cloudflare-selfhosted</a>, a hand-picked list kept by its contributors. Their names, categories and summaries seeded the list, and they are still imported every night. Thank you.</p><details><summary>Their MIT licence notice</summary><pre>${esc(mit)}</pre></details>`)}
+    ${card('Data', `<p>Stars, commit dates, licences and owner avatars come from the <a href="https://docs.github.com/en/rest" rel="noopener">GitHub API</a>. The Deploy buttons use Cloudflare’s <a href="https://developers.cloudflare.com/workers/platform/deploy-buttons/" rel="noopener">Deploy to Cloudflare</a> service.</p>`)}
+    ${card('Fonts', `<p><a href="https://fonts.google.com/specimen/Space+Grotesk" rel="noopener">Space Grotesk</a>, <a href="https://fonts.google.com/specimen/Manrope" rel="noopener">Manrope</a> and <a href="https://fonts.google.com/specimen/Geist+Mono" rel="noopener">Geist Mono</a>, all under the SIL Open Font License, served by Google Fonts.</p>`)}
+    ${card('Hosting', `<p>The site is plain HTML served from Cloudflare Workers, and the catalog is rebuilt by GitHub Actions. OpenFlareStack is independent and not affiliated with Cloudflare, Inc.</p>`)}
   </div>
 </main>`;
-  write('credits/index.html', layout({ title: 'Credits | OpenFlareStack', description: 'The projects, data and people OpenFlareStack builds on.', path: '/credits/', body }));
+  write('credits/index.html', layout({ title: 'Credits | OpenFlareStack', description: `Who makes OpenFlareStack possible: ${AUTHOR.name}, the authors of ${total} open-source apps, awesome-cloudflare-selfhosted, the GitHub API and more.`, path: '/credits/', body }));
 }
 
 function notFound() {
@@ -394,25 +589,73 @@ function notFound() {
 }
 
 function sitemap() {
-  const urls = [['/', built], ['/credits/', built],
+  const urls = [['/', built], ['/alternatives/', built], ['/credits/', built],
     ...catalog.categories.map((c) => [catPath(c.name), built]),
+    ...ALTS.filter(hasPage).map((x) => [altPath(x), built]),
     ...apps.map((a) => [appPath(a), String(a.pushed_at).slice(0, 10)])];
   write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(([u, d]) => `  <url><loc>${SITE_URL}${u}</loc><lastmod>${d}</lastmod></url>`).join('\n')}\n</urlset>\n`);
-  write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+  // Search engines and AI crawlers are all welcome: being cited by answer engines is the point.
+  const bots = ['Googlebot', 'Bingbot', 'GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-User', 'Claude-SearchBot',
+    'PerplexityBot', 'Perplexity-User', 'Google-Extended', 'Applebot', 'Applebot-Extended', 'CCBot', 'DuckAssistBot', 'meta-externalagent'];
+  write('robots.txt', [
+    '# OpenFlareStack: open-source apps for your own Cloudflare account.',
+    '# Everything here is public. Search engines and AI assistants are welcome.',
+    '# A plain-text summary for language models lives at /llms.txt',
+    '',
+    'User-agent: *',
+    'Allow: /',
+    '',
+    ...bots.flatMap((b) => [`User-agent: ${b}`, 'Allow: /', '']),
+    `Sitemap: ${SITE_URL}/sitemap.xml`,
+    '',
+  ].join('\n'));
 }
 
 home();
 apps.forEach(appPage);
 catalog.categories.forEach(categoryPage);
+ALTS.filter(hasPage).forEach(alternativePage);
+alternativesIndex();
+llmsFiles();
 credits();
 notFound();
 sitemap();
 
-// Static assets and the shared modules the browser imports.
+// Static assets and the shared modules the browser imports. Relative imports get the same ?v=<hash>
+// as the page's preload links, so the browser fetches each module once and can cache it for a year.
+const versioned = (code) => code.replace(/(from\s+['"])(\.{1,2}\/[^'"?]+\.js)(['"])/g, `$1$2?v=${ASSET_V}$3`);
 cpSync(join(SITE, 'styles.css'), join(OUT, 'styles.css'));
-cpSync(join(SITE, 'app.js'), join(OUT, 'app.js'));
+writeFileSync(join(OUT, 'app.js'), versioned(readFileSync(join(SITE, 'app.js'), 'utf8')));
+mkdirSync(join(OUT, 'lib'), { recursive: true });
+for (const f of readdirSync(join(ROOT, 'lib'))) writeFileSync(join(OUT, 'lib', f), versioned(readFileSync(join(ROOT, 'lib', f), 'utf8')));
 cpSync(join(SITE, 'assets'), OUT, { recursive: true });
-cpSync(join(ROOT, 'lib'), join(OUT, 'lib'), { recursive: true });
 cpSync(join(ROOT, 'data', 'catalog.json'), join(OUT, 'catalog.json'));
 
-console.log(`build: ${apps.length} app pages, ${catalog.categories.length} category pages -> dist/`);
+// Cache rules (Workers static assets read dist/_headers). Pages stay fresh; hashed CSS/JS and
+// images are cached for a long time.
+write('_headers', `/styles.css
+  Cache-Control: public, max-age=31536000, immutable
+/app.js
+  Cache-Control: public, max-age=31536000, immutable
+/lib/*
+  Cache-Control: public, max-age=31536000, immutable
+/favicon.svg
+  Cache-Control: public, max-age=604800
+/og.png
+  Cache-Control: public, max-age=604800
+/apple-touch-icon.png
+  Cache-Control: public, max-age=604800
+/catalog.json
+  Cache-Control: public, max-age=3600
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+/llms-full.txt
+  Content-Type: text/plain; charset=utf-8
+/apps/*.md
+  Content-Type: text/markdown; charset=utf-8
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+`);
+
+console.log(`build: ${apps.length} app pages, ${catalog.categories.length} category pages, ${ALTS.filter(hasPage).length} alternatives pages -> dist/`);

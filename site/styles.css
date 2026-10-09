@@ -308,10 +308,31 @@ section{scroll-margin-top:5rem}
 .note{font-size:.88rem;color:var(--quiet);margin-top:.9rem}
 
 /* ---------- Footer ---------- */
-.foot{border-top:1px solid var(--rule);padding-block:2.5rem 3rem}
-.foot .wrap{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;align-items:start;justify-content:space-between}
-.foot p{color:var(--quiet);font-size:.9rem;max-width:60ch}
-.foot p+p{margin-top:.4rem}
+.foot{border-top:1px solid var(--rule);background:var(--sheet);padding-block:3rem 2rem;margin-top:2rem}
+.foot-grid{display:grid;gap:2rem 2.5rem;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:900px){.foot-grid{grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr))}}
+.foot-brand{grid-column:1/-1}
+@media (min-width:900px){.foot-brand{grid-column:auto}}
+.foot-brand p{color:var(--quiet);font-size:.93rem;margin-top:.9rem;max-width:34ch}
+.foot-cta{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;font-weight:650;font-size:.92rem;color:var(--flare);text-decoration:none}
+.foot-cta svg{width:.9rem;height:.9rem}
+.foot-cta:hover{color:var(--flare-2)}
+.foot nav h2{font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--quiet);margin-bottom:.8rem}
+.foot nav ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.foot nav a{color:var(--ink);text-decoration:none;font-size:.92rem}
+.foot nav a:hover{color:var(--flare)}
+.foot-bottom{margin-top:2.5rem;padding-top:1.25rem;border-top:1px solid var(--rule);display:grid;gap:.35rem}
+.foot-bottom p{color:var(--quiet);font-size:.84rem}
+.foot-bottom a{color:var(--ink)}
+
+/* GitHub star button in the header */
+.gh-star{display:inline-flex;align-items:center;gap:.45rem;margin-left:auto;padding:.4rem .7rem;border:1px solid var(--rule);border-radius:10px;background:var(--sheet);text-decoration:none;font-size:.88rem;font-weight:600;white-space:nowrap}
+.gh-star:hover{border-color:var(--quiet)}
+.gh-star>svg{width:1.05rem;height:1.05rem}
+.gh-star b{display:inline-flex;align-items:center;gap:.25rem;padding-left:.5rem;border-left:1px solid var(--rule);font-weight:650;font-variant-numeric:tabular-nums}
+.gh-star b svg{width:.8rem;height:.8rem;color:#C98A00}
+.nav+.gh-star{margin-left:0}
+.top .wrap{gap:1.25rem}
 
 /* ---------- Detail sheet ---------- */
 dialog.sheet{position:fixed;inset:0 0 0 auto;margin:0;height:100%;max-height:100%;width:min(38rem,100%);max-width:100%;border:0;padding:0;background:var(--sheet);color:var(--ink);box-shadow:-24px 0 60px -20px var(--scrim);overflow:hidden}
@@ -357,9 +378,6 @@ dialog.sheet::backdrop{background:var(--scrim)}
 a.mq-card{text-decoration:none;color:inherit}
 a.open{color:inherit;text-decoration:none}
 .more{display:flex;justify-content:center;margin-top:1.25rem}
-.foot nav{display:flex;flex-wrap:wrap;gap:.4rem 1.25rem;margin-top:.8rem;font-size:.9rem}
-.foot nav a{color:var(--quiet)}
-.foot nav a:hover{color:var(--ink)}
 
 /* App, category and text pages */
 .page{padding-block:clamp(1.75rem,4vw,3rem) 4rem}
@@ -394,3 +412,53 @@ a.open{color:inherit;text-decoration:none}
 .prose a{color:var(--flare)}
 .prose pre{background:var(--hover);border-radius:12px;padding:1rem;overflow-x:auto;font-family:var(--code);font-size:.8rem;white-space:pre-wrap}
 .sheet-body{grid-template-columns:minmax(0,1fr)}
+
+/* FAQ blocks (home, app and alternatives pages) */
+.faq{margin-top:3rem}
+.faq>h2{font-size:clamp(1.8rem,1.2rem + 1.8vw,2.8rem);margin-bottom:1.5rem}
+.qa{display:grid;gap:0 3rem}
+@media (min-width:900px){.qa{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.qa>div{padding:1.1rem 0;border-top:1px solid var(--rule)}
+.qa h3{font-size:1.05rem;font-weight:650;letter-spacing:-.01em;margin-bottom:.4rem}
+.qa p{color:var(--quiet);font-size:.97rem;line-height:1.6}
+.qa a{color:var(--flare)}
+.qa code{font-family:var(--code);font-size:.85em;overflow-wrap:anywhere}
+.band .faq{margin-top:0}
+
+/* Alternatives index */
+.alt-grid{list-style:none;margin:0;padding:0;display:grid;gap:.75rem;grid-template-columns:repeat(auto-fill,minmax(min(100%,17rem),1fr))}
+.alt-grid a{display:grid;gap:.3rem;height:100%;box-sizing:border-box;padding:1rem 1.1rem;border:1px solid var(--rule);border-radius:14px;background:var(--sheet);text-decoration:none}
+.alt-grid a:hover{border-color:var(--quiet)}
+.alt-grid s{font-family:var(--display);font-weight:700;font-size:1.2rem;letter-spacing:-.02em;text-decoration-color:var(--flare);text-decoration-thickness:2px}
+.alt-grid span{color:var(--quiet);font-size:.9rem}
+
+/* Icons now come from the sprite via <use>; give them a size where the old inline SVGs had one */
+.meta .stars svg,.deploy svg,.btn svg,.swap-chip svg,.iconbtn svg,.ic svg,.pill svg{display:inline-block;flex:0 0 auto}
+.av img{width:100%;height:100%}
+
+/* Compact "How it works" */
+.band-tight{padding-block:clamp(2.5rem,4vw,3.5rem)}
+.band-tight .band-head{margin-bottom:1.5rem}
+.band-tight .band-head h2{font-size:clamp(1.8rem,1.2rem + 1.8vw,2.8rem)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:.75rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr))}
+.steps li{background:var(--sheet);border:1px solid var(--rule);border-radius:14px;padding:1rem 1.1rem}
+.steps .idx{display:inline-grid;place-items:center;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--flare-soft);color:var(--flare);font-weight:700;font-size:.82rem}
+.steps h3{font-size:1.02rem;font-weight:650;margin:.6rem 0 .3rem}
+.steps p{color:var(--quiet);font-size:.9rem;line-height:1.5}
+.legend{margin-top:1.25rem;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.25rem}
+.legend p{color:var(--quiet);font-size:.9rem}
+.legend ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.5rem 1.1rem}
+.legend li{display:inline-flex;align-items:center;gap:.45rem;font-size:.88rem;font-weight:550}
+.legend .tiles{display:inline-flex;gap:.2rem}
+.legend .tile{min-width:1.6rem;height:1.6rem;font-size:.7rem}
+
+/* Credits */
+.credits{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(min(100%,22rem),1fr));align-items:start}
+.credit{background:var(--sheet);border:1px solid var(--rule);border-radius:16px;padding:1.2rem 1.3rem}
+.credit h2{font-family:var(--sans);font-size:1.05rem;font-weight:700;letter-spacing:-.01em;line-height:1.3;margin-bottom:.5rem}
+.credit p{color:var(--quiet);font-size:.95rem;line-height:1.6}
+.credit a{color:var(--flare)}
+.credit details{margin-top:.8rem}
+.credit summary{cursor:pointer;font-weight:600;font-size:.9rem}
+.credit pre{margin-top:.6rem;background:var(--hover);border-radius:10px;padding:.9rem;font-family:var(--code);font-size:.72rem;white-space:pre-wrap;max-height:16rem;overflow:auto}
+@media (max-width:720px){.nav+.gh-star{margin-left:auto}}

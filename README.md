@@ -1,6 +1,19 @@
 # OpenFlareStack
 
-A free, static catalog of open-source apps that deploy to your own Cloudflare account, discovered automatically every night from GitHub and ranked. Live at [openflarestack.com](https://openflarestack.com).
+**Stop renting software. Run it on your own Cloudflare.**
+
+A free catalog of open-source apps that deploy to your own Cloudflare account, discovered automatically from GitHub every night and ranked. Self-hosted alternatives to Calendly, Google Analytics, Bitly, Mailchimp and more, each with a one-click Deploy to Cloudflare button.
+
+**[openflarestack.com](https://openflarestack.com)** · [Browse alternatives](https://openflarestack.com/alternatives/) · [Submit your app](https://openflarestack.com/#submit)
+
+![The OpenFlareStack catalog](.github/screenshots/home.jpg)
+
+<table>
+  <tr>
+    <td width="68%"><img src=".github/screenshots/app.jpg" alt="An app page: what it sets up in your Cloudflare account, facts and how to keep it updated"></td>
+    <td width="32%"><img src=".github/screenshots/mobile.jpg" alt="The catalog on a phone"></td>
+  </tr>
+</table>
 
 There's no backend and no database. Git is the database, GitHub Actions does the work, and the site is plain HTML served by a static-assets-only Cloudflare Worker.
 
@@ -21,6 +34,13 @@ GitHub README search ──────────┼─► daily.yml (03:00 UT
 7. **Publish** `data/catalog.json` (scored and ranked) and `data/review.md`.
 
 Score: `10 × log10(stars + 1) − min(daysSinceLastPush, 120) / 12 + (hasRelease ? 1 : 0)`.
+
+## The site
+
+- **Pre-rendered HTML for every page:** home (top 100), one page per app, per category and per "X alternatives" group, plus credits. Search engines and answer engines get full content without running JavaScript.
+- **Structured data:** `Organization`, `WebSite`, `ItemList`, `BreadcrumbList`, `FAQPage` and `WebApplication` JSON-LD. Every app, category and alternatives page carries a visible FAQ written for answer engines.
+- **For AI assistants:** [`/llms.txt`](https://openflarestack.com/llms.txt) ([llmstxt.org](https://llmstxt.org) format), `/llms-full.txt` with the whole catalog, and a Markdown copy of every app page at `/apps/<slug>.md`. `robots.txt` welcomes search and AI crawlers by name.
+- **Fast:** no framework, one icon sprite, right-sized avatars, content-hashed CSS and JS cached for a year through `_headers`, and module preloading. Static asset requests on Workers are free and unlimited.
 
 ## Layout
 
