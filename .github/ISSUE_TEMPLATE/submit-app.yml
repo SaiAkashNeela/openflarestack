@@ -1,0 +1,29 @@
+name: Submit an app
+description: Add an open-source app that deploys to Cloudflare. A bot checks it straight away.
+title: "Submit: "
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for submitting. A bot runs the same checks as the [checker on openflarestack.com](https://openflarestack.com/#submit) and answers here within a minute or two. If something needs fixing, edit this issue afterwards and the check runs again.
+  - type: input
+    id: repo_url
+    attributes:
+      label: GitHub repository link
+      description: The public repository of the app, not a fork.
+      placeholder: https://github.com/owner/repo
+    validations:
+      required: true
+  - type: checkboxes
+    id: readme
+    attributes:
+      label: README
+      options:
+        - label: My repository has a README at the root. It's the first thing the check reads.
+          required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else? (optional)
+      description: For example, which tool it replaces, or how to install it if there's no Deploy button.

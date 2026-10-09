@@ -1,0 +1,16 @@
+{
+  "name": "openflarestack",
+  "private": true,
+  "type": "module",
+  "description": "A static catalog of open-source apps that deploy to your own Cloudflare account.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "catalog:daily": "node scripts/daily.js",
+    "catalog:submission": "node scripts/submission.js",
+    "build": "node scripts/build-site.js",
+    "dev": "node scripts/build-site.js && npx wrangler dev",
+    "test": "node --test"
+  }
+}

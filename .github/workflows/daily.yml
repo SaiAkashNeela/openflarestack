@@ -1,0 +1,55 @@
+name: daily-catalog
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # 03:00 UTC every day
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+# Shared with submission.yml so the two never push at the same time.
+concurrency:
+  group: catalog-writes
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Pull the awesome-cloudflare-selfhosted list (sparse clone, entries only)
+        run: |
+          git clone --depth 1 --filter=blob:none --sparse \
+            https://github.com/theoephraim/awesome-cloudflare-selfhosted.git "$RUNNER_TEMP/awesome"
+          git -C "$RUNNER_TEMP/awesome" sparse-checkout set data/entries data/categories
+
+      - name: Import, discover, refresh, filter, enrich, classify, publish
+        env:
+          AWESOME_DIR: ${{ runner.temp }}/awesome
+          # Fine-grained PAT with public read only. Falls back to the workflow token if unset.
+          GH_SEARCH_TOKEN: ${{ secrets.GH_SEARCH_TOKEN || github.token }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ vars.LLM_MODEL }}
+          MIN_STARS: ${{ vars.MIN_STARS }}
+        run: npm run catalog:daily
+
+      - name: Check the site still builds
+        run: npm run build
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "catalog: nightly update $(date -u +%F)"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push

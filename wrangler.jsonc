@@ -1,0 +1,11 @@
+// The site: a static-assets-only Worker serving dist/ (built by `npm run build`).
+// Workers Builds runs the build on every push, including the nightly catalog commit.
+{
+  "name": "openflarestack",
+  "compatibility_date": "2026-10-08",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
