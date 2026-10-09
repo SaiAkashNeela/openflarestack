@@ -23,10 +23,41 @@ const built = new Date(now).toISOString().slice(0, 10);
 const ASSET_FILES = [join(SITE, 'styles.css'), join(SITE, 'app.js'), ...readdirSync(join(ROOT, 'lib')).map((f) => join(ROOT, 'lib', f))];
 const ASSET_V = createHash('sha256').update(ASSET_FILES.map((f) => readFileSync(f)).join('\n')).digest('hex').slice(0, 10);
 const OG_IMAGE = `${SITE_URL}/og.png`;
-const FONTS = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Space+Grotesk:wght@500..700&family=Geist+Mono:wght@400..500&display=swap';
+
 
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
+
+// Owner avatars are downloaded at build time and served from our own domain, so pages make no
+// requests to other sites. 64px for lists and cards, 128px for app pages. If GitHub can't be
+// reached, the app just shows its letter tile.
+async function fetchAvatars() {
+  mkdirSync(join(OUT, 'avatars'), { recursive: true });
+  const owners = [...new Map(apps.filter((a) => a.owner?.avatar_url).map((a) => [a.owner.login.toLowerCase(), a.owner.avatar_url])).entries()];
+  const saved = new Map();
+  const jobs = owners.flatMap(([login, url]) => [64, 128].map((px) => ({ login, px, url: url.replace(/([?&])s=\d+/, '$1s=' + px) + (/[?&]s=\d+/.test(url) ? '' : (url.includes('?') ? '&' : '?') + 's=' + px) })));
+  let ok = 0;
+  await Promise.all(Array.from({ length: 16 }, async () => {
+    for (let j; (j = jobs.shift());) {
+      try {
+        const res = await fetch(j.url, { signal: AbortSignal.timeout(10_000) });
+        if (!res.ok) continue;
+        const ext = /png/.test(res.headers.get('content-type') || '') ? 'png' : 'jpg';
+        const file = `/avatars/${j.login}-${j.px}.${ext}`;
+        writeFileSync(join(OUT, file), Buffer.from(await res.arrayBuffer()));
+        saved.set(`${j.login}-${j.px}`, file);
+        ok++;
+      } catch { /* letter tile instead */ }
+    }
+  }));
+  for (const a of apps) {
+    const login = a.owner?.login?.toLowerCase();
+    a.avatar_sm = saved.get(`${login}-64`) || null;
+    a.avatar_lg = saved.get(`${login}-128`) || a.avatar_sm;
+  }
+  return ok;
+}
+const avatarCount = await fetchAvatars();
 
 function write(path, html) {
   const p = join(OUT, path);
@@ -71,10 +102,8 @@ function layout({ title, description, path, body, jsonld = [], page = 'page', no
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
-${markdown ? `<link rel="alternate" type="text/markdown" href="${esc(markdown)}">\n` : ''}<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin>
-<link rel="stylesheet" href="${FONTS}">
+${markdown ? `<link rel="alternate" type="text/markdown" href="${esc(markdown)}">\n` : ''}<link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css?v=${ASSET_V}">
 <link rel="modulepreload" href="/app.js?v=${ASSET_V}">
 ${['render', 'bindings', 'check', 'config'].map((m) => `<link rel="modulepreload" href="/lib/${m}.js?v=${ASSET_V}">`).join('\n')}
@@ -571,7 +600,7 @@ function credits() {
     ${card(`The ${total} apps and their ${authors} authors`, `<p>Every app listed belongs to the people who build it. We link to their repositories and never host or mirror their code, and each app keeps its own licence. If you use one, star its repo or sponsor its author.</p>`)}
     ${card('awesome-cloudflare-selfhosted', `<p>The first apps in this catalog came from <a href="https://github.com/theoephraim/awesome-cloudflare-selfhosted" rel="noopener">awesome-cloudflare-selfhosted</a>, a hand-picked list kept by its contributors. Their names, categories and summaries seeded the list, and they are still imported every night. Thank you.</p><details><summary>Their MIT licence notice</summary><pre>${esc(mit)}</pre></details>`)}
     ${card('Data', `<p>Stars, commit dates, licences and owner avatars come from the <a href="https://docs.github.com/en/rest" rel="noopener">GitHub API</a>. The Deploy buttons use Cloudflare’s <a href="https://developers.cloudflare.com/workers/platform/deploy-buttons/" rel="noopener">Deploy to Cloudflare</a> service.</p>`)}
-    ${card('Fonts', `<p><a href="https://fonts.google.com/specimen/Space+Grotesk" rel="noopener">Space Grotesk</a>, <a href="https://fonts.google.com/specimen/Manrope" rel="noopener">Manrope</a> and <a href="https://fonts.google.com/specimen/Geist+Mono" rel="noopener">Geist Mono</a>, all under the SIL Open Font License, served by Google Fonts.</p>`)}
+    ${card('Fonts', `<p><a href="https://fonts.google.com/specimen/Space+Grotesk" rel="noopener">Space Grotesk</a>, <a href="https://fonts.google.com/specimen/Manrope" rel="noopener">Manrope</a> and <a href="https://fonts.google.com/specimen/Geist+Mono" rel="noopener">Geist Mono</a>, all under the SIL Open Font License, self-hosted on this site (<a href="/fonts/OFL-manrope.txt">licence texts</a>).</p>`)}
     ${card('Hosting', `<p>The site is plain HTML served from Cloudflare Workers, and the catalog is rebuilt by GitHub Actions. OpenFlareStack is independent and not affiliated with Cloudflare, Inc.</p>`)}
   </div>
 </main>`;
@@ -624,7 +653,7 @@ writeFileSync(join(OUT, 'app.js'), versioned(readFileSync(join(SITE, 'app.js'), 
 mkdirSync(join(OUT, 'lib'), { recursive: true });
 for (const f of readdirSync(join(ROOT, 'lib'))) writeFileSync(join(OUT, 'lib', f), versioned(readFileSync(join(ROOT, 'lib', f), 'utf8')));
 cpSync(join(SITE, 'assets'), OUT, { recursive: true });
-cpSync(join(ROOT, 'data', 'catalog.json'), join(OUT, 'catalog.json'));
+writeFileSync(join(OUT, 'catalog.json'), JSON.stringify(catalog));
 
 // Cache rules (Workers static assets read dist/_headers). Pages stay fresh; hashed CSS/JS and
 // images are cached for a long time.
@@ -634,6 +663,10 @@ write('_headers', `/styles.css
   Cache-Control: public, max-age=31536000, immutable
 /lib/*
   Cache-Control: public, max-age=31536000, immutable
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/avatars/*
+  Cache-Control: public, max-age=604800
 /favicon.svg
   Cache-Control: public, max-age=604800
 /og.png
@@ -653,4 +686,4 @@ write('_headers', `/styles.css
   Referrer-Policy: strict-origin-when-cross-origin
 `);
 
-console.log(`build: ${apps.length} app pages, ${catalog.categories.length} category pages, ${ALTS.filter(hasPage).length} alternatives pages -> dist/`);
+console.log(`build: ${avatarCount} avatars saved, ${apps.length} app pages, ${catalog.categories.length} category pages, ${ALTS.filter(hasPage).length} alternatives pages -> dist/`);
