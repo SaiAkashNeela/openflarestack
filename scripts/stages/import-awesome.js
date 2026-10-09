@@ -21,7 +21,7 @@ export const AWESOME_CATEGORIES = {
   'community-and-comments': 'Community',
   'developer-tools': 'Developer tools',
   'email-and-inboxes': 'Email',
-  'files-images-and-sharing': 'Files & media',
+  'files-images-and-sharing': 'Files & storage',
   'link-shorteners': 'Link shorteners',
   'notes-knowledge-and-sync': 'Notes',
   'notifications-and-push': 'Notifications',

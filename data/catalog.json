@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T10:15:11.153Z",
+  "generated_at": "2026-10-09T11:33:13.360Z",
   "counts": {
     "tracked": 5300,
     "matched": 6119,
@@ -13,6 +13,21 @@
   },
   "categories": [
     {
+      "name": "AI tools",
+      "slug": "ai-tools",
+      "count": 10
+    },
+    {
+      "name": "AI agents",
+      "slug": "ai-agents",
+      "count": 12
+    },
+    {
+      "name": "LLM gateways",
+      "slug": "llm-gateways",
+      "count": 4
+    },
+    {
       "name": "Analytics",
       "slug": "analytics",
       "count": 5
@@ -25,7 +40,17 @@
     {
       "name": "Business",
       "slug": "business",
-      "count": 17
+      "count": 11
+    },
+    {
+      "name": "Shops & payments",
+      "slug": "shops-and-payments",
+      "count": 4
+    },
+    {
+      "name": "Finance",
+      "slug": "finance",
+      "count": 5
     },
     {
       "name": "Chat & realtime",
@@ -33,34 +58,14 @@
       "count": 8
     },
     {
-      "name": "CMS & docs",
-      "slug": "cms-and-docs",
-      "count": 9
-    },
-    {
       "name": "Community",
       "slug": "community",
       "count": 4
     },
     {
-      "name": "Developer tools",
-      "slug": "developer-tools",
-      "count": 27
-    },
-    {
-      "name": "Email",
-      "slug": "email",
-      "count": 28
-    },
-    {
-      "name": "Files & media",
-      "slug": "files-and-media",
-      "count": 25
-    },
-    {
-      "name": "Link shorteners",
-      "slug": "link-shorteners",
-      "count": 7
+      "name": "CMS & docs",
+      "slug": "cms-and-docs",
+      "count": 9
     },
     {
       "name": "Notes",
@@ -68,18 +73,58 @@
       "count": 8
     },
     {
+      "name": "RSS & reading",
+      "slug": "rss-and-reading",
+      "count": 3
+    },
+    {
+      "name": "Developer tools",
+      "slug": "developer-tools",
+      "count": 11
+    },
+    {
+      "name": "Git & CI",
+      "slug": "git-and-ci",
+      "count": 7
+    },
+    {
+      "name": "Email",
+      "slug": "email",
+      "count": 17
+    },
+    {
+      "name": "Temporary email",
+      "slug": "temporary-email",
+      "count": 11
+    },
+    {
       "name": "Notifications",
       "slug": "notifications",
       "count": 6
     },
     {
-      "name": "Personal",
-      "slug": "personal",
-      "count": 12
+      "name": "Files & storage",
+      "slug": "files-and-storage",
+      "count": 9
     },
     {
-      "name": "Remote access",
-      "slug": "remote-access",
+      "name": "Image hosting",
+      "slug": "image-hosting",
+      "count": 3
+    },
+    {
+      "name": "Pastebins",
+      "slug": "pastebins",
+      "count": 4
+    },
+    {
+      "name": "Media",
+      "slug": "media",
+      "count": 8
+    },
+    {
+      "name": "Link shorteners",
+      "slug": "link-shorteners",
       "count": 7
     },
     {
@@ -88,9 +133,14 @@
       "count": 12
     },
     {
-      "name": "AI tools",
-      "slug": "ai-tools",
-      "count": 16
+      "name": "Remote access",
+      "slug": "remote-access",
+      "count": 7
+    },
+    {
+      "name": "Personal",
+      "slug": "personal",
+      "count": 6
     }
   ],
   "apps": [
@@ -183,7 +233,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/32295532?s=96&u=826e7cda860335b939445106f62e2d65425c8bed&v=4"
       },
       "description": "Disposable email addresses on your own domain with sending, IMAP/SMTP and a Telegram bot.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": null,
       "bindings": [
         "D1"
@@ -272,7 +322,7 @@
       "score": 39.8,
       "source": "awesome-cfsh",
       "rank": 5,
-      "category_rank": 2
+      "category_rank": 1
     },
     {
       "repo": "MarSeventh/CloudFlare-ImgBed",
@@ -283,7 +333,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/108160987?s=96&u=9a689326265e429d9dc6d81753e94dce5f7fb727&v=4"
       },
       "description": "Host images and files across many storage backends from one management panel.",
-      "category": "Files & media",
+      "category": "Image hosting",
       "replaces": "Imgur",
       "bindings": [
         "Im"
@@ -340,7 +390,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 38.6,
+      "score": 38.5,
       "source": "awesome-cfsh",
       "rank": 7,
       "category_rank": 1
@@ -390,7 +440,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/314135?s=96&v=4"
       },
       "description": "Run your own vibe-coding platform where an AI agent builds and previews full-stack apps.",
-      "category": "Developer tools",
+      "category": "AI agents",
       "replaces": "Lovable",
       "bindings": [
         "D1",
@@ -451,10 +501,10 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 36.8,
+      "score": 36.7,
       "source": "awesome-cfsh",
       "rank": 10,
-      "category_rank": 3
+      "category_rank": 2
     },
     {
       "repo": "lyc8503/UptimeFlare",
@@ -661,7 +711,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/13795713?s=96&u=1167831200caab730a2e9731dee1eacf05e966cd&v=4"
       },
       "description": "Temporary inboxes with expiry, sending, webhooks and an API in a cute interface.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": null,
       "bindings": [
         "D1",
@@ -685,7 +735,7 @@
       "score": 32.1,
       "source": "awesome-cfsh",
       "rank": 17,
-      "category_rank": 4
+      "category_rank": 2
     },
     {
       "repo": "oiov/vmail",
@@ -696,7 +746,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/166131050?s=96&u=7034967118ded18d328e869a28564df75db764fa&v=4"
       },
       "description": "Temporary inboxes on your domain that can send and receive mail, with an open API.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": null,
       "bindings": [
         "D1",
@@ -720,7 +770,7 @@
       "score": 31.8,
       "source": "awesome-cfsh",
       "rank": 18,
-      "category_rank": 5
+      "category_rank": 3
     },
     {
       "repo": "i365dev/free4chat",
@@ -835,7 +885,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/46294732?s=96&u=a24a4ac868d84aa7aad992261ea2c0d2d0c97692&v=4"
       },
       "description": "Share pastes and files with short links, syntax highlighting and a handy CLI.",
-      "category": "Files & media",
+      "category": "Pastebins",
       "replaces": "Pastebin",
       "bindings": [
         "KV",
@@ -856,7 +906,7 @@
       "score": 30.2,
       "source": "awesome-cfsh",
       "rank": 22,
-      "category_rank": 2
+      "category_rank": 1
     },
     {
       "repo": "rahilp/second-brain-cloudflare",
@@ -928,7 +978,7 @@
       "score": 29.4,
       "source": "awesome-cfsh",
       "rank": 24,
-      "category_rank": 6
+      "category_rank": 3
     },
     {
       "repo": "supermemoryai/company-brain",
@@ -995,7 +1045,7 @@
       "score": 29.2,
       "source": "awesome-cfsh",
       "rank": 26,
-      "category_rank": 7
+      "category_rank": 4
     },
     {
       "repo": "idinging/freemail",
@@ -1006,7 +1056,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/92638258?s=96&u=1d0c76db3b409b5dae60e9421c34679d56716d25&v=4"
       },
       "description": "Temporary and domain mailboxes with sending, forwarding, user management and an API.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": null,
       "bindings": [
         "D1",
@@ -1029,7 +1079,7 @@
       "score": 29.2,
       "source": "search",
       "rank": 27,
-      "category_rank": 8
+      "category_rank": 4
     },
     {
       "repo": "ValueMelody/melody-auth",
@@ -1130,7 +1180,7 @@
       "score": 28.8,
       "source": "search",
       "rank": 30,
-      "category_rank": 2
+      "category_rank": 1
     },
     {
       "repo": "akazwz/hostc",
@@ -1280,7 +1330,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/215780325?s=96&v=4"
       },
       "description": "Mounts dozens of cloud drives and object stores into one file browser with sharing and WebDAV.",
-      "category": "Files & media",
+      "category": "Files & storage",
       "replaces": null,
       "bindings": [],
       "config_file": "wrangler.jsonc",
@@ -1297,7 +1347,7 @@
       "score": 27,
       "source": "search",
       "rank": 35,
-      "category_rank": 3
+      "category_rank": 1
     },
     {
       "repo": "DivinPrince/quickinbox",
@@ -1333,7 +1383,7 @@
       "score": 27,
       "source": "awesome-cfsh",
       "rank": 36,
-      "category_rank": 9
+      "category_rank": 5
     },
     {
       "repo": "PublicAffairs/openai-gemini",
@@ -1344,7 +1394,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/160492612?s=96&v=4"
       },
       "description": "Lets you use Gemini's free AI models through any tool that expects an OpenAI API endpoint.",
-      "category": "AI tools",
+      "category": "LLM gateways",
       "replaces": "OpenAI API",
       "bindings": [],
       "config_file": "wrangler.toml",
@@ -1364,7 +1414,7 @@
       "score": 26.6,
       "source": "search",
       "rank": 37,
-      "category_rank": 5
+      "category_rank": 1
     },
     {
       "repo": "Shudesu/line-harness-oss",
@@ -1445,7 +1495,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/5445926?s=96&u=958b06b3c175014c4bce445bdeaf9326ae385778&v=4"
       },
       "description": "Drive-style web interface to upload, preview and share files in your R2 buckets.",
-      "category": "Files & media",
+      "category": "Files & storage",
       "replaces": "Google Drive",
       "bindings": [
         "R2"
@@ -1467,7 +1517,7 @@
       "score": 26.1,
       "source": "awesome-cfsh",
       "rank": 40,
-      "category_rank": 4
+      "category_rank": 2
     },
     {
       "repo": "one-ea/Monolith",
@@ -1514,7 +1564,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/141542652?s=96&u=b45509018a30d86fc9fae7698b56ebc7dc89cc8b&v=4"
       },
       "description": "One web UI and WebDAV endpoint for all your S3, OneDrive, Google Drive and other storage.",
-      "category": "Files & media",
+      "category": "Files & storage",
       "replaces": null,
       "bindings": [
         "D1"
@@ -1536,7 +1586,7 @@
       "score": 26,
       "source": "awesome-cfsh",
       "rank": 42,
-      "category_rank": 5
+      "category_rank": 3
     },
     {
       "repo": "newbietan/CloudSSH",
@@ -1577,7 +1627,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/53367348?s=96&u=5ca131d752b737005effde50a54704b63e1cdfae&v=4"
       },
       "description": "Browser-only file manager for R2 buckets with big uploads, previews and image compression.",
-      "category": "Files & media",
+      "category": "Files & storage",
       "replaces": null,
       "bindings": [],
       "config_file": "wrangler.jsonc",
@@ -1597,7 +1647,7 @@
       "score": 25.8,
       "source": "search",
       "rank": 44,
-      "category_rank": 6
+      "category_rank": 4
     },
     {
       "repo": "murerkinn/bookshelf",
@@ -1608,7 +1658,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/57751146?s=96&u=8630b8b13215145ec8613f5c34cdb17a5c4195d8&v=4"
       },
       "description": "Library for your own EPUBs and PDFs, readable in the browser or on e-readers via OPDS.",
-      "category": "Files & media",
+      "category": "Media",
       "replaces": null,
       "bindings": [
         "R2"
@@ -1627,7 +1677,7 @@
       "score": 25.7,
       "source": "awesome-cfsh",
       "rank": 45,
-      "category_rank": 7
+      "category_rank": 1
     },
     {
       "repo": "lumpinif/deepcrawl",
@@ -1661,7 +1711,7 @@
       "score": 25.5,
       "source": "awesome-cfsh",
       "rank": 46,
-      "category_rank": 3
+      "category_rank": 2
     },
     {
       "repo": "abersheeran/r2-webdav",
@@ -1672,7 +1722,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/25364828?s=96&u=d92f4a85c8dc4d564bc8fd75caa58fa9b3ba396a&v=4"
       },
       "description": "Lets any WebDAV client mount an R2 bucket like a network drive.",
-      "category": "Files & media",
+      "category": "Files & storage",
       "replaces": null,
       "bindings": [
         "R2"
@@ -1691,7 +1741,7 @@
       "score": 25.5,
       "source": "awesome-cfsh",
       "rank": 47,
-      "category_rank": 8
+      "category_rank": 5
     },
     {
       "repo": "chmonitor/chmonitor",
@@ -1727,7 +1777,7 @@
       "score": 25.5,
       "source": "search",
       "rank": 48,
-      "category_rank": 4
+      "category_rank": 3
     },
     {
       "repo": "realchendahuang/FlareMo",
@@ -1775,7 +1825,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/16408285?s=96&u=c323622f04c88a29eec87c3feb1bf7348dccd52e&v=4"
       },
       "description": "Tracks recurring subscriptions, budgets and spending, and reminds you before each renewal.",
-      "category": "Personal",
+      "category": "Finance",
       "replaces": "Rocket Money",
       "bindings": [
         "D1",
@@ -1875,7 +1925,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/127599173?s=96&v=4"
       },
       "description": "One API endpoint in front of many LLM providers, with key management, routing and usage tracking.",
-      "category": "AI tools",
+      "category": "LLM gateways",
       "replaces": "OpenRouter",
       "bindings": [
         "D1"
@@ -1897,7 +1947,7 @@
       "score": 25,
       "source": "search",
       "rank": 53,
-      "category_rank": 6
+      "category_rank": 2
     },
     {
       "repo": "hjinco/synch",
@@ -1972,7 +2022,7 @@
       "score": 24.8,
       "source": "awesome-cfsh",
       "rank": 55,
-      "category_rank": 10
+      "category_rank": 6
     },
     {
       "repo": "TedLin1993/all-set-tw",
@@ -1983,7 +2033,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/55447544?s=96&u=eb0d00b7327ce6e159060b3ba93f0363112258fa&v=4"
       },
       "description": "Pulls Taiwanese bank, card, investment and e-invoice data into one finance dashboard.",
-      "category": "Personal",
+      "category": "Finance",
       "replaces": "Mint",
       "bindings": [
         "D1",
@@ -2017,7 +2067,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/77047823?s=96&u=83a2b6e0427832cc5e1004aca4d4d91933d2b0a8&v=4"
       },
       "description": "Image host with tags, WebP/AVIF variants, expiry and a random-image API.",
-      "category": "Files & media",
+      "category": "Image hosting",
       "replaces": "Imgur",
       "bindings": [
         "D1",
@@ -2044,7 +2094,7 @@
       "score": 24.1,
       "source": "awesome-cfsh",
       "rank": 57,
-      "category_rank": 9
+      "category_rank": 2
     },
     {
       "repo": "HQBase/hqbase",
@@ -2082,7 +2132,7 @@
       "score": 24.1,
       "source": "awesome-cfsh",
       "rank": 58,
-      "category_rank": 11
+      "category_rank": 7
     },
     {
       "repo": "mibgb65-cloud/OmniMail",
@@ -2120,7 +2170,7 @@
       "score": 24,
       "source": "awesome-cfsh",
       "rank": 59,
-      "category_rank": 12
+      "category_rank": 8
     },
     {
       "repo": "0xdps/emailflare",
@@ -2155,7 +2205,7 @@
       "score": 23.2,
       "source": "awesome-cfsh",
       "rank": 60,
-      "category_rank": 13
+      "category_rank": 9
     },
     {
       "repo": "ddyy/minshop",
@@ -2166,7 +2216,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/2049343?s=96&v=4"
       },
       "description": "Small online store with an admin, Stripe and Lightning checkout, and APIs agents can buy through.",
-      "category": "Business",
+      "category": "Shops & payments",
       "replaces": "Shopify",
       "bindings": [
         "D1",
@@ -2190,7 +2240,7 @@
       "score": 23.2,
       "source": "awesome-cfsh",
       "rank": 61,
-      "category_rank": 2
+      "category_rank": 1
     },
     {
       "repo": "linkcraftstudio/feedlog",
@@ -2226,7 +2276,7 @@
       "score": 22.6,
       "source": "awesome-cfsh",
       "rank": 62,
-      "category_rank": 3
+      "category_rank": 2
     },
     {
       "repo": "Defiabell/shotsync",
@@ -2237,7 +2287,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/38514112?s=96&u=efa7dbd79d3ee1bd6f1c9e2d0f0e879af8613beb&v=4"
       },
       "description": "Drop a screenshot or text on one device and grab it on another, with signed share links.",
-      "category": "Files & media",
+      "category": "Files & storage",
       "replaces": null,
       "bindings": [
         "R2",
@@ -2261,7 +2311,7 @@
       "score": 22.5,
       "source": "awesome-cfsh",
       "rank": 63,
-      "category_rank": 10
+      "category_rank": 6
     },
     {
       "repo": "nxfu/binthere",
@@ -2272,7 +2322,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/159716415?s=96&u=c2ac443458a0fc1413b9dd9644504fc04de783e9&v=4"
       },
       "description": "Encrypted pastebin where notes are locked in your browser and vanish after one read.",
-      "category": "Files & media",
+      "category": "Pastebins",
       "replaces": "Pastebin",
       "bindings": [
         "KV",
@@ -2292,7 +2342,7 @@
       "score": 22.4,
       "source": "awesome-cfsh",
       "rank": 64,
-      "category_rank": 11
+      "category_rank": 2
     },
     {
       "repo": "discohook/discohook",
@@ -2432,7 +2482,7 @@
       "score": 21.6,
       "source": "awesome-cfsh",
       "rank": 68,
-      "category_rank": 5
+      "category_rank": 4
     },
     {
       "repo": "CCCrafts/punctual",
@@ -2471,7 +2521,7 @@
       "score": 21.3,
       "source": "awesome-cfsh",
       "rank": 69,
-      "category_rank": 4
+      "category_rank": 3
     },
     {
       "repo": "LeoColomb/dispoflare",
@@ -2482,7 +2532,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/846943?s=96&u=81226e70bc696d34fd9b570cfc8e7d990e4a5027&v=4"
       },
       "description": "Creates disposable email aliases on your own domains that expire and clean up automatically.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": "Firefox Relay",
       "bindings": [
         "Cr"
@@ -2504,7 +2554,7 @@
       "score": 21.3,
       "source": "search",
       "rank": 70,
-      "category_rank": 14
+      "category_rank": 5
     },
     {
       "repo": "idhamsy/openshortlink",
@@ -2574,7 +2624,7 @@
       "score": 21,
       "source": "awesome-cfsh",
       "rank": 72,
-      "category_rank": 5
+      "category_rank": 4
     },
     {
       "repo": "santmun/forja",
@@ -2608,7 +2658,7 @@
       "score": 20.8,
       "source": "awesome-cfsh",
       "rank": 73,
-      "category_rank": 6
+      "category_rank": 5
     },
     {
       "repo": "TGDash/HashPay",
@@ -2619,7 +2669,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/219221999?s=96&v=4"
       },
       "description": "Crypto payment gateway that takes USDT and other coins via a REST API or a Telegram bot.",
-      "category": "Business",
+      "category": "Shops & payments",
       "replaces": "Coinbase Commerce",
       "bindings": [
         "D1",
@@ -2640,7 +2690,7 @@
       "score": 20.6,
       "source": "search",
       "rank": 74,
-      "category_rank": 7
+      "category_rank": 2
     },
     {
       "repo": "Cherry/placeholders.dev",
@@ -2670,7 +2720,7 @@
       "score": 20.3,
       "source": "awesome-cfsh",
       "rank": 75,
-      "category_rank": 6
+      "category_rank": 5
     },
     {
       "repo": "yshalsager/logseq-selfhost",
@@ -2713,7 +2763,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/26450489?s=96&u=0a2b5879e3887fa6382e80a7cc35ec87d26f47ae&v=4"
       },
       "description": "Online shop that sells license keys and digital goods with automatic delivery after payment.",
-      "category": "Business",
+      "category": "Shops & payments",
       "replaces": "Gumroad",
       "bindings": [
         "D1",
@@ -2733,7 +2783,7 @@
       "score": 19.9,
       "source": "awesome-cfsh",
       "rank": 77,
-      "category_rank": 8
+      "category_rank": 3
     },
     {
       "repo": "fanchenggang/Davflare",
@@ -2744,7 +2794,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/20358122?s=96&u=d12a7b29204ba38973bc66894134c2b41abf79bc&v=4"
       },
       "description": "Private cloud drive on R2 with a web file manager, WebDAV, share links and a trash bin.",
-      "category": "Files & media",
+      "category": "Files & storage",
       "replaces": "Dropbox",
       "bindings": [
         "R2"
@@ -2763,10 +2813,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 19.9,
+      "score": 19.8,
       "source": "awesome-cfsh",
       "rank": 78,
-      "category_rank": 12
+      "category_rank": 7
     },
     {
       "repo": "littledivy/durable-git",
@@ -2777,7 +2827,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/34997667?s=96&u=5d6207c1a153251998ba24326e45626788e6c1b4&v=4"
       },
       "description": "Git server with a cgit-style web UI where every repository lives in its own Durable Object.",
-      "category": "Developer tools",
+      "category": "Git & CI",
       "replaces": "GitHub",
       "bindings": [
         "R2",
@@ -2794,10 +2844,10 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 19.8,
+      "score": 19.7,
       "source": "awesome-cfsh",
       "rank": 79,
-      "category_rank": 7
+      "category_rank": 1
     },
     {
       "repo": "Defiabell/yixi",
@@ -2831,7 +2881,7 @@
       "score": 19.4,
       "source": "awesome-cfsh",
       "rank": 80,
-      "category_rank": 3
+      "category_rank": 1
     },
     {
       "repo": "jant-me/jant",
@@ -2940,7 +2990,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/18008498?s=96&v=4"
       },
       "description": "Browse, preview and share files from your OneDrive with a fast web index.",
-      "category": "Files & media",
+      "category": "Files & storage",
       "replaces": null,
       "bindings": [
         "KV",
@@ -2960,7 +3010,7 @@
       "score": 18.5,
       "source": "search",
       "rank": 84,
-      "category_rank": 13
+      "category_rank": 8
     },
     {
       "repo": "dafthunk-com/dafthunk",
@@ -2971,7 +3021,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/204344043?s=96&v=4"
       },
       "description": "Visual drag-and-drop workflow builder with AI nodes, triggers and live run monitoring.",
-      "category": "Developer tools",
+      "category": "AI agents",
       "replaces": "Zapier",
       "bindings": [
         "D1",
@@ -3000,7 +3050,7 @@
       "score": 18.4,
       "source": "search",
       "rank": 85,
-      "category_rank": 8
+      "category_rank": 2
     },
     {
       "repo": "Shudesu/x-harness-oss",
@@ -3035,7 +3085,7 @@
       "score": 18.4,
       "source": "awesome-cfsh",
       "rank": 86,
-      "category_rank": 9
+      "category_rank": 6
     },
     {
       "repo": "Jaironlanda/isupmap",
@@ -3106,7 +3156,7 @@
       "score": 18.4,
       "source": "awesome-cfsh",
       "rank": 88,
-      "category_rank": 10
+      "category_rank": 7
     },
     {
       "repo": "maypaz/md.page",
@@ -3149,7 +3199,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/11699655?s=96&u=03a18584b40e4d9fd656b2120c3e75232960b9ac&v=4"
       },
       "description": "Snappy RSS reader with AI summaries, OPML import and Google Reader API support for mobile apps.",
-      "category": "Personal",
+      "category": "RSS & reading",
       "replaces": "Feedly",
       "bindings": [
         "D1",
@@ -3173,7 +3223,7 @@
       "score": 18,
       "source": "search",
       "rank": 90,
-      "category_rank": 4
+      "category_rank": 1
     },
     {
       "repo": "cmliu/CF-Workers-WebSSH",
@@ -3238,7 +3288,7 @@
       "score": 17.6,
       "source": "search",
       "rank": 92,
-      "category_rank": 15
+      "category_rank": 10
     },
     {
       "repo": "pleaseai/statusbeam",
@@ -3304,7 +3354,7 @@
       "score": 17.6,
       "source": "search",
       "rank": 94,
-      "category_rank": 7
+      "category_rank": 5
     },
     {
       "repo": "plivo-labs/glance",
@@ -3315,7 +3365,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/30384290?s=96&v=4"
       },
       "description": "Agents publish pages to live URLs, you leave comments in the browser, and the agent fixes them.",
-      "category": "Developer tools",
+      "category": "AI agents",
       "replaces": "Claude Artifacts",
       "bindings": [
         "D1",
@@ -3342,7 +3392,7 @@
       "score": 17.6,
       "source": "awesome-cfsh",
       "rank": 95,
-      "category_rank": 9
+      "category_rank": 3
     },
     {
       "repo": "AdiRishi/turborepo-remote-cache-cloudflare",
@@ -3353,7 +3403,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/8351234?s=96&u=d4c1e2865b9f4e874337ecdab7ab5069924f6a39&v=4"
       },
       "description": "Remote build cache for Turborepo that stores artifacts in R2 or KV.",
-      "category": "Developer tools",
+      "category": "Git & CI",
       "replaces": "Vercel Remote Cache",
       "bindings": [
         "R2",
@@ -3376,7 +3426,7 @@
       "score": 17.4,
       "source": "awesome-cfsh",
       "rank": 96,
-      "category_rank": 10
+      "category_rank": 2
     },
     {
       "repo": "KingPin/Garrul",
@@ -3422,7 +3472,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/7978631?s=96&u=da57bbac3916211fdc78f33f22f0c9d5206d3e1d&v=4"
       },
       "description": "Task board where AI agents handle your tasks, from email drafts to PRs, with approval before changes.",
-      "category": "AI tools",
+      "category": "AI agents",
       "replaces": null,
       "bindings": [
         "DO",
@@ -3442,7 +3492,7 @@
       "score": 17.1,
       "source": "awesome-cfsh",
       "rank": 98,
-      "category_rank": 8
+      "category_rank": 4
     },
     {
       "repo": "ieax/renewhelper",
@@ -3453,7 +3503,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/212468074?s=96&v=4"
       },
       "description": "Tracks subscriptions, domain and server renewals with reminders, bills and calendar sync.",
-      "category": "Personal",
+      "category": "Finance",
       "replaces": null,
       "bindings": [
         "KV",
@@ -3476,7 +3526,7 @@
       "score": 17,
       "source": "search",
       "rank": 99,
-      "category_rank": 5
+      "category_rank": 3
     },
     {
       "repo": "decoded-cipher/nodrix",
@@ -3514,7 +3564,7 @@
       "score": 16.9,
       "source": "awesome-cfsh",
       "rank": 100,
-      "category_rank": 11
+      "category_rank": 8
     },
     {
       "repo": "coda0HQ/open-artifacts",
@@ -3525,7 +3575,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/300019254?s=96&v=4"
       },
       "description": "Lets coding agents publish HTML or Markdown pages to shareable, password-protected links that stay updated.",
-      "category": "Developer tools",
+      "category": "AI agents",
       "replaces": "Claude Artifacts",
       "bindings": [
         "D1",
@@ -3545,7 +3595,7 @@
       "score": 15.6,
       "source": "awesome-cfsh",
       "rank": 101,
-      "category_rank": 11
+      "category_rank": 5
     },
     {
       "repo": "baronunread/rdyrct",
@@ -3649,7 +3699,7 @@
       "score": 15.3,
       "source": "awesome-cfsh",
       "rank": 104,
-      "category_rank": 16
+      "category_rank": 11
     },
     {
       "repo": "p10node/docflare-ai",
@@ -3681,7 +3731,7 @@
       "score": 15.1,
       "source": "search",
       "rank": 105,
-      "category_rank": 9
+      "category_rank": 6
     },
     {
       "repo": "TooonyChen/AuthInbox",
@@ -3711,7 +3761,7 @@
       "score": 15,
       "source": "awesome-cfsh",
       "rank": 106,
-      "category_rank": 17
+      "category_rank": 12
     },
     {
       "repo": "inngest/typedwebhook.tools",
@@ -3742,7 +3792,7 @@
       "score": 14.9,
       "source": "awesome-cfsh",
       "rank": 107,
-      "category_rank": 12
+      "category_rank": 6
     },
     {
       "repo": "wesleyel/cloudmark",
@@ -3775,7 +3825,7 @@
       "score": 14.9,
       "source": "awesome-cfsh",
       "rank": 108,
-      "category_rank": 6
+      "category_rank": 2
     },
     {
       "repo": "hayaran/Edgemetry",
@@ -3820,7 +3870,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/114200096?s=96&u=b5b62ea7ac8a331c379d2328340467d5e84b8010&v=4"
       },
       "description": "Image hosting with batch uploads, albums, folders, expiry and an admin panel.",
-      "category": "Files & media",
+      "category": "Image hosting",
       "replaces": "Imgur",
       "bindings": [
         "D1",
@@ -3841,7 +3891,7 @@
       "score": 14.8,
       "source": "awesome-cfsh",
       "rank": 110,
-      "category_rank": 14
+      "category_rank": 3
     },
     {
       "repo": "Motues/Momo-Backend",
@@ -3869,7 +3919,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 14.4,
+      "score": 14.3,
       "source": "search",
       "rank": 111,
       "category_rank": 3
@@ -3883,7 +3933,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/22682299?s=96&v=4"
       },
       "description": "Finds and blurs emails, IPs, card numbers and API keys in images right in your browser.",
-      "category": "Files & media",
+      "category": "Media",
       "replaces": null,
       "bindings": [],
       "config_file": null,
@@ -3903,7 +3953,7 @@
       "score": 14.2,
       "source": "search",
       "rank": 112,
-      "category_rank": 15
+      "category_rank": 2
     },
     {
       "repo": "awaitstep/awaitstep",
@@ -3914,7 +3964,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/268276699?s=96&v=4"
       },
       "description": "Drag-and-drop builder that turns visual workflows into code and deploys them as Cloudflare Workflows.",
-      "category": "Developer tools",
+      "category": "AI agents",
       "replaces": null,
       "bindings": [
         "D1",
@@ -3937,7 +3987,7 @@
       "score": 14.2,
       "source": "awesome-cfsh",
       "rank": 113,
-      "category_rank": 13
+      "category_rank": 6
     },
     {
       "repo": "GagnDeep/mailysend",
@@ -3974,7 +4024,7 @@
       "score": 14.2,
       "source": "awesome-cfsh",
       "rank": 114,
-      "category_rank": 18
+      "category_rank": 13
     },
     {
       "repo": "etherCorps/doota",
@@ -4010,7 +4060,7 @@
       "score": 13.9,
       "source": "awesome-cfsh",
       "rank": 115,
-      "category_rank": 19
+      "category_rank": 14
     },
     {
       "repo": "xiadd/pastebin-worker",
@@ -4021,7 +4071,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/8351437?s=96&u=3bb5cec80ae02f93fa83b64f9922ff55add3d69d&v=4"
       },
       "description": "Share code snippets and files with syntax highlighting, passwords and expiry times.",
-      "category": "Files & media",
+      "category": "Pastebins",
       "replaces": "Pastebin",
       "bindings": [
         "D1",
@@ -4041,7 +4091,7 @@
       "score": 13.8,
       "source": "search",
       "rank": 116,
-      "category_rank": 16
+      "category_rank": 3
     },
     {
       "repo": "supaflare/supaflare",
@@ -4082,7 +4132,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/18252758?s=96&v=4"
       },
       "description": "AI API gateway that sends each request to the cheapest healthy provider across your accounts.",
-      "category": "AI tools",
+      "category": "LLM gateways",
       "replaces": "OpenRouter",
       "bindings": [
         "D1",
@@ -4105,7 +4155,7 @@
       "score": 13.8,
       "source": "search",
       "rank": 118,
-      "category_rank": 10
+      "category_rank": 3
     },
     {
       "repo": "sbmagar13/recipe-jar",
@@ -4138,7 +4188,7 @@
       "score": 13.7,
       "source": "search",
       "rank": 119,
-      "category_rank": 7
+      "category_rank": 3
     },
     {
       "repo": "doable-team/heyflare",
@@ -4172,7 +4222,7 @@
       "score": 13.6,
       "source": "search",
       "rank": 120,
-      "category_rank": 20
+      "category_rank": 15
     },
     {
       "repo": "techjewel/mdread",
@@ -4272,7 +4322,7 @@
       "score": 13.2,
       "source": "awesome-cfsh",
       "rank": 123,
-      "category_rank": 21
+      "category_rank": 16
     },
     {
       "repo": "productdevbook/nabiz",
@@ -4317,7 +4367,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/37671466?s=96&u=d16210f12b9e0eb55af2f4c1bc85d415d8f156e6&v=4"
       },
       "description": "Hosts your own git remote with a web browser for code, commits, diffs and full-text search.",
-      "category": "Developer tools",
+      "category": "Git & CI",
       "replaces": "GitHub",
       "bindings": [
         "KV",
@@ -4337,7 +4387,7 @@
       "score": 12.3,
       "source": "awesome-cfsh",
       "rank": 125,
-      "category_rank": 14
+      "category_rank": 3
     },
     {
       "repo": "nkzw-tech/cloudsail",
@@ -4348,7 +4398,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/144984170?s=96&v=4"
       },
       "description": "Spins up isolated remote sandboxes for coding agents, tests and dev servers from a local CLI.",
-      "category": "Developer tools",
+      "category": "AI agents",
       "replaces": null,
       "bindings": [
         "DO"
@@ -4367,7 +4417,7 @@
       "score": 12.2,
       "source": "awesome-cfsh",
       "rank": 126,
-      "category_rank": 15
+      "category_rank": 7
     },
     {
       "repo": "monkeyWie/typix",
@@ -4401,7 +4451,7 @@
       "score": 11.8,
       "source": "search",
       "rank": 127,
-      "category_rank": 11
+      "category_rank": 7
     },
     {
       "repo": "hirotomasato/tempik",
@@ -4412,7 +4462,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/198351389?s=96&u=fa8375d578390430f9fd423dd182e28e6c566d81&v=4"
       },
       "description": "Disposable inbox service on your own domain with a simple web UI.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": "Temp Mail",
       "bindings": [
         "D1"
@@ -4431,7 +4481,7 @@
       "score": 11.7,
       "source": "awesome-cfsh",
       "rank": 128,
-      "category_rank": 22
+      "category_rank": 6
     },
     {
       "repo": "chenxuan520/roadbook",
@@ -4465,7 +4515,7 @@
       "score": 11.7,
       "source": "search",
       "rank": 129,
-      "category_rank": 8
+      "category_rank": 4
     },
     {
       "repo": "acoyfellow/cloudbox",
@@ -4476,7 +4526,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/1666099?s=96&u=771dc6559f5c68536d5d8a3e9adf71b6a7dd1043&v=4"
       },
       "description": "Spins up fresh cloud computers where agents run a repo, verify results and hand back diffs and receipts.",
-      "category": "Developer tools",
+      "category": "AI agents",
       "replaces": null,
       "bindings": [
         "D1",
@@ -4498,7 +4548,7 @@
       "score": 11.3,
       "source": "awesome-cfsh",
       "rank": 130,
-      "category_rank": 16
+      "category_rank": 8
     },
     {
       "repo": "jonesphillip/sharehtml",
@@ -4509,7 +4559,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/7978631?s=96&u=da57bbac3916211fdc78f33f22f0c9d5206d3e1d&v=4"
       },
       "description": "Publish HTML or Markdown files from the CLI and get a link with live comments and presence.",
-      "category": "Developer tools",
+      "category": "AI agents",
       "replaces": null,
       "bindings": [
         "R2",
@@ -4529,7 +4579,7 @@
       "score": 11.2,
       "source": "awesome-cfsh",
       "rank": 131,
-      "category_rank": 17
+      "category_rank": 9
     },
     {
       "repo": "AJFrio/OpenShop",
@@ -4540,7 +4590,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/20246916?s=96&v=4"
       },
       "description": "Launch an online store with products, collections, a cart and Stripe checkout in minutes.",
-      "category": "Business",
+      "category": "Shops & payments",
       "replaces": "Shopify",
       "bindings": [],
       "config_file": null,
@@ -4560,7 +4610,7 @@
       "score": 11.2,
       "source": "search",
       "rank": 132,
-      "category_rank": 12
+      "category_rank": 4
     },
     {
       "repo": "aritropaul/voom",
@@ -4571,7 +4621,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/15200774?s=96&u=27d6b1b57ddc1cc74e7dde1aba0bcc1576242a35&v=4"
       },
       "description": "Record your Mac screen and webcam, then share a link with transcripts, comments and reactions.",
-      "category": "Files & media",
+      "category": "Media",
       "replaces": "Loom",
       "bindings": [
         "D1",
@@ -4595,7 +4645,7 @@
       "score": 11.2,
       "source": "search",
       "rank": 133,
-      "category_rank": 17
+      "category_rank": 3
     },
     {
       "repo": "workHMZ/r2filebox",
@@ -4606,7 +4656,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/194442490?s=96&u=48298bbc30a1641276d83121fb2abf64b50fea55&v=4"
       },
       "description": "Share files or text with a pickup code, link or QR code, no sign-up needed on either side.",
-      "category": "Files & media",
+      "category": "Files & storage",
       "replaces": "WeTransfer",
       "bindings": [
         "D1",
@@ -4631,7 +4681,7 @@
       "score": 10.9,
       "source": "search",
       "rank": 134,
-      "category_rank": 18
+      "category_rank": 9
     },
     {
       "repo": "frankwei98/bark-serverless",
@@ -4673,7 +4723,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/1458314?s=96&u=81eff7269f8ce51df2698f6a72124bb871b2441d&v=4"
       },
       "description": "Host over-the-air updates for your Expo apps cheaply, with API keys and code signing.",
-      "category": "Developer tools",
+      "category": "Git & CI",
       "replaces": "Expo EAS Update",
       "bindings": [
         "D1",
@@ -4693,7 +4743,7 @@
       "score": 10.6,
       "source": "search",
       "rank": 136,
-      "category_rank": 18
+      "category_rank": 4
     },
     {
       "repo": "jonnyparris/dodo",
@@ -4704,7 +4754,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/6400000?s=96&u=94decd4d35463d03baea982d640e3e017ee00638&v=4"
       },
       "description": "Coding agent that clones your repo, writes code, runs tests and pushes branches on its own.",
-      "category": "AI tools",
+      "category": "AI agents",
       "replaces": "Devin",
       "bindings": [
         "R2",
@@ -4727,7 +4777,7 @@
       "score": 10.1,
       "source": "search",
       "rank": 137,
-      "category_rank": 12
+      "category_rank": 10
     },
     {
       "repo": "pfstr/ownlist",
@@ -4761,7 +4811,7 @@
       "score": 10.1,
       "source": "awesome-cfsh",
       "rank": 138,
-      "category_rank": 23
+      "category_rank": 17
     },
     {
       "repo": "PIKACHUIM/CFWorkerACME",
@@ -4792,7 +4842,7 @@
       "score": 10,
       "source": "search",
       "rank": 139,
-      "category_rank": 19
+      "category_rank": 7
     },
     {
       "repo": "bitoceango/civideo",
@@ -4803,7 +4853,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/38564000?s=96&v=4"
       },
       "description": "Ad-free video and audiobook player for kids where parents choose every video and set time limits.",
-      "category": "Files & media",
+      "category": "Media",
       "replaces": "YouTube Kids",
       "bindings": [
         "D1",
@@ -4826,7 +4876,7 @@
       "score": 10,
       "source": "awesome-cfsh",
       "rank": 140,
-      "category_rank": 19
+      "category_rank": 4
     },
     {
       "repo": "tbdavid2019/888wiki",
@@ -4901,7 +4951,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/334235349?s=96&v=4"
       },
       "description": "Make throwaway email addresses on your domain and read the mail in Discord, Telegram or Slack.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": null,
       "bindings": [
         "D1",
@@ -4924,7 +4974,7 @@
       "score": 9.4,
       "source": "awesome-cfsh",
       "rank": 143,
-      "category_rank": 24
+      "category_rank": 7
     },
     {
       "repo": "YuriCrystal/relay",
@@ -4984,7 +5034,7 @@
       "score": 9.2,
       "source": "awesome-cfsh",
       "rank": 145,
-      "category_rank": 13
+      "category_rank": 9
     },
     {
       "repo": "ddyy/minvoice",
@@ -4995,7 +5045,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/2049343?s=96&v=4"
       },
       "description": "Simple invoicing for one business, with PDF invoices, Stripe or PayPal pay links and reminders.",
-      "category": "Business",
+      "category": "Finance",
       "replaces": "FreshBooks",
       "bindings": [
         "D1",
@@ -5016,7 +5066,7 @@
       "score": 9.2,
       "source": "awesome-cfsh",
       "rank": 146,
-      "category_rank": 14
+      "category_rank": 4
     },
     {
       "repo": "zllovesuki/git-on-cloudflare",
@@ -5027,7 +5077,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/298453?s=96&u=041d1d3959060b9e808ca9c4b5159008f4a16e39&v=4"
       },
       "description": "Hosts private and public git repos with a browsing UI and personal access tokens.",
-      "category": "Developer tools",
+      "category": "Git & CI",
       "replaces": "GitHub",
       "bindings": [
         "D1",
@@ -5050,7 +5100,7 @@
       "score": 9.1,
       "source": "awesome-cfsh",
       "rank": 147,
-      "category_rank": 20
+      "category_rank": 5
     },
     {
       "repo": "nodeauth/2fauth-worker",
@@ -5149,7 +5199,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 8.7,
+      "score": 8.6,
       "source": "search",
       "rank": 150,
       "category_rank": 6
@@ -5184,7 +5234,7 @@
       "score": 8.2,
       "source": "search",
       "rank": 151,
-      "category_rank": 13
+      "category_rank": 8
     },
     {
       "repo": "G4brym/workers-firecrawl",
@@ -5214,7 +5264,7 @@
       "score": 8,
       "source": "awesome-cfsh",
       "rank": 152,
-      "category_rank": 21
+      "category_rank": 8
     },
     {
       "repo": "gmitch215/nuxtpress",
@@ -5291,7 +5341,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/161844018?s=96&u=1ad92e205ec0ff35657daa19d2dc494c2bfbe1b9&v=4"
       },
       "description": "Immersive web music player with word-by-word lyrics, an equalizer and an admin panel for your library.",
-      "category": "Files & media",
+      "category": "Media",
       "replaces": null,
       "bindings": [],
       "config_file": "wrangler.toml",
@@ -5311,7 +5361,7 @@
       "score": 7.2,
       "source": "search",
       "rank": 155,
-      "category_rank": 20
+      "category_rank": 5
     },
     {
       "repo": "jezweb/flaredraw",
@@ -5355,7 +5405,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/41794?s=96&v=4"
       },
       "description": "Keyboard-driven RSS reader in the style of livedoor Reader, synced across desktop and phone.",
-      "category": "Personal",
+      "category": "RSS & reading",
       "replaces": "Feedly",
       "bindings": [
         "D1",
@@ -5376,7 +5426,7 @@
       "score": 6.7,
       "source": "search",
       "rank": 157,
-      "category_rank": 9
+      "category_rank": 2
     },
     {
       "repo": "kclejeune/nimbus",
@@ -5387,7 +5437,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/11745400?s=96&u=8a0de54444949687d12219b61cd92dffe5dca5d2&v=4"
       },
       "description": "Serverless Nix binary cache with dedup, access control, garbage collection and a web dashboard.",
-      "category": "Developer tools",
+      "category": "Git & CI",
       "replaces": "Cachix",
       "bindings": [
         "D1",
@@ -5413,7 +5463,7 @@
       "score": 6.6,
       "source": "search",
       "rank": 158,
-      "category_rank": 22
+      "category_rank": 6
     },
     {
       "repo": "cschanhniem/clawping",
@@ -5544,7 +5594,7 @@
       "score": 6,
       "source": "awesome-cfsh",
       "rank": 162,
-      "category_rank": 23
+      "category_rank": 9
     },
     {
       "repo": "joeseesun/qiaomu-page",
@@ -5555,7 +5605,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/3236682?s=96&u=efd7c31ef5e17b5b2e24d56d08bdc351edeefdfc&v=4"
       },
       "description": "Publish AI-made web pages and static sites to stable links your agent can update later.",
-      "category": "Files & media",
+      "category": "AI agents",
       "replaces": "Netlify Drop",
       "bindings": [
         "R2",
@@ -5575,7 +5625,7 @@
       "score": 5.5,
       "source": "search",
       "rank": 163,
-      "category_rank": 21
+      "category_rank": 11
     },
     {
       "repo": "acoyfellow/cloudshell",
@@ -5604,7 +5654,7 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 5.1,
+      "score": 5,
       "source": "awesome-cfsh",
       "rank": 164,
       "category_rank": 6
@@ -5635,35 +5685,7 @@
       "score": 5,
       "source": "search",
       "rank": 165,
-      "category_rank": 14
-    },
-    {
-      "repo": "nakanoasaservice/httpbin-hono",
-      "slug": "httpbin-hono",
-      "name": "httpbin-hono",
-      "owner": {
-        "login": "nakanoasaservice",
-        "avatar_url": "https://avatars.githubusercontent.com/u/20109935?s=96&u=c0e7c28d68ce04f5a2c6042ec53d72a864c9f4bd&v=4"
-      },
-      "description": "Your own private httpbin for testing HTTP clients, with Swagger docs built in.",
-      "category": "Developer tools",
-      "replaces": null,
-      "bindings": [],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/nakanoasaservice/httpbin-hono",
-      "license": "ISC",
-      "stars": 6,
-      "pushed_at": "2026-08-23T15:03:18Z",
-      "default_branch": "main",
-      "homepage": "https://httpbin-hono.naas.workers.dev",
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 4.6,
-      "source": "search",
-      "rank": 166,
-      "category_rank": 24
+      "category_rank": 9
     },
     {
       "repo": "isala404/pingflare",
@@ -5688,6 +5710,34 @@
       "pushed_at": "2025-12-26T13:01:41Z",
       "default_branch": "main",
       "homepage": "https://pingflare.tallisa.dev/status",
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 4.5,
+      "source": "search",
+      "rank": 166,
+      "category_rank": 10
+    },
+    {
+      "repo": "nakanoasaservice/httpbin-hono",
+      "slug": "httpbin-hono",
+      "name": "httpbin-hono",
+      "owner": {
+        "login": "nakanoasaservice",
+        "avatar_url": "https://avatars.githubusercontent.com/u/20109935?s=96&u=c0e7c28d68ce04f5a2c6042ec53d72a864c9f4bd&v=4"
+      },
+      "description": "Your own private httpbin for testing HTTP clients, with Swagger docs built in.",
+      "category": "Developer tools",
+      "replaces": null,
+      "bindings": [],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/nakanoasaservice/httpbin-hono",
+      "license": "ISC",
+      "stars": 6,
+      "pushed_at": "2026-08-23T15:03:18Z",
+      "default_branch": "main",
+      "homepage": "https://httpbin-hono.naas.workers.dev",
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
@@ -5735,7 +5785,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/12412413?s=96&u=5402679f20873db5e4caacf7d52ae6887240c9cd&v=4"
       },
       "description": "Dashboard that tracks usage, quotas and history across many AI providers in one place.",
-      "category": "AI tools",
+      "category": "LLM gateways",
       "replaces": null,
       "bindings": [
         "Cr"
@@ -5757,35 +5807,7 @@
       "score": 3.8,
       "source": "search",
       "rank": 169,
-      "category_rank": 15
-    },
-    {
-      "repo": "simeononsecurity/ats-resume-improver",
-      "slug": "ats-resume-improver",
-      "name": "ATS Resume Match",
-      "owner": {
-        "login": "simeononsecurity",
-        "avatar_url": "https://avatars.githubusercontent.com/u/4913771?s=96&u=249ab8267305a8ac10e6eb8c8183e6a1b2aaadfb&v=4"
-      },
-      "description": "Scores your resume against a job posting, finds keyword gaps and drafts cover letters with AI.",
-      "category": "AI tools",
-      "replaces": "Jobscan",
-      "bindings": [],
-      "config_file": null,
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/simeononsecurity/ats-resume-improver",
-      "license": "MIT",
-      "stars": 3,
-      "pushed_at": "2026-09-10T23:49:13Z",
-      "default_branch": "main",
-      "homepage": "atsresumeimprover.simeononsecurity.com",
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 3.7,
-      "source": "search",
-      "rank": 170,
-      "category_rank": 16
+      "category_rank": 4
     },
     {
       "repo": "betich/tracker",
@@ -5809,6 +5831,34 @@
       "pushed_at": "2026-09-10T03:14:15Z",
       "default_branch": "main",
       "homepage": "track.betich.me",
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 3.6,
+      "source": "search",
+      "rank": 170,
+      "category_rank": 5
+    },
+    {
+      "repo": "simeononsecurity/ats-resume-improver",
+      "slug": "ats-resume-improver",
+      "name": "ATS Resume Match",
+      "owner": {
+        "login": "simeononsecurity",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4913771?s=96&u=249ab8267305a8ac10e6eb8c8183e6a1b2aaadfb&v=4"
+      },
+      "description": "Scores your resume against a job posting, finds keyword gaps and drafts cover letters with AI.",
+      "category": "AI tools",
+      "replaces": "Jobscan",
+      "bindings": [],
+      "config_file": null,
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/simeononsecurity/ats-resume-improver",
+      "license": "MIT",
+      "stars": 3,
+      "pushed_at": "2026-09-10T23:49:13Z",
+      "default_branch": "main",
+      "homepage": "atsresumeimprover.simeononsecurity.com",
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
@@ -5856,7 +5906,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/29734156?s=96&u=ba0a707738e51baa2197229d57ec21b86613dc6b&v=4"
       },
       "description": "Spin up disposable inboxes on your own domains, with forwarding rules and an admin panel.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": "Temp Mail",
       "bindings": [
         "D1",
@@ -5879,7 +5929,7 @@
       "score": 3.3,
       "source": "search",
       "rank": 173,
-      "category_rank": 25
+      "category_rank": 8
     },
     {
       "repo": "bimsina/flaremender",
@@ -5890,7 +5940,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/29589003?s=96&u=f8c73e63ccf77b54baca12c89a6feb1ef6697695&v=4"
       },
       "description": "AI agent that explores your web app, writes Playwright tests, runs them and fixes broken ones.",
-      "category": "Developer tools",
+      "category": "AI agents",
       "replaces": null,
       "bindings": [
         "D1",
@@ -5916,7 +5966,7 @@
       "score": 3.3,
       "source": "search",
       "rank": 174,
-      "category_rank": 25
+      "category_rank": 12
     },
     {
       "repo": "redwoodjs/invoices",
@@ -5927,7 +5977,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/45050444?s=96&v=4"
       },
       "description": "Create invoices with your logo, items and tax, then print them to PDF.",
-      "category": "Business",
+      "category": "Finance",
       "replaces": "FreshBooks",
       "bindings": [
         "R2",
@@ -5947,7 +5997,7 @@
       "score": 2.8,
       "source": "awesome-cfsh",
       "rank": 175,
-      "category_rank": 15
+      "category_rank": 5
     },
     {
       "repo": "h1n054ur/hookforms-cloud",
@@ -5992,7 +6042,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/73839668?s=96&u=436e33d1327ebb7648cf41d2184ffe87bfca9999&v=4"
       },
       "description": "On-device RAW photo editor with film looks for Flashback One35 camera files, installable as a PWA.",
-      "category": "Files & media",
+      "category": "Media",
       "replaces": "Lightroom",
       "bindings": [],
       "config_file": "wrangler.jsonc",
@@ -6012,7 +6062,7 @@
       "score": 1.9,
       "source": "search",
       "rank": 177,
-      "category_rank": 22
+      "category_rank": 6
     },
     {
       "repo": "clarkhacks/RdRx",
@@ -6059,7 +6109,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/160002355?s=96&u=6856d438eff4fdd22ce3abee65688d3446173bd6&v=4"
       },
       "description": "Disposable email inboxes with realtime delivery, attachments and a developer API.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": "Guerrilla Mail",
       "bindings": [
         "KV",
@@ -6083,7 +6133,7 @@
       "score": 1.8,
       "source": "search",
       "rank": 179,
-      "category_rank": 26
+      "category_rank": 9
     },
     {
       "repo": "zllovesuki/anvil",
@@ -6094,7 +6144,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/298453?s=96&u=041d1d3959060b9e808ca9c4b5159008f4a16e39&v=4"
       },
       "description": "CI runner for small teams that runs your pipeline in containers and streams logs live.",
-      "category": "Developer tools",
+      "category": "Git & CI",
       "replaces": "GitHub Actions",
       "bindings": [
         "D1",
@@ -6117,7 +6167,7 @@
       "score": 1.5,
       "source": "search",
       "rank": 180,
-      "category_rank": 26
+      "category_rank": 7
     },
     {
       "repo": "tanaer/Telegram_MirroTalk",
@@ -6158,7 +6208,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/1217426?s=96&u=297db3a20fe627a62f7b9f2a2da8c39243eccf43&v=4"
       },
       "description": "Follow any public Telegram channel as an RSS feed, no account needed.",
-      "category": "Personal",
+      "category": "RSS & reading",
       "replaces": "RSS.app",
       "bindings": [],
       "config_file": "wrangler.toml",
@@ -6175,7 +6225,7 @@
       "score": 0.8,
       "source": "search",
       "rank": 182,
-      "category_rank": 11
+      "category_rank": 3
     },
     {
       "repo": "suminhthanh/zerobin",
@@ -6186,7 +6236,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/2907636?s=96&u=d716488c5ede36af5d217c9d817f6a0dce614b58&v=4"
       },
       "description": "Share encrypted pastes and files that the server can't read, with burn-after-reading.",
-      "category": "Files & media",
+      "category": "Pastebins",
       "replaces": "Pastebin",
       "bindings": [
         "D1",
@@ -6208,7 +6258,7 @@
       "score": 0.8,
       "source": "search",
       "rank": 183,
-      "category_rank": 23
+      "category_rank": 4
     },
     {
       "repo": "98tools/image-mailmerge",
@@ -6219,7 +6269,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/209658271?s=96&v=4"
       },
       "description": "Combine an image template with spreadsheet rows to batch-make personalized images as a ZIP.",
-      "category": "Files & media",
+      "category": "Media",
       "replaces": null,
       "bindings": [],
       "config_file": "wrangler.jsonc",
@@ -6236,7 +6286,7 @@
       "score": 0.5,
       "source": "search",
       "rank": 184,
-      "category_rank": 24
+      "category_rank": 7
     },
     {
       "repo": "cloudcore-cms/cloudcore-cms",
@@ -6300,7 +6350,7 @@
       "score": -1.2,
       "source": "search",
       "rank": 186,
-      "category_rank": 12
+      "category_rank": 6
     },
     {
       "repo": "zllovesuki/flamemail",
@@ -6311,7 +6361,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/298453?s=96&u=041d1d3959060b9e808ca9c4b5159008f4a16e39&v=4"
       },
       "description": "Disposable catch-all test inboxes for checking the transactional emails your app sends.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": "Mailtrap",
       "bindings": [
         "D1",
@@ -6334,7 +6384,7 @@
       "score": -1.5,
       "source": "search",
       "rank": 187,
-      "category_rank": 27
+      "category_rank": 10
     },
     {
       "repo": "Soul-Brews-Studio/soul-brews-cat-lab-webhook-relay",
@@ -6364,7 +6414,7 @@
       "score": -2.2,
       "source": "search",
       "rank": 188,
-      "category_rank": 27
+      "category_rank": 11
     },
     {
       "repo": "JamieCurnow/Podcasts",
@@ -6375,7 +6425,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/29151736?s=96&u=ed41db9eb0355907b070f0984b19db8a4f975405&v=4"
       },
       "description": "Ad-free podcast player PWA where you add shows by RSS, queue episodes and listen offline.",
-      "category": "Files & media",
+      "category": "Media",
       "replaces": "Google Podcasts",
       "bindings": [],
       "config_file": "wrangler.toml",
@@ -6392,7 +6442,7 @@
       "score": -3,
       "source": "search",
       "rank": 189,
-      "category_rank": 25
+      "category_rank": 8
     },
     {
       "repo": "maxjb-xyz/cf-service-status",
@@ -6458,7 +6508,7 @@
       "score": -4,
       "source": "search",
       "rank": 191,
-      "category_rank": 16
+      "category_rank": 10
     },
     {
       "repo": "CtelSpecu/FlashInbox",
@@ -6469,7 +6519,7 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/198773843?s=96&u=e8182796e829140e596265ea0657a232a5018bdb&v=4"
       },
       "description": "Disposable inboxes you can claim with a renewable key, plus an admin panel for domains and rules.",
-      "category": "Email",
+      "category": "Temporary email",
       "replaces": "Temp Mail",
       "bindings": [
         "D1",
@@ -6490,7 +6540,7 @@
       "score": -4,
       "source": "search",
       "rank": 192,
-      "category_rank": 28
+      "category_rank": 11
     },
     {
       "repo": "victorrm/bolao-copa-do-mundo",
@@ -6523,7 +6573,7 @@
       "score": -4,
       "source": "search",
       "rank": 193,
-      "category_rank": 17
+      "category_rank": 11
     },
     {
       "repo": "WalshyDev/workers-status-page",

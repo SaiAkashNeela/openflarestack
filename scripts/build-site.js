@@ -7,7 +7,7 @@ import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BINDINGS, GROUPS } from '../lib/bindings.js';
-import { SITE_URL, CATALOG_REPO, TOP_N, AUTHOR, slugify } from '../lib/config.js';
+import { SITE_URL, CATALOG_REPO, TOP_N, AUTHOR, CATEGORY_INFO, slugify } from '../lib/config.js';
 import { esc, row, mqCard, tile, tiles, appDetail, appPath, avatar, ICONS, SPRITE_SYMBOLS, k, ago, daysSince } from '../lib/render.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -447,7 +447,7 @@ function categoryPage(c) {
   const list = apps.filter((a) => a.category === c.name);
   const trail = [['Catalog', '/'], [c.name, null]];
   const swaps = [...new Set(list.map((a) => a.replaces).filter(Boolean))].slice(0, 4);
-  const lede = `${list.length} open-source ${lower(c.name)} app${list.length === 1 ? '' : 's'} you can run on your own Cloudflare account${swaps.length ? `, including alternatives to ${swaps.join(', ').replace(/, ([^,]*)$/, ' and $1')}` : ''}. Ranked by stars and recent commits, rebuilt every night.`;
+  const lede = `${CATEGORY_INFO[c.name] ? CATEGORY_INFO[c.name] + ' ' : ''}${list.length} open-source app${list.length === 1 ? '' : 's'} you can run on your own Cloudflare account${swaps.length ? `, including alternatives to ${swaps.join(', ').replace(/, ([^,]*)$/, ' and $1')}` : ''}. Ranked by stars and recent commits, rebuilt every night.`;
   const body = `<main class="wrap page">
   ${crumbs(trail)}
   <div class="page-head">

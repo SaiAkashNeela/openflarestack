@@ -2,7 +2,7 @@
 // (Workers AI, AI Gateway, OpenAI...). Asks for strict JSON with a fixed category list.
 // With no LLM configured, entries from the awesome list fall back to that list's own category and summary.
 
-import { CATEGORIES } from '../../lib/config.js';
+import { CATEGORIES, CATEGORY_INFO } from '../../lib/config.js';
 import { keyOf, today } from '../lib/store.js';
 import { log, sleep } from '../lib/gh.js';
 
@@ -41,7 +41,8 @@ Answer with one JSON object and nothing else, with these keys:
 - "name": the app's display name, as the README calls it (e.g. "Cloudflare Temp Email", not "cloudflare_temp_email").
 - "is_complete_app": true only if this is a finished, usable application an end user or team would run as-is. False for starters, templates, boilerplates, SDKs, libraries, frameworks, demos, examples, tutorials, course material, and collections of templates.
 - "kind": one of ${KINDS.join(', ')}.
-- "category": exactly one of: ${CATEGORIES.join(', ')}.
+- "category": exactly one of these (pick the most specific that fits):
+${CATEGORIES.map((c) => `  - ${c}: ${CATEGORY_INFO[c]}`).join('\n')}
 - "replaces": the best-known commercial product it replaces (e.g. "Calendly", "Google Analytics"), or null if none is obvious.
 - "one_liner": what it does for the user, in plain casual English, at most 110 characters. Short sentence. No em dashes. Don't start with "A self-hosted" or the app name. Don't mention Cloudflare unless it matters.
 - "confidence": 0 to 1, how sure you are about is_complete_app and kind.`;
