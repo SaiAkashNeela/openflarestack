@@ -82,7 +82,7 @@ Overrides can also set `name`, `description`, `bindings` and `deploy_url`.
 |---|---|
 | `GH_SEARCH_TOKEN` | Actions secret. Fine-grained PAT with public read only. Falls back to the workflow token. |
 | `LLM_BASE_URL`, `LLM_API_KEY` | Actions secrets. Any OpenAI-compatible chat completions endpoint, e.g. OpenRouter: `https://openrouter.ai/api/v1`. |
-| `LLM_MODEL` | Actions variable, e.g. an OpenRouter model ID ending in `:free`. Default `@cf/meta/llama-3.3-70b-instruct-fp8-fast` (Workers AI). |
+| `LLM_MODEL` | Optional Actions variable. With OpenRouter it defaults to `openrouter/free`, which routes to whatever free models OpenRouter has that day, so nothing needs updating. Otherwise it defaults to `@cf/meta/llama-3.3-70b-instruct-fp8-fast` (Workers AI). |
 | `LLM_MAX_PER_RUN` | Actions variable. Default 40, which keeps OpenRouter free models under their 50 requests a day. The rest waits for the next night, most-starred first. |
 | `MIN_STARS` | Actions variable. Default 3. |
 | Labels `submission`, `accepted`, `needs-changes` | Must exist so the issue form can apply them. |

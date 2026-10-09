@@ -8,7 +8,10 @@ import { log, sleep } from '../lib/gh.js';
 
 const BASE = (process.env.LLM_BASE_URL || '').replace(/\/+$/, '');
 const KEY = process.env.LLM_API_KEY || '';
-const MODEL = process.env.LLM_MODEL || '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
+// On OpenRouter the default is openrouter/free, its own router over whichever free models exist today,
+// so the free model list never needs updating here. Elsewhere it defaults to Workers AI.
+const MODEL = process.env.LLM_MODEL
+  || (/openrouter\.ai/.test(BASE) ? 'openrouter/free' : '@cf/meta/llama-3.3-70b-instruct-fp8-fast');
 const CONCURRENCY = Number(process.env.LLM_CONCURRENCY || 2);
 // Free tiers have small limits (OpenRouter :free models: 20 a minute, 50 a day), so cap each run.
 // Whatever is left waits for the next night.
@@ -119,7 +122,8 @@ async function ask(content) {
     }
     if (!res.ok) throw new Error(`LLM ${res.status}: ${(await res.text()).slice(0, 300)}`);
     const j = await res.json();
-    return extractJson(j.choices?.[0]?.message?.content);
+    // Routers answer with the model they actually used; keep it so odd results can be traced.
+    return { out: extractJson(j.choices?.[0]?.message?.content), model: j.model || MODEL };
   }
 }
 
@@ -151,8 +155,8 @@ export async function classify(db, readmes) {
   await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
     for (let r; !stopped && (r = queue.shift());) {
       try {
-        const out = validate(await ask(prompt(r, readmes.get(keyOf(r.repo)))));
-        r.classify = { ...out, model: MODEL, at: today() };
+        const { out, model } = await ask(prompt(r, readmes.get(keyOf(r.repo))));
+        r.classify = { ...validate(out), model, at: today() };
         done++;
       } catch (e) {
         if (e instanceof OutOfQuota) { stopped = true; log('classify: out of quota, the rest waits for the next run'); break; }
