@@ -16,6 +16,25 @@ document.addEventListener('error', (e) => {
   if (t && t.tagName === 'IMG' && t.parentNode?.classList?.contains('av')) t.remove();
 }, true);
 
+// Avatars load only when they come within 200px of the screen (lib/render.js writes them as data-src).
+// Covers pre-rendered rows, rows drawn by filters, the moving cards in the hero and the search dropdown.
+const avatarIO = 'IntersectionObserver' in window
+  ? new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      e.target.src = e.target.dataset.src;
+      e.target.removeAttribute('data-src');
+      avatarIO.unobserve(e.target);
+    }
+  }, { rootMargin: '200px' })
+  : null;
+const watchAvatars = (root) => root.querySelectorAll?.('img[data-src]').forEach((img) => {
+  if (avatarIO) avatarIO.observe(img); else img.src = img.dataset.src;
+});
+watchAvatars(document);
+new MutationObserver((list) => list.forEach((m) => m.addedNodes.forEach((n) => n.nodeType === 1 && watchAvatars(n))))
+  .observe(document.body, { childList: true, subtree: true });
+
 // Copy buttons on code cards (detail sheet and app pages).
 document.addEventListener('click', (e) => {
   const b = e.target.closest('.copybtn');
