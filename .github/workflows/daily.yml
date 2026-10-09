@@ -3,7 +3,12 @@ name: daily-catalog
 on:
   schedule:
     - cron: "0 3 * * *" # 03:00 UTC every day
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      args:
+        description: "Extra flags for scripts/daily.js, e.g. --skip-discover"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -39,7 +44,8 @@ jobs:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_MODEL: ${{ vars.LLM_MODEL }}
           MIN_STARS: ${{ vars.MIN_STARS }}
-        run: npm run catalog:daily
+          DAILY_ARGS: ${{ inputs.args }}
+        run: npm run catalog:daily -- $DAILY_ARGS
 
       - name: Check the site still builds
         run: npm run build

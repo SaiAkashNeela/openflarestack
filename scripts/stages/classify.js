@@ -10,8 +10,8 @@ const BASE = (process.env.LLM_BASE_URL || '').replace(/\/+$/, '');
 const KEY = process.env.LLM_API_KEY || '';
 // On OpenRouter the default is openrouter/free, its own router over whichever free models exist today,
 // so the free model list never needs updating here. Elsewhere it defaults to Workers AI.
-const MODEL = process.env.LLM_MODEL
-  || (/openrouter\.ai/.test(BASE) ? 'openrouter/free' : '@cf/meta/llama-3.3-70b-instruct-fp8-fast');
+const IS_OPENROUTER = /openrouter\.ai/.test(BASE);
+const MODEL = process.env.LLM_MODEL || (IS_OPENROUTER ? 'openrouter/free' : '@cf/meta/llama-3.3-70b-instruct-fp8-fast');
 const CONCURRENCY = Number(process.env.LLM_CONCURRENCY || 2);
 // Free tiers have small limits (OpenRouter :free models: 20 a minute, 50 a day), so cap each run.
 // Whatever is left waits for the next night.
@@ -106,7 +106,10 @@ async function ask(content) {
     const gap = MIN_INTERVAL_MS - (Date.now() - lastCall);
     if (gap > 0) await sleep(gap);
     lastCall = Date.now();
-    const body = { model: MODEL, temperature: 0, max_tokens: 400, messages: [{ role: 'system', content: SYSTEM }, { role: 'user', content }] };
+    // Reasoning models spend max_tokens on thinking before they answer, so leave plenty of room.
+    const body = { model: MODEL, temperature: 0, max_tokens: 4000, messages: [{ role: 'system', content: SYSTEM }, { role: 'user', content }] };
+    // OpenRouter: keep reasoning short and out of the reply (low, not none: some models can't turn it off).
+    if (IS_OPENROUTER) body.reasoning = { effort: 'low', exclude: true };
     if (FORMATS[formatIdx]) body.response_format = FORMATS[formatIdx];
     const res = await fetch(`${BASE}/chat/completions`, {
       method: 'POST',
@@ -122,8 +125,13 @@ async function ask(content) {
     }
     if (!res.ok) throw new Error(`LLM ${res.status}: ${(await res.text()).slice(0, 300)}`);
     const j = await res.json();
-    // Routers answer with the model they actually used; keep it so odd results can be traced.
-    return { out: extractJson(j.choices?.[0]?.message?.content), model: j.model || MODEL };
+    const choice = j.choices?.[0];
+    try {
+      // Routers answer with the model they actually used; keep it so odd results can be traced.
+      return { out: extractJson(choice?.message?.content), model: j.model || MODEL };
+    } catch (e) {
+      throw new Error(`${e.message} (model ${j.model || MODEL}, finish_reason ${choice?.finish_reason}, content: ${JSON.stringify(String(choice?.message?.content ?? '').slice(0, 120))})`);
+    }
   }
 }
 
