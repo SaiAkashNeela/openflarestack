@@ -102,6 +102,7 @@ let formatIdx = 0;
 
 let lastCall = 0;
 async function ask(content) {
+  let badAnswers = 0;
   for (let tries = 0; ; tries++) {
     const gap = MIN_INTERVAL_MS - (Date.now() - lastCall);
     if (gap > 0) await sleep(gap);
@@ -130,6 +131,9 @@ async function ask(content) {
       // Routers answer with the model they actually used; keep it so odd results can be traced.
       return { out: extractJson(choice?.message?.content), model: j.model || MODEL };
     } catch (e) {
+      // openrouter/free picks a model at random, and some aren't chat models (e.g. safety filters).
+      // Asking again usually lands on a different one.
+      if (badAnswers++ < 2) { log(`classify: unusable answer from ${j.model || MODEL}, asking again`); continue; }
       throw new Error(`${e.message} (model ${j.model || MODEL}, finish_reason ${choice?.finish_reason}, content: ${JSON.stringify(String(choice?.message?.content ?? '').slice(0, 120))})`);
     }
   }
