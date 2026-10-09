@@ -778,6 +778,17 @@
         "config_file": "wrangler.jsonc",
         "bindings": [],
         "bindings_source": "config"
+      },
+      "classify": {
+        "name": "Cloudflare Proxy EX",
+        "is_complete_app": true,
+        "kind": "app",
+        "category": "Developer tools",
+        "replaces": null,
+        "one_liner": "A serverless proxy on Cloudflare Workers for accessing DuckDuckGo AI chat, GitHub, and blocked sites.",
+        "confidence": 0.9,
+        "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "at": "2026-10-09"
       }
     },
     "123hi123/done-mail": {
@@ -10538,7 +10549,7 @@
       "reason": "No licence",
       "meta": {
         "stars": 0,
-        "pushed_at": "2026-10-09T09:17:43Z",
+        "pushed_at": "2026-10-09T10:06:11Z",
         "archived": false,
         "fork": false,
         "private": false,
@@ -26375,8 +26386,8 @@
       "last_seen_search": "2026-10-09",
       "reason": "Low confidence (app, 0.55)",
       "meta": {
-        "stars": 3974,
-        "pushed_at": "2026-10-09T08:50:07Z",
+        "stars": 3975,
+        "pushed_at": "2026-10-09T10:07:48Z",
         "archived": false,
         "fork": false,
         "private": false,
@@ -26394,7 +26405,7 @@
       },
       "enrich": {
         "v": 3,
-        "pushed_at": "2026-10-09T08:50:07Z",
+        "pushed_at": "2026-10-09T10:07:48Z",
         "copy_of": null,
         "readme_file": "README.md",
         "has_deploy_button": true,
@@ -28644,7 +28655,7 @@
       "reason": "Not a complete app (library)",
       "meta": {
         "stars": 4612,
-        "pushed_at": "2026-10-09T10:01:12Z",
+        "pushed_at": "2026-10-09T10:09:02Z",
         "archived": false,
         "fork": false,
         "private": false,
@@ -28662,7 +28673,7 @@
       },
       "enrich": {
         "v": 3,
-        "pushed_at": "2026-10-09T10:01:12Z",
+        "pushed_at": "2026-10-09T10:09:02Z",
         "copy_of": null,
         "readme_file": "README.md",
         "has_deploy_button": false,
@@ -34223,7 +34234,7 @@
       "last_seen_search": "2026-10-09",
       "reason": "Not a complete app (library)",
       "meta": {
-        "stars": 32488,
+        "stars": 32489,
         "pushed_at": "2026-10-09T03:17:53Z",
         "archived": false,
         "fork": false,
@@ -46310,7 +46321,7 @@
       "first_seen": "2026-10-08",
       "status": "review",
       "last_seen_search": "2026-10-09",
-      "reason": "Waiting for classification",
+      "reason": "Low confidence (app, 0.85)",
       "meta": {
         "stars": 1171,
         "pushed_at": "2026-10-08T11:34:40Z",
@@ -46339,6 +46350,17 @@
         "config_file": "wrangler.agentplugins.jsonc",
         "bindings": [],
         "bindings_source": "config"
+      },
+      "classify": {
+        "name": "Claude Settings",
+        "is_complete_app": false,
+        "kind": "app",
+        "category": "Developer tools",
+        "replaces": null,
+        "one_liner": "Unified configuration for AI coding tools like Claude Code, Codex, Cursor, and Gemini",
+        "confidence": 0.85,
+        "model": "liquid/lfm-2.5-2.6b:free",
+        "at": "2026-10-09"
       }
     },
     "fcic/r2-webdav-fcic": {
@@ -58473,7 +58495,7 @@
       "last_seen_search": "2026-10-09",
       "meta": {
         "stars": 4733,
-        "pushed_at": "2026-10-09T09:04:22Z",
+        "pushed_at": "2026-10-09T10:07:36Z",
         "archived": false,
         "fork": false,
         "private": false,
@@ -58488,7 +58510,7 @@
       },
       "enrich": {
         "v": 3,
-        "pushed_at": "2026-10-09T09:04:22Z",
+        "pushed_at": "2026-10-09T10:07:36Z",
         "copy_of": null,
         "readme_file": "README.md",
         "has_deploy_button": true,
@@ -59344,7 +59366,7 @@
       "reason": "Low confidence (library, 0.60)",
       "meta": {
         "stars": 7,
-        "pushed_at": "2026-10-09T09:13:44Z",
+        "pushed_at": "2026-10-09T10:06:48Z",
         "archived": false,
         "fork": false,
         "private": false,
@@ -59362,7 +59384,7 @@
       },
       "enrich": {
         "v": 3,
-        "pushed_at": "2026-10-09T09:13:44Z",
+        "pushed_at": "2026-10-09T10:06:48Z",
         "copy_of": null,
         "readme_file": "README.md",
         "has_deploy_button": true,
@@ -81626,7 +81648,7 @@
       "last_seen_search": "2026-10-09",
       "reason": "Licence GitHub couldn’t identify (NOASSERTION)",
       "meta": {
-        "stars": 37068,
+        "stars": 37069,
         "pushed_at": "2026-10-09T04:27:25Z",
         "archived": false,
         "fork": false,
@@ -96970,6 +96992,17 @@
           "Cr"
         ],
         "bindings_source": "config"
+      },
+      "classify": {
+        "name": "mupot",
+        "is_complete_app": false,
+        "kind": "starter",
+        "category": "AI tools",
+        "replaces": null,
+        "one_liner": "Deploy a sovereign AI agent org to Cloudflare; agents act as employees with tasks and economy.",
+        "confidence": 0.9,
+        "model": "nvidia/nemotron-3.5-lightning:free",
+        "at": "2026-10-09"
       }
     },
     "munreader/aero-cli": {
@@ -105393,8 +105426,7 @@
         "deploy-link"
       ],
       "first_seen": "2026-10-09",
-      "status": "review",
-      "reason": "Waiting for classification",
+      "status": "listed",
       "meta": {
         "stars": 5988,
         "pushed_at": "2026-03-25T23:41:33Z",
@@ -105425,7 +105457,19 @@
           "KV"
         ],
         "bindings_source": "config"
-      }
+      },
+      "classify": {
+        "name": "Outerbase Studio",
+        "is_complete_app": true,
+        "kind": "app",
+        "category": "Developer tools",
+        "replaces": null,
+        "one_liner": "A lightweight browser-based database GUI supporting Postgres, MySQL, and SQLite.",
+        "confidence": 0.95,
+        "model": "liquid/lfm-2.5-2.6b:free",
+        "at": "2026-10-09"
+      },
+      "slug": "studio"
     },
     "outlook84/cf-hysteria-realm": {
       "repo": "outlook84/cf-hysteria-realm",
@@ -109457,8 +109501,7 @@
         "deploy-link"
       ],
       "first_seen": "2026-10-09",
-      "status": "review",
-      "reason": "Waiting for classification",
+      "status": "listed",
       "meta": {
         "stars": 3667,
         "pushed_at": "2026-03-17T21:02:21Z",
@@ -109487,7 +109530,19 @@
         "config_file": "wrangler.toml",
         "bindings": [],
         "bindings_source": "config"
-      }
+      },
+      "classify": {
+        "name": "Gemini to OpenAI Proxy",
+        "is_complete_app": true,
+        "kind": "app",
+        "category": "AI tools",
+        "replaces": "OpenAI API",
+        "one_liner": "Lets you use Gemini's free AI models through any tool that expects an OpenAI API endpoint.",
+        "confidence": 0.95,
+        "model": "nvidia/nemotron-3-super-120b-a12b:free",
+        "at": "2026-10-09"
+      },
+      "slug": "openai-gemini"
     },
     "publicaffairs/tg-transcribot": {
       "repo": "PublicAffairs/tg-transcribot",
@@ -112116,7 +112171,7 @@
       },
       "last_seen_search": "2026-10-09",
       "meta": {
-        "stars": 552,
+        "stars": 554,
         "pushed_at": "2026-10-09T03:40:02Z",
         "archived": false,
         "fork": false,
@@ -113651,7 +113706,7 @@
       "reason": "Licence GitHub couldn’t identify (NOASSERTION)",
       "meta": {
         "stars": 792,
-        "pushed_at": "2026-09-25T11:02:11Z",
+        "pushed_at": "2026-10-09T10:10:29Z",
         "archived": false,
         "fork": false,
         "private": false,
@@ -113663,13 +113718,13 @@
         "avatar_url": "https://avatars.githubusercontent.com/u/31321188?s=96&u=98d0726a329d89e8486ec9eb4ff8085dcb220110&v=4",
         "default_branch": "main",
         "latest_release": {
-          "tag": "@holocron.so/cli@0.22.5",
-          "published_at": "2026-09-23T12:59:27Z"
+          "tag": "@holocron.so/vite@0.37.0",
+          "published_at": "2026-10-09T10:10:33Z"
         }
       },
       "enrich": {
         "v": 3,
-        "pushed_at": "2026-09-25T11:02:11Z",
+        "pushed_at": "2026-10-09T10:10:29Z",
         "copy_of": null,
         "readme_file": "README.md",
         "has_deploy_button": false,
@@ -120976,7 +121031,7 @@
         "search"
       ],
       "first_seen": "2026-10-09",
-      "status": "review",
+      "status": "rejected",
       "last_seen_search": "2026-10-09",
       "meta": {
         "stars": 8,
@@ -121008,7 +121063,18 @@
         ],
         "bindings_source": "config"
       },
-      "reason": "Waiting for classification"
+      "reason": "Not a complete app (starter)",
+      "classify": {
+        "name": "SFab Starter",
+        "is_complete_app": false,
+        "kind": "starter",
+        "category": "Business",
+        "replaces": null,
+        "one_liner": "Full-stack app foundation with auth, catalog, documents, payments and AI agent.",
+        "confidence": 0.95,
+        "model": "nvidia/nemotron-3.5-lightning:free",
+        "at": "2026-10-09"
+      }
     },
     "sh1n1230/spotifyembedded": {
       "repo": "Sh1n1230/SpotifyEmbedded",
@@ -124045,7 +124111,7 @@
         "description": "",
         "homepage": null,
         "owner_login": "sinourain",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1026480?s=96&u=89a5745bd376f5cde4b4e10e499eda94a4deaed3&v=4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1026480?s=96&u=f9097dcc91b459df2f7a81849da8573aa2be4d84&v=4",
         "default_branch": "main",
         "latest_release": null
       }
@@ -136028,9 +136094,8 @@
         "search"
       ],
       "first_seen": "2026-10-08",
-      "status": "review",
+      "status": "listed",
       "last_seen_search": "2026-10-09",
-      "reason": "Waiting for classification",
       "meta": {
         "stars": 26,
         "pushed_at": "2025-10-22T18:33:30Z",
@@ -136058,7 +136123,19 @@
           "D1"
         ],
         "bindings_source": "config"
-      }
+      },
+      "classify": {
+        "name": "SBSM",
+        "is_complete_app": true,
+        "kind": "app",
+        "category": "Remote access",
+        "replaces": null,
+        "one_liner": "Manage your sing-box VPN subscriptions, groups, and share tokens via a Cloudflare Worker admin console.",
+        "confidence": 0.95,
+        "model": "nvidia/nemotron-3-super-120b-a12b:free",
+        "at": "2026-10-09"
+      },
+      "slug": "sbsm"
     },
     "torarnehave1/vegvisr-container": {
       "repo": "torarnehave1/vegvisr-container",
@@ -146508,7 +146585,7 @@
       "reason": "No licence",
       "meta": {
         "stars": 30,
-        "pushed_at": "2026-10-09T10:07:12Z",
+        "pushed_at": "2026-10-09T10:08:49Z",
         "archived": false,
         "fork": false,
         "private": false,
@@ -154583,7 +154660,7 @@
       "reason": "Fewer than 3 stars",
       "meta": {
         "stars": 0,
-        "pushed_at": "2026-10-09T09:38:26Z",
+        "pushed_at": "2026-10-09T10:11:31Z",
         "archived": false,
         "fork": false,
         "private": false,

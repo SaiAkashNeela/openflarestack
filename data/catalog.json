@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-09T10:09:15.998Z",
+  "generated_at": "2026-10-09T10:15:11.153Z",
   "counts": {
     "tracked": 5300,
     "matched": 6119,
-    "listed": 191,
-    "review": 312,
-    "new": 0,
+    "listed": 194,
+    "review": 308,
+    "new": 2,
     "by_source": {
       "awesome-cfsh": 112,
-      "search": 79
+      "search": 82
     }
   },
   "categories": [
@@ -45,7 +45,7 @@
     {
       "name": "Developer tools",
       "slug": "developer-tools",
-      "count": 26
+      "count": 27
     },
     {
       "name": "Email",
@@ -80,7 +80,7 @@
     {
       "name": "Remote access",
       "slug": "remote-access",
-      "count": 6
+      "count": 7
     },
     {
       "name": "Status pages",
@@ -90,7 +90,7 @@
     {
       "name": "AI tools",
       "slug": "ai-tools",
-      "count": 15
+      "count": 16
     }
   ],
   "apps": [
@@ -445,13 +445,13 @@
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/hieunc229/mailflare",
       "license": "AGPL-3.0",
       "stars": 4733,
-      "pushed_at": "2026-10-09T09:04:22Z",
+      "pushed_at": "2026-10-09T10:07:36Z",
       "default_branch": "main",
       "homepage": "https://mailflare.co",
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 36.7,
+      "score": 36.8,
       "source": "awesome-cfsh",
       "rank": 10,
       "category_rank": 3
@@ -1100,6 +1100,39 @@
       "category_rank": 2
     },
     {
+      "repo": "outerbase/studio",
+      "slug": "studio",
+      "name": "Outerbase Studio",
+      "owner": {
+        "login": "outerbase",
+        "avatar_url": "https://avatars.githubusercontent.com/u/108690798?s=96&v=4"
+      },
+      "description": "A lightweight browser-based database GUI supporting Postgres, MySQL, and SQLite.",
+      "category": "Developer tools",
+      "replaces": null,
+      "bindings": [
+        "KV"
+      ],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/outerbase/studio",
+      "license": "AGPL-3.0",
+      "stars": 5988,
+      "pushed_at": "2026-03-25T23:41:33Z",
+      "default_branch": "develop",
+      "homepage": "https://studio.outerbase.com",
+      "latest_release": {
+        "tag": "v0.10.2",
+        "published_at": "2025-03-31T11:28:02Z"
+      },
+      "is_new": true,
+      "first_seen": "2026-10-09",
+      "score": 28.8,
+      "source": "search",
+      "rank": 30,
+      "category_rank": 2
+    },
+    {
       "repo": "akazwz/hostc",
       "slug": "hostc",
       "name": "hostc",
@@ -1129,7 +1162,7 @@
       "first_seen": "2026-10-08",
       "score": 28.6,
       "source": "awesome-cfsh",
-      "rank": 30,
+      "rank": 31,
       "category_rank": 1
     },
     {
@@ -1155,7 +1188,7 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FRavelloH%2FInsightFlare",
       "license": "MIT",
-      "stars": 552,
+      "stars": 554,
       "pushed_at": "2026-10-09T03:40:02Z",
       "default_branch": "main",
       "homepage": "https://demo.insightflare.net",
@@ -1167,7 +1200,7 @@
       "first_seen": "2026-10-08",
       "score": 28.4,
       "source": "awesome-cfsh",
-      "rank": 31,
+      "rank": 32,
       "category_rank": 3
     },
     {
@@ -1202,7 +1235,7 @@
       "first_seen": "2026-10-08",
       "score": 27.5,
       "source": "awesome-cfsh",
-      "rank": 32,
+      "rank": 33,
       "category_rank": 2
     },
     {
@@ -1235,7 +1268,7 @@
       "first_seen": "2026-10-08",
       "score": 27.1,
       "source": "awesome-cfsh",
-      "rank": 33,
+      "rank": 34,
       "category_rank": 1
     },
     {
@@ -1263,7 +1296,7 @@
       "first_seen": "2026-10-08",
       "score": 27,
       "source": "search",
-      "rank": 34,
+      "rank": 35,
       "category_rank": 3
     },
     {
@@ -1299,8 +1332,39 @@
       "first_seen": "2026-10-08",
       "score": 27,
       "source": "awesome-cfsh",
-      "rank": 35,
+      "rank": 36,
       "category_rank": 9
+    },
+    {
+      "repo": "PublicAffairs/openai-gemini",
+      "slug": "openai-gemini",
+      "name": "Gemini to OpenAI Proxy",
+      "owner": {
+        "login": "PublicAffairs",
+        "avatar_url": "https://avatars.githubusercontent.com/u/160492612?s=96&v=4"
+      },
+      "description": "Lets you use Gemini's free AI models through any tool that expects an OpenAI API endpoint.",
+      "category": "AI tools",
+      "replaces": "OpenAI API",
+      "bindings": [],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/PublicAffairs/openai-gemini",
+      "license": "MIT",
+      "stars": 3667,
+      "pushed_at": "2026-03-17T21:02:21Z",
+      "default_branch": "main",
+      "homepage": "https://my-openai-gemini-demo.vercel.app/",
+      "latest_release": {
+        "tag": "gemini-3",
+        "published_at": "2025-12-22T19:25:28Z"
+      },
+      "is_new": true,
+      "first_seen": "2026-10-09",
+      "score": 26.6,
+      "source": "search",
+      "rank": 37,
+      "category_rank": 5
     },
     {
       "repo": "Shudesu/line-harness-oss",
@@ -1335,7 +1399,7 @@
       "first_seen": "2026-10-08",
       "score": 26.5,
       "source": "awesome-cfsh",
-      "rank": 36,
+      "rank": 38,
       "category_rank": 1
     },
     {
@@ -1369,7 +1433,7 @@
       "first_seen": "2026-10-08",
       "score": 26.3,
       "source": "awesome-cfsh",
-      "rank": 37,
+      "rank": 39,
       "category_rank": 2
     },
     {
@@ -1402,7 +1466,7 @@
       "first_seen": "2026-10-08",
       "score": 26.1,
       "source": "awesome-cfsh",
-      "rank": 38,
+      "rank": 40,
       "category_rank": 4
     },
     {
@@ -1438,7 +1502,7 @@
       "first_seen": "2026-10-08",
       "score": 26.1,
       "source": "awesome-cfsh",
-      "rank": 39,
+      "rank": 41,
       "category_rank": 5
     },
     {
@@ -1471,7 +1535,7 @@
       "first_seen": "2026-10-08",
       "score": 26,
       "source": "awesome-cfsh",
-      "rank": 40,
+      "rank": 42,
       "category_rank": 5
     },
     {
@@ -1501,7 +1565,7 @@
       "first_seen": "2026-10-08",
       "score": 25.9,
       "source": "awesome-cfsh",
-      "rank": 41,
+      "rank": 43,
       "category_rank": 3
     },
     {
@@ -1532,7 +1596,7 @@
       "first_seen": "2026-10-08",
       "score": 25.8,
       "source": "search",
-      "rank": 42,
+      "rank": 44,
       "category_rank": 6
     },
     {
@@ -1562,7 +1626,7 @@
       "first_seen": "2026-10-08",
       "score": 25.7,
       "source": "awesome-cfsh",
-      "rank": 43,
+      "rank": 45,
       "category_rank": 7
     },
     {
@@ -1596,8 +1660,8 @@
       "first_seen": "2026-10-08",
       "score": 25.5,
       "source": "awesome-cfsh",
-      "rank": 44,
-      "category_rank": 2
+      "rank": 46,
+      "category_rank": 3
     },
     {
       "repo": "abersheeran/r2-webdav",
@@ -1626,7 +1690,7 @@
       "first_seen": "2026-10-08",
       "score": 25.5,
       "source": "awesome-cfsh",
-      "rank": 45,
+      "rank": 47,
       "category_rank": 8
     },
     {
@@ -1662,8 +1726,8 @@
       "first_seen": "2026-10-08",
       "score": 25.5,
       "source": "search",
-      "rank": 46,
-      "category_rank": 3
+      "rank": 48,
+      "category_rank": 4
     },
     {
       "repo": "realchendahuang/FlareMo",
@@ -1699,7 +1763,7 @@
       "first_seen": "2026-10-08",
       "score": 25.4,
       "source": "awesome-cfsh",
-      "rank": 47,
+      "rank": 49,
       "category_rank": 3
     },
     {
@@ -1735,7 +1799,7 @@
       "first_seen": "2026-10-08",
       "score": 25.4,
       "source": "search",
-      "rank": 48,
+      "rank": 50,
       "category_rank": 1
     },
     {
@@ -1769,7 +1833,7 @@
       "first_seen": "2026-10-08",
       "score": 25.3,
       "source": "awesome-cfsh",
-      "rank": 49,
+      "rank": 51,
       "category_rank": 4
     },
     {
@@ -1799,7 +1863,7 @@
       "first_seen": "2026-10-08",
       "score": 25,
       "source": "awesome-cfsh",
-      "rank": 50,
+      "rank": 52,
       "category_rank": 3
     },
     {
@@ -1832,8 +1896,8 @@
       "first_seen": "2026-10-08",
       "score": 25,
       "source": "search",
-      "rank": 51,
-      "category_rank": 5
+      "rank": 53,
+      "category_rank": 6
     },
     {
       "repo": "hjinco/synch",
@@ -1870,7 +1934,7 @@
       "first_seen": "2026-10-08",
       "score": 24.9,
       "source": "awesome-cfsh",
-      "rank": 52,
+      "rank": 54,
       "category_rank": 4
     },
     {
@@ -1907,7 +1971,7 @@
       "first_seen": "2026-10-08",
       "score": 24.8,
       "source": "awesome-cfsh",
-      "rank": 53,
+      "rank": 55,
       "category_rank": 10
     },
     {
@@ -1941,7 +2005,7 @@
       "first_seen": "2026-10-08",
       "score": 24.4,
       "source": "search",
-      "rank": 54,
+      "rank": 56,
       "category_rank": 2
     },
     {
@@ -1979,7 +2043,7 @@
       "first_seen": "2026-10-08",
       "score": 24.1,
       "source": "awesome-cfsh",
-      "rank": 55,
+      "rank": 57,
       "category_rank": 9
     },
     {
@@ -2017,7 +2081,7 @@
       "first_seen": "2026-10-08",
       "score": 24.1,
       "source": "awesome-cfsh",
-      "rank": 56,
+      "rank": 58,
       "category_rank": 11
     },
     {
@@ -2055,7 +2119,7 @@
       "first_seen": "2026-10-08",
       "score": 24,
       "source": "awesome-cfsh",
-      "rank": 57,
+      "rank": 59,
       "category_rank": 12
     },
     {
@@ -2090,7 +2154,7 @@
       "first_seen": "2026-10-08",
       "score": 23.2,
       "source": "awesome-cfsh",
-      "rank": 58,
+      "rank": 60,
       "category_rank": 13
     },
     {
@@ -2125,7 +2189,7 @@
       "first_seen": "2026-10-08",
       "score": 23.2,
       "source": "awesome-cfsh",
-      "rank": 59,
+      "rank": 61,
       "category_rank": 2
     },
     {
@@ -2161,7 +2225,7 @@
       "first_seen": "2026-10-08",
       "score": 22.6,
       "source": "awesome-cfsh",
-      "rank": 60,
+      "rank": 62,
       "category_rank": 3
     },
     {
@@ -2196,7 +2260,7 @@
       "first_seen": "2026-10-08",
       "score": 22.5,
       "source": "awesome-cfsh",
-      "rank": 61,
+      "rank": 63,
       "category_rank": 10
     },
     {
@@ -2227,7 +2291,7 @@
       "first_seen": "2026-10-08",
       "score": 22.4,
       "source": "awesome-cfsh",
-      "rank": 62,
+      "rank": 64,
       "category_rank": 11
     },
     {
@@ -2258,7 +2322,7 @@
       "first_seen": "2026-10-08",
       "score": 22.4,
       "source": "awesome-cfsh",
-      "rank": 63,
+      "rank": 65,
       "category_rank": 1
     },
     {
@@ -2291,7 +2355,7 @@
       "first_seen": "2026-10-08",
       "score": 22.1,
       "source": "awesome-cfsh",
-      "rank": 64,
+      "rank": 66,
       "category_rank": 2
     },
     {
@@ -2329,7 +2393,7 @@
       "first_seen": "2026-10-08",
       "score": 21.8,
       "source": "awesome-cfsh",
-      "rank": 65,
+      "rank": 67,
       "category_rank": 4
     },
     {
@@ -2367,8 +2431,8 @@
       "first_seen": "2026-10-08",
       "score": 21.6,
       "source": "awesome-cfsh",
-      "rank": 66,
-      "category_rank": 4
+      "rank": 68,
+      "category_rank": 5
     },
     {
       "repo": "CCCrafts/punctual",
@@ -2406,7 +2470,7 @@
       "first_seen": "2026-10-08",
       "score": 21.3,
       "source": "awesome-cfsh",
-      "rank": 67,
+      "rank": 69,
       "category_rank": 4
     },
     {
@@ -2439,7 +2503,7 @@
       "first_seen": "2026-10-08",
       "score": 21.3,
       "source": "search",
-      "rank": 68,
+      "rank": 70,
       "category_rank": 14
     },
     {
@@ -2475,7 +2539,7 @@
       "first_seen": "2026-10-08",
       "score": 21.2,
       "source": "awesome-cfsh",
-      "rank": 69,
+      "rank": 71,
       "category_rank": 2
     },
     {
@@ -2509,7 +2573,7 @@
       "first_seen": "2026-10-08",
       "score": 21,
       "source": "awesome-cfsh",
-      "rank": 70,
+      "rank": 72,
       "category_rank": 5
     },
     {
@@ -2543,7 +2607,7 @@
       "first_seen": "2026-10-08",
       "score": 20.8,
       "source": "awesome-cfsh",
-      "rank": 71,
+      "rank": 73,
       "category_rank": 6
     },
     {
@@ -2575,7 +2639,7 @@
       "first_seen": "2026-10-08",
       "score": 20.6,
       "source": "search",
-      "rank": 72,
+      "rank": 74,
       "category_rank": 7
     },
     {
@@ -2605,8 +2669,8 @@
       "first_seen": "2026-10-08",
       "score": 20.3,
       "source": "awesome-cfsh",
-      "rank": 73,
-      "category_rank": 5
+      "rank": 75,
+      "category_rank": 6
     },
     {
       "repo": "yshalsager/logseq-selfhost",
@@ -2637,7 +2701,7 @@
       "first_seen": "2026-10-08",
       "score": 20.3,
       "source": "awesome-cfsh",
-      "rank": 74,
+      "rank": 76,
       "category_rank": 5
     },
     {
@@ -2668,7 +2732,7 @@
       "first_seen": "2026-10-08",
       "score": 19.9,
       "source": "awesome-cfsh",
-      "rank": 75,
+      "rank": 77,
       "category_rank": 8
     },
     {
@@ -2701,7 +2765,7 @@
       "first_seen": "2026-10-08",
       "score": 19.9,
       "source": "awesome-cfsh",
-      "rank": 76,
+      "rank": 78,
       "category_rank": 12
     },
     {
@@ -2732,8 +2796,8 @@
       "first_seen": "2026-10-08",
       "score": 19.8,
       "source": "awesome-cfsh",
-      "rank": 77,
-      "category_rank": 6
+      "rank": 79,
+      "category_rank": 7
     },
     {
       "repo": "Defiabell/yixi",
@@ -2766,7 +2830,7 @@
       "first_seen": "2026-10-08",
       "score": 19.4,
       "source": "awesome-cfsh",
-      "rank": 78,
+      "rank": 80,
       "category_rank": 3
     },
     {
@@ -2800,7 +2864,7 @@
       "first_seen": "2026-10-08",
       "score": 19.1,
       "source": "search",
-      "rank": 79,
+      "rank": 81,
       "category_rank": 6
     },
     {
@@ -2831,7 +2895,7 @@
       "first_seen": "2026-10-08",
       "score": 18.8,
       "source": "search",
-      "rank": 80,
+      "rank": 82,
       "category_rank": 4
     },
     {
@@ -2864,7 +2928,7 @@
       "first_seen": "2026-10-08",
       "score": 18.6,
       "source": "awesome-cfsh",
-      "rank": 81,
+      "rank": 83,
       "category_rank": 5
     },
     {
@@ -2895,7 +2959,7 @@
       "first_seen": "2026-10-08",
       "score": 18.5,
       "source": "search",
-      "rank": 82,
+      "rank": 84,
       "category_rank": 13
     },
     {
@@ -2935,8 +2999,8 @@
       "first_seen": "2026-10-08",
       "score": 18.4,
       "source": "search",
-      "rank": 83,
-      "category_rank": 7
+      "rank": 85,
+      "category_rank": 8
     },
     {
       "repo": "Shudesu/x-harness-oss",
@@ -2970,7 +3034,7 @@
       "first_seen": "2026-10-08",
       "score": 18.4,
       "source": "awesome-cfsh",
-      "rank": 84,
+      "rank": 86,
       "category_rank": 9
     },
     {
@@ -3004,7 +3068,7 @@
       "first_seen": "2026-10-08",
       "score": 18.4,
       "source": "awesome-cfsh",
-      "rank": 85,
+      "rank": 87,
       "category_rank": 3
     },
     {
@@ -3041,7 +3105,7 @@
       "first_seen": "2026-10-08",
       "score": 18.4,
       "source": "awesome-cfsh",
-      "rank": 86,
+      "rank": 88,
       "category_rank": 10
     },
     {
@@ -3073,7 +3137,7 @@
       "first_seen": "2026-10-08",
       "score": 18.2,
       "source": "awesome-cfsh",
-      "rank": 87,
+      "rank": 89,
       "category_rank": 7
     },
     {
@@ -3108,7 +3172,7 @@
       "first_seen": "2026-10-08",
       "score": 18,
       "source": "search",
-      "rank": 88,
+      "rank": 90,
       "category_rank": 4
     },
     {
@@ -3138,7 +3202,7 @@
       "first_seen": "2026-10-08",
       "score": 17.7,
       "source": "search",
-      "rank": 89,
+      "rank": 91,
       "category_rank": 5
     },
     {
@@ -3173,7 +3237,7 @@
       "first_seen": "2026-10-08",
       "score": 17.6,
       "source": "search",
-      "rank": 90,
+      "rank": 92,
       "category_rank": 15
     },
     {
@@ -3208,7 +3272,7 @@
       "first_seen": "2026-10-08",
       "score": 17.6,
       "source": "awesome-cfsh",
-      "rank": 91,
+      "rank": 93,
       "category_rank": 4
     },
     {
@@ -3239,8 +3303,8 @@
       "first_seen": "2026-10-08",
       "score": 17.6,
       "source": "search",
-      "rank": 92,
-      "category_rank": 6
+      "rank": 94,
+      "category_rank": 7
     },
     {
       "repo": "plivo-labs/glance",
@@ -3277,8 +3341,8 @@
       "first_seen": "2026-10-08",
       "score": 17.6,
       "source": "awesome-cfsh",
-      "rank": 93,
-      "category_rank": 8
+      "rank": 95,
+      "category_rank": 9
     },
     {
       "repo": "AdiRishi/turborepo-remote-cache-cloudflare",
@@ -3311,8 +3375,8 @@
       "first_seen": "2026-10-08",
       "score": 17.4,
       "source": "awesome-cfsh",
-      "rank": 94,
-      "category_rank": 9
+      "rank": 96,
+      "category_rank": 10
     },
     {
       "repo": "KingPin/Garrul",
@@ -3346,7 +3410,7 @@
       "first_seen": "2026-10-08",
       "score": 17.2,
       "source": "awesome-cfsh",
-      "rank": 95,
+      "rank": 97,
       "category_rank": 2
     },
     {
@@ -3377,8 +3441,8 @@
       "first_seen": "2026-10-08",
       "score": 17.1,
       "source": "awesome-cfsh",
-      "rank": 96,
-      "category_rank": 7
+      "rank": 98,
+      "category_rank": 8
     },
     {
       "repo": "ieax/renewhelper",
@@ -3411,7 +3475,7 @@
       "first_seen": "2026-10-08",
       "score": 17,
       "source": "search",
-      "rank": 97,
+      "rank": 99,
       "category_rank": 5
     },
     {
@@ -3449,7 +3513,7 @@
       "first_seen": "2026-10-08",
       "score": 16.9,
       "source": "awesome-cfsh",
-      "rank": 98,
+      "rank": 100,
       "category_rank": 11
     },
     {
@@ -3480,8 +3544,8 @@
       "first_seen": "2026-10-08",
       "score": 15.6,
       "source": "awesome-cfsh",
-      "rank": 99,
-      "category_rank": 10
+      "rank": 101,
+      "category_rank": 11
     },
     {
       "repo": "baronunread/rdyrct",
@@ -3516,7 +3580,7 @@
       "first_seen": "2026-10-08",
       "score": 15.5,
       "source": "awesome-cfsh",
-      "rank": 100,
+      "rank": 102,
       "category_rank": 3
     },
     {
@@ -3551,7 +3615,7 @@
       "first_seen": "2026-10-08",
       "score": 15.4,
       "source": "awesome-cfsh",
-      "rank": 101,
+      "rank": 103,
       "category_rank": 4
     },
     {
@@ -3584,7 +3648,7 @@
       "first_seen": "2026-10-08",
       "score": 15.3,
       "source": "awesome-cfsh",
-      "rank": 102,
+      "rank": 104,
       "category_rank": 16
     },
     {
@@ -3616,8 +3680,8 @@
       "first_seen": "2026-10-08",
       "score": 15.1,
       "source": "search",
-      "rank": 103,
-      "category_rank": 8
+      "rank": 105,
+      "category_rank": 9
     },
     {
       "repo": "TooonyChen/AuthInbox",
@@ -3646,7 +3710,7 @@
       "first_seen": "2026-10-08",
       "score": 15,
       "source": "awesome-cfsh",
-      "rank": 104,
+      "rank": 106,
       "category_rank": 17
     },
     {
@@ -3677,8 +3741,8 @@
       "first_seen": "2026-10-08",
       "score": 14.9,
       "source": "awesome-cfsh",
-      "rank": 105,
-      "category_rank": 11
+      "rank": 107,
+      "category_rank": 12
     },
     {
       "repo": "wesleyel/cloudmark",
@@ -3710,7 +3774,7 @@
       "first_seen": "2026-10-08",
       "score": 14.9,
       "source": "awesome-cfsh",
-      "rank": 106,
+      "rank": 108,
       "category_rank": 6
     },
     {
@@ -3744,7 +3808,7 @@
       "first_seen": "2026-10-08",
       "score": 14.9,
       "source": "search",
-      "rank": 107,
+      "rank": 109,
       "category_rank": 5
     },
     {
@@ -3776,7 +3840,7 @@
       "first_seen": "2026-10-08",
       "score": 14.8,
       "source": "awesome-cfsh",
-      "rank": 108,
+      "rank": 110,
       "category_rank": 14
     },
     {
@@ -3807,7 +3871,7 @@
       "first_seen": "2026-10-08",
       "score": 14.4,
       "source": "search",
-      "rank": 109,
+      "rank": 111,
       "category_rank": 3
     },
     {
@@ -3838,7 +3902,7 @@
       "first_seen": "2026-10-08",
       "score": 14.2,
       "source": "search",
-      "rank": 110,
+      "rank": 112,
       "category_rank": 15
     },
     {
@@ -3872,8 +3936,8 @@
       "first_seen": "2026-10-08",
       "score": 14.2,
       "source": "awesome-cfsh",
-      "rank": 111,
-      "category_rank": 12
+      "rank": 113,
+      "category_rank": 13
     },
     {
       "repo": "GagnDeep/mailysend",
@@ -3909,7 +3973,7 @@
       "first_seen": "2026-10-08",
       "score": 14.2,
       "source": "awesome-cfsh",
-      "rank": 112,
+      "rank": 114,
       "category_rank": 18
     },
     {
@@ -3945,7 +4009,7 @@
       "first_seen": "2026-10-08",
       "score": 13.9,
       "source": "awesome-cfsh",
-      "rank": 113,
+      "rank": 115,
       "category_rank": 19
     },
     {
@@ -3976,7 +4040,7 @@
       "first_seen": "2026-10-08",
       "score": 13.8,
       "source": "search",
-      "rank": 114,
+      "rank": 116,
       "category_rank": 16
     },
     {
@@ -4006,7 +4070,7 @@
       "first_seen": "2026-10-08",
       "score": 13.8,
       "source": "awesome-cfsh",
-      "rank": 115,
+      "rank": 117,
       "category_rank": 5
     },
     {
@@ -4040,42 +4104,8 @@
       "first_seen": "2026-10-08",
       "score": 13.8,
       "source": "search",
-      "rank": 116,
-      "category_rank": 9
-    },
-    {
-      "repo": "doable-team/heyflare",
-      "slug": "heyflare",
-      "name": "heyflare",
-      "owner": {
-        "login": "doable-team",
-        "avatar_url": "https://avatars.githubusercontent.com/u/257752671?s=96&v=4"
-      },
-      "description": "HEY-style email client with a Screener, Imbox and Feed, plus an AI agent that triages and drafts replies.",
-      "category": "Email",
-      "replaces": "HEY",
-      "bindings": [
-        "D1",
-        "Cr"
-      ],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/doable-team/heyflare",
-      "license": "MIT",
-      "stars": 28,
-      "pushed_at": "2026-09-15T17:41:57Z",
-      "default_branch": "main",
-      "homepage": "https://heyflare.email",
-      "latest_release": {
-        "tag": "v0.4.11",
-        "published_at": "2026-09-15T17:42:05Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 13.7,
-      "source": "search",
-      "rank": 117,
-      "category_rank": 20
+      "rank": 118,
+      "category_rank": 10
     },
     {
       "repo": "sbmagar13/recipe-jar",
@@ -4107,8 +4137,42 @@
       "first_seen": "2026-10-08",
       "score": 13.7,
       "source": "search",
-      "rank": 118,
+      "rank": 119,
       "category_rank": 7
+    },
+    {
+      "repo": "doable-team/heyflare",
+      "slug": "heyflare",
+      "name": "heyflare",
+      "owner": {
+        "login": "doable-team",
+        "avatar_url": "https://avatars.githubusercontent.com/u/257752671?s=96&v=4"
+      },
+      "description": "HEY-style email client with a Screener, Imbox and Feed, plus an AI agent that triages and drafts replies.",
+      "category": "Email",
+      "replaces": "HEY",
+      "bindings": [
+        "D1",
+        "Cr"
+      ],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/doable-team/heyflare",
+      "license": "MIT",
+      "stars": 28,
+      "pushed_at": "2026-09-15T17:41:57Z",
+      "default_branch": "main",
+      "homepage": "https://heyflare.email",
+      "latest_release": {
+        "tag": "v0.4.11",
+        "published_at": "2026-09-15T17:42:05Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 13.6,
+      "source": "search",
+      "rank": 120,
+      "category_rank": 20
     },
     {
       "repo": "techjewel/mdread",
@@ -4138,7 +4202,7 @@
       "first_seen": "2026-10-08",
       "score": 13.5,
       "source": "search",
-      "rank": 119,
+      "rank": 121,
       "category_rank": 6
     },
     {
@@ -4172,7 +4236,7 @@
       "first_seen": "2026-10-08",
       "score": 13.4,
       "source": "search",
-      "rank": 120,
+      "rank": 122,
       "category_rank": 6
     },
     {
@@ -4207,7 +4271,7 @@
       "first_seen": "2026-10-08",
       "score": 13.2,
       "source": "awesome-cfsh",
-      "rank": 121,
+      "rank": 123,
       "category_rank": 21
     },
     {
@@ -4241,7 +4305,7 @@
       "first_seen": "2026-10-08",
       "score": 12.6,
       "source": "awesome-cfsh",
-      "rank": 122,
+      "rank": 124,
       "category_rank": 5
     },
     {
@@ -4272,8 +4336,8 @@
       "first_seen": "2026-10-08",
       "score": 12.3,
       "source": "awesome-cfsh",
-      "rank": 123,
-      "category_rank": 13
+      "rank": 125,
+      "category_rank": 14
     },
     {
       "repo": "nkzw-tech/cloudsail",
@@ -4302,8 +4366,8 @@
       "first_seen": "2026-10-08",
       "score": 12.2,
       "source": "awesome-cfsh",
-      "rank": 124,
-      "category_rank": 14
+      "rank": 126,
+      "category_rank": 15
     },
     {
       "repo": "monkeyWie/typix",
@@ -4336,8 +4400,8 @@
       "first_seen": "2026-10-08",
       "score": 11.8,
       "source": "search",
-      "rank": 125,
-      "category_rank": 10
+      "rank": 127,
+      "category_rank": 11
     },
     {
       "repo": "hirotomasato/tempik",
@@ -4366,7 +4430,7 @@
       "first_seen": "2026-10-08",
       "score": 11.7,
       "source": "awesome-cfsh",
-      "rank": 126,
+      "rank": 128,
       "category_rank": 22
     },
     {
@@ -4400,7 +4464,7 @@
       "first_seen": "2026-10-08",
       "score": 11.7,
       "source": "search",
-      "rank": 127,
+      "rank": 129,
       "category_rank": 8
     },
     {
@@ -4433,8 +4497,8 @@
       "first_seen": "2026-10-08",
       "score": 11.3,
       "source": "awesome-cfsh",
-      "rank": 128,
-      "category_rank": 15
+      "rank": 130,
+      "category_rank": 16
     },
     {
       "repo": "jonesphillip/sharehtml",
@@ -4464,8 +4528,8 @@
       "first_seen": "2026-10-08",
       "score": 11.2,
       "source": "awesome-cfsh",
-      "rank": 129,
-      "category_rank": 16
+      "rank": 131,
+      "category_rank": 17
     },
     {
       "repo": "AJFrio/OpenShop",
@@ -4495,7 +4559,7 @@
       "first_seen": "2026-10-08",
       "score": 11.2,
       "source": "search",
-      "rank": 130,
+      "rank": 132,
       "category_rank": 12
     },
     {
@@ -4530,7 +4594,7 @@
       "first_seen": "2026-10-08",
       "score": 11.2,
       "source": "search",
-      "rank": 131,
+      "rank": 133,
       "category_rank": 17
     },
     {
@@ -4566,7 +4630,7 @@
       "first_seen": "2026-10-08",
       "score": 10.9,
       "source": "search",
-      "rank": 132,
+      "rank": 134,
       "category_rank": 18
     },
     {
@@ -4597,7 +4661,7 @@
       "first_seen": "2026-10-08",
       "score": 10.7,
       "source": "search",
-      "rank": 133,
+      "rank": 135,
       "category_rank": 3
     },
     {
@@ -4628,8 +4692,8 @@
       "first_seen": "2026-10-08",
       "score": 10.6,
       "source": "search",
-      "rank": 134,
-      "category_rank": 17
+      "rank": 136,
+      "category_rank": 18
     },
     {
       "repo": "jonnyparris/dodo",
@@ -4662,8 +4726,8 @@
       "first_seen": "2026-10-08",
       "score": 10.1,
       "source": "search",
-      "rank": 135,
-      "category_rank": 11
+      "rank": 137,
+      "category_rank": 12
     },
     {
       "repo": "pfstr/ownlist",
@@ -4696,7 +4760,7 @@
       "first_seen": "2026-10-08",
       "score": 10.1,
       "source": "awesome-cfsh",
-      "rank": 136,
+      "rank": 138,
       "category_rank": 23
     },
     {
@@ -4727,8 +4791,8 @@
       "first_seen": "2026-10-08",
       "score": 10,
       "source": "search",
-      "rank": 137,
-      "category_rank": 18
+      "rank": 139,
+      "category_rank": 19
     },
     {
       "repo": "bitoceango/civideo",
@@ -4761,7 +4825,7 @@
       "first_seen": "2026-10-08",
       "score": 10,
       "source": "awesome-cfsh",
-      "rank": 138,
+      "rank": 140,
       "category_rank": 19
     },
     {
@@ -4794,7 +4858,7 @@
       "first_seen": "2026-10-08",
       "score": 10,
       "source": "awesome-cfsh",
-      "rank": 139,
+      "rank": 141,
       "category_rank": 7
     },
     {
@@ -4825,7 +4889,7 @@
       "first_seen": "2026-10-08",
       "score": 9.6,
       "source": "awesome-cfsh",
-      "rank": 140,
+      "rank": 142,
       "category_rank": 4
     },
     {
@@ -4859,7 +4923,7 @@
       "first_seen": "2026-10-08",
       "score": 9.4,
       "source": "awesome-cfsh",
-      "rank": 141,
+      "rank": 143,
       "category_rank": 24
     },
     {
@@ -4889,7 +4953,7 @@
       "first_seen": "2026-10-08",
       "score": 9.3,
       "source": "awesome-cfsh",
-      "rank": 142,
+      "rank": 144,
       "category_rank": 6
     },
     {
@@ -4919,7 +4983,7 @@
       "first_seen": "2026-10-08",
       "score": 9.2,
       "source": "awesome-cfsh",
-      "rank": 143,
+      "rank": 145,
       "category_rank": 13
     },
     {
@@ -4951,7 +5015,7 @@
       "first_seen": "2026-10-08",
       "score": 9.2,
       "source": "awesome-cfsh",
-      "rank": 144,
+      "rank": 146,
       "category_rank": 14
     },
     {
@@ -4985,8 +5049,8 @@
       "first_seen": "2026-10-08",
       "score": 9.1,
       "source": "awesome-cfsh",
-      "rank": 145,
-      "category_rank": 19
+      "rank": 147,
+      "category_rank": 20
     },
     {
       "repo": "nodeauth/2fauth-worker",
@@ -5019,7 +5083,7 @@
       "first_seen": "2026-10-08",
       "score": 9,
       "source": "search",
-      "rank": 146,
+      "rank": 148,
       "category_rank": 3
     },
     {
@@ -5051,7 +5115,7 @@
       "first_seen": "2026-10-08",
       "score": 8.7,
       "source": "search",
-      "rank": 147,
+      "rank": 149,
       "category_rank": 7
     },
     {
@@ -5087,7 +5151,7 @@
       "first_seen": "2026-10-08",
       "score": 8.7,
       "source": "search",
-      "rank": 148,
+      "rank": 150,
       "category_rank": 6
     },
     {
@@ -5119,8 +5183,8 @@
       "first_seen": "2026-10-08",
       "score": 8.2,
       "source": "search",
-      "rank": 149,
-      "category_rank": 12
+      "rank": 151,
+      "category_rank": 13
     },
     {
       "repo": "G4brym/workers-firecrawl",
@@ -5149,8 +5213,8 @@
       "first_seen": "2026-10-08",
       "score": 8,
       "source": "awesome-cfsh",
-      "rank": 150,
-      "category_rank": 20
+      "rank": 152,
+      "category_rank": 21
     },
     {
       "repo": "gmitch215/nuxtpress",
@@ -5183,7 +5247,7 @@
       "first_seen": "2026-10-08",
       "score": 8,
       "source": "search",
-      "rank": 151,
+      "rank": 153,
       "category_rank": 8
     },
     {
@@ -5215,7 +5279,7 @@
       "first_seen": "2026-10-08",
       "score": 7.3,
       "source": "awesome-cfsh",
-      "rank": 152,
+      "rank": 154,
       "category_rank": 7
     },
     {
@@ -5246,7 +5310,7 @@
       "first_seen": "2026-10-08",
       "score": 7.2,
       "source": "search",
-      "rank": 153,
+      "rank": 155,
       "category_rank": 20
     },
     {
@@ -5279,7 +5343,7 @@
       "first_seen": "2026-10-08",
       "score": 6.7,
       "source": "search",
-      "rank": 154,
+      "rank": 156,
       "category_rank": 8
     },
     {
@@ -5311,7 +5375,7 @@
       "first_seen": "2026-10-08",
       "score": 6.7,
       "source": "search",
-      "rank": 155,
+      "rank": 157,
       "category_rank": 9
     },
     {
@@ -5348,8 +5412,8 @@
       "first_seen": "2026-10-08",
       "score": 6.6,
       "source": "search",
-      "rank": 156,
-      "category_rank": 21
+      "rank": 158,
+      "category_rank": 22
     },
     {
       "repo": "cschanhniem/clawping",
@@ -5382,7 +5446,7 @@
       "first_seen": "2026-10-08",
       "score": 6.3,
       "source": "search",
-      "rank": 157,
+      "rank": 159,
       "category_rank": 8
     },
     {
@@ -5418,7 +5482,7 @@
       "first_seen": "2026-10-08",
       "score": 6.3,
       "source": "search",
-      "rank": 158,
+      "rank": 160,
       "category_rank": 9
     },
     {
@@ -5448,7 +5512,7 @@
       "first_seen": "2026-10-08",
       "score": 6,
       "source": "awesome-cfsh",
-      "rank": 159,
+      "rank": 161,
       "category_rank": 4
     },
     {
@@ -5479,8 +5543,8 @@
       "first_seen": "2026-10-08",
       "score": 6,
       "source": "awesome-cfsh",
-      "rank": 160,
-      "category_rank": 22
+      "rank": 162,
+      "category_rank": 23
     },
     {
       "repo": "joeseesun/qiaomu-page",
@@ -5510,7 +5574,7 @@
       "first_seen": "2026-10-08",
       "score": 5.5,
       "source": "search",
-      "rank": 161,
+      "rank": 163,
       "category_rank": 21
     },
     {
@@ -5542,7 +5606,7 @@
       "first_seen": "2026-10-08",
       "score": 5.1,
       "source": "awesome-cfsh",
-      "rank": 162,
+      "rank": 164,
       "category_rank": 6
     },
     {
@@ -5570,8 +5634,8 @@
       "first_seen": "2026-10-08",
       "score": 5,
       "source": "search",
-      "rank": 163,
-      "category_rank": 13
+      "rank": 165,
+      "category_rank": 14
     },
     {
       "repo": "nakanoasaservice/httpbin-hono",
@@ -5598,8 +5662,8 @@
       "first_seen": "2026-10-08",
       "score": 4.6,
       "source": "search",
-      "rank": 164,
-      "category_rank": 23
+      "rank": 166,
+      "category_rank": 24
     },
     {
       "repo": "isala404/pingflare",
@@ -5629,8 +5693,38 @@
       "first_seen": "2026-10-08",
       "score": 4.5,
       "source": "search",
-      "rank": 165,
+      "rank": 167,
       "category_rank": 10
+    },
+    {
+      "repo": "TooonyChen/sbsm",
+      "slug": "sbsm",
+      "name": "SBSM",
+      "owner": {
+        "login": "TooonyChen",
+        "avatar_url": "https://avatars.githubusercontent.com/u/26252739?s=96&u=f047951e7bbf09fcdd5b6150192255d8e8ad7247&v=4"
+      },
+      "description": "Manage your sing-box VPN subscriptions, groups, and share tokens via a Cloudflare Worker admin console.",
+      "category": "Remote access",
+      "replaces": null,
+      "bindings": [
+        "D1"
+      ],
+      "config_file": "worker/wrangler.toml.example",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "GPL-3.0",
+      "stars": 26,
+      "pushed_at": "2025-10-22T18:33:30Z",
+      "default_branch": "main",
+      "homepage": "https://sbsm.pages.dev",
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 4.3,
+      "source": "search",
+      "rank": 168,
+      "category_rank": 7
     },
     {
       "repo": "bugwz/AIMeter",
@@ -5662,8 +5756,8 @@
       "first_seen": "2026-10-08",
       "score": 3.8,
       "source": "search",
-      "rank": 166,
-      "category_rank": 14
+      "rank": 169,
+      "category_rank": 15
     },
     {
       "repo": "simeononsecurity/ats-resume-improver",
@@ -5690,8 +5784,8 @@
       "first_seen": "2026-10-08",
       "score": 3.7,
       "source": "search",
-      "rank": 167,
-      "category_rank": 15
+      "rank": 170,
+      "category_rank": 16
     },
     {
       "repo": "betich/tracker",
@@ -5720,7 +5814,7 @@
       "first_seen": "2026-10-08",
       "score": 3.6,
       "source": "search",
-      "rank": 168,
+      "rank": 171,
       "category_rank": 10
     },
     {
@@ -5750,7 +5844,7 @@
       "first_seen": "2026-10-08",
       "score": 3.4,
       "source": "search",
-      "rank": 169,
+      "rank": 172,
       "category_rank": 5
     },
     {
@@ -5784,7 +5878,7 @@
       "first_seen": "2026-10-08",
       "score": 3.3,
       "source": "search",
-      "rank": 170,
+      "rank": 173,
       "category_rank": 25
     },
     {
@@ -5821,8 +5915,8 @@
       "first_seen": "2026-10-08",
       "score": 3.3,
       "source": "search",
-      "rank": 171,
-      "category_rank": 24
+      "rank": 174,
+      "category_rank": 25
     },
     {
       "repo": "redwoodjs/invoices",
@@ -5852,7 +5946,7 @@
       "first_seen": "2026-10-08",
       "score": 2.8,
       "source": "awesome-cfsh",
-      "rank": 172,
+      "rank": 175,
       "category_rank": 15
     },
     {
@@ -5886,7 +5980,7 @@
       "first_seen": "2026-10-08",
       "score": 2.5,
       "source": "search",
-      "rank": 173,
+      "rank": 176,
       "category_rank": 6
     },
     {
@@ -5917,7 +6011,7 @@
       "first_seen": "2026-10-08",
       "score": 1.9,
       "source": "search",
-      "rank": 174,
+      "rank": 177,
       "category_rank": 22
     },
     {
@@ -5953,7 +6047,7 @@
       "first_seen": "2026-10-08",
       "score": 1.8,
       "source": "search",
-      "rank": 175,
+      "rank": 178,
       "category_rank": 7
     },
     {
@@ -5988,7 +6082,7 @@
       "first_seen": "2026-10-08",
       "score": 1.8,
       "source": "search",
-      "rank": 176,
+      "rank": 179,
       "category_rank": 26
     },
     {
@@ -6022,8 +6116,8 @@
       "first_seen": "2026-10-08",
       "score": 1.5,
       "source": "search",
-      "rank": 177,
-      "category_rank": 25
+      "rank": 180,
+      "category_rank": 26
     },
     {
       "repo": "tanaer/Telegram_MirroTalk",
@@ -6052,7 +6146,7 @@
       "first_seen": "2026-10-08",
       "score": 1.1,
       "source": "search",
-      "rank": 178,
+      "rank": 181,
       "category_rank": 8
     },
     {
@@ -6080,7 +6174,7 @@
       "first_seen": "2026-10-08",
       "score": 0.8,
       "source": "search",
-      "rank": 179,
+      "rank": 182,
       "category_rank": 11
     },
     {
@@ -6113,7 +6207,7 @@
       "first_seen": "2026-10-08",
       "score": 0.8,
       "source": "search",
-      "rank": 180,
+      "rank": 183,
       "category_rank": 23
     },
     {
@@ -6141,7 +6235,7 @@
       "first_seen": "2026-10-08",
       "score": 0.5,
       "source": "search",
-      "rank": 181,
+      "rank": 184,
       "category_rank": 24
     },
     {
@@ -6172,7 +6266,7 @@
       "first_seen": "2026-10-08",
       "score": -0.5,
       "source": "search",
-      "rank": 182,
+      "rank": 185,
       "category_rank": 9
     },
     {
@@ -6205,7 +6299,7 @@
       "first_seen": "2026-10-08",
       "score": -1.2,
       "source": "search",
-      "rank": 183,
+      "rank": 186,
       "category_rank": 12
     },
     {
@@ -6239,7 +6333,7 @@
       "first_seen": "2026-10-08",
       "score": -1.5,
       "source": "search",
-      "rank": 184,
+      "rank": 187,
       "category_rank": 27
     },
     {
@@ -6269,8 +6363,8 @@
       "first_seen": "2026-10-08",
       "score": -2.2,
       "source": "search",
-      "rank": 185,
-      "category_rank": 26
+      "rank": 188,
+      "category_rank": 27
     },
     {
       "repo": "JamieCurnow/Podcasts",
@@ -6297,7 +6391,7 @@
       "first_seen": "2026-10-08",
       "score": -3,
       "source": "search",
-      "rank": 186,
+      "rank": 189,
       "category_rank": 25
     },
     {
@@ -6331,7 +6425,7 @@
       "first_seen": "2026-10-08",
       "score": -3,
       "source": "search",
-      "rank": 187,
+      "rank": 190,
       "category_rank": 11
     },
     {
@@ -6363,7 +6457,7 @@
       "first_seen": "2026-10-08",
       "score": -4,
       "source": "search",
-      "rank": 188,
+      "rank": 191,
       "category_rank": 16
     },
     {
@@ -6395,7 +6489,7 @@
       "first_seen": "2026-10-08",
       "score": -4,
       "source": "search",
-      "rank": 189,
+      "rank": 192,
       "category_rank": 28
     },
     {
@@ -6428,7 +6522,7 @@
       "first_seen": "2026-10-08",
       "score": -4,
       "source": "search",
-      "rank": 190,
+      "rank": 193,
       "category_rank": 17
     },
     {
@@ -6459,7 +6553,7 @@
       "first_seen": "2026-10-08",
       "score": -4,
       "source": "search",
-      "rank": 191,
+      "rank": 194,
       "category_rank": 12
     }
   ]
