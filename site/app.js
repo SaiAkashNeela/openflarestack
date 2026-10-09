@@ -4,7 +4,7 @@
 import { esc, k, row, tiles, appDetail, avatar, ICONS } from './lib/render.js';
 import { BINDINGS } from './lib/bindings.js';
 import { STEPS, runCheck, parseRepo, apiSource } from './lib/check.js';
-import { TOP_N, submitIssueUrl, deployUrl } from './lib/config.js';
+import { TOP_N, CATALOG_REPO, submitIssueUrl, deployUrl } from './lib/config.js';
 
 const $ = (id) => document.getElementById(id);
 const lsGet = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
@@ -250,15 +250,34 @@ function initChecker() {
       + '<p class="note">This opens a pre-filled GitHub issue. A bot runs the same checks on it, and the nightly scan adds your app to the list.</p>';
   }
 
+  // Already in the catalog? Matched case-insensitively, and again after the GitHub lookup in case
+  // the link used an old name for a renamed repo.
+  const listedApp = async (repo) => (await loadCatalog()).apps.find((a) => a.repo.toLowerCase() === repo.toLowerCase());
+  function showListed(a, checked) {
+    verdict.hidden = false;
+    verdict.innerHTML = `<h4><span class="pill listed">${ICONS.check}In the stack</span> ${esc(a.name)} is already listed</h4>`
+      + `<p>It’s number ${a.category_rank} in ${esc(a.category)} and ${a.rank} overall. The nightly scan keeps its stars, bindings and details up to date, so there’s nothing to submit${checked ? '' : ', and we skipped the checks'}.</p>`
+      + `<div class="preview"><div class="view-rows"><ol class="list">${row(a)}</ol></div></div>`
+      + `<div class="row"><a class="btn primary" href="/apps/${esc(a.slug)}/">See its page</a>`
+      + `<a class="btn" href="https://github.com/${CATALOG_REPO}/issues/new?title=${encodeURIComponent('Listing: ' + a.repo)}" target="_blank" rel="noopener">Something wrong with it? Tell us</a></div>`;
+  }
+
   let busy = false;
-  async function start(o, r) {
+  async function start(o, r, { demo = false } = {}) {
     if (busy) return;
     busy = true; checkBtn.disabled = true; resetSteps();
     try {
+      const known = demo ? null : await listedApp(`${o}/${r}`);
+      if (known) {
+        clog.innerHTML = ''; // no checks needed, so no step list
+        showListed(known, false);
+        return;
+      }
       const res = await runCheck(src, o, r, step);
       sourceEl.textContent = 'Checked live with GitHub’s public API.';
       sourceEl.hidden = false;
-      showVerdict(res);
+      const listed = await listedApp(`${res.o}/${res.r}`);
+      if (listed) showListed(listed, true); else showVerdict(res);
     } catch (err) {
       verdict.hidden = false;
       const limited = err && (err.status === 403 || err.status === 429);
@@ -271,9 +290,11 @@ function initChecker() {
     }
   }
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const p = parseRepo(urlIn.value);
+    // A repo that's already listed needs no README tick: say so straight away.
+    if (p && await listedApp(`${p.o}/${p.r}`)) { urlErr.hidden = true; rdErr.hidden = true; urlIn.removeAttribute('aria-invalid'); start(p.o, p.r); return; }
     let ok = true;
     if (!p) { urlErr.textContent = 'That doesn’t look like a GitHub repo link. It should look like github.com/owner/repo.'; urlErr.hidden = false; urlIn.setAttribute('aria-invalid', 'true'); ok = false; }
     else { urlErr.hidden = true; urlIn.removeAttribute('aria-invalid'); }
@@ -286,7 +307,7 @@ function initChecker() {
     urlIn.value = 'https://github.com/' + b.dataset.ex;
     hasReadme.checked = true; urlErr.hidden = true; rdErr.hidden = true; urlIn.removeAttribute('aria-invalid');
     const [o, r] = b.dataset.ex.split('/');
-    start(o, r);
+    start(o, r, { demo: true }); // examples run the full check, then note the app is listed
   }));
   resetSteps();
 }

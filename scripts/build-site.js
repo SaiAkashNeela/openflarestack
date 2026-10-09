@@ -312,32 +312,36 @@ function home() {
 
   <div class="band"><div class="wrap">${faqHtml('Questions people ask', HOME_FAQ)}</div></div>
 
-  <section class="band" id="submit" aria-labelledby="subh">
-    <div class="wrap submit">
-      <div>
+  <section class="band band-tight" id="submit" aria-labelledby="subh">
+    <div class="wrap">
+      <div class="submit-head">
         <div class="band-head">
           <h2 id="subh">Submit your repo</h2>
           <p>Paste a GitHub link and we check it right here, in the same order the nightly scan does. If it passes you'll see your listing before you send it.</p>
         </div>
-        <ol class="reqs">
-          <li><span class="idx">1</span><b>A public repository</b><p>Not a fork and not archived.</p></li>
-          <li><span class="idx">2</span><b>A README at the root <span class="pill pend">Required</span></b><p>It's the first thing we read. No README means no listing.</p></li>
-          <li><span class="idx">3</span><b>A Deploy to Cloudflare button, or a wrangler config</b><p>We look for the button in your README first. If it isn't there we read <code>wrangler.jsonc</code>, <code>wrangler.json</code> or <code>wrangler.toml</code> from the root and build the Deploy link for you.</p></li>
-          <li><span class="idx">4</span><b>An open-source licence</b><p>MIT, Apache, GPL and the like, so people know they're allowed to run it.</p></li>
-        </ol>
       </div>
+      <ol class="reqs">
+        <li><span class="idx">1</span><b>A public repository</b><p>Not a fork and not archived.</p></li>
+        <li><span class="idx">2</span><b>A README at the root <span class="pill pend">Required</span></b><p>It's the first thing we read. No README means no listing.</p></li>
+        <li><span class="idx">3</span><b>A Deploy to Cloudflare button, or a wrangler config</b><p>We look for the button in your README first. If it isn't there we read <code>wrangler.jsonc</code>, <code>wrangler.json</code> or <code>wrangler.toml</code> from the root and build the Deploy link for you.</p></li>
+        <li><span class="idx">4</span><b>An open-source licence</b><p>MIT, Apache, GPL and the like, so people know they're allowed to run it.</p></li>
+      </ol>
       <div class="checker">
-        <h3>Check a repository</h3>
-        <p>Nothing is submitted until you press Submit at the end.</p>
+        <div class="checker-head">
+          <h3>Check a repository</h3>
+          <p>Nothing is submitted until you press Submit at the end.</p>
+        </div>
         <form id="checkForm" novalidate>
           <div class="field">
             <label for="repoUrl">GitHub repository link</label>
             <input id="repoUrl" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://github.com/owner/repo" aria-describedby="repoErr">
             <p class="err" id="repoErr" aria-live="polite" hidden></p>
           </div>
-          <label class="confirm" for="hasReadme"><input id="hasReadme" type="checkbox"><span>My repository has a README at the root. We read it first, so the check stops without one.</span></label>
-          <p class="err" id="readmeErr" aria-live="polite" hidden></p>
-          <div class="row"><button class="btn primary" id="checkBtn" type="submit">Check repository</button></div>
+          <div class="form-side">
+            <label class="confirm" for="hasReadme"><input id="hasReadme" type="checkbox"><span>My repository has a README at the root. We read it first, so the check stops without one.</span></label>
+            <p class="err" id="readmeErr" aria-live="polite" hidden></p>
+          </div>
+          <button class="btn primary" id="checkBtn" type="submit">Check repository</button>
         </form>
         ${exButton || exConfig ? `<div class="examples"><span>Or try a listed app:</span>${[[exButton, 'Has a Deploy button'], [exConfig, 'Wrangler config only']].filter(([a]) => a).map(([a, l]) => `<button class="ex" type="button" data-ex="${esc(a.repo)}">${l}</button>`).join('')}</div>` : ''}
         <ol class="clog" id="clog"></ol>

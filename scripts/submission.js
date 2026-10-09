@@ -5,6 +5,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { runCheck, apiSource, parseRepo, STEPS } from '../lib/check.js';
 import { readJson, writeJson, today, keyOf } from './lib/store.js';
+import { SITE_URL } from '../lib/config.js';
 
 const TOKEN = process.env.GITHUB_TOKEN;
 const REPO = process.env.GITHUB_REPOSITORY;
@@ -31,6 +32,16 @@ if (!parsed) {
   process.exit(0);
 }
 
+// Already in the catalog? Then there's nothing to do but point at its page.
+const listed = (repo) => (readJson('catalog.json', { apps: [] }).apps || []).find((a) => keyOf(a.repo) === keyOf(repo));
+async function closeAsListed(a) {
+  await comment(`**${a.repo}** is already in the stack: it's number ${a.category_rank} in ${a.category} and ${a.rank} overall.\n\n${SITE_URL}/apps/${a.slug}/\n\nThe nightly scan keeps its stars, bindings and details up to date, so there's nothing to submit. If something about the listing is wrong, say so here and a maintainer will take a look.`);
+  await gh('POST', `/issues/${issue.number}/labels`, { labels: ['accepted'] }).catch(() => {});
+  await gh('PATCH', `/issues/${issue.number}`, { state: 'closed', state_reason: 'completed' });
+}
+const known = listed(`${parsed.o}/${parsed.r}`);
+if (known) { await closeAsListed(known); process.exit(0); }
+
 const results = new Map();
 let res;
 try {
@@ -44,6 +55,9 @@ const ICON = { ok: '✅', warn: '⚠️', fail: '❌', skip: '➖' };
 const table = ['| Step | Result |', '|---|---|',
   ...STEPS.map(([id, label]) => { const [s, m] = results.get(id) || ['skip', 'Skipped']; return `| ${ICON[s]} ${label} | ${m.replace(/\|/g, '\\|')} |`; })].join('\n');
 const repo = `${res.o}/${res.r}`;
+// The link may have used an old name for a renamed repo.
+const renamed = listed(repo);
+if (renamed) { await closeAsListed(renamed); process.exit(0); }
 
 if (!res.ok) {
   await comment(`Thanks for submitting **${repo}**. It isn’t ready yet:\n\n${table}\n\nFix the step marked ❌, then edit this issue (any edit works) and the check runs again.`);
