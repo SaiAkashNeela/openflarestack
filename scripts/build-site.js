@@ -151,6 +151,7 @@ ${body}
   </div>
 </footer>
 <dialog class="sheet" id="sheet" aria-labelledby="sheetTitle"></dialog>
+<script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
 <script type="module" src="/app.js?v=${ASSET_V}"></script>
 </body>
 </html>
