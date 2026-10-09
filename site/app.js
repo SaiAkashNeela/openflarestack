@@ -46,6 +46,23 @@ document.addEventListener('click', (e) => {
   try { navigator.clipboard.writeText(el.textContent).then(() => done('Copied'), selectIt); } catch { selectIt(); }
 });
 
+// "Use it with AI or code": copy an app's Markdown (fetched) or its API URL (made absolute).
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-copy-fetch],[data-copy-url]');
+  if (!b) return;
+  const label = b.textContent;
+  const done = (m) => { b.textContent = m; setTimeout(() => { b.textContent = label; }, 1600); };
+  try {
+    const text = b.dataset.copyFetch
+      ? await fetch(b.dataset.copyFetch).then((r) => { if (!r.ok) throw new Error(); return r.text(); })
+      : new URL(b.dataset.copyUrl, location.origin).href;
+    await navigator.clipboard.writeText(text);
+    done('Copied');
+  } catch {
+    done('Couldn’t copy');
+  }
+});
+
 let catalog = null;
 const loadCatalog = () => (catalog ||= fetch('/catalog.json').then((r) => r.json()));
 
@@ -57,8 +74,10 @@ async function openSheet(repo) {
   if (!a) return false;
   const d = appDetail(a, apps.length);
   sheet.innerHTML = `<div class="sheet-head">${d.head}<button class="iconbtn" type="button" id="closeSheet" aria-label="Close">${ICONS.close}</button></div>`
-    + `<div class="sheet-body">${d.body}<p class="small"><a href="/apps/${esc(a.slug)}/">Open the full page for ${esc(a.name)}</a></p></div>`;
+    + `<div class="sheet-body" tabindex="-1">${d.body}<p class="small"><a href="/apps/${esc(a.slug)}/">Open the full page for ${esc(a.name)}</a></p></div>`;
   if (typeof sheet.showModal === 'function') sheet.showModal(); else sheet.setAttribute('open', '');
+  // Start focus on the content (Tab reaches the buttons, Esc closes), not on the close button.
+  sheet.querySelector('.sheet-body').focus({ preventScroll: true });
   $('closeSheet').addEventListener('click', () => sheet.close());
   return true;
 }

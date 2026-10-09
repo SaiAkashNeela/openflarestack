@@ -39,7 +39,8 @@ Score: `10 × log10(stars + 1) − min(daysSinceLastPush, 120) / 12 + (hasReleas
 
 - **Pre-rendered HTML for every page:** home (top 100), one page per app, per category and per "X alternatives" group, plus credits. Search engines and answer engines get full content without running JavaScript.
 - **Structured data:** `Organization`, `WebSite`, `ItemList`, `BreadcrumbList`, `FAQPage` and `WebApplication` JSON-LD. Every app, category and alternatives page carries a visible FAQ written for answer engines.
-- **For AI assistants:** [`/llms.txt`](https://openflarestack.com/llms.txt) ([llmstxt.org](https://llmstxt.org) format), `/llms-full.txt` with the whole catalog, and a Markdown copy of every app page at `/apps/<slug>.md`. `robots.txt` welcomes search and AI crawlers by name.
+- **For AI assistants:** [`/llms.txt`](https://openflarestack.com/llms.txt) ([llmstxt.org](https://llmstxt.org) format), `/llms-full.txt` with the whole catalog, and a Markdown copy of every app, category and alternatives page (`/apps/<slug>.md`, `/category/<slug>.md`, `/alternatives/<slug>.md`). Every app's modal has "Copy Markdown" for pasting into an LLM. `robots.txt` welcomes search and AI crawlers by name.
+- **Static JSON API:** [`/api/v1/`](https://openflarestack.com/api/) with apps, one app, categories and alternatives. Free, read-only, no key, CORS open, rebuilt nightly. Docs at `/api/`.
 - **Fast, with no third-party requests:** fonts are self-hosted (Latin subset, variable weight) and owner avatars are downloaded at build time, so every file comes from our own domain. No framework, one icon sprite, content-hashed CSS and JS cached for a year through `_headers`, preloaded fonts and modules, and avatars that load only as they scroll into view. Static asset requests on Workers are free and unlimited.
 
 ## Layout

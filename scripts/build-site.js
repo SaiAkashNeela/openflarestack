@@ -139,6 +139,7 @@ ${body}
         <li><a href="/#submit">Submit a repo</a></li>
         <li><a href="/credits/">Credits</a></li>
         <li><a href="https://github.com/${CATALOG_REPO}" rel="noopener">Source on GitHub</a></li>
+        <li><a href="/api/">API</a></li>
         <li><a href="/llms.txt">llms.txt</a></li>
         <li><a href="/sitemap.xml">Sitemap</a></li>
       </ul></nav>
@@ -466,6 +467,7 @@ function categoryPage(c) {
     description: lede,
     path: catPath(c.name),
     body,
+    markdown: `/category/${c.slug}.md`,
     jsonld: [crumbsLd(trail), {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
@@ -501,6 +503,7 @@ function alternativePage(alt) {
     description: lede,
     path: altPath(alt),
     body,
+    markdown: `/alternatives/${alt.slug}.md`,
     jsonld: [crumbsLd(trail), faqLd(faq), {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
@@ -573,14 +576,21 @@ function llmsFiles() {
   ];
   const llms = [...head,
     '## Categories', '',
-    ...catalog.categories.map((c) => `- [${c.name}](${SITE_URL}${catPath(c.name)}): ${c.count} apps`), '',
+    ...catalog.categories.map((c) => `- [${c.name}](${SITE_URL}/category/${c.slug}.md): ${c.count} apps. ${CATEGORY_INFO[c.name] || ''}`), '',
     '## Self-hosted alternatives', '',
-    ...ALTS.map((x) => `- [${x.name} alternative${hasPage(x) ? 's' : ''}](${SITE_URL}${altPath(x)}): ${list(x.apps.slice(0, 3).map((a) => a.name))}`), '',
+    ...ALTS.map((x) => `- [${x.name} alternative${hasPage(x) ? 's' : ''}](${SITE_URL}${hasPage(x) ? `/alternatives/${x.slug}.md` : `/apps/${x.apps[0].slug}.md`}): ${list(x.apps.slice(0, 3).map((a) => a.name))}`), '',
     '## Top apps', '',
     ...apps.slice(0, 50).map(line), '',
+    '## API', '',
+    'A free, read-only static JSON API, rebuilt nightly, no key needed, CORS open.', '',
+    `- [API docs](${SITE_URL}/api/): endpoints and fields`,
+    `- [All apps](${SITE_URL}/api/v1/apps.json): every listed app, ranked`,
+    `- [One app](${SITE_URL}/api/v1/apps/sink.json): /api/v1/apps/<slug>.json`,
+    `- [Categories](${SITE_URL}/api/v1/categories.json): and /api/v1/categories/<slug>.json`,
+    `- [Alternatives](${SITE_URL}/api/v1/alternatives.json): and /api/v1/alternatives/<slug>.json`, '',
     '## Optional', '',
     `- [Full catalog](${SITE_URL}/llms-full.txt): every app with its category, licence, stars and Cloudflare resources`,
-    `- [Catalog data (JSON)](${SITE_URL}/catalog.json): machine-readable catalog, rebuilt nightly`,
+    `- [Catalog data (JSON)](${SITE_URL}/catalog.json): the raw catalog file, rebuilt nightly`,
     `- [Source code](https://github.com/${CATALOG_REPO}): how apps are discovered, filtered and ranked`,
     '',
   ];
@@ -589,6 +599,95 @@ function llmsFiles() {
     `### ${a.name}\n\n${a.description}${a.replaces ? ` Self-hosted alternative to ${a.replaces}.` : ''}\n\n- Repository: https://github.com/${a.repo} (${a.license}, ${a.stars} stars, last commit ${String(a.pushed_at).slice(0, 10)})\n- Creates: ${(a.bindings || []).map((x) => BINDINGS[x].n).join(', ') || 'no bindings found'}\n- ${a.deploy_url ? `Deploy: ${a.deploy_url}` : 'Install with the CLI, see the README'}\n- Page: ${SITE_URL}${appPath(a)}\n`), ''])];
   write('llms-full.txt', full.join('\n'));
   for (const a of apps) write(`apps/${a.slug}.md`, appMarkdown(a));
+  for (const c of catalog.categories) {
+    write(`category/${c.slug}.md`, listMarkdown(`Self-hosted ${lower(c.name)} apps for Cloudflare`, `${CATEGORY_INFO[c.name] || ''} ${c.count} open-source apps you can deploy to your own Cloudflare account, ranked by stars and recent commits.`, apps.filter((a) => a.category === c.name), `${SITE_URL}${catPath(c.name)}`));
+  }
+  for (const x of ALTS.filter(hasPage)) {
+    write(`alternatives/${x.slug}.md`, listMarkdown(`Self-hosted ${x.name} alternatives on Cloudflare`, `${x.apps.length} open-source apps that replace ${x.name} and run on your own Cloudflare account.`, x.apps, `${SITE_URL}${altPath(x)}`));
+  }
+}
+
+// Markdown for a category or alternatives page: a ranked list an LLM can read in one go.
+function listMarkdown(title, intro, list, pageUrl) {
+  return [
+    `# ${title}`, '', `> ${intro.trim()}`, '', `Page: ${pageUrl}. Updated ${built}.`, '',
+    ...list.flatMap((a, i) => [
+      `## ${i + 1}. ${a.name}`, '',
+      `${a.description}${a.replaces ? ` Self-hosted alternative to ${a.replaces}.` : ''}`, '',
+      `- Repository: https://github.com/${a.repo} (${a.license}, ${a.stars} stars, last commit ${String(a.pushed_at).slice(0, 10)})`,
+      `- Creates: ${(a.bindings || []).map((x) => BINDINGS[x].n).join(', ') || 'no bindings found'}`,
+      `- ${a.deploy_url ? `Deploy: ${a.deploy_url}` : `Install: see https://github.com/${a.repo}#readme`}`,
+      `- Details: ${SITE_URL}/apps/${a.slug}.md`, '',
+    ]),
+  ].join('\n');
+}
+
+// ---------- Static JSON API (/api/v1) ----------
+// Plain files, rebuilt with the site: free, cached, no server code. Field names are stable.
+const apiLean = (a) => ({
+  slug: a.slug, name: a.name, repo: a.repo, description: a.description, category: a.category,
+  replaces: a.replaces, rank: a.rank, category_rank: a.category_rank, stars: a.stars, license: a.license,
+  bindings: a.bindings || [], deploy_url: a.deploy_url, pushed_at: a.pushed_at, is_new: a.is_new,
+  url: SITE_URL + appPath(a), markdown: `${SITE_URL}/apps/${a.slug}.md`, api: `${SITE_URL}/api/v1/apps/${a.slug}.json`,
+});
+const apiFull = (a) => ({
+  ...apiLean(a),
+  owner: a.owner ? { login: a.owner.login } : null,
+  bindings_detail: (a.bindings || []).map((x) => ({ code: x, name: BINDINGS[x].n, description: BINDINGS[x].d })),
+  has_deploy_button: a.has_deploy_button, config_file: a.config_file, default_branch: a.default_branch,
+  homepage: a.homepage, latest_release: a.latest_release, first_seen: a.first_seen, score: a.score, source: a.source,
+  github: `https://github.com/${a.repo}`,
+  update_commands: [`git remote add upstream https://github.com/${a.repo}.git`, `git pull upstream ${a.default_branch || 'main'}`, 'npx wrangler deploy'],
+});
+function apiFiles() {
+  const meta = { generated_at: catalog.generated_at, docs: `${SITE_URL}/api/` };
+  const cats = catalog.categories.map((c) => ({ name: c.name, slug: c.slug, description: CATEGORY_INFO[c.name] || null, count: c.count, url: SITE_URL + catPath(c.name), api: `${SITE_URL}/api/v1/categories/${c.slug}.json` }));
+  const alts = ALTS.map((x) => ({ name: x.name, slug: x.slug, count: x.apps.length, apps: x.apps.map((a) => a.slug), url: SITE_URL + altPath(x), api: `${SITE_URL}/api/v1/alternatives/${x.slug}.json` }));
+  const json = (path, v) => write(path, JSON.stringify(v));
+  json('api/v1/index.json', { ...meta, name: 'OpenFlareStack API', version: 1, counts: { apps: total, categories: cats.length, alternatives: alts.length },
+    endpoints: { apps: `${SITE_URL}/api/v1/apps.json`, app: `${SITE_URL}/api/v1/apps/{slug}.json`, categories: `${SITE_URL}/api/v1/categories.json`, category: `${SITE_URL}/api/v1/categories/{slug}.json`, alternatives: `${SITE_URL}/api/v1/alternatives.json`, alternative: `${SITE_URL}/api/v1/alternatives/{slug}.json` } });
+  json('api/v1/apps.json', { ...meta, count: total, apps: apps.map(apiLean) });
+  for (const a of apps) json(`api/v1/apps/${a.slug}.json`, { ...meta, app: apiFull(a) });
+  json('api/v1/categories.json', { ...meta, count: cats.length, categories: cats });
+  for (const c of cats) json(`api/v1/categories/${c.slug}.json`, { ...meta, category: c, apps: apps.filter((a) => a.category === c.name).map(apiLean) });
+  json('api/v1/alternatives.json', { ...meta, count: alts.length, alternatives: alts });
+  for (const x of ALTS) json(`api/v1/alternatives/${x.slug}.json`, { ...meta, alternative: { name: x.name, slug: x.slug, count: x.apps.length }, apps: x.apps.map(apiLean) });
+}
+
+function apiDocs() {
+  const trail = [['Catalog', '/'], ['API', null]];
+  const ex = apps.find((a) => a.slug === 'sink') || apps[0];
+  const rows = [
+    ['/api/v1/index.json', 'What’s available, counts and endpoint templates.'],
+    ['/api/v1/apps.json', `All ${total} listed apps, ranked.`],
+    [`/api/v1/apps/{slug}.json`, `One app with bindings explained, release, update commands. Example: <a href="/api/v1/apps/${ex.slug}.json">/api/v1/apps/${ex.slug}.json</a>`],
+    ['/api/v1/categories.json', 'Categories with descriptions and counts.'],
+    ['/api/v1/categories/{slug}.json', 'One category and its apps. Example: <a href="/api/v1/categories/email.json">/api/v1/categories/email.json</a>'],
+    ['/api/v1/alternatives.json', 'Paid products and the apps that replace them.'],
+    ['/api/v1/alternatives/{slug}.json', 'Alternatives to one product. Example: <a href="/api/v1/alternatives/bitly.json">/api/v1/alternatives/bitly.json</a>'],
+  ];
+  const md = [
+    ['/llms.txt', 'Overview for language models, in the llmstxt.org format.'],
+    ['/llms-full.txt', 'The whole catalog as one Markdown file.'],
+    ['/apps/{slug}.md', `Any app page as Markdown. Example: <a href="/apps/${ex.slug}.md">/apps/${ex.slug}.md</a>`],
+    ['/category/{slug}.md', 'Any category as Markdown.'],
+    ['/alternatives/{slug}.md', 'Any alternatives page as Markdown.'],
+  ];
+  const table = (rs) => `<div class="api-table">${rs.map(([p, d]) => `<div><code>${esc(p)}</code><p>${d}</p></div>`).join('')}</div>`;
+  const body = `<main class="wrap page">
+  ${crumbs(trail)}
+  <div class="page-head"><h1>API and AI access</h1><p>Everything on OpenFlareStack is also available as JSON and Markdown. It’s free and read-only, needs no key, works from any website (CORS is open) and is rebuilt every night.</p></div>
+  <div class="prose api-docs">
+    <h2>JSON API</h2>
+    ${table(rows)}
+    <pre>curl ${SITE_URL}/api/v1/apps/${ex.slug}.json</pre>
+    <h2>For language models</h2>
+    ${table(md)}
+    <h2>Good to know</h2>
+    <p>Files are static and cached for an hour, so there are no rate limits to worry about. Fields may be added; existing ones won’t change within v1. Slugs never change once an app is listed. Each app’s code, licence and support belong to its own repository.</p>
+  </div>
+</main>`;
+  write('api/index.html', layout({ title: 'OpenFlareStack API: open-source Cloudflare apps as JSON and Markdown', description: `A free, read-only JSON API and Markdown files for ${total} open-source apps that run on Cloudflare. No key, open CORS, rebuilt nightly.`, path: '/api/', body, markdown: '/llms.txt', jsonld: [crumbsLd(trail)] }));
 }
 
 // ---------- Credits ----------
@@ -618,7 +717,7 @@ function notFound() {
 }
 
 function sitemap() {
-  const urls = [['/', built], ['/alternatives/', built], ['/credits/', built],
+  const urls = [['/', built], ['/alternatives/', built], ['/api/', built], ['/credits/', built],
     ...catalog.categories.map((c) => [catPath(c.name), built]),
     ...ALTS.filter(hasPage).map((x) => [altPath(x), built]),
     ...apps.map((a) => [appPath(a), String(a.pushed_at).slice(0, 10)])];
@@ -646,6 +745,8 @@ catalog.categories.forEach(categoryPage);
 ALTS.filter(hasPage).forEach(alternativePage);
 alternativesIndex();
 llmsFiles();
+apiFiles();
+apiDocs();
 credits();
 notFound();
 sitemap();
@@ -686,6 +787,13 @@ write('_headers', `/styles.css
   Content-Type: text/plain; charset=utf-8
 /apps/*.md
   Content-Type: text/markdown; charset=utf-8
+/category/*.md
+  Content-Type: text/markdown; charset=utf-8
+/alternatives/*.md
+  Content-Type: text/markdown; charset=utf-8
+/api/v1/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

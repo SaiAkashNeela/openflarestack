@@ -335,15 +335,20 @@ section{scroll-margin-top:5rem}
 .top .wrap{gap:1.25rem}
 
 /* ---------- Detail sheet ---------- */
-dialog.sheet{position:fixed;inset:0 0 0 auto;margin:0;height:100%;max-height:100%;width:min(38rem,100%);max-width:100%;border:0;padding:0;background:var(--sheet);color:var(--ink);box-shadow:-24px 0 60px -20px var(--scrim);overflow:hidden}
-dialog.sheet[open]{display:flex;flex-direction:column;animation:slidein .22s ease-out}
-dialog.sheet::backdrop{background:var(--scrim)}
-@keyframes slidein{from{transform:translateX(24px);opacity:.4}to{transform:none;opacity:1}}
+/* Centred dialog on tablets and up; a bottom sheet on phones, where it's easier to reach. */
+dialog.sheet{position:fixed;inset:0;margin:auto;width:min(46rem,calc(100% - 2.5rem));height:auto;max-height:min(88vh,60rem);max-width:none;border:0;padding:0;background:var(--sheet);color:var(--ink);border-radius:20px;box-shadow:0 30px 80px -20px rgba(6,12,10,.45),0 0 0 1px var(--rule);overflow:hidden}
+dialog.sheet[open]{display:flex;flex-direction:column;animation:popin .18s cubic-bezier(.2,.8,.2,1)}
+dialog.sheet::backdrop{background:rgba(6,12,10,.48);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+@keyframes popin{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
 @media (max-width:640px){
-  dialog.sheet{inset:auto 0 0 0;width:100%;height:auto;max-height:90%;border-radius:20px 20px 0 0}
+  dialog.sheet{inset:auto 0 0 0;margin:0;width:100%;max-height:92%;border-radius:20px 20px 0 0}
   dialog.sheet[open]{animation:slideup .22s ease-out}
   @keyframes slideup{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+  dialog.sheet .sheet-head::before{content:"";position:absolute;top:.45rem;left:50%;width:2.5rem;height:.25rem;margin-left:-1.25rem;border-radius:2px;background:var(--rule)}
 }
+dialog.sheet .sheet-head{position:relative;flex:0 0 auto}
+dialog.sheet .sheet-body{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;grid-auto-rows:max-content;align-content:start}
+dialog.sheet .sheet-body:focus{outline:none}
 .sheet-head{display:flex;align-items:start;gap:1rem;padding:1.4rem 1.4rem 1rem;border-bottom:1px solid var(--rule)}
 .sheet-head>div{flex:1;min-width:0}
 .sheet-head .rk{font-size:.88rem;color:var(--quiet)}
@@ -539,3 +544,26 @@ a.open{color:inherit;text-decoration:none}
 /* Footer: categories in two columns */
 .foot nav[aria-label="Categories"] ul{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:1.25rem}
 @media (min-width:900px){.foot-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,1.5fr) minmax(0,1fr) minmax(0,.9fr)}}
+
+/* "Use it with AI or code" block */
+.ai-use ul{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.ai-use li{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.6rem 1rem;padding:.75rem .9rem;border:1px solid var(--rule);border-radius:12px;background:var(--paper)}
+.ai-use li>div:first-child{display:grid;gap:.1rem;min-width:0}
+.ai-use b{font-weight:650;font-size:.95rem}
+.ai-use span{color:var(--quiet);font-size:.84rem}
+.ai-use code{font-family:var(--code);font-size:.78rem;color:var(--quiet);overflow-wrap:anywhere}
+.ai-use .small{margin-top:.6rem}
+.ai-use .small a{color:var(--flare)}
+.ai-act{display:flex;gap:.4rem;flex:0 0 auto}
+.btn.sm{padding:.45rem .75rem;font-size:.85rem;border-radius:9px}
+.btn.ghost{background:transparent}
+
+/* API docs */
+.api-table{display:grid;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:var(--sheet)}
+.api-table>div{display:grid;gap:.25rem 1.25rem;padding:.8rem 1rem;border-top:1px solid var(--rule)}
+.api-table>div:first-child{border-top:0}
+@media (min-width:760px){.api-table>div{grid-template-columns:minmax(0,19rem) minmax(0,1fr);align-items:baseline}}
+.api-table code{font-family:var(--code);font-size:.84rem;color:var(--ink);overflow-wrap:anywhere}
+.api-table p{margin:0;font-size:.93rem}
+.api-docs pre{margin-top:1rem}
+.prose.api-docs{max-width:64rem}
