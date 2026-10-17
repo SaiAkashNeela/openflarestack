@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-16T07:51:01.519Z",
+  "generated_at": "2026-10-17T07:35:22.466Z",
   "counts": {
-    "tracked": 6549,
-    "matched": 6546,
-    "listed": 255,
-    "review": 314,
-    "new": 57,
+    "tracked": 6606,
+    "matched": 6532,
+    "listed": 259,
+    "review": 315,
+    "new": 56,
     "by_source": {
       "awesome-cfsh": 112,
-      "search": 143
+      "search": 147
     }
   },
   "categories": [
@@ -35,7 +35,7 @@
     {
       "name": "Auth & security",
       "slug": "auth-and-security",
-      "count": 3
+      "count": 4
     },
     {
       "name": "Business",
@@ -70,7 +70,7 @@
     {
       "name": "Notes",
       "slug": "notes",
-      "count": 14
+      "count": 15
     },
     {
       "name": "RSS & reading",
@@ -80,7 +80,7 @@
     {
       "name": "Developer tools",
       "slug": "developer-tools",
-      "count": 17
+      "count": 18
     },
     {
       "name": "Git & CI",
@@ -105,7 +105,7 @@
     {
       "name": "Files & storage",
       "slug": "files-and-storage",
-      "count": 13
+      "count": 14
     },
     {
       "name": "Image hosting",
@@ -167,7 +167,7 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fevery-app%2Fopen-seo",
       "license": "MIT",
-      "stars": 23786,
+      "stars": 23867,
       "pushed_at": "2026-10-14T06:57:07Z",
       "default_branch": "main",
       "homepage": "https://openseo.so",
@@ -177,7 +177,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 44.6,
+      "score": 44.5,
       "source": "awesome-cfsh",
       "rank": 1,
       "category_rank": 1
@@ -209,8 +209,8 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "MIT",
-      "stars": 13663,
-      "pushed_at": "2026-10-16T06:15:14Z",
+      "stars": 13685,
+      "pushed_at": "2026-10-17T07:15:26Z",
       "default_branch": "main",
       "homepage": "https://emdashcms.com",
       "latest_release": {
@@ -242,8 +242,8 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "MIT",
-      "stars": 11969,
-      "pushed_at": "2026-10-16T07:32:26Z",
+      "stars": 11973,
+      "pushed_at": "2026-10-16T08:28:07Z",
       "default_branch": "main",
       "homepage": "https://mail.awsl.uk",
       "latest_release": {
@@ -252,7 +252,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 41.8,
+      "score": 41.7,
       "source": "awesome-cfsh",
       "rank": 3,
       "category_rank": 1
@@ -275,8 +275,8 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fcloudflare%2Fcloudflare-os",
       "license": "Apache-2.0",
-      "stars": 11428,
-      "pushed_at": "2026-10-16T06:00:58Z",
+      "stars": 11444,
+      "pushed_at": "2026-10-17T04:56:51Z",
       "default_branch": "main",
       "homepage": "https://os.cloudflare.app",
       "latest_release": null,
@@ -309,7 +309,7 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "MIT",
-      "stars": 14704,
+      "stars": 14717,
       "pushed_at": "2026-09-05T15:54:04Z",
       "default_branch": "main",
       "homepage": "https://skymail.ink",
@@ -319,7 +319,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 39.3,
+      "score": 39.2,
       "source": "awesome-cfsh",
       "rank": 5,
       "category_rank": 1
@@ -342,7 +342,7 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "MIT",
-      "stars": 6727,
+      "stars": 6730,
       "pushed_at": "2026-10-15T08:07:01Z",
       "default_branch": "main",
       "homepage": "https://cfbed.sanyue.de",
@@ -352,7 +352,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 39.2,
+      "score": 39.1,
       "source": "awesome-cfsh",
       "rank": 6,
       "category_rank": 1
@@ -380,7 +380,7 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fmiantiao-me%2FSink",
       "license": "AGPL-3.0",
-      "stars": 7214,
+      "stars": 7218,
       "pushed_at": "2026-09-27T04:13:04Z",
       "default_branch": "master",
       "homepage": "https://Sink.Cool",
@@ -390,7 +390,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 38,
+      "score": 37.9,
       "source": "awesome-cfsh",
       "rank": 7,
       "category_rank": 1
@@ -420,8 +420,8 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/hieunc229/mailflare",
       "license": "AGPL-3.0",
-      "stars": 5049,
-      "pushed_at": "2026-10-16T07:08:44Z",
+      "stars": 5065,
+      "pushed_at": "2026-10-17T04:32:44Z",
       "default_branch": "main",
       "homepage": "https://mailflare.co",
       "latest_release": null,
@@ -430,42 +430,6 @@
       "score": 37,
       "source": "awesome-cfsh",
       "rank": 8,
-      "category_rank": 2
-    },
-    {
-      "repo": "microfeed/microfeed",
-      "slug": "microfeed",
-      "name": "microfeed",
-      "owner": {
-        "login": "microfeed",
-        "avatar_url": "https://avatars.githubusercontent.com/u/118717435?s=96&v=4"
-      },
-      "description": "Publish podcasts, blog posts, photos and videos to web, RSS and JSON feeds from one dashboard.",
-      "category": "CMS & docs",
-      "replaces": null,
-      "bindings": [
-        "D1",
-        "R2",
-        "Q",
-        "Cr"
-      ],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": false,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fmicrofeed%2Fmicrofeed",
-      "license": "AGPL-3.0",
-      "stars": 4113,
-      "pushed_at": "2026-10-07T17:49:21Z",
-      "default_branch": "main",
-      "homepage": "https://www.microfeed.org/",
-      "latest_release": {
-        "tag": "v1.0.13",
-        "published_at": "2026-09-22T20:29:38Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 36.4,
-      "source": "awesome-cfsh",
-      "rank": 9,
       "category_rank": 2
     },
     {
@@ -503,8 +467,44 @@
       "first_seen": "2026-10-08",
       "score": 36.3,
       "source": "awesome-cfsh",
-      "rank": 10,
+      "rank": 9,
       "category_rank": 1
+    },
+    {
+      "repo": "microfeed/microfeed",
+      "slug": "microfeed",
+      "name": "microfeed",
+      "owner": {
+        "login": "microfeed",
+        "avatar_url": "https://avatars.githubusercontent.com/u/118717435?s=96&v=4"
+      },
+      "description": "Publish podcasts, blog posts, photos and videos to web, RSS and JSON feeds from one dashboard.",
+      "category": "CMS & docs",
+      "replaces": null,
+      "bindings": [
+        "D1",
+        "R2",
+        "Q",
+        "Cr"
+      ],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": false,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fmicrofeed%2Fmicrofeed",
+      "license": "AGPL-3.0",
+      "stars": 4115,
+      "pushed_at": "2026-10-07T17:49:21Z",
+      "default_branch": "main",
+      "homepage": "https://www.microfeed.org/",
+      "latest_release": {
+        "tag": "v1.0.13",
+        "published_at": "2026-09-22T20:29:38Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 36.3,
+      "source": "awesome-cfsh",
+      "rank": 10,
+      "category_rank": 2
     },
     {
       "repo": "lyc8503/UptimeFlare",
@@ -524,14 +524,14 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Flyc8503%2FUptimeFlare",
       "license": "Apache-2.0",
-      "stars": 3878,
+      "stars": 3879,
       "pushed_at": "2026-10-07T12:22:32Z",
       "default_branch": "main",
       "homepage": null,
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 35.2,
+      "score": 35.1,
       "source": "awesome-cfsh",
       "rank": 11,
       "category_rank": 1
@@ -555,13 +555,13 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Ftianma-if%2Fedgeever",
       "license": "AGPL-3.0",
-      "stars": 2287,
-      "pushed_at": "2026-10-16T05:09:20Z",
+      "stars": 2311,
+      "pushed_at": "2026-10-17T04:15:34Z",
       "default_branch": "main",
       "homepage": "https://edgeever.org",
       "latest_release": {
-        "tag": "v1.120.0",
-        "published_at": "2026-10-15T18:22:14Z"
+        "tag": "v1.121.0",
+        "published_at": "2026-10-16T17:48:12Z"
       },
       "is_new": false,
       "first_seen": "2026-10-08",
@@ -588,14 +588,14 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fwangwangit%2FSubsTracker",
       "license": "MIT",
-      "stars": 3249,
+      "stars": 3250,
       "pushed_at": "2026-10-09T04:50:49Z",
       "default_branch": "master",
       "homepage": null,
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": 34.5,
+      "score": 34.4,
       "source": "search",
       "rank": 13,
       "category_rank": 1
@@ -654,51 +654,16 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/huilang-me/CF-Server-Monitor",
       "license": "MIT",
-      "stars": 2514,
-      "pushed_at": "2026-10-15T09:44:33Z",
+      "stars": 2524,
+      "pushed_at": "2026-10-17T05:33:24Z",
       "default_branch": "main",
       "homepage": "https://demo.huilang.me/",
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 33.9,
+      "score": 34,
       "source": "awesome-cfsh",
       "rank": 15,
-      "category_rank": 2
-    },
-    {
-      "repo": "benvinegar/counterscale",
-      "slug": "counterscale",
-      "name": "Counterscale",
-      "owner": {
-        "login": "benvinegar",
-        "avatar_url": "https://avatars.githubusercontent.com/u/2153?s=96&u=055766d8fd5f1e85b633a67b7c4b760326a974c9&v=4"
-      },
-      "description": "Track website visits and see them on a simple dashboard for almost no cost.",
-      "category": "Analytics",
-      "replaces": "Google Analytics",
-      "bindings": [
-        "R2",
-        "Cr",
-        "AE"
-      ],
-      "config_file": "packages/server/wrangler.json",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "MIT",
-      "stars": 2160,
-      "pushed_at": "2026-10-04T20:18:02Z",
-      "default_branch": "main",
-      "homepage": "https://counterscale.dev",
-      "latest_release": {
-        "tag": "v3.4.1",
-        "published_at": "2025-12-15T11:54:06Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 33.4,
-      "source": "awesome-cfsh",
-      "rank": 16,
       "category_rank": 2
     },
     {
@@ -723,7 +688,7 @@
       "deploy_url": null,
       "license": "MIT",
       "stars": 1758,
-      "pushed_at": "2026-10-13T20:30:12Z",
+      "pushed_at": "2026-10-16T17:16:16Z",
       "default_branch": "main",
       "homepage": "https://sonicjs.com",
       "latest_release": {
@@ -732,10 +697,45 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 33.2,
+      "score": 33.4,
+      "source": "awesome-cfsh",
+      "rank": 16,
+      "category_rank": 3
+    },
+    {
+      "repo": "benvinegar/counterscale",
+      "slug": "counterscale",
+      "name": "Counterscale",
+      "owner": {
+        "login": "benvinegar",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2153?s=96&u=055766d8fd5f1e85b633a67b7c4b760326a974c9&v=4"
+      },
+      "description": "Track website visits and see them on a simple dashboard for almost no cost.",
+      "category": "Analytics",
+      "replaces": "Google Analytics",
+      "bindings": [
+        "R2",
+        "Cr",
+        "AE"
+      ],
+      "config_file": "packages/server/wrangler.json",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "MIT",
+      "stars": 2161,
+      "pushed_at": "2026-10-04T20:18:02Z",
+      "default_branch": "main",
+      "homepage": "https://counterscale.dev",
+      "latest_release": {
+        "tag": "v3.4.1",
+        "published_at": "2025-12-15T11:54:06Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 33.3,
       "source": "awesome-cfsh",
       "rank": 17,
-      "category_rank": 3
+      "category_rank": 2
     },
     {
       "repo": "openRin/Rin",
@@ -753,7 +753,7 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "MIT",
-      "stars": 3107,
+      "stars": 3108,
       "pushed_at": "2026-08-31T03:42:12Z",
       "default_branch": "main",
       "homepage": "https://docs.openrin.org",
@@ -763,10 +763,44 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 32.1,
+      "score": 32,
       "source": "awesome-cfsh",
       "rank": 18,
       "category_rank": 4
+    },
+    {
+      "repo": "i365dev/free4chat",
+      "slug": "free4chat",
+      "name": "free4chat",
+      "owner": {
+        "login": "i365dev",
+        "avatar_url": "https://avatars.githubusercontent.com/u/47443917?s=96&v=4"
+      },
+      "description": "Temporary rooms for voice, text, screen sharing and file transfer with no accounts.",
+      "category": "Chat & realtime",
+      "replaces": null,
+      "bindings": [
+        "KV",
+        "DO"
+      ],
+      "config_file": "app/wrangler.jsonc",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "MIT",
+      "stars": 1221,
+      "pushed_at": "2026-10-17T03:08:31Z",
+      "default_branch": "cf-sfu",
+      "homepage": "https://www.free4.chat",
+      "latest_release": {
+        "tag": "agent-v0.5.61",
+        "published_at": "2026-10-17T03:09:41Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 31.9,
+      "source": "awesome-cfsh",
+      "rank": 19,
+      "category_rank": 1
     },
     {
       "repo": "beilunyang/moemail",
@@ -798,9 +832,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 31.5,
+      "score": 31.4,
       "source": "awesome-cfsh",
-      "rank": 19,
+      "rank": 20,
       "category_rank": 2
     },
     {
@@ -833,44 +867,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 31.3,
-      "source": "awesome-cfsh",
-      "rank": 20,
-      "category_rank": 3
-    },
-    {
-      "repo": "i365dev/free4chat",
-      "slug": "free4chat",
-      "name": "free4chat",
-      "owner": {
-        "login": "i365dev",
-        "avatar_url": "https://avatars.githubusercontent.com/u/47443917?s=96&v=4"
-      },
-      "description": "Temporary rooms for voice, text, screen sharing and file transfer with no accounts.",
-      "category": "Chat & realtime",
-      "replaces": null,
-      "bindings": [
-        "KV",
-        "DO"
-      ],
-      "config_file": "app/wrangler.jsonc",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "MIT",
-      "stars": 1220,
-      "pushed_at": "2026-10-08T05:53:46Z",
-      "default_branch": "cf-sfu",
-      "homepage": "https://www.free4.chat",
-      "latest_release": {
-        "tag": "agent-v0.5.60",
-        "published_at": "2026-10-07T04:16:02Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
       "score": 31.2,
       "source": "awesome-cfsh",
       "rank": 21,
-      "category_rank": 1
+      "category_rank": 3
     },
     {
       "repo": "kavinsood/yaos",
@@ -901,42 +901,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 30.6,
+      "score": 30.5,
       "source": "awesome-cfsh",
       "rank": 22,
       "category_rank": 2
-    },
-    {
-      "repo": "SharzyL/pastebin-worker",
-      "slug": "pastebin-worker",
-      "name": "Pastebin Worker",
-      "owner": {
-        "login": "SharzyL",
-        "avatar_url": "https://avatars.githubusercontent.com/u/46294732?s=96&u=a24a4ac868d84aa7aad992261ea2c0d2d0c97692&v=4"
-      },
-      "description": "Share pastes and files with short links, syntax highlighting and a handy CLI.",
-      "category": "Pastebins",
-      "replaces": "Pastebin",
-      "bindings": [
-        "KV",
-        "R2",
-        "Cr"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": false,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FSharzyL%2Fpastebin-worker",
-      "license": "MIT",
-      "stars": 1066,
-      "pushed_at": "2026-10-15T04:25:05Z",
-      "default_branch": "goshujin",
-      "homepage": "https://shz.al",
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 30.2,
-      "source": "awesome-cfsh",
-      "rank": 23,
-      "category_rank": 1
     },
     {
       "repo": "aozorae/Edgechat",
@@ -960,17 +928,49 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "GPL-3.0",
-      "stars": 1038,
-      "pushed_at": "2026-10-15T14:53:46Z",
+      "stars": 1068,
+      "pushed_at": "2026-10-17T03:42:44Z",
       "default_branch": "master",
       "homepage": "https://echat.azora.top",
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 30.3,
+      "source": "awesome-cfsh",
+      "rank": 23,
+      "category_rank": 2
+    },
+    {
+      "repo": "SharzyL/pastebin-worker",
+      "slug": "pastebin-worker",
+      "name": "Pastebin Worker",
+      "owner": {
+        "login": "SharzyL",
+        "avatar_url": "https://avatars.githubusercontent.com/u/46294732?s=96&u=a24a4ac868d84aa7aad992261ea2c0d2d0c97692&v=4"
+      },
+      "description": "Share pastes and files with short links, syntax highlighting and a handy CLI.",
+      "category": "Pastebins",
+      "replaces": "Pastebin",
+      "bindings": [
+        "KV",
+        "R2",
+        "Cr"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": false,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FSharzyL%2Fpastebin-worker",
+      "license": "MIT",
+      "stars": 1068,
+      "pushed_at": "2026-10-15T04:25:05Z",
+      "default_branch": "goshujin",
+      "homepage": "https://shz.al",
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
       "score": 30.1,
       "source": "awesome-cfsh",
       "rank": 24,
-      "category_rank": 2
+      "category_rank": 1
     },
     {
       "repo": "rahilp/second-brain-cloudflare",
@@ -993,7 +993,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/rahilp/second-brain-cloudflare",
       "license": "MIT",
-      "stars": 808,
+      "stars": 809,
       "pushed_at": "2026-10-14T11:53:04Z",
       "default_branch": "main",
       "homepage": "https://www.thesecondbrain.dev",
@@ -1003,7 +1003,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 29.9,
+      "score": 29.8,
       "source": "awesome-cfsh",
       "rank": 25,
       "category_rank": 3
@@ -1029,7 +1029,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/agentic-inbox",
       "license": "Apache-2.0",
-      "stars": 8309,
+      "stars": 8322,
       "pushed_at": "2026-04-23T21:04:17Z",
       "default_branch": "main",
       "homepage": null,
@@ -1070,7 +1070,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 29.1,
+      "score": 29,
       "source": "awesome-cfsh",
       "rank": 27,
       "category_rank": 1
@@ -1097,7 +1097,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/supermemoryai/company-brain",
       "license": "Apache-2.0",
-      "stars": 1012,
+      "stars": 1014,
       "pushed_at": "2026-10-02T18:39:55Z",
       "default_branch": "main",
       "homepage": "https://x.com/DhravyaShah/status/2103668051468300701?s=20",
@@ -1173,7 +1173,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 28.8,
+      "score": 28.7,
       "source": "awesome-cfsh",
       "rank": 30,
       "category_rank": 4
@@ -1197,7 +1197,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/idinging/freemail",
       "license": "Apache-2.0",
-      "stars": 1618,
+      "stars": 1619,
       "pushed_at": "2026-08-24T05:16:38Z",
       "default_branch": "master",
       "homepage": "https://freemail.cq.de5.net",
@@ -1207,46 +1207,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 28.7,
+      "score": 28.6,
       "source": "search",
       "rank": 31,
       "category_rank": 4
-    },
-    {
-      "repo": "Shudesu/line-harness-oss",
-      "slug": "line-harness-oss",
-      "name": "L Harness",
-      "owner": {
-        "login": "Shudesu",
-        "avatar_url": "https://avatars.githubusercontent.com/u/140084741?s=96&u=a1ad587f03af67e8a22f3ab7bf2d690a4e69aa6d&v=4"
-      },
-      "description": "CRM for LINE Official Accounts with step messages, broadcasts, forms and bookings.",
-      "category": "Business",
-      "replaces": "Lstep",
-      "bindings": [
-        "D1",
-        "R2",
-        "DO",
-        "Cr"
-      ],
-      "config_file": "apps/worker/wrangler.toml",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "MIT",
-      "stars": 602,
-      "pushed_at": "2026-10-12T16:07:38Z",
-      "default_branch": "main",
-      "homepage": "https://the-harness.com/line-harness/",
-      "latest_release": {
-        "tag": "v0.24.2",
-        "published_at": "2026-10-12T16:13:08Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 28.5,
-      "source": "awesome-cfsh",
-      "rank": 32,
-      "category_rank": 1
     },
     {
       "repo": "RavelloH/InsightFlare",
@@ -1271,7 +1235,7 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FRavelloH%2FInsightFlare",
       "license": "MIT",
-      "stars": 594,
+      "stars": 608,
       "pushed_at": "2026-10-13T04:34:32Z",
       "default_branch": "main",
       "homepage": "https://demo.insightflare.net",
@@ -1283,8 +1247,44 @@
       "first_seen": "2026-10-08",
       "score": 28.5,
       "source": "awesome-cfsh",
-      "rank": 33,
+      "rank": 32,
       "category_rank": 3
+    },
+    {
+      "repo": "Shudesu/line-harness-oss",
+      "slug": "line-harness-oss",
+      "name": "L Harness",
+      "owner": {
+        "login": "Shudesu",
+        "avatar_url": "https://avatars.githubusercontent.com/u/140084741?s=96&u=a1ad587f03af67e8a22f3ab7bf2d690a4e69aa6d&v=4"
+      },
+      "description": "CRM for LINE Official Accounts with step messages, broadcasts, forms and bookings.",
+      "category": "Business",
+      "replaces": "Lstep",
+      "bindings": [
+        "D1",
+        "R2",
+        "DO",
+        "Cr"
+      ],
+      "config_file": "apps/worker/wrangler.toml",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "MIT",
+      "stars": 603,
+      "pushed_at": "2026-10-12T16:07:38Z",
+      "default_branch": "main",
+      "homepage": "https://the-harness.com/line-harness/",
+      "latest_release": {
+        "tag": "v0.24.2",
+        "published_at": "2026-10-12T16:13:08Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 28.4,
+      "source": "awesome-cfsh",
+      "rank": 33,
+      "category_rank": 1
     },
     {
       "repo": "akazwz/hostc",
@@ -1304,7 +1304,7 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "Apache-2.0",
-      "stars": 601,
+      "stars": 602,
       "pushed_at": "2026-10-07T16:07:49Z",
       "default_branch": "main",
       "homepage": "https://hostc.dev",
@@ -1314,7 +1314,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 28.1,
+      "score": 28,
       "source": "awesome-cfsh",
       "rank": 34,
       "category_rank": 1
@@ -1335,8 +1335,8 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/OpenListTeam/OpenList-Worker",
       "license": "AGPL-3.0",
-      "stars": 581,
-      "pushed_at": "2026-10-15T15:13:43Z",
+      "stars": 585,
+      "pushed_at": "2026-10-16T13:05:03Z",
       "default_branch": "main",
       "homepage": null,
       "latest_release": null,
@@ -1367,8 +1367,8 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/wuzf/2fa",
       "license": "MIT",
-      "stars": 452,
-      "pushed_at": "2026-10-16T05:53:59Z",
+      "stars": 453,
+      "pushed_at": "2026-10-17T05:37:54Z",
       "default_branch": "main",
       "homepage": "https://2fa-dev.wzf.workers.dev",
       "latest_release": {
@@ -1403,7 +1403,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/DivinPrince/quickinbox",
       "license": "MIT",
-      "stars": 422,
+      "stars": 423,
       "pushed_at": "2026-10-15T17:50:19Z",
       "default_branch": "main",
       "homepage": "https://quickmail.divinprince.com",
@@ -1413,7 +1413,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 27.2,
+      "score": 27.1,
       "source": "awesome-cfsh",
       "rank": 37,
       "category_rank": 5
@@ -1436,7 +1436,7 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "MIT",
-      "stars": 425,
+      "stars": 424,
       "pushed_at": "2026-10-14T09:58:44Z",
       "default_branch": "master",
       "homepage": "https://mirrors.ohyraw.dpdns.org",
@@ -1446,7 +1446,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 27.1,
+      "score": 27,
       "source": "awesome-cfsh",
       "rank": 38,
       "category_rank": 2
@@ -1500,7 +1500,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/cwxiaos/bark-worker",
       "license": "GPL-3.0",
-      "stars": 683,
+      "stars": 684,
       "pushed_at": "2026-09-12T09:46:15Z",
       "default_branch": "master",
       "homepage": null,
@@ -1510,7 +1510,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 26.5,
+      "score": 26.4,
       "source": "awesome-cfsh",
       "rank": 40,
       "category_rank": 1
@@ -1533,17 +1533,51 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fnewbietan%2FCloudSSH",
       "license": "Apache-2.0",
-      "stars": 416,
+      "stars": 419,
       "pushed_at": "2026-10-16T05:22:11Z",
       "default_branch": "main",
       "homepage": "https://ssh.newbietan.cn",
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 26.2,
+      "score": 26.1,
       "source": "awesome-cfsh",
       "rank": 41,
       "category_rank": 2
+    },
+    {
+      "repo": "harshalgajjar/Reminal",
+      "slug": "reminal",
+      "name": "reminal",
+      "owner": {
+        "login": "harshalgajjar",
+        "avatar_url": "https://avatars.githubusercontent.com/u/17684421?s=96&u=9a3643f10826e1249d4206b54b299e0abf9bba0d&v=4"
+      },
+      "description": "Streams and controls your computer's windows, desktop and terminals from any browser, end-to-end encrypted.",
+      "category": "Remote access",
+      "replaces": "TeamViewer",
+      "bindings": [
+        "DO",
+        "R2"
+      ],
+      "config_file": "cloudflare/wrangler.toml",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "AGPL-3.0",
+      "stars": 324,
+      "pushed_at": "2026-10-17T03:23:14Z",
+      "default_branch": "main",
+      "homepage": "https://reminal.app",
+      "latest_release": {
+        "tag": "v3.17.11",
+        "published_at": "2026-10-17T02:58:15Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 26.1,
+      "source": "awesome-cfsh",
+      "rank": 42,
+      "category_rank": 3
     },
     {
       "repo": "HQBase/hqbase",
@@ -1568,7 +1602,7 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FHQBase%2Fhqbase",
       "license": "AGPL-3.0",
-      "stars": 344,
+      "stars": 345,
       "pushed_at": "2026-10-12T15:30:49Z",
       "default_branch": "main",
       "homepage": "https://hqbase.io",
@@ -1578,44 +1612,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 26.1,
-      "source": "awesome-cfsh",
-      "rank": 42,
-      "category_rank": 6
-    },
-    {
-      "repo": "harshalgajjar/Reminal",
-      "slug": "reminal",
-      "name": "reminal",
-      "owner": {
-        "login": "harshalgajjar",
-        "avatar_url": "https://avatars.githubusercontent.com/u/17684421?s=96&u=9a3643f10826e1249d4206b54b299e0abf9bba0d&v=4"
-      },
-      "description": "Streams and controls your computer's windows, desktop and terminals from any browser, end-to-end encrypted.",
-      "category": "Remote access",
-      "replaces": "TeamViewer",
-      "bindings": [
-        "DO",
-        "R2"
-      ],
-      "config_file": "cloudflare/wrangler.toml",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "AGPL-3.0",
-      "stars": 323,
-      "pushed_at": "2026-10-16T07:32:58Z",
-      "default_branch": "main",
-      "homepage": "https://reminal.app",
-      "latest_release": {
-        "tag": "v3.17.2",
-        "published_at": "2026-10-16T06:52:32Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 26.1,
+      "score": 26,
       "source": "awesome-cfsh",
       "rank": 43,
-      "category_rank": 3
+      "category_rank": 6
     },
     {
       "repo": "abersheeran/r2-webdav",
@@ -1635,17 +1635,53 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/abersheeran/r2-webdav",
       "license": "Apache-2.0",
-      "stars": 424,
+      "stars": 425,
       "pushed_at": "2026-10-11T09:45:45Z",
       "default_branch": "main",
       "homepage": null,
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 25.9,
+      "score": 25.8,
       "source": "awesome-cfsh",
       "rank": 44,
       "category_rank": 3
+    },
+    {
+      "repo": "chmonitor/chmonitor",
+      "slug": "chmonitor",
+      "name": "chmonitor",
+      "owner": {
+        "login": "chmonitor",
+        "avatar_url": "https://avatars.githubusercontent.com/u/297348278?s=96&v=4"
+      },
+      "description": "Dashboard for ClickHouse clusters that shows queries and health and suggests tuning fixes.",
+      "category": "Developer tools",
+      "replaces": null,
+      "bindings": [
+        "D1",
+        "KV",
+        "Br",
+        "Cr"
+      ],
+      "config_file": "apps/cloud-hooks/wrangler.toml",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "GPL-3.0",
+      "stars": 303,
+      "pushed_at": "2026-10-16T12:57:34Z",
+      "default_branch": "main",
+      "homepage": "https://chmonitor.dev",
+      "latest_release": {
+        "tag": "helm-chmonitor-0.2.17",
+        "published_at": "2026-10-11T08:57:31Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 25.8,
+      "source": "search",
+      "rank": 45,
+      "category_rank": 2
     },
     {
       "repo": "MuhammadHananAsghar/wormhole",
@@ -1666,7 +1702,7 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "MIT",
-      "stars": 436,
+      "stars": 437,
       "pushed_at": "2026-09-27T07:10:14Z",
       "default_branch": "main",
       "homepage": "https://wormhole.bar",
@@ -1676,9 +1712,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 25.8,
+      "score": 25.7,
       "source": "awesome-cfsh",
-      "rank": 45,
+      "rank": 46,
       "category_rank": 4
     },
     {
@@ -1713,46 +1749,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 25.7,
+      "score": 25.6,
       "source": "awesome-cfsh",
-      "rank": 46,
-      "category_rank": 3
-    },
-    {
-      "repo": "chmonitor/chmonitor",
-      "slug": "chmonitor",
-      "name": "chmonitor",
-      "owner": {
-        "login": "chmonitor",
-        "avatar_url": "https://avatars.githubusercontent.com/u/297348278?s=96&v=4"
-      },
-      "description": "Dashboard for ClickHouse clusters that shows queries and health and suggests tuning fixes.",
-      "category": "Developer tools",
-      "replaces": null,
-      "bindings": [
-        "D1",
-        "KV",
-        "Br",
-        "Cr"
-      ],
-      "config_file": "apps/cloud-hooks/wrangler.toml",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "GPL-3.0",
-      "stars": 303,
-      "pushed_at": "2026-10-14T19:07:41Z",
-      "default_branch": "main",
-      "homepage": "https://chmonitor.dev",
-      "latest_release": {
-        "tag": "helm-chmonitor-0.2.17",
-        "published_at": "2026-10-11T08:57:31Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 25.7,
-      "source": "search",
       "rank": 47,
-      "category_rank": 2
+      "category_rank": 3
     },
     {
       "repo": "G4brym/R2-Explorer",
@@ -1772,7 +1772,7 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "MIT",
-      "stars": 653,
+      "stars": 652,
       "pushed_at": "2026-09-03T08:41:22Z",
       "default_branch": "main",
       "homepage": "https://r2explorer.com",
@@ -1782,7 +1782,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 25.6,
+      "score": 25.5,
       "source": "awesome-cfsh",
       "rank": 48,
       "category_rank": 4
@@ -1818,10 +1818,46 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 25.5,
+      "score": 25.4,
       "source": "awesome-cfsh",
       "rank": 49,
       "category_rank": 5
+    },
+    {
+      "repo": "zhiyingzzhou/renewlet",
+      "slug": "renewlet",
+      "name": "Renewlet",
+      "owner": {
+        "login": "zhiyingzzhou",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16408285?s=96&u=c323622f04c88a29eec87c3feb1bf7348dccd52e&v=4"
+      },
+      "description": "Tracks recurring subscriptions, budgets and spending, and reminds you before each renewal.",
+      "category": "Finance",
+      "replaces": "Rocket Money",
+      "bindings": [
+        "D1",
+        "R2",
+        "Q",
+        "Cr"
+      ],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/zhiyingzzhou/renewlet",
+      "license": "MIT",
+      "stars": 281,
+      "pushed_at": "2026-10-16T15:04:13Z",
+      "default_branch": "main",
+      "homepage": "https://renewlet.cc",
+      "latest_release": {
+        "tag": "v0.3.31",
+        "published_at": "2026-10-16T15:54:16Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 25.4,
+      "source": "search",
+      "rank": 50,
+      "category_rank": 1
     },
     {
       "repo": "vikiboss/r2-web",
@@ -1849,9 +1885,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 25.3,
+      "score": 25.2,
       "source": "search",
-      "rank": 50,
+      "rank": 51,
       "category_rank": 5
     },
     {
@@ -1872,7 +1908,7 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "MIT",
-      "stars": 371,
+      "stars": 372,
       "pushed_at": "2026-10-09T08:31:49Z",
       "default_branch": "main",
       "homepage": null,
@@ -1881,7 +1917,7 @@
       "first_seen": "2026-10-08",
       "score": 25.1,
       "source": "awesome-cfsh",
-      "rank": 51,
+      "rank": 52,
       "category_rank": 1
     },
     {
@@ -1908,7 +1944,7 @@
       "deploy_url": null,
       "license": "Apache-2.0",
       "stars": 259,
-      "pushed_at": "2026-10-16T03:51:59Z",
+      "pushed_at": "2026-10-17T03:17:38Z",
       "default_branch": "main",
       "homepage": "https://choy.in/saasmail",
       "latest_release": {
@@ -1919,7 +1955,7 @@
       "first_seen": "2026-10-08",
       "score": 25.1,
       "source": "awesome-cfsh",
-      "rank": 52,
+      "rank": 53,
       "category_rank": 7
     },
     {
@@ -1940,8 +1976,8 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FLeenHawk%2Fgproxy%2Ftree%2Fdev%2Fdeploy%2Fcloudflare-button",
       "license": "AGPL-3.0",
-      "stars": 254,
-      "pushed_at": "2026-10-16T07:01:44Z",
+      "stars": 257,
+      "pushed_at": "2026-10-17T07:01:07Z",
       "default_branch": "main",
       "homepage": "https://gproxy.leenhawk.com",
       "latest_release": {
@@ -1952,8 +1988,46 @@
       "first_seen": "2026-10-08",
       "score": 25.1,
       "source": "search",
-      "rank": 53,
+      "rank": 54,
       "category_rank": 2
+    },
+    {
+      "repo": "mibgb65-cloud/OmniMail",
+      "slug": "omnimail",
+      "name": "OmniMail",
+      "owner": {
+        "login": "mibgb65-cloud",
+        "avatar_url": "https://avatars.githubusercontent.com/u/260441469?s=96&u=0992b7b09358807a38378559b7181ff05703f888&v=4"
+      },
+      "description": "Multi-domain webmail for individuals and small teams, with a browser extension and Android app.",
+      "category": "Email",
+      "replaces": "Gmail",
+      "bindings": [
+        "D1",
+        "R2",
+        "Q",
+        "Wf",
+        "AI",
+        "Cr"
+      ],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/mibgb65-cloud/OmniMail",
+      "license": "MIT",
+      "stars": 254,
+      "pushed_at": "2026-10-16T13:15:59Z",
+      "default_branch": "main",
+      "homepage": "https://omnimail.aicnos.com",
+      "latest_release": {
+        "tag": "v1.3.0",
+        "published_at": "2026-10-16T13:20:39Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 25,
+      "source": "awesome-cfsh",
+      "rank": 55,
+      "category_rank": 8
     },
     {
       "repo": "lumpinif/deepcrawl",
@@ -1984,73 +2058,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 25,
-      "source": "awesome-cfsh",
-      "rank": 54,
-      "category_rank": 3
-    },
-    {
-      "repo": "zhiyingzzhou/renewlet",
-      "slug": "renewlet",
-      "name": "Renewlet",
-      "owner": {
-        "login": "zhiyingzzhou",
-        "avatar_url": "https://avatars.githubusercontent.com/u/16408285?s=96&u=c323622f04c88a29eec87c3feb1bf7348dccd52e&v=4"
-      },
-      "description": "Tracks recurring subscriptions, budgets and spending, and reminds you before each renewal.",
-      "category": "Finance",
-      "replaces": "Rocket Money",
-      "bindings": [
-        "D1",
-        "R2",
-        "Q",
-        "Cr"
-      ],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/zhiyingzzhou/renewlet",
-      "license": "MIT",
-      "stars": 282,
-      "pushed_at": "2026-10-10T03:51:09Z",
-      "default_branch": "main",
-      "homepage": "https://renewlet.cc",
-      "latest_release": {
-        "tag": "v0.3.30",
-        "published_at": "2026-10-10T03:55:15Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 25,
-      "source": "search",
-      "rank": 55,
-      "category_rank": 1
-    },
-    {
-      "repo": "shuaiplus/nodecrypt",
-      "slug": "nodecrypt",
-      "name": "NodeCrypt",
-      "owner": {
-        "login": "shuaiplus",
-        "avatar_url": "https://avatars.githubusercontent.com/u/100134295?s=96&u=533067b496665dc3a801b257a10947d8d6b43d09&v=4"
-      },
-      "description": "End-to-end encrypted chat rooms where the server never sees your messages.",
-      "category": "Chat & realtime",
-      "replaces": null,
-      "bindings": [
-        "DO"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/shuaiplus/nodecrypt",
-      "license": "ISC",
-      "stars": 891,
-      "pushed_at": "2026-08-17T02:16:26Z",
-      "default_branch": "main",
-      "homepage": "https://nodecrypt.shuaiplus.workers.dev/",
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 24.5,
+      "score": 24.9,
       "source": "awesome-cfsh",
       "rank": 56,
       "category_rank": 3
@@ -2079,16 +2087,46 @@
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/TedLin1993/all-set-tw",
       "license": "MIT",
       "stars": 281,
-      "pushed_at": "2026-10-15T11:03:30Z",
+      "pushed_at": "2026-10-16T22:21:33Z",
       "default_branch": "main",
       "homepage": null,
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 24.4,
+      "score": 24.5,
       "source": "search",
       "rank": 57,
       "category_rank": 2
+    },
+    {
+      "repo": "shuaiplus/nodecrypt",
+      "slug": "nodecrypt",
+      "name": "NodeCrypt",
+      "owner": {
+        "login": "shuaiplus",
+        "avatar_url": "https://avatars.githubusercontent.com/u/100134295?s=96&u=533067b496665dc3a801b257a10947d8d6b43d09&v=4"
+      },
+      "description": "End-to-end encrypted chat rooms where the server never sees your messages.",
+      "category": "Chat & realtime",
+      "replaces": null,
+      "bindings": [
+        "DO"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/shuaiplus/nodecrypt",
+      "license": "ISC",
+      "stars": 890,
+      "pushed_at": "2026-08-17T02:16:26Z",
+      "default_branch": "main",
+      "homepage": "https://nodecrypt.shuaiplus.workers.dev/",
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 24.4,
+      "source": "awesome-cfsh",
+      "rank": 58,
+      "category_rank": 3
     },
     {
       "repo": "hjinco/synch",
@@ -2125,7 +2163,7 @@
       "first_seen": "2026-10-08",
       "score": 24.4,
       "source": "awesome-cfsh",
-      "rank": 58,
+      "rank": 59,
       "category_rank": 4
     },
     {
@@ -2156,11 +2194,11 @@
         "tag": "v1.18.1",
         "published_at": "2026-10-11T19:59:08Z"
       },
-      "is_new": true,
+      "is_new": false,
       "first_seen": "2026-10-10",
-      "score": 24.3,
+      "score": 24.2,
       "source": "search",
-      "rank": 59,
+      "rank": 60,
       "category_rank": 2
     },
     {
@@ -2186,9 +2224,9 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-15",
-      "score": 24.1,
+      "score": 24,
       "source": "search",
-      "rank": 60,
+      "rank": 61,
       "category_rank": 1
     },
     {
@@ -2222,44 +2260,6 @@
       "is_new": false,
       "first_seen": "2026-10-08",
       "score": 23.9,
-      "source": "awesome-cfsh",
-      "rank": 61,
-      "category_rank": 8
-    },
-    {
-      "repo": "mibgb65-cloud/OmniMail",
-      "slug": "omnimail",
-      "name": "OmniMail",
-      "owner": {
-        "login": "mibgb65-cloud",
-        "avatar_url": "https://avatars.githubusercontent.com/u/260441469?s=96&u=0992b7b09358807a38378559b7181ff05703f888&v=4"
-      },
-      "description": "Multi-domain webmail for individuals and small teams, with a browser extension and Android app.",
-      "category": "Email",
-      "replaces": "Gmail",
-      "bindings": [
-        "D1",
-        "R2",
-        "Q",
-        "Wf",
-        "AI",
-        "Cr"
-      ],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/mibgb65-cloud/OmniMail",
-      "license": "MIT",
-      "stars": 253,
-      "pushed_at": "2026-10-01T03:42:34Z",
-      "default_branch": "main",
-      "homepage": "https://omnimail.aicnos.com",
-      "latest_release": {
-        "tag": "v1.2.0",
-        "published_at": "2026-10-01T03:25:27Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 23.8,
       "source": "awesome-cfsh",
       "rank": 62,
       "category_rank": 9
@@ -2297,7 +2297,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 23.6,
+      "score": 23.5,
       "source": "awesome-cfsh",
       "rank": 63,
       "category_rank": 2
@@ -2323,8 +2323,8 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/linkcraftstudio/feedlog",
       "license": "MIT",
-      "stars": 177,
-      "pushed_at": "2026-10-16T06:10:11Z",
+      "stars": 178,
+      "pushed_at": "2026-10-16T09:45:29Z",
       "default_branch": "main",
       "homepage": "https://feedlog.ai",
       "latest_release": {
@@ -2358,8 +2358,8 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/ddyy/minshop",
       "license": "MIT",
-      "stars": 174,
-      "pushed_at": "2026-10-13T18:08:35Z",
+      "stars": 175,
+      "pushed_at": "2026-10-17T07:17:28Z",
       "default_branch": "main",
       "homepage": "https://minshop.dev",
       "latest_release": {
@@ -2368,10 +2368,48 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 23.2,
+      "score": 23.5,
       "source": "awesome-cfsh",
       "rank": 65,
       "category_rank": 1
+    },
+    {
+      "repo": "shivamanupadi/traks",
+      "slug": "traks",
+      "name": "Traks",
+      "owner": {
+        "login": "shivamanupadi",
+        "avatar_url": "https://avatars.githubusercontent.com/u/137275428?s=96&u=195f635fe137d2d3272ed0e768a48a6b9cb1fb7a&v=4"
+      },
+      "description": "Cookie-free website analytics with a realtime dashboard and cheap long-term history.",
+      "category": "Analytics",
+      "replaces": "Google Analytics",
+      "bindings": [
+        "R2",
+        "DO",
+        "D1",
+        "KV",
+        "Cr",
+        "AE"
+      ],
+      "config_file": "apps/home/api/wrangler.toml",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "MIT",
+      "stars": 164,
+      "pushed_at": "2026-10-16T15:44:36Z",
+      "default_branch": "main",
+      "homepage": "https://traks.dev",
+      "latest_release": {
+        "tag": "v0.1.44",
+        "published_at": "2026-10-16T15:44:38Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 23.1,
+      "source": "awesome-cfsh",
+      "rank": 66,
+      "category_rank": 4
     },
     {
       "repo": "jonocodes/savr",
@@ -2392,7 +2430,7 @@
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/jonocodes/savr/tree/main/infra/cors-worker",
       "license": "GPL-3.0",
       "stars": 155,
-      "pushed_at": "2026-10-16T04:55:13Z",
+      "pushed_at": "2026-10-16T18:35:04Z",
       "default_branch": "main",
       "homepage": "https://savr.link",
       "latest_release": {
@@ -2403,8 +2441,103 @@
       "first_seen": "2026-10-14",
       "score": 22.9,
       "source": "search",
-      "rank": 66,
+      "rank": 67,
       "category_rank": 5
+    },
+    {
+      "repo": "discohook/discohook",
+      "slug": "discohook",
+      "name": "Discohook",
+      "owner": {
+        "login": "discohook",
+        "avatar_url": "https://avatars.githubusercontent.com/u/65213683?s=96&v=4"
+      },
+      "description": "Design and send rich Discord webhook messages from your browser, plus a companion bot.",
+      "category": "Community",
+      "replaces": null,
+      "bindings": [
+        "Hd",
+        "DO"
+      ],
+      "config_file": "packages/bot/wrangler.toml",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "AGPL-3.0",
+      "stars": 186,
+      "pushed_at": "2026-10-16T20:14:27Z",
+      "default_branch": "main",
+      "homepage": "https://discohook.app",
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 22.7,
+      "source": "awesome-cfsh",
+      "rank": 68,
+      "category_rank": 1
+    },
+    {
+      "repo": "KnifeLemon/Droidline",
+      "slug": "droidline",
+      "name": "Droidline",
+      "owner": {
+        "login": "KnifeLemon",
+        "avatar_url": "https://avatars.githubusercontent.com/u/13937016?s=96&v=4"
+      },
+      "description": "Control real Android phones from code for testing, automation, and AI agents - no ADB, cable, or root needed.",
+      "category": "Developer tools",
+      "replaces": "Appium",
+      "bindings": [
+        "DO"
+      ],
+      "config_file": "relay/worker/wrangler.jsonc",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "MIT",
+      "stars": 163,
+      "pushed_at": "2026-10-11T15:47:01Z",
+      "default_branch": "main",
+      "homepage": "https://droidline.dev",
+      "latest_release": {
+        "tag": "v0.1.11",
+        "published_at": "2026-10-11T15:49:22Z"
+      },
+      "is_new": true,
+      "first_seen": "2026-10-12",
+      "score": 22.7,
+      "source": "search",
+      "rank": 69,
+      "category_rank": 4
+    },
+    {
+      "repo": "nxfu/binthere",
+      "slug": "binthere",
+      "name": "binthere",
+      "owner": {
+        "login": "nxfu",
+        "avatar_url": "https://avatars.githubusercontent.com/u/159716415?s=96&u=c2ac443458a0fc1413b9dd9644504fc04de783e9&v=4"
+      },
+      "description": "Encrypted pastebin where notes are locked in your browser and vanish after one read.",
+      "category": "Pastebins",
+      "replaces": "Pastebin",
+      "bindings": [
+        "KV",
+        "DO"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/nxfu/binthere",
+      "license": "MIT",
+      "stars": 260,
+      "pushed_at": "2026-09-19T14:42:28Z",
+      "default_branch": "main",
+      "homepage": "https://binthere.gaury.dev",
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 21.9,
+      "source": "awesome-cfsh",
+      "rank": 70,
+      "category_rank": 2
     },
     {
       "repo": "Defiabell/shotsync",
@@ -2436,72 +2569,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 22,
+      "score": 21.9,
       "source": "awesome-cfsh",
-      "rank": 67,
+      "rank": 71,
       "category_rank": 6
-    },
-    {
-      "repo": "nxfu/binthere",
-      "slug": "binthere",
-      "name": "binthere",
-      "owner": {
-        "login": "nxfu",
-        "avatar_url": "https://avatars.githubusercontent.com/u/159716415?s=96&u=c2ac443458a0fc1413b9dd9644504fc04de783e9&v=4"
-      },
-      "description": "Encrypted pastebin where notes are locked in your browser and vanish after one read.",
-      "category": "Pastebins",
-      "replaces": "Pastebin",
-      "bindings": [
-        "KV",
-        "DO"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/nxfu/binthere",
-      "license": "MIT",
-      "stars": 260,
-      "pushed_at": "2026-09-19T14:42:28Z",
-      "default_branch": "main",
-      "homepage": "https://binthere.gaury.dev",
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 21.9,
-      "source": "awesome-cfsh",
-      "rank": 68,
-      "category_rank": 2
-    },
-    {
-      "repo": "discohook/discohook",
-      "slug": "discohook",
-      "name": "Discohook",
-      "owner": {
-        "login": "discohook",
-        "avatar_url": "https://avatars.githubusercontent.com/u/65213683?s=96&v=4"
-      },
-      "description": "Design and send rich Discord webhook messages from your browser, plus a companion bot.",
-      "category": "Community",
-      "replaces": null,
-      "bindings": [
-        "Hd",
-        "DO"
-      ],
-      "config_file": "packages/bot/wrangler.toml",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "AGPL-3.0",
-      "stars": 186,
-      "pushed_at": "2026-10-06T00:40:19Z",
-      "default_branch": "main",
-      "homepage": "https://discohook.app",
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 21.9,
-      "source": "awesome-cfsh",
-      "rank": 69,
-      "category_rank": 1
     },
     {
       "repo": "TGDash/HashPay",
@@ -2523,16 +2594,16 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/TGDash/HashPay",
       "license": "Apache-2.0",
-      "stars": 156,
-      "pushed_at": "2026-10-14T07:22:48Z",
+      "stars": 157,
+      "pushed_at": "2026-10-16T10:35:40Z",
       "default_branch": "main",
       "homepage": null,
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 21.8,
+      "score": 21.9,
       "source": "search",
-      "rank": 70,
+      "rank": 72,
       "category_rank": 2
     },
     {
@@ -2568,10 +2639,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 21.7,
+      "score": 21.6,
       "source": "awesome-cfsh",
-      "rank": 71,
-      "category_rank": 4
+      "rank": 73,
+      "category_rank": 5
     },
     {
       "repo": "saiday/kukuroo",
@@ -2601,9 +2672,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 21.6,
+      "score": 21.5,
       "source": "awesome-cfsh",
-      "rank": 72,
+      "rank": 74,
       "category_rank": 2
     },
     {
@@ -2629,44 +2700,11 @@
       "default_branch": "main",
       "homepage": null,
       "latest_release": null,
-      "is_new": true,
+      "is_new": false,
       "first_seen": "2026-10-10",
-      "score": 21.5,
+      "score": 21.4,
       "source": "search",
-      "rank": 73,
-      "category_rank": 5
-    },
-    {
-      "repo": "KnifeLemon/Droidline",
-      "slug": "droidline",
-      "name": "Droidline",
-      "owner": {
-        "login": "KnifeLemon",
-        "avatar_url": "https://avatars.githubusercontent.com/u/13937016?s=96&v=4"
-      },
-      "description": "Control real Android phones from code for testing, automation, and AI agents - no ADB, cable, or root needed.",
-      "category": "Developer tools",
-      "replaces": "Appium",
-      "bindings": [
-        "DO"
-      ],
-      "config_file": "relay/worker/wrangler.jsonc",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "MIT",
-      "stars": 121,
-      "pushed_at": "2026-10-11T15:47:01Z",
-      "default_branch": "main",
-      "homepage": "https://droidline.dev",
-      "latest_release": {
-        "tag": "v0.1.11",
-        "published_at": "2026-10-11T15:49:22Z"
-      },
-      "is_new": true,
-      "first_seen": "2026-10-12",
-      "score": 21.5,
-      "source": "search",
-      "rank": 74,
+      "rank": 75,
       "category_rank": 6
     },
     {
@@ -2688,7 +2726,7 @@
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/LeoColomb/dispoflare",
       "license": "MIT",
       "stars": 108,
-      "pushed_at": "2026-10-16T03:05:55Z",
+      "pushed_at": "2026-10-16T13:58:25Z",
       "default_branch": "main",
       "homepage": null,
       "latest_release": {
@@ -2697,48 +2735,75 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 21.4,
+      "score": 21.3,
       "source": "search",
-      "rank": 75,
+      "rank": 76,
       "category_rank": 5
     },
     {
-      "repo": "shivamanupadi/traks",
-      "slug": "traks",
-      "name": "Traks",
+      "repo": "yshalsager/logseq-selfhost",
+      "slug": "logseq-selfhost",
+      "name": "Logseq Self-hosted",
       "owner": {
-        "login": "shivamanupadi",
-        "avatar_url": "https://avatars.githubusercontent.com/u/137275428?s=96&u=195f635fe137d2d3272ed0e768a48a6b9cb1fb7a&v=4"
+        "login": "yshalsager",
+        "avatar_url": "https://avatars.githubusercontent.com/u/17043808?s=96&u=5601f42cf99995bfc2f1557a4e1dbbdc80bc932b&v=4"
       },
-      "description": "Cookie-free website analytics with a realtime dashboard and cheap long-term history.",
-      "category": "Analytics",
-      "replaces": "Google Analytics",
+      "description": "Runs your own Logseq DB sync server, publishing service and web app.",
+      "category": "Notes",
+      "replaces": "Logseq Sync",
       "bindings": [
         "R2",
         "DO",
-        "D1",
-        "KV",
-        "Cr",
-        "AE"
+        "D1"
       ],
-      "config_file": "apps/home/api/wrangler.toml",
+      "config_file": "images/publish/wrangler.selfhost.toml",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "AGPL-3.0",
+      "stars": 122,
+      "pushed_at": "2026-10-17T07:13:49Z",
+      "default_branch": "master",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 20.9,
+      "source": "awesome-cfsh",
+      "rank": 77,
+      "category_rank": 6
+    },
+    {
+      "repo": "scarletkc/Hatoba",
+      "slug": "hatoba",
+      "name": "Hatoba",
+      "owner": {
+        "login": "scarletkc",
+        "avatar_url": "https://avatars.githubusercontent.com/u/50803289?s=96&u=01743b93ebad81f1bce34542ef0e880d63c30e5a&v=4"
+      },
+      "description": "Desktop SSH client with AI assistant and encrypted sync via your own Cloudflare account.",
+      "category": "Remote access",
+      "replaces": "Termius",
+      "bindings": [
+        "D1"
+      ],
+      "config_file": "workers/sync/wrangler.toml",
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "MIT",
-      "stars": 164,
-      "pushed_at": "2026-09-23T06:05:12Z",
+      "stars": 98,
+      "pushed_at": "2026-10-16T10:55:01Z",
       "default_branch": "main",
-      "homepage": "https://traks.dev",
+      "homepage": "https://hatoba.fog.moe",
       "latest_release": {
-        "tag": "v0.1.43",
-        "published_at": "2026-09-23T06:05:14Z"
+        "tag": "v0.4.1",
+        "published_at": "2026-10-15T22:32:10Z"
       },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 21.3,
-      "source": "awesome-cfsh",
-      "rank": 76,
-      "category_rank": 4
+      "is_new": true,
+      "first_seen": "2026-10-12",
+      "score": 20.9,
+      "source": "search",
+      "rank": 78,
+      "category_rank": 5
     },
     {
       "repo": "CCCrafts/punctual",
@@ -2774,43 +2839,46 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 20.8,
+      "score": 20.7,
       "source": "awesome-cfsh",
-      "rank": 77,
+      "rank": 79,
       "category_rank": 4
     },
     {
-      "repo": "scarletkc/Hatoba",
-      "slug": "hatoba",
-      "name": "Hatoba",
+      "repo": "idhamsy/openshortlink",
+      "slug": "openshortlink",
+      "name": "OpenShort.link",
       "owner": {
-        "login": "scarletkc",
-        "avatar_url": "https://avatars.githubusercontent.com/u/50803289?s=96&u=01743b93ebad81f1bce34542ef0e880d63c30e5a&v=4"
+        "login": "idhamsy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3381595?s=96&u=3ef9385b9a99eeb63bfb0d33b8bb32430fadf0f5&v=4"
       },
-      "description": "Desktop SSH client with AI assistant and encrypted sync via your own Cloudflare account.",
-      "category": "Remote access",
-      "replaces": "Termius",
+      "description": "Branded link shortener with geo and device routing, click analytics and multi-domain support.",
+      "category": "Link shorteners",
+      "replaces": "Bitly",
       "bindings": [
-        "D1"
+        "D1",
+        "KV",
+        "Cr",
+        "AE"
       ],
-      "config_file": "workers/sync/wrangler.toml",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "MIT",
-      "stars": 95,
-      "pushed_at": "2026-10-16T07:47:09Z",
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/idhamsy/openshortlink",
+      "license": "AGPL-3.0",
+      "stars": 109,
+      "pushed_at": "2026-10-07T07:53:58Z",
       "default_branch": "main",
-      "homepage": "https://hatoba.fog.moe",
+      "homepage": "https://openshort.link",
       "latest_release": {
-        "tag": "v0.4.1",
-        "published_at": "2026-10-15T22:32:10Z"
+        "tag": "v0.11.0",
+        "published_at": "2026-10-07T07:53:58Z"
       },
-      "is_new": true,
-      "first_seen": "2026-10-12",
-      "score": 20.8,
-      "source": "search",
-      "rank": 78,
-      "category_rank": 5
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 20.6,
+      "source": "awesome-cfsh",
+      "rank": 80,
+      "category_rank": 2
     },
     {
       "repo": "Shudesu/x-harness-oss",
@@ -2842,46 +2910,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 20.7,
-      "source": "awesome-cfsh",
-      "rank": 79,
-      "category_rank": 5
-    },
-    {
-      "repo": "idhamsy/openshortlink",
-      "slug": "openshortlink",
-      "name": "OpenShort.link",
-      "owner": {
-        "login": "idhamsy",
-        "avatar_url": "https://avatars.githubusercontent.com/u/3381595?s=96&u=3ef9385b9a99eeb63bfb0d33b8bb32430fadf0f5&v=4"
-      },
-      "description": "Branded link shortener with geo and device routing, click analytics and multi-domain support.",
-      "category": "Link shorteners",
-      "replaces": "Bitly",
-      "bindings": [
-        "D1",
-        "KV",
-        "Cr",
-        "AE"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/idhamsy/openshortlink",
-      "license": "AGPL-3.0",
-      "stars": 108,
-      "pushed_at": "2026-10-07T07:53:58Z",
-      "default_branch": "main",
-      "homepage": "https://openshort.link",
-      "latest_release": {
-        "tag": "v0.11.0",
-        "published_at": "2026-10-07T07:53:58Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
       "score": 20.6,
       "source": "awesome-cfsh",
-      "rank": 80,
-      "category_rank": 2
+      "rank": 81,
+      "category_rank": 5
     },
     {
       "repo": "danielsyauqi/Seeder",
@@ -2912,9 +2944,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 20.6,
+      "score": 20.5,
       "source": "awesome-cfsh",
-      "rank": 81,
+      "rank": 82,
       "category_rank": 6
     },
     {
@@ -2939,7 +2971,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/santmun/forja",
       "license": "MIT",
-      "stars": 127,
+      "stars": 128,
       "pushed_at": "2026-10-08T18:52:53Z",
       "default_branch": "main",
       "homepage": null,
@@ -2948,40 +2980,8 @@
       "first_seen": "2026-10-08",
       "score": 20.4,
       "source": "awesome-cfsh",
-      "rank": 82,
-      "category_rank": 7
-    },
-    {
-      "repo": "yshalsager/logseq-selfhost",
-      "slug": "logseq-selfhost",
-      "name": "Logseq Self-hosted",
-      "owner": {
-        "login": "yshalsager",
-        "avatar_url": "https://avatars.githubusercontent.com/u/17043808?s=96&u=5601f42cf99995bfc2f1557a4e1dbbdc80bc932b&v=4"
-      },
-      "description": "Runs your own Logseq DB sync server, publishing service and web app.",
-      "category": "Notes",
-      "replaces": "Logseq Sync",
-      "bindings": [
-        "R2",
-        "DO",
-        "D1"
-      ],
-      "config_file": "images/publish/wrangler.selfhost.toml",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "AGPL-3.0",
-      "stars": 122,
-      "pushed_at": "2026-10-10T15:29:52Z",
-      "default_branch": "master",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 20.4,
-      "source": "awesome-cfsh",
       "rank": 83,
-      "category_rank": 6
+      "category_rank": 7
     },
     {
       "repo": "fanchenggang/Davflare",
@@ -3001,7 +3001,7 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Ffanchenggang%2FDavflare",
       "license": "MIT",
-      "stars": 81,
+      "stars": 87,
       "pushed_at": "2026-10-15T12:21:45Z",
       "default_branch": "main",
       "homepage": null,
@@ -3011,7 +3011,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 20.1,
+      "score": 20.3,
       "source": "awesome-cfsh",
       "rank": 84,
       "category_rank": 7
@@ -3045,7 +3045,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 20,
+      "score": 19.9,
       "source": "search",
       "rank": 85,
       "category_rank": 6
@@ -3075,7 +3075,7 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 19.8,
+      "score": 19.7,
       "source": "awesome-cfsh",
       "rank": 86,
       "category_rank": 7
@@ -3106,7 +3106,7 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 19.6,
+      "score": 19.5,
       "source": "awesome-cfsh",
       "rank": 87,
       "category_rank": 1
@@ -3130,7 +3130,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/34892002/edgeKey",
       "license": "MIT",
-      "stars": 276,
+      "stars": 279,
       "pushed_at": "2026-08-17T08:44:03Z",
       "default_branch": "main",
       "homepage": "https://shop.v50.app",
@@ -3141,37 +3141,6 @@
       "source": "awesome-cfsh",
       "rank": 88,
       "category_rank": 3
-    },
-    {
-      "repo": "jiuhunwl/shortvideo-html",
-      "slug": "shortvideo-html",
-      "name": "BK-SV",
-      "owner": {
-        "login": "jiuhunwl",
-        "avatar_url": "https://avatars.githubusercontent.com/u/55637210?s=96&u=cd959dbceeb0741dce936de66c17ca208a0cd5d9&v=4"
-      },
-      "description": "Parse and download watermark‑free short videos from TikTok, Kuaishou, Bilibili and more.",
-      "category": "Media",
-      "replaces": null,
-      "bindings": [],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/jiuhunwl/shortvideo-html",
-      "license": "MIT",
-      "stars": 65,
-      "pushed_at": "2026-10-13T09:31:14Z",
-      "default_branch": "main",
-      "homepage": "https://sv.bugpk.com",
-      "latest_release": {
-        "tag": "v4.1.0",
-        "published_at": "2026-10-13T09:08:05Z"
-      },
-      "is_new": true,
-      "first_seen": "2026-10-13",
-      "score": 19,
-      "source": "search",
-      "rank": 89,
-      "category_rank": 2
     },
     {
       "repo": "Defiabell/yixi",
@@ -3192,7 +3161,7 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FDefiabell%2Fyixi",
       "license": "MIT",
-      "stars": 99,
+      "stars": 100,
       "pushed_at": "2026-09-21T07:36:15Z",
       "default_branch": "main",
       "homepage": "https://yixi-app.pages.dev",
@@ -3204,6 +3173,37 @@
       "first_seen": "2026-10-08",
       "score": 18.9,
       "source": "awesome-cfsh",
+      "rank": 89,
+      "category_rank": 2
+    },
+    {
+      "repo": "jiuhunwl/shortvideo-html",
+      "slug": "shortvideo-html",
+      "name": "BK-SV",
+      "owner": {
+        "login": "jiuhunwl",
+        "avatar_url": "https://avatars.githubusercontent.com/u/55637210?s=96&u=cd959dbceeb0741dce936de66c17ca208a0cd5d9&v=4"
+      },
+      "description": "Parse and download watermark‑free short videos from TikTok, Kuaishou, Bilibili and more.",
+      "category": "Media",
+      "replaces": null,
+      "bindings": [],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/jiuhunwl/shortvideo-html",
+      "license": "MIT",
+      "stars": 66,
+      "pushed_at": "2026-10-13T09:31:14Z",
+      "default_branch": "main",
+      "homepage": "https://sv.bugpk.com",
+      "latest_release": {
+        "tag": "v4.1.0",
+        "published_at": "2026-10-13T09:08:05Z"
+      },
+      "is_new": true,
+      "first_seen": "2026-10-13",
+      "score": 18.9,
+      "source": "search",
       "rank": 90,
       "category_rank": 2
     },
@@ -3223,7 +3223,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/jikssha/telegram_private_chatbot",
       "license": "MIT",
-      "stars": 606,
+      "stars": 607,
       "pushed_at": "2026-01-05T18:07:22Z",
       "default_branch": "main",
       "homepage": null,
@@ -3270,6 +3270,43 @@
       "category_rank": 8
     },
     {
+      "repo": "TAJD/projektor",
+      "slug": "projektor",
+      "name": "Projektor",
+      "owner": {
+        "login": "TAJD",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11210290?s=96&u=bea1a7511989abc4ebd58c489074be454cb888dc&v=4"
+      },
+      "description": "Issue tracker and wiki with boards and sprints that AI coding agents can drive over MCP.",
+      "category": "Business",
+      "replaces": "Jira",
+      "bindings": [
+        "D1",
+        "KV",
+        "R2",
+        "DO",
+        "Cr"
+      ],
+      "config_file": "apps/api/wrangler.toml",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "MIT",
+      "stars": 58,
+      "pushed_at": "2026-10-14T16:00:26Z",
+      "default_branch": "main",
+      "homepage": "https://tajd.github.io/projektor/",
+      "latest_release": {
+        "tag": "v0.9.0",
+        "published_at": "2026-10-14T13:34:45Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 18.5,
+      "source": "awesome-cfsh",
+      "rank": 93,
+      "category_rank": 8
+    },
+    {
       "repo": "angristan/larafeed",
       "slug": "larafeed",
       "name": "Larafeed",
@@ -3299,47 +3336,10 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 18.5,
+      "score": 18.4,
       "source": "search",
-      "rank": 93,
-      "category_rank": 2
-    },
-    {
-      "repo": "TAJD/projektor",
-      "slug": "projektor",
-      "name": "Projektor",
-      "owner": {
-        "login": "TAJD",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11210290?s=96&u=bea1a7511989abc4ebd58c489074be454cb888dc&v=4"
-      },
-      "description": "Issue tracker and wiki with boards and sprints that AI coding agents can drive over MCP.",
-      "category": "Business",
-      "replaces": "Jira",
-      "bindings": [
-        "D1",
-        "KV",
-        "R2",
-        "DO",
-        "Cr"
-      ],
-      "config_file": "apps/api/wrangler.toml",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "MIT",
-      "stars": 57,
-      "pushed_at": "2026-10-14T16:00:26Z",
-      "default_branch": "main",
-      "homepage": "https://tajd.github.io/projektor/",
-      "latest_release": {
-        "tag": "v0.9.0",
-        "published_at": "2026-10-14T13:34:45Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 18.5,
-      "source": "awesome-cfsh",
       "rank": 94,
-      "category_rank": 8
+      "category_rank": 2
     },
     {
       "repo": "Jaironlanda/isupmap",
@@ -3363,7 +3363,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/Jaironlanda/isupmap",
       "license": "MIT",
-      "stars": 70,
+      "stars": 71,
       "pushed_at": "2026-10-15T10:05:41Z",
       "default_branch": "main",
       "homepage": "https://isupmap.com",
@@ -3403,7 +3403,7 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 18.3,
+      "score": 18.2,
       "source": "awesome-cfsh",
       "rank": 96,
       "category_rank": 5
@@ -3426,14 +3426,14 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/JamesZhaoY/logicc2api",
       "license": "MIT",
-      "stars": 65,
+      "stars": 67,
       "pushed_at": "2026-10-15T07:38:02Z",
       "default_branch": "main",
       "homepage": null,
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-15",
-      "score": 18.1,
+      "score": 18.2,
       "source": "search",
       "rank": 97,
       "category_rank": 3
@@ -3473,7 +3473,7 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 18,
+      "score": 17.9,
       "source": "search",
       "rank": 98,
       "category_rank": 2
@@ -3499,12 +3499,12 @@
       "deploy_url": null,
       "license": "Apache-2.0",
       "stars": 49,
-      "pushed_at": "2026-10-15T02:26:21Z",
+      "pushed_at": "2026-10-16T19:53:49Z",
       "default_branch": "main",
       "homepage": "https://garrul.com",
       "latest_release": {
-        "tag": "v2.36.1",
-        "published_at": "2026-10-15T02:27:09Z"
+        "tag": "v2.37.0",
+        "published_at": "2026-10-16T19:14:06Z"
       },
       "is_new": false,
       "first_seen": "2026-10-08",
@@ -3601,7 +3601,7 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fcmliu%2FCF-Workers-WebSSH",
       "license": "Apache-2.0",
-      "stars": 75,
+      "stars": 76,
       "pushed_at": "2026-09-28T18:20:48Z",
       "default_branch": "main",
       "homepage": "https://WebSSH.hidns.vip",
@@ -3612,6 +3612,37 @@
       "source": "search",
       "rank": 102,
       "category_rank": 6
+    },
+    {
+      "repo": "jonesphillip/weft",
+      "slug": "weft",
+      "name": "Weft",
+      "owner": {
+        "login": "jonesphillip",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7978631?s=96&u=da57bbac3916211fdc78f33f22f0c9d5206d3e1d&v=4"
+      },
+      "description": "Task board where AI agents handle your tasks, from email drafts to PRs, with approval before changes.",
+      "category": "AI agents",
+      "replaces": null,
+      "bindings": [
+        "DO",
+        "Wf"
+      ],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": false,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fjonesphillip%2Fweft",
+      "license": "Apache-2.0",
+      "stars": 521,
+      "pushed_at": "2026-02-08T20:57:21Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 17.2,
+      "source": "awesome-cfsh",
+      "rank": 103,
+      "category_rank": 4
     },
     {
       "repo": "peter-leonov/webhooks-proxy-tunnel",
@@ -3638,41 +3669,10 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": 17.2,
-      "source": "search",
-      "rank": 103,
-      "category_rank": 8
-    },
-    {
-      "repo": "jonesphillip/weft",
-      "slug": "weft",
-      "name": "Weft",
-      "owner": {
-        "login": "jonesphillip",
-        "avatar_url": "https://avatars.githubusercontent.com/u/7978631?s=96&u=da57bbac3916211fdc78f33f22f0c9d5206d3e1d&v=4"
-      },
-      "description": "Task board where AI agents handle your tasks, from email drafts to PRs, with approval before changes.",
-      "category": "AI agents",
-      "replaces": null,
-      "bindings": [
-        "DO",
-        "Wf"
-      ],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": false,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fjonesphillip%2Fweft",
-      "license": "Apache-2.0",
-      "stars": 517,
-      "pushed_at": "2026-02-08T20:57:21Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
       "score": 17.1,
-      "source": "awesome-cfsh",
+      "source": "search",
       "rank": 104,
-      "category_rank": 4
+      "category_rank": 8
     },
     {
       "repo": "ieax/renewhelper",
@@ -3774,6 +3774,44 @@
       "category_rank": 2
     },
     {
+      "repo": "bimsonz/keel",
+      "slug": "keel",
+      "name": "Keel",
+      "owner": {
+        "login": "bimsonz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6716652?s=96&u=ded95d3b6e2291a651f39323a24c77bf77f9de89&v=4"
+      },
+      "description": "Lets software agents propose code changes in their own git repos and merge them safely.",
+      "category": "Git & CI",
+      "replaces": null,
+      "bindings": [
+        "R2",
+        "DO",
+        "D1",
+        "Im",
+        "Q",
+        "Wf",
+        "AI",
+        "Cr",
+        "Em"
+      ],
+      "config_file": "apps/keel-verify/wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/bimsonz/keel",
+      "license": "MIT",
+      "stars": 48,
+      "pushed_at": "2026-10-15T19:52:09Z",
+      "default_branch": "main",
+      "homepage": "https://keel.town",
+      "latest_release": null,
+      "is_new": true,
+      "first_seen": "2026-10-15",
+      "score": 16.8,
+      "source": "search",
+      "rank": 108,
+      "category_rank": 3
+    },
+    {
       "repo": "baronunread/rdyrct",
       "slug": "rdyrct",
       "name": "rdyrct",
@@ -3798,7 +3836,7 @@
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/baronunread/rdyrct",
       "license": "MIT",
       "stars": 35,
-      "pushed_at": "2026-10-15T13:25:28Z",
+      "pushed_at": "2026-10-17T00:33:43Z",
       "default_branch": "main",
       "homepage": "https://rdyrct.com",
       "latest_release": {
@@ -3809,7 +3847,7 @@
       "first_seen": "2026-10-08",
       "score": 16.5,
       "source": "awesome-cfsh",
-      "rank": 108,
+      "rank": 109,
       "category_rank": 3
     },
     {
@@ -3842,9 +3880,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 16.4,
+      "score": 16.3,
       "source": "search",
-      "rank": 109,
+      "rank": 110,
       "category_rank": 10
     },
     {
@@ -3880,9 +3918,40 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 16.3,
+      "score": 16.2,
       "source": "awesome-cfsh",
-      "rank": 110,
+      "rank": 111,
+      "category_rank": 9
+    },
+    {
+      "repo": "ArnabXD/Dropbox-Index",
+      "slug": "dropbox-index",
+      "name": "Dropbox Index",
+      "owner": {
+        "login": "ArnabXD",
+        "avatar_url": "https://avatars.githubusercontent.com/u/52126165?s=96&u=1d71b4e3b59538a0a619b72b820077ec7fde11c6&v=4"
+      },
+      "description": "Browse and share a Dropbox folder as a fast public file browser with no database.",
+      "category": "Files & storage",
+      "replaces": "Dropbox's built-in shared folder viewer",
+      "bindings": [],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/ArnabXD/Dropbox-Index",
+      "license": "Apache-2.0",
+      "stars": 32,
+      "pushed_at": "2026-10-16T15:10:55Z",
+      "default_branch": "main",
+      "homepage": "https://dropx.arnabxd.me",
+      "latest_release": {
+        "tag": "v2.0.0",
+        "published_at": "2026-10-16T15:10:55Z"
+      },
+      "is_new": true,
+      "first_seen": "2026-10-17",
+      "score": 16.1,
+      "source": "search",
+      "rank": 112,
       "category_rank": 9
     },
     {
@@ -3905,8 +3974,8 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Foddbit%2Fshrtnr",
       "license": "Apache-2.0",
-      "stars": 31,
-      "pushed_at": "2026-10-14T08:22:23Z",
+      "stars": 32,
+      "pushed_at": "2026-10-16T19:18:08Z",
       "default_branch": "main",
       "homepage": "https://oddbit.id/en/projects/shrtnr",
       "latest_release": {
@@ -3915,9 +3984,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 15.9,
+      "score": 16.1,
       "source": "awesome-cfsh",
-      "rank": 111,
+      "rank": 113,
       "category_rank": 4
     },
     {
@@ -3947,9 +4016,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 15.7,
+      "score": 15.6,
       "source": "search",
-      "rank": 112,
+      "rank": 114,
       "category_rank": 6
     },
     {
@@ -3982,7 +4051,7 @@
       "first_seen": "2026-10-08",
       "score": 15.4,
       "source": "awesome-cfsh",
-      "rank": 113,
+      "rank": 115,
       "category_rank": 11
     },
     {
@@ -4017,7 +4086,7 @@
       "first_seen": "2026-10-08",
       "score": 15.3,
       "source": "awesome-cfsh",
-      "rank": 114,
+      "rank": 116,
       "category_rank": 4
     },
     {
@@ -4039,7 +4108,7 @@
       "has_deploy_button": false,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fcoda0HQ%2Fopen-artifacts",
       "license": "MIT",
-      "stars": 63,
+      "stars": 64,
       "pushed_at": "2026-09-11T01:45:09Z",
       "default_branch": "main",
       "homepage": null,
@@ -4048,45 +4117,40 @@
       "first_seen": "2026-10-08",
       "score": 15.1,
       "source": "awesome-cfsh",
-      "rank": 115,
+      "rank": 117,
       "category_rank": 5
     },
     {
-      "repo": "bimsonz/keel",
-      "slug": "keel",
-      "name": "Keel",
+      "repo": "maimai993/folia-sonnet",
+      "slug": "folia-sonnet",
+      "name": "Folia-Sonnet",
       "owner": {
-        "login": "bimsonz",
-        "avatar_url": "https://avatars.githubusercontent.com/u/6716652?s=96&u=ded95d3b6e2291a651f39323a24c77bf77f9de89&v=4"
+        "login": "maimai993",
+        "avatar_url": "https://avatars.githubusercontent.com/u/243094332?s=96&u=be6613a0fc71786ef897ab466fd357f40b0f9c01&v=4"
       },
-      "description": "Lets software agents propose code changes in their own git repos and merge them safely.",
-      "category": "Git & CI",
+      "description": "Android music player using Folia code, supports NetEase, QQ Music, and Kugou offline.",
+      "category": "Media",
       "replaces": null,
       "bindings": [
-        "R2",
-        "DO",
-        "D1",
-        "Im",
-        "Q",
-        "Wf",
-        "AI",
-        "Cr",
-        "Em"
+        "D1"
       ],
-      "config_file": "apps/keel-verify/wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/bimsonz/keel",
-      "license": "MIT",
-      "stars": 32,
-      "pushed_at": "2026-10-15T19:52:09Z",
+      "config_file": "sync-server/wrangler.toml",
+      "has_deploy_button": false,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fmaimai993%2Ffolia-sonnet",
+      "license": "AGPL-3.0",
+      "stars": 25,
+      "pushed_at": "2026-10-17T06:27:25Z",
       "default_branch": "main",
-      "homepage": "https://keel.town",
-      "latest_release": null,
+      "homepage": null,
+      "latest_release": {
+        "tag": "0.7.20",
+        "published_at": "2026-10-16T03:08:00Z"
+      },
       "is_new": true,
-      "first_seen": "2026-10-15",
+      "first_seen": "2026-10-16",
       "score": 15.1,
       "source": "search",
-      "rank": 116,
+      "rank": 118,
       "category_rank": 3
     },
     {
@@ -4117,7 +4181,7 @@
       "first_seen": "2026-10-08",
       "score": 14.9,
       "source": "awesome-cfsh",
-      "rank": 117,
+      "rank": 119,
       "category_rank": 9
     },
     {
@@ -4140,7 +4204,7 @@
       "has_deploy_button": false,
       "deploy_url": null,
       "license": "Apache-2.0",
-      "stars": 298,
+      "stars": 299,
       "pushed_at": "2026-03-16T01:25:16Z",
       "default_branch": "main",
       "homepage": null,
@@ -4149,7 +4213,7 @@
       "first_seen": "2026-10-08",
       "score": 14.8,
       "source": "awesome-cfsh",
-      "rank": 118,
+      "rank": 120,
       "category_rank": 3
     },
     {
@@ -4170,7 +4234,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/coldboy404/cf-webproxy",
       "license": "MIT",
-      "stars": 30,
+      "stars": 31,
       "pushed_at": "2026-10-12T02:23:23Z",
       "default_branch": "main",
       "homepage": null,
@@ -4179,8 +4243,70 @@
       "first_seen": "2026-10-11",
       "score": 14.6,
       "source": "search",
-      "rank": 119,
+      "rank": 121,
       "category_rank": 6
+    },
+    {
+      "repo": "Motues/Momo-Backend",
+      "slug": "momo-backend",
+      "name": "Momo",
+      "owner": {
+        "login": "Motues",
+        "avatar_url": "https://avatars.githubusercontent.com/u/164032838?s=96&u=98bfbaf4f9683c9de50fcb10fbbf2eed6d758c3c&v=4"
+      },
+      "description": "Lightweight blog comment system with nested replies, spam protection, email alerts and an admin panel.",
+      "category": "Community",
+      "replaces": "Disqus",
+      "bindings": [],
+      "config_file": "worker/wrangler.jsonc",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "MIT",
+      "stars": 22,
+      "pushed_at": "2026-10-16T13:49:38Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": {
+        "tag": "v1.7.0",
+        "published_at": "2026-10-16T13:50:53Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 14.6,
+      "source": "search",
+      "rank": 122,
+      "category_rank": 3
+    },
+    {
+      "repo": "SerenModz21/cdn-worker",
+      "slug": "cdn-worker",
+      "name": "CDN Worker",
+      "owner": {
+        "login": "SerenModz21",
+        "avatar_url": "https://avatars.githubusercontent.com/u/41450647?s=96&u=ef4a690627d18a4a94140f03ca2cc8a8c6401345&v=4"
+      },
+      "description": "A simple CDN for uploading and serving media files using Cloudflare Workers and R2.",
+      "category": "Files & storage",
+      "replaces": null,
+      "bindings": [
+        "KV",
+        "R2"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/SerenModz21/cdn-worker",
+      "license": "MIT",
+      "stars": 27,
+      "pushed_at": "2026-10-17T02:01:03Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": true,
+      "first_seen": "2026-10-12",
+      "score": 14.5,
+      "source": "search",
+      "rank": 123,
+      "category_rank": 10
     },
     {
       "repo": "TooonyChen/AuthInbox",
@@ -4207,9 +4333,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 14.4,
+      "score": 14.3,
       "source": "awesome-cfsh",
-      "rank": 120,
+      "rank": 124,
       "category_rank": 12
     },
     {
@@ -4240,9 +4366,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 14.4,
+      "score": 14.3,
       "source": "awesome-cfsh",
-      "rank": 121,
+      "rank": 125,
       "category_rank": 3
     },
     {
@@ -4274,105 +4400,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 14.4,
+      "score": 14.3,
       "source": "search",
-      "rank": 122,
+      "rank": 126,
       "category_rank": 5
-    },
-    {
-      "repo": "Motues/Momo-Backend",
-      "slug": "momo-backend",
-      "name": "Momo",
-      "owner": {
-        "login": "Motues",
-        "avatar_url": "https://avatars.githubusercontent.com/u/164032838?s=96&u=98bfbaf4f9683c9de50fcb10fbbf2eed6d758c3c&v=4"
-      },
-      "description": "Lightweight blog comment system with nested replies, spam protection, email alerts and an admin panel.",
-      "category": "Community",
-      "replaces": "Disqus",
-      "bindings": [],
-      "config_file": "worker/wrangler.jsonc",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "MIT",
-      "stars": 22,
-      "pushed_at": "2026-10-13T09:32:51Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": {
-        "tag": "v1.6.1",
-        "published_at": "2026-10-13T09:34:03Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 14.4,
-      "source": "search",
-      "rank": 123,
-      "category_rank": 3
-    },
-    {
-      "repo": "maimai993/folia-sonnet",
-      "slug": "folia-sonnet",
-      "name": "Folia-Sonnet",
-      "owner": {
-        "login": "maimai993",
-        "avatar_url": "https://avatars.githubusercontent.com/u/243094332?s=96&u=be6613a0fc71786ef897ab466fd357f40b0f9c01&v=4"
-      },
-      "description": "Android music player using Folia code, supports NetEase, QQ Music, and Kugou offline.",
-      "category": "Media",
-      "replaces": null,
-      "bindings": [
-        "D1"
-      ],
-      "config_file": "sync-server/wrangler.toml",
-      "has_deploy_button": false,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fmaimai993%2Ffolia-sonnet",
-      "license": "AGPL-3.0",
-      "stars": 20,
-      "pushed_at": "2026-10-16T06:59:21Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": {
-        "tag": "0.7.20",
-        "published_at": "2026-10-16T03:08:00Z"
-      },
-      "is_new": true,
-      "first_seen": "2026-10-16",
-      "score": 14.2,
-      "source": "search",
-      "rank": 124,
-      "category_rank": 3
-    },
-    {
-      "repo": "SerenModz21/cdn-worker",
-      "slug": "cdn-worker",
-      "name": "CDN Worker",
-      "owner": {
-        "login": "SerenModz21",
-        "avatar_url": "https://avatars.githubusercontent.com/u/41450647?s=96&u=ef4a690627d18a4a94140f03ca2cc8a8c6401345&v=4"
-      },
-      "description": "A simple CDN for uploading and serving media files using Cloudflare Workers and R2.",
-      "category": "Files & storage",
-      "replaces": null,
-      "bindings": [
-        "KV",
-        "R2"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/SerenModz21/cdn-worker",
-      "license": "MIT",
-      "stars": 27,
-      "pushed_at": "2026-10-11T21:37:23Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": true,
-      "first_seen": "2026-10-12",
-      "score": 14.1,
-      "source": "search",
-      "rank": 125,
-      "category_rank": 9
     },
     {
       "repo": "xiadd/pastebin-worker",
@@ -4402,7 +4433,7 @@
       "first_seen": "2026-10-08",
       "score": 13.8,
       "source": "search",
-      "rank": 126,
+      "rank": 127,
       "category_rank": 3
     },
     {
@@ -4432,7 +4463,7 @@
       "first_seen": "2026-10-08",
       "score": 13.8,
       "source": "awesome-cfsh",
-      "rank": 127,
+      "rank": 128,
       "category_rank": 5
     },
     {
@@ -4461,9 +4492,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 13.6,
+      "score": 13.5,
       "source": "search",
-      "rank": 128,
+      "rank": 129,
       "category_rank": 4
     },
     {
@@ -4495,9 +4526,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 13.6,
+      "score": 13.5,
       "source": "awesome-cfsh",
-      "rank": 129,
+      "rank": 130,
       "category_rank": 6
     },
     {
@@ -4532,9 +4563,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 13.6,
+      "score": 13.5,
       "source": "awesome-cfsh",
-      "rank": 130,
+      "rank": 131,
       "category_rank": 13
     },
     {
@@ -4568,43 +4599,10 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 13.5,
+      "score": 13.4,
       "source": "awesome-cfsh",
-      "rank": 131,
-      "category_rank": 14
-    },
-    {
-      "repo": "guanxi660-crypto/SubPilot",
-      "slug": "subpilot",
-      "name": "SubPilot",
-      "owner": {
-        "login": "guanxi660-crypto",
-        "avatar_url": "https://avatars.githubusercontent.com/u/284233873?s=96&v=4"
-      },
-      "description": "AI-assisted subscription manager with format conversion for proxy nodes.",
-      "category": "AI tools",
-      "replaces": null,
-      "bindings": [
-        "KV"
-      ],
-      "config_file": "apps/server/wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/guanxi660-crypto/SubPilot",
-      "license": "AGPL-3.0",
-      "stars": 18,
-      "pushed_at": "2026-10-12T17:37:41Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": {
-        "tag": "v0.1.17",
-        "published_at": "2026-10-12T16:29:09Z"
-      },
-      "is_new": true,
-      "first_seen": "2026-10-12",
-      "score": 13.5,
-      "source": "search",
       "rank": 132,
-      "category_rank": 7
+      "category_rank": 14
     },
     {
       "repo": "G4brym/email-explorer",
@@ -4626,7 +4624,7 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/G4brym/email-explorer/tree/main/template",
       "license": "MIT",
-      "stars": 165,
+      "stars": 166,
       "pushed_at": "2026-06-08T18:16:33Z",
       "default_branch": "main",
       "homepage": null,
@@ -4640,74 +4638,6 @@
       "source": "awesome-cfsh",
       "rank": 133,
       "category_rank": 15
-    },
-    {
-      "repo": "BingoWon/keyaos",
-      "slug": "keyaos",
-      "name": "Keyaos",
-      "owner": {
-        "login": "BingoWon",
-        "avatar_url": "https://avatars.githubusercontent.com/u/18252758?s=96&v=4"
-      },
-      "description": "AI API gateway that sends each request to the cheapest healthy provider across your accounts.",
-      "category": "LLM gateways",
-      "replaces": "OpenRouter",
-      "bindings": [
-        "D1",
-        "Cr"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/BingoWon/Keyaos",
-      "license": "MIT",
-      "stars": 38,
-      "pushed_at": "2026-09-02T02:44:00Z",
-      "default_branch": "main",
-      "homepage": "https://keyaos.com",
-      "latest_release": {
-        "tag": "v0.68.1",
-        "published_at": "2026-09-02T02:44:02Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 13.2,
-      "source": "search",
-      "rank": 134,
-      "category_rank": 4
-    },
-    {
-      "repo": "doable-team/heyflare",
-      "slug": "heyflare",
-      "name": "heyflare",
-      "owner": {
-        "login": "doable-team",
-        "avatar_url": "https://avatars.githubusercontent.com/u/257752671?s=96&v=4"
-      },
-      "description": "HEY-style email client with a Screener, Imbox and Feed, plus an AI agent that triages and drafts replies.",
-      "category": "Email",
-      "replaces": "HEY",
-      "bindings": [
-        "D1",
-        "Cr"
-      ],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/doable-team/heyflare",
-      "license": "MIT",
-      "stars": 29,
-      "pushed_at": "2026-09-15T17:41:57Z",
-      "default_branch": "main",
-      "homepage": "https://heyflare.email",
-      "latest_release": {
-        "tag": "v0.4.11",
-        "published_at": "2026-09-15T17:42:05Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 13.2,
-      "source": "search",
-      "rank": 135,
-      "category_rank": 16
     },
     {
       "repo": "sbmagar13/recipe-jar",
@@ -4739,8 +4669,109 @@
       "first_seen": "2026-10-08",
       "score": 13.2,
       "source": "search",
+      "rank": 134,
+      "category_rank": 4
+    },
+    {
+      "repo": "guanxi660-crypto/SubPilot",
+      "slug": "subpilot",
+      "name": "SubPilot",
+      "owner": {
+        "login": "guanxi660-crypto",
+        "avatar_url": "https://avatars.githubusercontent.com/u/284233873?s=96&v=4"
+      },
+      "description": "AI-assisted subscription manager with format conversion for proxy nodes.",
+      "category": "AI tools",
+      "replaces": null,
+      "bindings": [
+        "KV"
+      ],
+      "config_file": "apps/server/wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/guanxi660-crypto/SubPilot",
+      "license": "AGPL-3.0",
+      "stars": 17,
+      "pushed_at": "2026-10-12T17:37:41Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": {
+        "tag": "v0.1.17",
+        "published_at": "2026-10-12T16:29:09Z"
+      },
+      "is_new": true,
+      "first_seen": "2026-10-12",
+      "score": 13.2,
+      "source": "search",
+      "rank": 135,
+      "category_rank": 7
+    },
+    {
+      "repo": "BingoWon/keyaos",
+      "slug": "keyaos",
+      "name": "Keyaos",
+      "owner": {
+        "login": "BingoWon",
+        "avatar_url": "https://avatars.githubusercontent.com/u/18252758?s=96&v=4"
+      },
+      "description": "AI API gateway that sends each request to the cheapest healthy provider across your accounts.",
+      "category": "LLM gateways",
+      "replaces": "OpenRouter",
+      "bindings": [
+        "D1",
+        "Cr"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/BingoWon/Keyaos",
+      "license": "MIT",
+      "stars": 38,
+      "pushed_at": "2026-09-02T02:44:00Z",
+      "default_branch": "main",
+      "homepage": "https://keyaos.com",
+      "latest_release": {
+        "tag": "v0.68.1",
+        "published_at": "2026-09-02T02:44:02Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 13.1,
+      "source": "search",
       "rank": 136,
       "category_rank": 4
+    },
+    {
+      "repo": "doable-team/heyflare",
+      "slug": "heyflare",
+      "name": "heyflare",
+      "owner": {
+        "login": "doable-team",
+        "avatar_url": "https://avatars.githubusercontent.com/u/257752671?s=96&v=4"
+      },
+      "description": "HEY-style email client with a Screener, Imbox and Feed, plus an AI agent that triages and drafts replies.",
+      "category": "Email",
+      "replaces": "HEY",
+      "bindings": [
+        "D1",
+        "Cr"
+      ],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/doable-team/heyflare",
+      "license": "MIT",
+      "stars": 29,
+      "pushed_at": "2026-09-15T17:41:57Z",
+      "default_branch": "main",
+      "homepage": "https://heyflare.email",
+      "latest_release": {
+        "tag": "v0.4.11",
+        "published_at": "2026-09-15T17:42:05Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 13.1,
+      "source": "search",
+      "rank": 137,
+      "category_rank": 16
     },
     {
       "repo": "lino0n/cf-mail",
@@ -4770,42 +4801,8 @@
       "first_seen": "2026-10-12",
       "score": 13,
       "source": "search",
-      "rank": 137,
-      "category_rank": 6
-    },
-    {
-      "repo": "haorendashu/cfrelay",
-      "slug": "cfrelay",
-      "name": "cfrelay",
-      "owner": {
-        "login": "haorendashu",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1788875?s=96&v=4"
-      },
-      "description": "Runs your own Nostr relay with event storage, file uploads and NIP-05 identities.",
-      "category": "Chat & realtime",
-      "replaces": null,
-      "bindings": [
-        "D1",
-        "KV"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fhaorendashu%2Fcfrelay",
-      "license": "GPL-3.0",
-      "stars": 24,
-      "pushed_at": "2026-09-22T09:39:45Z",
-      "default_branch": "master",
-      "homepage": null,
-      "latest_release": {
-        "tag": "0.0.4",
-        "published_at": "2025-09-25T08:14:37Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 13,
-      "source": "search",
       "rank": 138,
-      "category_rank": 7
+      "category_rank": 6
     },
     {
       "repo": "odiak/livesync-workers",
@@ -4875,6 +4872,40 @@
       "category_rank": 8
     },
     {
+      "repo": "haorendashu/cfrelay",
+      "slug": "cfrelay",
+      "name": "cfrelay",
+      "owner": {
+        "login": "haorendashu",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1788875?s=96&v=4"
+      },
+      "description": "Runs your own Nostr relay with event storage, file uploads and NIP-05 identities.",
+      "category": "Chat & realtime",
+      "replaces": null,
+      "bindings": [
+        "D1",
+        "KV"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fhaorendashu%2Fcfrelay",
+      "license": "GPL-3.0",
+      "stars": 24,
+      "pushed_at": "2026-09-22T09:39:45Z",
+      "default_branch": "master",
+      "homepage": null,
+      "latest_release": {
+        "tag": "0.0.4",
+        "published_at": "2025-09-25T08:14:37Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 12.9,
+      "source": "search",
+      "rank": 141,
+      "category_rank": 7
+    },
+    {
       "repo": "jinqians/psm-panel",
       "slug": "psm-panel",
       "name": "PSM Panel",
@@ -4900,9 +4931,9 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": 12.7,
+      "score": 12.6,
       "source": "search",
-      "rank": 141,
+      "rank": 142,
       "category_rank": 7
     },
     {
@@ -4931,9 +4962,9 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-15",
-      "score": 12.6,
+      "score": 12.5,
       "source": "search",
-      "rank": 142,
+      "rank": 143,
       "category_rank": 7
     },
     {
@@ -4964,7 +4995,7 @@
       "first_seen": "2026-10-08",
       "score": 12.4,
       "source": "awesome-cfsh",
-      "rank": 143,
+      "rank": 144,
       "category_rank": 4
     },
     {
@@ -4994,7 +5025,7 @@
       "first_seen": "2026-10-08",
       "score": 12.2,
       "source": "awesome-cfsh",
-      "rank": 144,
+      "rank": 145,
       "category_rank": 8
     },
     {
@@ -5026,36 +5057,8 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 12.1,
+      "score": 12,
       "source": "awesome-cfsh",
-      "rank": 145,
-      "category_rank": 5
-    },
-    {
-      "repo": "EchoMusicApp/saavn-extension",
-      "slug": "saavn-extension",
-      "name": "Saavn Extension for Echo Music",
-      "owner": {
-        "login": "EchoMusicApp",
-        "avatar_url": "https://avatars.githubusercontent.com/u/258176326?s=96&v=4"
-      },
-      "description": "Lets you stream JioSaavn music at up to 320 kbps via your own Cloudflare Worker.",
-      "category": "Media",
-      "replaces": "JioSaavn",
-      "bindings": [],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/EchoMusicApp/saavn-extension",
-      "license": "MIT",
-      "stars": 16,
-      "pushed_at": "2026-10-10T22:23:07Z",
-      "default_branch": "main",
-      "homepage": "saavn.echomusic.fun",
-      "latest_release": null,
-      "is_new": true,
-      "first_seen": "2026-10-11",
-      "score": 11.9,
-      "source": "search",
       "rank": 146,
       "category_rank": 5
     },
@@ -5094,6 +5097,34 @@
       "category_rank": 8
     },
     {
+      "repo": "EchoMusicApp/saavn-extension",
+      "slug": "saavn-extension",
+      "name": "Saavn Extension for Echo Music",
+      "owner": {
+        "login": "EchoMusicApp",
+        "avatar_url": "https://avatars.githubusercontent.com/u/258176326?s=96&v=4"
+      },
+      "description": "Lets you stream JioSaavn music at up to 320 kbps via your own Cloudflare Worker.",
+      "category": "Media",
+      "replaces": "JioSaavn",
+      "bindings": [],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/EchoMusicApp/saavn-extension",
+      "license": "MIT",
+      "stars": 16,
+      "pushed_at": "2026-10-10T22:23:07Z",
+      "default_branch": "main",
+      "homepage": "saavn.echomusic.fun",
+      "latest_release": null,
+      "is_new": true,
+      "first_seen": "2026-10-11",
+      "score": 11.8,
+      "source": "search",
+      "rank": 148,
+      "category_rank": 5
+    },
+    {
       "repo": "Malith-Rukshan/telegram-card",
       "slug": "telegram-card",
       "name": "Telegram Card",
@@ -5116,38 +5147,72 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": 11.8,
+      "score": 11.7,
       "source": "search",
-      "rank": 148,
+      "rank": 149,
       "category_rank": 5
     },
     {
-      "repo": "helius-labs/helius-rpc-proxy",
-      "slug": "helius-rpc-proxy",
-      "name": "Helius RPC Proxy",
+      "repo": "jonnyparris/dodo",
+      "slug": "dodo",
+      "name": "Dodo",
       "owner": {
-        "login": "helius-labs",
-        "avatar_url": "https://avatars.githubusercontent.com/u/107892413?s=96&v=4"
+        "login": "jonnyparris",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6400000?s=96&u=94decd4d35463d03baea982d640e3e017ee00638&v=4"
       },
-      "description": "Proxy your Helius RPC calls so your API key stays hidden",
-      "category": "Developer tools",
-      "replaces": "Helius",
-      "bindings": [],
-      "config_file": "wrangler.toml",
+      "description": "Coding agent that clones your repo, writes code, runs tests and pushes branches on its own.",
+      "category": "AI agents",
+      "replaces": "Devin",
+      "bindings": [
+        "R2",
+        "DO",
+        "AI",
+        "Br",
+        "Cr"
+      ],
+      "config_file": "wrangler.jsonc",
       "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/helius-labs/helius-rpc-proxy",
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/jonnyparris/dodo",
       "license": "MIT",
-      "stars": 126,
-      "pushed_at": "2026-06-22T19:33:33Z",
+      "stars": 14,
+      "pushed_at": "2026-10-16T21:33:12Z",
       "default_branch": "main",
       "homepage": null,
       "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 11.7,
+      "source": "search",
+      "rank": 150,
+      "category_rank": 9
+    },
+    {
+      "repo": "wu529778790/img.shenzjd.com",
+      "slug": "img-shenzjd-com",
+      "name": "img.shenzjd.com",
+      "owner": {
+        "login": "wu529778790",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11481938?s=96&u=c0b533e303cf75fb5e76907fe7197387754d3399&v=4"
+      },
+      "description": "Self‑hosted image hosting with GitHub integration, auto compression, watermarks, and multi‑CDN delivery.",
+      "category": "Image hosting",
+      "replaces": "Imgur",
+      "bindings": [],
+      "config_file": null,
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/wu529778790/img.shenzjd.com",
+      "license": "MIT",
+      "stars": 13,
+      "pushed_at": "2026-10-16T12:55:29Z",
+      "default_branch": "main",
+      "homepage": "https://img.shenzjd.com",
+      "latest_release": null,
       "is_new": true,
-      "first_seen": "2026-10-15",
+      "first_seen": "2026-10-12",
       "score": 11.4,
       "source": "search",
-      "rank": 149,
-      "category_rank": 10
+      "rank": 151,
+      "category_rank": 4
     },
     {
       "repo": "jonesphillip/sharehtml",
@@ -5177,8 +5242,66 @@
       "first_seen": "2026-10-08",
       "score": 11.3,
       "source": "awesome-cfsh",
-      "rank": 150,
-      "category_rank": 9
+      "rank": 152,
+      "category_rank": 10
+    },
+    {
+      "repo": "helius-labs/helius-rpc-proxy",
+      "slug": "helius-rpc-proxy",
+      "name": "Helius RPC Proxy",
+      "owner": {
+        "login": "helius-labs",
+        "avatar_url": "https://avatars.githubusercontent.com/u/107892413?s=96&v=4"
+      },
+      "description": "Proxy your Helius RPC calls so your API key stays hidden",
+      "category": "Developer tools",
+      "replaces": "Helius",
+      "bindings": [],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/helius-labs/helius-rpc-proxy",
+      "license": "MIT",
+      "stars": 126,
+      "pushed_at": "2026-06-22T19:33:33Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": true,
+      "first_seen": "2026-10-15",
+      "score": 11.3,
+      "source": "search",
+      "rank": 153,
+      "category_rank": 10
+    },
+    {
+      "repo": "hirotomasato/tempik",
+      "slug": "tempik",
+      "name": "Tempik",
+      "owner": {
+        "login": "hirotomasato",
+        "avatar_url": "https://avatars.githubusercontent.com/u/198351389?s=96&u=fa8375d578390430f9fd423dd182e28e6c566d81&v=4"
+      },
+      "description": "Disposable inbox service on your own domain with a simple web UI.",
+      "category": "Temporary email",
+      "replaces": "Temp Mail",
+      "bindings": [
+        "D1"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": false,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fhirotomasato%2Ftempik",
+      "license": "MIT",
+      "stars": 112,
+      "pushed_at": "2026-06-26T20:55:26Z",
+      "default_branch": "main",
+      "homepage": "https://github.com/hirotomasato/tempik",
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 11.2,
+      "source": "awesome-cfsh",
+      "rank": 154,
+      "category_rank": 7
     },
     {
       "repo": "chenxuan520/roadbook",
@@ -5209,102 +5332,41 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 11.3,
+      "score": 11.2,
       "source": "search",
-      "rank": 151,
+      "rank": 155,
       "category_rank": 6
     },
     {
-      "repo": "jonnyparris/dodo",
-      "slug": "dodo",
-      "name": "Dodo",
+      "repo": "doocs/anything-md",
+      "slug": "anything-md",
+      "name": "Anything-MD",
       "owner": {
-        "login": "jonnyparris",
-        "avatar_url": "https://avatars.githubusercontent.com/u/6400000?s=96&u=94decd4d35463d03baea982d640e3e017ee00638&v=4"
+        "login": "doocs",
+        "avatar_url": "https://avatars.githubusercontent.com/u/43716716?s=96&v=4"
       },
-      "description": "Coding agent that clones your repo, writes code, runs tests and pushes branches on its own.",
-      "category": "AI agents",
-      "replaces": "Devin",
+      "description": "Turn any website URL into clean Markdown with AI.",
+      "category": "AI tools",
+      "replaces": null,
       "bindings": [
         "R2",
-        "DO",
-        "AI",
-        "Br",
-        "Cr"
+        "AI"
       ],
       "config_file": "wrangler.jsonc",
       "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/jonnyparris/dodo",
-      "license": "MIT",
-      "stars": 13,
-      "pushed_at": "2026-10-14T11:14:45Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 11.3,
-      "source": "search",
-      "rank": 152,
-      "category_rank": 10
-    },
-    {
-      "repo": "hirotomasato/tempik",
-      "slug": "tempik",
-      "name": "Tempik",
-      "owner": {
-        "login": "hirotomasato",
-        "avatar_url": "https://avatars.githubusercontent.com/u/198351389?s=96&u=fa8375d578390430f9fd423dd182e28e6c566d81&v=4"
-      },
-      "description": "Disposable inbox service on your own domain with a simple web UI.",
-      "category": "Temporary email",
-      "replaces": "Temp Mail",
-      "bindings": [
-        "D1"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": false,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fhirotomasato%2Ftempik",
-      "license": "MIT",
-      "stars": 112,
-      "pushed_at": "2026-06-26T20:55:26Z",
-      "default_branch": "main",
-      "homepage": "https://github.com/hirotomasato/tempik",
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 11.2,
-      "source": "awesome-cfsh",
-      "rank": 153,
-      "category_rank": 7
-    },
-    {
-      "repo": "wu529778790/img.shenzjd.com",
-      "slug": "img-shenzjd-com",
-      "name": "img.shenzjd.com",
-      "owner": {
-        "login": "wu529778790",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11481938?s=96&u=c0b533e303cf75fb5e76907fe7197387754d3399&v=4"
-      },
-      "description": "Self‑hosted image hosting with GitHub integration, auto compression, watermarks, and multi‑CDN delivery.",
-      "category": "Image hosting",
-      "replaces": "Imgur",
-      "bindings": [],
-      "config_file": null,
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/wu529778790/img.shenzjd.com",
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/doocs/anything-md",
       "license": "MIT",
       "stars": 12,
-      "pushed_at": "2026-10-16T07:29:51Z",
+      "pushed_at": "2026-10-17T02:42:22Z",
       "default_branch": "main",
-      "homepage": "https://img.shenzjd.com",
+      "homepage": null,
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-12",
       "score": 11.1,
       "source": "search",
-      "rank": 154,
-      "category_rank": 4
+      "rank": 156,
+      "category_rank": 9
     },
     {
       "repo": "workHMZ/r2filebox",
@@ -5339,8 +5401,38 @@
       "first_seen": "2026-10-08",
       "score": 11,
       "source": "search",
-      "rank": 155,
-      "category_rank": 10
+      "rank": 157,
+      "category_rank": 11
+    },
+    {
+      "repo": "DeH40/CloudDrop",
+      "slug": "clouddrop",
+      "name": "CloudDrop",
+      "owner": {
+        "login": "DeH40",
+        "avatar_url": "https://avatars.githubusercontent.com/u/26625570?s=96&u=72af2b9df51e4f6cce2f7c662f94e119700470fa&v=4"
+      },
+      "description": "Instant peer-to-peer file sharing with end-to-end encryption, installable as a PWA.",
+      "category": "Files & storage",
+      "replaces": "WeTransfer",
+      "bindings": [
+        "DO"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/DeH40/cloudDrop",
+      "license": "MIT",
+      "stars": 29,
+      "pushed_at": "2026-08-31T06:08:33Z",
+      "default_branch": "main",
+      "homepage": "https://cloudrop.cc",
+      "latest_release": null,
+      "is_new": true,
+      "first_seen": "2026-10-12",
+      "score": 10.8,
+      "source": "search",
+      "rank": 158,
+      "category_rank": 12
     },
     {
       "repo": "aritropaul/voom",
@@ -5372,9 +5464,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 10.9,
+      "score": 10.8,
       "source": "search",
-      "rank": 156,
+      "rank": 159,
       "category_rank": 6
     },
     {
@@ -5405,39 +5497,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 10.8,
+      "score": 10.7,
       "source": "awesome-cfsh",
-      "rank": 157,
-      "category_rank": 11
-    },
-    {
-      "repo": "DeH40/CloudDrop",
-      "slug": "clouddrop",
-      "name": "CloudDrop",
-      "owner": {
-        "login": "DeH40",
-        "avatar_url": "https://avatars.githubusercontent.com/u/26625570?s=96&u=72af2b9df51e4f6cce2f7c662f94e119700470fa&v=4"
-      },
-      "description": "Instant peer-to-peer file sharing with end-to-end encryption, installable as a PWA.",
-      "category": "Files & storage",
-      "replaces": "WeTransfer",
-      "bindings": [
-        "DO"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/DeH40/cloudDrop",
-      "license": "MIT",
-      "stars": 28,
-      "pushed_at": "2026-08-31T06:08:33Z",
-      "default_branch": "main",
-      "homepage": "https://cloudrop.cc",
-      "latest_release": null,
-      "is_new": true,
-      "first_seen": "2026-10-12",
-      "score": 10.8,
-      "source": "search",
-      "rank": 158,
+      "rank": 160,
       "category_rank": 11
     },
     {
@@ -5466,9 +5528,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 10.6,
+      "score": 10.5,
       "source": "search",
-      "rank": 159,
+      "rank": 161,
       "category_rank": 4
     },
     {
@@ -5488,7 +5550,7 @@
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/codercops/ogcops",
       "license": "MIT",
       "stars": 8,
-      "pushed_at": "2026-10-16T06:49:19Z",
+      "pushed_at": "2026-10-17T06:21:10Z",
       "default_branch": "dev",
       "homepage": "https://og.codercops.com",
       "latest_release": {
@@ -5499,7 +5561,7 @@
       "first_seen": "2026-10-15",
       "score": 10.5,
       "source": "search",
-      "rank": 160,
+      "rank": 162,
       "category_rank": 11
     },
     {
@@ -5530,10 +5592,41 @@
       },
       "is_new": true,
       "first_seen": "2026-10-14",
-      "score": 10.4,
+      "score": 10.3,
       "source": "search",
-      "rank": 161,
+      "rank": 163,
       "category_rank": 10
+    },
+    {
+      "repo": "PIKACHUIM/CFWorkerACME",
+      "slug": "cfworkeracme",
+      "name": "CertHub",
+      "owner": {
+        "login": "PIKACHUIM",
+        "avatar_url": "https://avatars.githubusercontent.com/u/40362270?s=96&u=089930719b57e87b265f5af64c8c63e7b9f11645&v=4"
+      },
+      "description": "Requests, renews and distributes SSL certificates from several CAs with a web console and API.",
+      "category": "Developer tools",
+      "replaces": null,
+      "bindings": [
+        "D1",
+        "Cr"
+      ],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": false,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FPIKACHUIM%2FCFWorkerACME",
+      "license": "GPL-3.0",
+      "stars": 101,
+      "pushed_at": "2026-05-27T11:49:26Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 10.1,
+      "source": "search",
+      "rank": 164,
+      "category_rank": 12
     },
     {
       "repo": "tbdavid2019/888wiki",
@@ -5563,9 +5656,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 10.2,
+      "score": 10.1,
       "source": "awesome-cfsh",
-      "rank": 162,
+      "rank": 165,
       "category_rank": 9
     },
     {
@@ -5594,40 +5687,42 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 10.1,
+      "score": 10,
       "source": "search",
-      "rank": 163,
+      "rank": 166,
       "category_rank": 3
     },
     {
-      "repo": "PIKACHUIM/CFWorkerACME",
-      "slug": "cfworkeracme",
-      "name": "CertHub",
+      "repo": "Potato-dev-inc/puppet-master",
+      "slug": "puppet-master",
+      "name": "Puppet Master",
       "owner": {
-        "login": "PIKACHUIM",
-        "avatar_url": "https://avatars.githubusercontent.com/u/40362270?s=96&u=089930719b57e87b265f5af64c8c63e7b9f11645&v=4"
+        "login": "Potato-dev-inc",
+        "avatar_url": "https://avatars.githubusercontent.com/u/266363152?s=96&v=4"
       },
-      "description": "Requests, renews and distributes SSL certificates from several CAs with a web console and API.",
-      "category": "Developer tools",
+      "description": "Turns coding TUIs into subagents you can control and monitor from a single orchestrator.",
+      "category": "AI agents",
       "replaces": null,
       "bindings": [
-        "D1",
-        "Cr"
+        "DO"
       ],
-      "config_file": "wrangler.jsonc",
+      "config_file": "relay/worker/wrangler.toml",
       "has_deploy_button": false,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FPIKACHUIM%2FCFWorkerACME",
-      "license": "GPL-3.0",
-      "stars": 100,
-      "pushed_at": "2026-05-27T11:49:26Z",
+      "deploy_url": null,
+      "license": "MIT",
+      "stars": 7,
+      "pushed_at": "2026-10-17T06:59:48Z",
       "default_branch": "main",
       "homepage": null,
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
+      "latest_release": {
+        "tag": "0-2-1",
+        "published_at": "2026-10-15T18:34:53Z"
+      },
+      "is_new": true,
+      "first_seen": "2026-10-16",
       "score": 10,
       "source": "search",
-      "rank": 164,
+      "rank": 167,
       "category_rank": 12
     },
     {
@@ -5656,9 +5751,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 10,
+      "score": 9.9,
       "source": "search",
-      "rank": 165,
+      "rank": 168,
       "category_rank": 5
     },
     {
@@ -5690,43 +5785,10 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 10,
+      "score": 9.9,
       "source": "awesome-cfsh",
-      "rank": 166,
+      "rank": 169,
       "category_rank": 8
-    },
-    {
-      "repo": "Potato-dev-inc/puppet-master",
-      "slug": "puppet-master",
-      "name": "Puppet Master",
-      "owner": {
-        "login": "Potato-dev-inc",
-        "avatar_url": "https://avatars.githubusercontent.com/u/266363152?s=96&v=4"
-      },
-      "description": "Turns coding TUIs into subagents you can control and monitor from a single orchestrator.",
-      "category": "AI agents",
-      "replaces": null,
-      "bindings": [
-        "DO"
-      ],
-      "config_file": "relay/worker/wrangler.toml",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "MIT",
-      "stars": 7,
-      "pushed_at": "2026-10-16T07:30:18Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": {
-        "tag": "0-2-1",
-        "published_at": "2026-10-15T18:34:53Z"
-      },
-      "is_new": true,
-      "first_seen": "2026-10-16",
-      "score": 10,
-      "source": "search",
-      "rank": 167,
-      "category_rank": 12
     },
     {
       "repo": "adysec/CForum",
@@ -5756,36 +5818,8 @@
       "first_seen": "2026-10-08",
       "score": 9.6,
       "source": "awesome-cfsh",
-      "rank": 168,
+      "rank": 170,
       "category_rank": 4
-    },
-    {
-      "repo": "xixu-me/gdrive-upload-robot",
-      "slug": "gdrive-upload-robot",
-      "name": "Google Drive Upload Robot",
-      "owner": {
-        "login": "xixu-me",
-        "avatar_url": "https://avatars.githubusercontent.com/u/109734945?s=96&u=c11b2feb58b356fe18a1e28137924e451711deac&v=4"
-      },
-      "description": "Telegram bot that automatically uploads files and photos to Google Drive.",
-      "category": "Files & storage",
-      "replaces": null,
-      "bindings": [],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/xixu-me/gdrive-upload-robot",
-      "license": "GPL-3.0",
-      "stars": 9,
-      "pushed_at": "2026-10-11T19:17:35Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": true,
-      "first_seen": "2026-10-12",
-      "score": 9.6,
-      "source": "search",
-      "rank": 169,
-      "category_rank": 12
     },
     {
       "repo": "pfstr/ownlist",
@@ -5818,8 +5852,36 @@
       "first_seen": "2026-10-08",
       "score": 9.5,
       "source": "awesome-cfsh",
-      "rank": 170,
+      "rank": 171,
       "category_rank": 17
+    },
+    {
+      "repo": "xixu-me/gdrive-upload-robot",
+      "slug": "gdrive-upload-robot",
+      "name": "Google Drive Upload Robot",
+      "owner": {
+        "login": "xixu-me",
+        "avatar_url": "https://avatars.githubusercontent.com/u/109734945?s=96&u=c11b2feb58b356fe18a1e28137924e451711deac&v=4"
+      },
+      "description": "Telegram bot that automatically uploads files and photos to Google Drive.",
+      "category": "Files & storage",
+      "replaces": null,
+      "bindings": [],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/xixu-me/gdrive-upload-robot",
+      "license": "GPL-3.0",
+      "stars": 9,
+      "pushed_at": "2026-10-11T19:17:35Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": true,
+      "first_seen": "2026-10-12",
+      "score": 9.5,
+      "source": "search",
+      "rank": 172,
+      "category_rank": 13
     },
     {
       "repo": "AkashRajpurohit/easy-gif",
@@ -5844,41 +5906,10 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": 9.5,
+      "score": 9.4,
       "source": "search",
-      "rank": 171,
+      "rank": 173,
       "category_rank": 7
-    },
-    {
-      "repo": "doocs/anything-md",
-      "slug": "anything-md",
-      "name": "Anything-MD",
-      "owner": {
-        "login": "doocs",
-        "avatar_url": "https://avatars.githubusercontent.com/u/43716716?s=96&v=4"
-      },
-      "description": "Turn any website URL into clean Markdown with AI.",
-      "category": "AI tools",
-      "replaces": null,
-      "bindings": [
-        "R2",
-        "AI"
-      ],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/doocs/anything-md",
-      "license": "MIT",
-      "stars": 12,
-      "pushed_at": "2026-09-24T04:07:49Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": true,
-      "first_seen": "2026-10-12",
-      "score": 9.3,
-      "source": "search",
-      "rank": 172,
-      "category_rank": 9
     },
     {
       "repo": "BohdanPetryshyn/formzero",
@@ -5907,7 +5938,7 @@
       "first_seen": "2026-10-08",
       "score": 9.2,
       "source": "awesome-cfsh",
-      "rank": 173,
+      "rank": 174,
       "category_rank": 11
     },
     {
@@ -5932,44 +5963,14 @@
       "has_deploy_button": true,
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/zllovesuki/git-on-cloudflare",
       "license": "MIT",
-      "stars": 80,
+      "stars": 79,
       "pushed_at": "2026-05-13T13:12:05Z",
       "default_branch": "main",
       "homepage": "https://git.limic.dev/",
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 9.1,
-      "source": "awesome-cfsh",
-      "rank": 174,
-      "category_rank": 6
-    },
-    {
-      "repo": "YuriCrystal/relay",
-      "slug": "relay",
-      "name": "Relay",
-      "owner": {
-        "login": "YuriCrystal",
-        "avatar_url": "https://avatars.githubusercontent.com/u/274573649?s=96&u=eea49eb26d190a2acea28d1b435c211deb979945&v=4"
-      },
-      "description": "Short links with cookieless click and conversion tracking, A/B splits and device or country routing.",
-      "category": "Link shorteners",
-      "replaces": "Bitly",
-      "bindings": [
-        "D1"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/YuriCrystal/relay",
-      "license": "MIT",
-      "stars": 68,
-      "pushed_at": "2026-06-24T07:03:32Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 8.9,
+      "score": 9,
       "source": "awesome-cfsh",
       "rank": 175,
       "category_rank": 6
@@ -6009,6 +6010,36 @@
       "category_rank": 3
     },
     {
+      "repo": "YuriCrystal/relay",
+      "slug": "relay",
+      "name": "Relay",
+      "owner": {
+        "login": "YuriCrystal",
+        "avatar_url": "https://avatars.githubusercontent.com/u/274573649?s=96&u=eea49eb26d190a2acea28d1b435c211deb979945&v=4"
+      },
+      "description": "Short links with cookieless click and conversion tracking, A/B splits and device or country routing.",
+      "category": "Link shorteners",
+      "replaces": "Bitly",
+      "bindings": [
+        "D1"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/YuriCrystal/relay",
+      "license": "MIT",
+      "stars": 68,
+      "pushed_at": "2026-06-24T07:03:32Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 8.8,
+      "source": "awesome-cfsh",
+      "rank": 177,
+      "category_rank": 6
+    },
+    {
       "repo": "ddyy/minvoice",
       "slug": "minvoice",
       "name": "Minvoice",
@@ -6035,9 +6066,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 8.6,
+      "score": 8.5,
       "source": "awesome-cfsh",
-      "rank": 177,
+      "rank": 178,
       "category_rank": 4
     },
     {
@@ -6067,7 +6098,7 @@
       "first_seen": "2026-10-08",
       "score": 8.2,
       "source": "awesome-cfsh",
-      "rank": 178,
+      "rank": 179,
       "category_rank": 13
     },
     {
@@ -6097,9 +6128,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 8.1,
+      "score": 8,
       "source": "search",
-      "rank": 179,
+      "rank": 180,
       "category_rank": 8
     },
     {
@@ -6125,9 +6156,9 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": 8.1,
+      "score": 8,
       "source": "search",
-      "rank": 180,
+      "rank": 181,
       "category_rank": 10
     },
     {
@@ -6161,9 +6192,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 8.1,
+      "score": 8,
       "source": "search",
-      "rank": 181,
+      "rank": 182,
       "category_rank": 6
     },
     {
@@ -6189,7 +6220,7 @@
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/gmitch215/nuxtpress",
       "license": "MIT",
       "stars": 4,
-      "pushed_at": "2026-10-16T06:19:40Z",
+      "pushed_at": "2026-10-16T09:52:38Z",
       "default_branch": "master",
       "homepage": null,
       "latest_release": {
@@ -6198,9 +6229,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 8,
+      "score": 7.9,
       "source": "search",
-      "rank": 182,
+      "rank": 183,
       "category_rank": 8
     },
     {
@@ -6235,8 +6266,40 @@
       "first_seen": "2026-10-15",
       "score": 7.9,
       "source": "search",
-      "rank": 183,
+      "rank": 184,
       "category_rank": 10
+    },
+    {
+      "repo": "dcarrillo/atalaya",
+      "slug": "atalaya",
+      "name": "Atalaya",
+      "owner": {
+        "login": "dcarrillo",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3788185?s=96&u=474ba5f21d802eb056518ef74553284964c80e24&v=4"
+      },
+      "description": "Uptime monitor with checks from multiple regions and a public status page.",
+      "category": "Status pages",
+      "replaces": "UptimeRobot",
+      "bindings": [
+        "D1",
+        "DO",
+        "Cr"
+      ],
+      "config_file": "wrangler.example.toml",
+      "has_deploy_button": false,
+      "deploy_url": null,
+      "license": "Apache-2.0",
+      "stars": 5,
+      "pushed_at": "2026-10-17T00:23:28Z",
+      "default_branch": "main",
+      "homepage": "https://atalaya-docs.dcarrillo.es",
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 7.8,
+      "source": "awesome-cfsh",
+      "rank": 185,
+      "category_rank": 7
     },
     {
       "repo": "kclejeune/nimbus",
@@ -6270,9 +6333,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 7.8,
+      "score": 7.7,
       "source": "search",
-      "rank": 184,
+      "rank": 186,
       "category_rank": 7
     },
     {
@@ -6302,38 +6365,10 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 7.6,
+      "score": 7.5,
       "source": "search",
-      "rank": 185,
+      "rank": 187,
       "category_rank": 11
-    },
-    {
-      "repo": "Aethersailor/cf-shortlink-worker",
-      "slug": "cf-shortlink-worker",
-      "name": "cf-shortlink-worker",
-      "owner": {
-        "login": "Aethersailor",
-        "avatar_url": "https://avatars.githubusercontent.com/u/22260104?s=96&u=68938b895cba5ae180eaa553278e24c4a52a8a40&v=4"
-      },
-      "description": "Turn any long URL into a short, shareable link with a beautiful, private UI.",
-      "category": "Link shorteners",
-      "replaces": "Bitly",
-      "bindings": [],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/Aethersailor/cf-shortlink-worker",
-      "license": "AGPL-3.0",
-      "stars": 5,
-      "pushed_at": "2026-10-13T16:01:09Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": true,
-      "first_seen": "2026-10-12",
-      "score": 7.6,
-      "source": "search",
-      "rank": 186,
-      "category_rank": 7
     },
     {
       "repo": "acoyfellow/lookout",
@@ -6362,40 +6397,99 @@
       "first_seen": "2026-10-15",
       "score": 7.5,
       "source": "search",
-      "rank": 187,
+      "rank": 188,
       "category_rank": 8
     },
     {
-      "repo": "dcarrillo/atalaya",
-      "slug": "atalaya",
-      "name": "Atalaya",
+      "repo": "Aethersailor/cf-shortlink-worker",
+      "slug": "cf-shortlink-worker",
+      "name": "cf-shortlink-worker",
       "owner": {
-        "login": "dcarrillo",
-        "avatar_url": "https://avatars.githubusercontent.com/u/3788185?s=96&u=474ba5f21d802eb056518ef74553284964c80e24&v=4"
+        "login": "Aethersailor",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22260104?s=96&u=68938b895cba5ae180eaa553278e24c4a52a8a40&v=4"
       },
-      "description": "Uptime monitor with checks from multiple regions and a public status page.",
-      "category": "Status pages",
-      "replaces": "UptimeRobot",
+      "description": "Turn any long URL into a short, shareable link with a beautiful, private UI.",
+      "category": "Link shorteners",
+      "replaces": "Bitly",
+      "bindings": [],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/Aethersailor/cf-shortlink-worker",
+      "license": "AGPL-3.0",
+      "stars": 5,
+      "pushed_at": "2026-10-13T16:01:09Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": true,
+      "first_seen": "2026-10-12",
+      "score": 7.5,
+      "source": "search",
+      "rank": 189,
+      "category_rank": 7
+    },
+    {
+      "repo": "ascorbic/tack",
+      "slug": "tack",
+      "name": "Tack",
+      "owner": {
+        "login": "ascorbic",
+        "avatar_url": "https://avatars.githubusercontent.com/u/213306?s=96&u=82654af51549dc9ed1544157a9f879b89e7b1d48&v=4"
+      },
+      "description": "Collaborative whiteboard that syncs GitHub issues and PRs for planning.",
+      "category": "Notes",
+      "replaces": "Miro",
       "bindings": [
-        "D1",
         "DO",
+        "AI",
         "Cr"
       ],
-      "config_file": "wrangler.example.toml",
-      "has_deploy_button": false,
-      "deploy_url": null,
-      "license": "Apache-2.0",
-      "stars": 5,
-      "pushed_at": "2026-10-11T17:20:44Z",
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/ascorbic/tack",
+      "license": "MIT",
+      "stars": 4,
+      "pushed_at": "2026-10-16T12:13:05Z",
       "default_branch": "main",
-      "homepage": "https://atalaya-docs.dcarrillo.es",
+      "homepage": "https://tack.social/",
+      "latest_release": null,
+      "is_new": true,
+      "first_seen": "2026-10-17",
+      "score": 6.9,
+      "source": "search",
+      "rank": 190,
+      "category_rank": 11
+    },
+    {
+      "repo": "Bangkah/Bangk-Shield",
+      "slug": "bangk-shield",
+      "name": "Bangk-Shield",
+      "owner": {
+        "login": "Bangkah",
+        "avatar_url": "https://avatars.githubusercontent.com/u/141197600?s=96&u=9e00bf29d6b0988c6ac65e1c201f206c4d6f517b&v=4"
+      },
+      "description": "Detects and deceives attackers with fake responses and logs",
+      "category": "Auth & security",
+      "replaces": "ModSecurity",
+      "bindings": [
+        "KV",
+        "AE"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/Bangkah/Bangk-Shield",
+      "license": "Apache-2.0",
+      "stars": 4,
+      "pushed_at": "2026-10-16T16:16:48Z",
+      "default_branch": "main",
+      "homepage": null,
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 7.4,
-      "source": "awesome-cfsh",
-      "rank": 188,
-      "category_rank": 7
+      "score": 6.9,
+      "source": "search",
+      "rank": 191,
+      "category_rank": 4
     },
     {
       "repo": "CaoMeiYouRen/cookie-cloudflare",
@@ -6425,9 +6519,9 @@
       },
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": 6.9,
+      "score": 6.8,
       "source": "search",
-      "rank": 189,
+      "rank": 192,
       "category_rank": 9
     },
     {
@@ -6459,39 +6553,8 @@
       "first_seen": "2026-10-08",
       "score": 6.8,
       "source": "search",
-      "rank": 190,
+      "rank": 193,
       "category_rank": 3
-    },
-    {
-      "repo": "scttcper/SESnoop",
-      "slug": "sesnoop",
-      "name": "SESnoop",
-      "owner": {
-        "login": "scttcper",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1400464?s=96&u=55a2d1a4fe7583b24718c9d11af43d400e233ea6&v=4"
-      },
-      "description": "Track Amazon SES delivery events, bounces, opens, clicks, and more in a searchable dashboard.",
-      "category": "Analytics",
-      "replaces": "Amazon SES event monitoring",
-      "bindings": [
-        "D1",
-        "Cr"
-      ],
-      "config_file": "wrangler.jsonc",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/scttcper/SESnoop",
-      "license": "MIT",
-      "stars": 4,
-      "pushed_at": "2026-10-14T04:17:55Z",
-      "default_branch": "master",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": true,
-      "first_seen": "2026-10-12",
-      "score": 6.8,
-      "source": "search",
-      "rank": 191,
-      "category_rank": 6
     },
     {
       "repo": "ayagmar/repo-pulse",
@@ -6524,8 +6587,39 @@
       "first_seen": "2026-10-14",
       "score": 6.8,
       "source": "search",
-      "rank": 192,
+      "rank": 194,
       "category_rank": 4
+    },
+    {
+      "repo": "scttcper/SESnoop",
+      "slug": "sesnoop",
+      "name": "SESnoop",
+      "owner": {
+        "login": "scttcper",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1400464?s=96&u=55a2d1a4fe7583b24718c9d11af43d400e233ea6&v=4"
+      },
+      "description": "Track Amazon SES delivery events, bounces, opens, clicks, and more in a searchable dashboard.",
+      "category": "Analytics",
+      "replaces": "Amazon SES event monitoring",
+      "bindings": [
+        "D1",
+        "Cr"
+      ],
+      "config_file": "wrangler.jsonc",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/scttcper/SESnoop",
+      "license": "MIT",
+      "stars": 4,
+      "pushed_at": "2026-10-14T04:17:55Z",
+      "default_branch": "master",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": true,
+      "first_seen": "2026-10-12",
+      "score": 6.7,
+      "source": "search",
+      "rank": 195,
+      "category_rank": 6
     },
     {
       "repo": "abloom25/Meliora",
@@ -6553,10 +6647,38 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 6.7,
+      "score": 6.6,
       "source": "search",
-      "rank": 193,
+      "rank": 196,
       "category_rank": 8
+    },
+    {
+      "repo": "Raincarnator/VoiceCafe-TTS",
+      "slug": "voicecafe-tts",
+      "name": "VoiceCafe TTS",
+      "owner": {
+        "login": "Raincarnator",
+        "avatar_url": "https://avatars.githubusercontent.com/u/54988669?s=96&u=dc9234053c79fb51c5f6943f12c6987c3b863fe2&v=4"
+      },
+      "description": "Web app for text-to-speech with 650+ voices plus speech-to-text transcription.",
+      "category": "AI tools",
+      "replaces": "ElevenLabs",
+      "bindings": [],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/Raincarnator/VoiceCafe-TTS",
+      "license": "MIT",
+      "stars": 14,
+      "pushed_at": "2026-08-15T09:58:16Z",
+      "default_branch": "main",
+      "homepage": "https://tts.reincarnatey.net/",
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 6.5,
+      "source": "search",
+      "rank": 197,
+      "category_rank": 12
     },
     {
       "repo": "wusaki0723/mi-health-mcp",
@@ -6583,38 +6705,10 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-15",
-      "score": 6.5,
+      "score": 6.4,
       "source": "search",
-      "rank": 194,
+      "rank": 198,
       "category_rank": 7
-    },
-    {
-      "repo": "Raincarnator/VoiceCafe-TTS",
-      "slug": "voicecafe-tts",
-      "name": "VoiceCafe TTS",
-      "owner": {
-        "login": "Raincarnator",
-        "avatar_url": "https://avatars.githubusercontent.com/u/54988669?s=96&u=dc9234053c79fb51c5f6943f12c6987c3b863fe2&v=4"
-      },
-      "description": "Web app for text-to-speech with 650+ voices plus speech-to-text transcription.",
-      "category": "AI tools",
-      "replaces": "ElevenLabs",
-      "bindings": [],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/Raincarnator/VoiceCafe-TTS",
-      "license": "MIT",
-      "stars": 13,
-      "pushed_at": "2026-08-15T09:58:16Z",
-      "default_branch": "main",
-      "homepage": "https://tts.reincarnatey.net/",
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 6.3,
-      "source": "search",
-      "rank": 195,
-      "category_rank": 12
     },
     {
       "repo": "jim60105/worker-your-ip",
@@ -6639,9 +6733,9 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": 6.3,
+      "score": 6.2,
       "source": "search",
-      "rank": 196,
+      "rank": 199,
       "category_rank": 14
     },
     {
@@ -6671,8 +6765,44 @@
       "first_seen": "2026-10-08",
       "score": 6.1,
       "source": "awesome-cfsh",
-      "rank": 197,
+      "rank": 200,
       "category_rank": 5
+    },
+    {
+      "repo": "xusteve/MonitorFlare",
+      "slug": "monitorflare",
+      "name": "MonitorFlare",
+      "owner": {
+        "login": "xusteve",
+        "avatar_url": "https://avatars.githubusercontent.com/u/66538766?s=96&u=1d40b99807b238a59cb5cbdc53e8ae21df8ec301&v=4"
+      },
+      "description": "Free uptime monitoring with alerts on 9 channels and a public status page.",
+      "category": "Status pages",
+      "replaces": "UptimeRobot",
+      "bindings": [
+        "KV",
+        "R2",
+        "D1",
+        "Cr"
+      ],
+      "config_file": "deployer/wrangler.example.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/xusteve/MonitorFlare",
+      "license": "MIT",
+      "stars": 9,
+      "pushed_at": "2026-08-19T09:06:19Z",
+      "default_branch": "main",
+      "homepage": "https://monitorflare.csr.plus/",
+      "latest_release": {
+        "tag": "v1.1.0",
+        "published_at": "2026-08-18T13:15:33Z"
+      },
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 6.1,
+      "source": "search",
+      "rank": 201,
+      "category_rank": 8
     },
     {
       "repo": "jezweb/flaredraw",
@@ -6702,10 +6832,10 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 6.1,
+      "score": 6,
       "source": "search",
-      "rank": 198,
-      "category_rank": 11
+      "rank": 202,
+      "category_rank": 12
     },
     {
       "repo": "HowardZlh/usage-guard-collector",
@@ -6727,7 +6857,7 @@
       "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/HowardZlh/usage-guard-collector",
       "license": "MIT",
       "stars": 3,
-      "pushed_at": "2026-10-15T08:36:53Z",
+      "pushed_at": "2026-10-16T08:31:28Z",
       "default_branch": "main",
       "homepage": "https://guushu.com/notes/cloudflare-bill-incidents-2026/",
       "latest_release": null,
@@ -6735,7 +6865,7 @@
       "first_seen": "2026-10-08",
       "score": 5.9,
       "source": "awesome-cfsh",
-      "rank": 199,
+      "rank": 203,
       "category_rank": 15
     },
     {
@@ -6769,43 +6899,7 @@
       "first_seen": "2026-10-08",
       "score": 5.8,
       "source": "search",
-      "rank": 200,
-      "category_rank": 8
-    },
-    {
-      "repo": "xusteve/MonitorFlare",
-      "slug": "monitorflare",
-      "name": "MonitorFlare",
-      "owner": {
-        "login": "xusteve",
-        "avatar_url": "https://avatars.githubusercontent.com/u/66538766?s=96&u=1d40b99807b238a59cb5cbdc53e8ae21df8ec301&v=4"
-      },
-      "description": "Free uptime monitoring with alerts on 9 channels and a public status page.",
-      "category": "Status pages",
-      "replaces": "UptimeRobot",
-      "bindings": [
-        "KV",
-        "R2",
-        "D1",
-        "Cr"
-      ],
-      "config_file": "deployer/wrangler.example.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/xusteve/MonitorFlare",
-      "license": "MIT",
-      "stars": 8,
-      "pushed_at": "2026-08-19T09:06:19Z",
-      "default_branch": "main",
-      "homepage": "https://monitorflare.csr.plus/",
-      "latest_release": {
-        "tag": "v1.1.0",
-        "published_at": "2026-08-18T13:15:33Z"
-      },
-      "is_new": false,
-      "first_seen": "2026-10-08",
-      "score": 5.7,
-      "source": "search",
-      "rank": 201,
+      "rank": 204,
       "category_rank": 9
     },
     {
@@ -6834,10 +6928,10 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-11",
-      "score": 5.7,
+      "score": 5.6,
       "source": "search",
-      "rank": 202,
-      "category_rank": 13
+      "rank": 205,
+      "category_rank": 14
     },
     {
       "repo": "bitoceango/civideo",
@@ -6868,9 +6962,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 5.3,
+      "score": 5.2,
       "source": "awesome-cfsh",
-      "rank": 203,
+      "rank": 206,
       "category_rank": 9
     },
     {
@@ -6899,10 +6993,38 @@
       },
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": 5.2,
+      "score": 5.1,
       "source": "search",
-      "rank": 204,
-      "category_rank": 12
+      "rank": 207,
+      "category_rank": 13
+    },
+    {
+      "repo": "iamwarning/cloudflare-worker-jorgel",
+      "slug": "cloudflare-worker-jorgel",
+      "name": "Cloudflare Worker",
+      "owner": {
+        "login": "iamwarning",
+        "avatar_url": "https://avatars.githubusercontent.com/u/39869576?s=96&u=ff5241a745f2eb010f4dbdf71bc2a158bc2f80a9&v=4"
+      },
+      "description": "Logs incoming Cloudflare Worker requests and responses to Logtail",
+      "category": "Developer tools",
+      "replaces": null,
+      "bindings": [],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/iamwarning/cloudflare-worker-jorgel",
+      "license": "MIT",
+      "stars": 3,
+      "pushed_at": "2026-10-05T21:13:55Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 5.1,
+      "source": "search",
+      "rank": 208,
+      "category_rank": 16
     },
     {
       "repo": "shrinathsnayak/cloudflare-experiments",
@@ -6932,7 +7054,7 @@
       "first_seen": "2026-10-16",
       "score": 5.1,
       "source": "search",
-      "rank": 205,
+      "rank": 209,
       "category_rank": 13
     },
     {
@@ -6961,9 +7083,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 4.9,
+      "score": 4.8,
       "source": "search",
-      "rank": 206,
+      "rank": 210,
       "category_rank": 13
     },
     {
@@ -6994,7 +7116,7 @@
       "first_seen": "2026-10-08",
       "score": 4.6,
       "source": "search",
-      "rank": 207,
+      "rank": 211,
       "category_rank": 10
     },
     {
@@ -7024,7 +7146,7 @@
       "first_seen": "2026-10-08",
       "score": 4.5,
       "source": "search",
-      "rank": 208,
+      "rank": 212,
       "category_rank": 9
     },
     {
@@ -7054,9 +7176,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 4.5,
+      "score": 4.4,
       "source": "awesome-cfsh",
-      "rank": 209,
+      "rank": 213,
       "category_rank": 10
     },
     {
@@ -7082,10 +7204,10 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 4,
+      "score": 3.9,
       "source": "search",
-      "rank": 210,
-      "category_rank": 16
+      "rank": 214,
+      "category_rank": 17
     },
     {
       "repo": "bugwz/AIMeter",
@@ -7117,7 +7239,7 @@
       "first_seen": "2026-10-08",
       "score": 3.8,
       "source": "search",
-      "rank": 211,
+      "rank": 215,
       "category_rank": 5
     },
     {
@@ -7149,9 +7271,9 @@
       },
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": 3.7,
+      "score": 3.6,
       "source": "search",
-      "rank": 212,
+      "rank": 216,
       "category_rank": 9
     },
     {
@@ -7184,9 +7306,9 @@
       },
       "is_new": true,
       "first_seen": "2026-10-15",
-      "score": 3.7,
+      "score": 3.6,
       "source": "search",
-      "rank": 213,
+      "rank": 217,
       "category_rank": 7
     },
     {
@@ -7216,7 +7338,7 @@
       "first_seen": "2026-10-08",
       "score": 3.4,
       "source": "search",
-      "rank": 214,
+      "rank": 218,
       "category_rank": 6
     },
     {
@@ -7251,8 +7373,8 @@
       "first_seen": "2026-10-15",
       "score": 3.4,
       "source": "search",
-      "rank": 215,
-      "category_rank": 13
+      "rank": 219,
+      "category_rank": 14
     },
     {
       "repo": "Syntax-Error-1337/Open-Temp-Mail",
@@ -7285,7 +7407,7 @@
       "first_seen": "2026-10-08",
       "score": 3.3,
       "source": "search",
-      "rank": 216,
+      "rank": 220,
       "category_rank": 10
     },
     {
@@ -7311,9 +7433,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 3.1,
+      "score": 3,
       "source": "search",
-      "rank": 217,
+      "rank": 221,
       "category_rank": 14
     },
     {
@@ -7341,9 +7463,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 3,
+      "score": 2.9,
       "source": "search",
-      "rank": 218,
+      "rank": 222,
       "category_rank": 8
     },
     {
@@ -7374,7 +7496,7 @@
       "first_seen": "2026-10-15",
       "score": 2.8,
       "source": "search",
-      "rank": 219,
+      "rank": 223,
       "category_rank": 14
     },
     {
@@ -7407,7 +7529,7 @@
       "first_seen": "2026-10-12",
       "score": 2.8,
       "source": "search",
-      "rank": 220,
+      "rank": 224,
       "category_rank": 15
     },
     {
@@ -7438,7 +7560,7 @@
       "first_seen": "2026-10-08",
       "score": 2.8,
       "source": "awesome-cfsh",
-      "rank": 221,
+      "rank": 225,
       "category_rank": 5
     },
     {
@@ -7473,9 +7595,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 2.7,
+      "score": 2.6,
       "source": "search",
-      "rank": 222,
+      "rank": 226,
       "category_rank": 15
     },
     {
@@ -7505,7 +7627,7 @@
       "first_seen": "2026-10-12",
       "score": 2.3,
       "source": "search",
-      "rank": 223,
+      "rank": 227,
       "category_rank": 16
     },
     {
@@ -7537,9 +7659,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 1.9,
+      "score": 1.8,
       "source": "search",
-      "rank": 224,
+      "rank": 228,
       "category_rank": 7
     },
     {
@@ -7565,11 +7687,11 @@
       "default_branch": "main",
       "homepage": "https://t.me/cdc_voucherbot",
       "latest_release": null,
-      "is_new": true,
+      "is_new": false,
       "first_seen": "2026-10-10",
-      "score": 1.8,
+      "score": 1.7,
       "source": "search",
-      "rank": 225,
+      "rank": 229,
       "category_rank": 9
     },
     {
@@ -7603,7 +7725,7 @@
       "first_seen": "2026-10-08",
       "score": 1.5,
       "source": "search",
-      "rank": 226,
+      "rank": 230,
       "category_rank": 8
     },
     {
@@ -7632,10 +7754,68 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 1.3,
+      "score": 1.2,
       "source": "search",
-      "rank": 227,
+      "rank": 231,
       "category_rank": 10
+    },
+    {
+      "repo": "lza6/freegen-2api-cfwork",
+      "slug": "freegen-2api-cfwork",
+      "name": "FreeGen-2API",
+      "owner": {
+        "login": "lza6",
+        "avatar_url": "https://avatars.githubusercontent.com/u/128880206?s=96&u=2318dbc0e4ed8758b338ad16b907a40a549b2b89&v=4"
+      },
+      "description": "Wraps FreeGen as an OpenAI-compatible API for AI image generation, with a stylish WebUI.",
+      "category": "AI tools",
+      "replaces": "OpenAI API",
+      "bindings": [],
+      "config_file": null,
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/lza6/freegen-2api-cfwork",
+      "license": "Apache-2.0",
+      "stars": 12,
+      "pushed_at": "2026-04-22T21:46:45Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-09",
+      "score": 1.1,
+      "source": "search",
+      "rank": 232,
+      "category_rank": 17
+    },
+    {
+      "repo": "tanaer/Telegram_MirroTalk",
+      "slug": "telegram-mirrotalk",
+      "name": "Telegram MirroTalk",
+      "owner": {
+        "login": "tanaer",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3828685?s=96&v=4"
+      },
+      "description": "Telegram bot that relays messages between users and you, with spam filters and captchas.",
+      "category": "Chat & realtime",
+      "replaces": null,
+      "bindings": [
+        "KV"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/tanaer/Telegram_MirroTalk",
+      "license": "MIT",
+      "stars": 12,
+      "pushed_at": "2026-03-11T11:40:31Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-08",
+      "score": 1.1,
+      "source": "search",
+      "rank": 233,
+      "category_rank": 9
     },
     {
       "repo": "clarkhacks/RdRx",
@@ -7668,9 +7848,9 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 1.2,
+      "score": 1.1,
       "source": "search",
-      "rank": 228,
+      "rank": 234,
       "category_rank": 8
     },
     {
@@ -7703,68 +7883,38 @@
       },
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 1.2,
+      "score": 1.1,
       "source": "search",
-      "rank": 229,
+      "rank": 235,
       "category_rank": 11
     },
     {
-      "repo": "lza6/freegen-2api-cfwork",
-      "slug": "freegen-2api-cfwork",
-      "name": "FreeGen-2API",
+      "repo": "akopachov/telegram2rss",
+      "slug": "telegram2rss",
+      "name": "Telegram to RSS",
       "owner": {
-        "login": "lza6",
-        "avatar_url": "https://avatars.githubusercontent.com/u/128880206?s=96&u=2318dbc0e4ed8758b338ad16b907a40a549b2b89&v=4"
+        "login": "akopachov",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1217426?s=96&u=297db3a20fe627a62f7b9f2a2da8c39243eccf43&v=4"
       },
-      "description": "Wraps FreeGen as an OpenAI-compatible API for AI image generation, with a stylish WebUI.",
-      "category": "AI tools",
-      "replaces": "OpenAI API",
+      "description": "Follow any public Telegram channel as an RSS feed, no account needed.",
+      "category": "RSS & reading",
+      "replaces": "RSS.app",
       "bindings": [],
-      "config_file": null,
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/lza6/freegen-2api-cfwork",
-      "license": "Apache-2.0",
-      "stars": 12,
-      "pushed_at": "2026-04-22T21:46:45Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-09",
-      "score": 1.1,
-      "source": "search",
-      "rank": 230,
-      "category_rank": 17
-    },
-    {
-      "repo": "tanaer/Telegram_MirroTalk",
-      "slug": "telegram-mirrotalk",
-      "name": "Telegram MirroTalk",
-      "owner": {
-        "login": "tanaer",
-        "avatar_url": "https://avatars.githubusercontent.com/u/3828685?s=96&v=4"
-      },
-      "description": "Telegram bot that relays messages between users and you, with spam filters and captchas.",
-      "category": "Chat & realtime",
-      "replaces": null,
-      "bindings": [
-        "KV"
-      ],
       "config_file": "wrangler.toml",
       "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/tanaer/Telegram_MirroTalk",
-      "license": "MIT",
-      "stars": 12,
-      "pushed_at": "2026-03-11T11:40:31Z",
-      "default_branch": "main",
-      "homepage": null,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/akopachov/telegram2rss",
+      "license": "GPL-3.0",
+      "stars": 11,
+      "pushed_at": "2025-12-04T15:25:52Z",
+      "default_branch": "master",
+      "homepage": "https://deploy-your.own",
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 1.1,
+      "score": 0.8,
       "source": "search",
-      "rank": 231,
-      "category_rank": 9
+      "rank": 236,
+      "category_rank": 4
     },
     {
       "repo": "angristan/meridian",
@@ -7795,38 +7945,10 @@
       },
       "is_new": true,
       "first_seen": "2026-10-15",
-      "score": 0.9,
-      "source": "search",
-      "rank": 232,
-      "category_rank": 14
-    },
-    {
-      "repo": "akopachov/telegram2rss",
-      "slug": "telegram2rss",
-      "name": "Telegram to RSS",
-      "owner": {
-        "login": "akopachov",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1217426?s=96&u=297db3a20fe627a62f7b9f2a2da8c39243eccf43&v=4"
-      },
-      "description": "Follow any public Telegram channel as an RSS feed, no account needed.",
-      "category": "RSS & reading",
-      "replaces": "RSS.app",
-      "bindings": [],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/akopachov/telegram2rss",
-      "license": "GPL-3.0",
-      "stars": 11,
-      "pushed_at": "2025-12-04T15:25:52Z",
-      "default_branch": "master",
-      "homepage": "https://deploy-your.own",
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-08",
       "score": 0.8,
       "source": "search",
-      "rank": 233,
-      "category_rank": 4
+      "rank": 237,
+      "category_rank": 15
     },
     {
       "repo": "junioralive/nudge",
@@ -7834,7 +7956,7 @@
       "name": "Nudge",
       "owner": {
         "login": "junioralive",
-        "avatar_url": "https://avatars.githubusercontent.com/u/54473944?s=96&u=ef274968c81801dffaeba80fe0fd8ed0930e155d&v=4"
+        "avatar_url": "https://avatars.githubusercontent.com/u/54473944?s=96&u=f54bf7ce85dc6f9f2e36ffbb9f7fc2f86a9724d7&v=4"
       },
       "description": "Your private AI assistant for tasks, memory, and follow‑ups.",
       "category": "AI tools",
@@ -7857,9 +7979,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": 0.7,
+      "score": 0.6,
       "source": "search",
-      "rank": 234,
+      "rank": 238,
       "category_rank": 18
     },
     {
@@ -7892,7 +8014,7 @@
       "first_seen": "2026-10-08",
       "score": 0.4,
       "source": "search",
-      "rank": 235,
+      "rank": 239,
       "category_rank": 4
     },
     {
@@ -7922,7 +8044,7 @@
       "first_seen": "2026-10-12",
       "score": 0,
       "source": "search",
-      "rank": 236,
+      "rank": 240,
       "category_rank": 10
     },
     {
@@ -7950,7 +8072,7 @@
       "first_seen": "2026-10-12",
       "score": 0,
       "source": "search",
-      "rank": 237,
+      "rank": 241,
       "category_rank": 6
     },
     {
@@ -7976,9 +8098,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": -0.1,
+      "score": -0.2,
       "source": "search",
-      "rank": 238,
+      "rank": 242,
       "category_rank": 11
     },
     {
@@ -8009,7 +8131,7 @@
       "first_seen": "2026-10-08",
       "score": -0.5,
       "source": "search",
-      "rank": 239,
+      "rank": 243,
       "category_rank": 10
     },
     {
@@ -8037,7 +8159,7 @@
       "first_seen": "2026-10-12",
       "score": -0.5,
       "source": "search",
-      "rank": 240,
+      "rank": 244,
       "category_rank": 10
     },
     {
@@ -8063,9 +8185,9 @@
       "latest_release": null,
       "is_new": false,
       "first_seen": "2026-10-08",
-      "score": -0.6,
+      "score": -0.7,
       "source": "search",
-      "rank": 241,
+      "rank": 245,
       "category_rank": 19
     },
     {
@@ -8098,7 +8220,7 @@
       "first_seen": "2026-10-08",
       "score": -1.2,
       "source": "search",
-      "rank": 242,
+      "rank": 246,
       "category_rank": 11
     },
     {
@@ -8132,7 +8254,7 @@
       "first_seen": "2026-10-08",
       "score": -1.5,
       "source": "search",
-      "rank": 243,
+      "rank": 247,
       "category_rank": 12
     },
     {
@@ -8160,9 +8282,9 @@
       "latest_release": null,
       "is_new": true,
       "first_seen": "2026-10-12",
-      "score": -1.7,
+      "score": -1.8,
       "source": "search",
-      "rank": 244,
+      "rank": 248,
       "category_rank": 12
     },
     {
@@ -8192,8 +8314,8 @@
       "first_seen": "2026-10-08",
       "score": -2.2,
       "source": "search",
-      "rank": 245,
-      "category_rank": 17
+      "rank": 249,
+      "category_rank": 18
     },
     {
       "repo": "acoyfellow/swarm",
@@ -8223,7 +8345,7 @@
       "first_seen": "2026-10-12",
       "score": -3,
       "source": "search",
-      "rank": 246,
+      "rank": 250,
       "category_rank": 16
     },
     {
@@ -8251,8 +8373,38 @@
       "first_seen": "2026-10-08",
       "score": -3,
       "source": "search",
-      "rank": 247,
+      "rank": 251,
       "category_rank": 12
+    },
+    {
+      "repo": "Soul-Brews-Studio/webhook-relay-oss",
+      "slug": "webhook-relay-oss",
+      "name": "Webhook Relay",
+      "owner": {
+        "login": "Soul-Brews-Studio",
+        "avatar_url": "https://avatars.githubusercontent.com/u/236152394?s=96&v=4"
+      },
+      "description": "Receive, store, and forward webhooks with a dashboard built on Cloudflare Workers + D1",
+      "category": "Analytics",
+      "replaces": null,
+      "bindings": [
+        "D1"
+      ],
+      "config_file": "wrangler.toml",
+      "has_deploy_button": true,
+      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/Soul-Brews-Studio/webhook-relay-oss",
+      "license": "MIT",
+      "stars": 4,
+      "pushed_at": "2026-02-26T23:57:05Z",
+      "default_branch": "main",
+      "homepage": null,
+      "latest_release": null,
+      "is_new": false,
+      "first_seen": "2026-10-09",
+      "score": -3,
+      "source": "search",
+      "rank": 252,
+      "category_rank": 8
     },
     {
       "repo": "maxjb-xyz/cf-service-status",
@@ -8285,7 +8437,7 @@
       "first_seen": "2026-10-08",
       "score": -3,
       "source": "search",
-      "rank": 248,
+      "rank": 253,
       "category_rank": 11
     },
     {
@@ -8317,7 +8469,7 @@
       "first_seen": "2026-10-08",
       "score": -4,
       "source": "search",
-      "rank": 249,
+      "rank": 254,
       "category_rank": 12
     },
     {
@@ -8345,7 +8497,7 @@
       "first_seen": "2026-10-12",
       "score": -4,
       "source": "search",
-      "rank": 250,
+      "rank": 255,
       "category_rank": 5
     },
     {
@@ -8373,7 +8525,7 @@
       "first_seen": "2026-10-15",
       "score": -4,
       "source": "search",
-      "rank": 251,
+      "rank": 256,
       "category_rank": 13
     },
     {
@@ -8405,38 +8557,8 @@
       "first_seen": "2026-10-08",
       "score": -4,
       "source": "search",
-      "rank": 252,
+      "rank": 257,
       "category_rank": 13
-    },
-    {
-      "repo": "Soul-Brews-Studio/webhook-relay-oss",
-      "slug": "webhook-relay-oss",
-      "name": "Webhook Relay",
-      "owner": {
-        "login": "Soul-Brews-Studio",
-        "avatar_url": "https://avatars.githubusercontent.com/u/236152394?s=96&v=4"
-      },
-      "description": "Receive, store, and forward webhooks with a dashboard built on Cloudflare Workers + D1",
-      "category": "Analytics",
-      "replaces": null,
-      "bindings": [
-        "D1"
-      ],
-      "config_file": "wrangler.toml",
-      "has_deploy_button": true,
-      "deploy_url": "https://deploy.workers.cloudflare.com/?url=https://github.com/Soul-Brews-Studio/webhook-relay-oss",
-      "license": "MIT",
-      "stars": 3,
-      "pushed_at": "2026-02-26T23:57:05Z",
-      "default_branch": "main",
-      "homepage": null,
-      "latest_release": null,
-      "is_new": false,
-      "first_seen": "2026-10-09",
-      "score": -4,
-      "source": "search",
-      "rank": 253,
-      "category_rank": 8
     },
     {
       "repo": "victorrm/bolao-copa-do-mundo",
@@ -8468,7 +8590,7 @@
       "first_seen": "2026-10-08",
       "score": -4,
       "source": "search",
-      "rank": 254,
+      "rank": 258,
       "category_rank": 13
     },
     {
@@ -8499,7 +8621,7 @@
       "first_seen": "2026-10-08",
       "score": -4,
       "source": "search",
-      "rank": 255,
+      "rank": 259,
       "category_rank": 12
     }
   ]
