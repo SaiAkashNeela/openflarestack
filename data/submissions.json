@@ -3,5 +3,10 @@
     "repo": "rowflare/rowflare",
     "issue": 1,
     "at": "2026-10-23"
+  },
+  {
+    "repo": "dozokit/analytics",
+    "issue": 2,
+    "at": "2026-11-01"
   }
 ]
