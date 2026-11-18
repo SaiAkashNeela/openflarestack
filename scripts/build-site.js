@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { BINDINGS, GROUPS } from '../lib/bindings.js';
 import { SITE_URL, CATALOG_REPO, TOP_N, AUTHOR, CATEGORY_INFO, slugify } from '../lib/config.js';
 import { esc, row, mqCard, tile, tiles, appDetail, appPath, avatar, ICONS, SPRITE_SYMBOLS, k, ago, daysSince } from '../lib/render.js';
+import { minifyCss } from './lib/minify-css.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 // CATALOG_FILE, OUT_DIR and SKIP_AVATARS=1 let tests build from a fixture into a temp folder, offline.
@@ -29,6 +30,10 @@ const built = new Date(now).toISOString().slice(0, 10);
 const ASSET_FILES = [join(SITE, 'styles.css'), join(SITE, 'app.js'), ...readdirSync(join(ROOT, 'lib')).map((f) => join(ROOT, 'lib', f))];
 const ASSET_V = createHash('sha256').update(ASSET_FILES.map((f) => readFileSync(f)).join('\n')).digest('hex').slice(0, 10);
 const OG_IMAGE = `${SITE_URL}/og.png`;
+// The stylesheet is inlined into every page: one less request before first paint, which matters most
+// on a first visit from search (the usual way in). Minified, it's about 8 KB with compression.
+const CSS = minifyCss(readFileSync(join(SITE, 'styles.css'), 'utf8'));
+if (/<\/style/i.test(CSS)) throw new Error('styles.css must not contain "</style"');
 
 
 rmSync(OUT, { recursive: true, force: true });
@@ -112,7 +117,7 @@ function layout({ title, description, path, body, jsonld = [], page = 'page', no
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 ${markdown ? `<link rel="alternate" type="text/markdown" href="${esc(markdown)}">\n` : ''}<link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css?v=${ASSET_V}">
+<style>${CSS}</style>
 <link rel="modulepreload" href="/app.js?v=${ASSET_V}">
 ${['render', 'bindings', 'check', 'config'].map((m) => `<link rel="modulepreload" href="/lib/${m}.js?v=${ASSET_V}">`).join('\n')}
 ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j).replace(/</g, '\\u003c')}</script>`).join('\n')}
@@ -763,7 +768,8 @@ sitemap();
 // Static assets and the shared modules the browser imports. Relative imports get the same ?v=<hash>
 // as the page's preload links, so the browser fetches each module once and can cache it for a year.
 const versioned = (code) => code.replace(/(from\s+['"])(\.{1,2}\/[^'"?]+\.js)(['"])/g, `$1$2?v=${ASSET_V}$3`);
-cpSync(join(SITE, 'styles.css'), join(OUT, 'styles.css'));
+// Pages inline the CSS; the file stays for pages still cached with the old <link>.
+writeFileSync(join(OUT, 'styles.css'), CSS);
 writeFileSync(join(OUT, 'app.js'), versioned(readFileSync(join(SITE, 'app.js'), 'utf8')));
 mkdirSync(join(OUT, 'lib'), { recursive: true });
 for (const f of readdirSync(join(ROOT, 'lib'))) writeFileSync(join(OUT, 'lib', f), versioned(readFileSync(join(ROOT, 'lib', f), 'utf8')));
