@@ -4,16 +4,24 @@
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { join, dirname } from 'node:path';
+import { join, dirname, resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BINDINGS, GROUPS } from '../lib/bindings.js';
 import { SITE_URL, CATALOG_REPO, TOP_N, AUTHOR, CATEGORY_INFO, slugify } from '../lib/config.js';
 import { esc, row, mqCard, tile, tiles, appDetail, appPath, avatar, ICONS, SPRITE_SYMBOLS, k, ago, daysSince } from '../lib/render.js';
+import { minifyCss } from './lib/minify-css.js';
+import { clipText, pageTitle } from './lib/seo.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const OUT = join(ROOT, 'dist');
+// CATALOG_FILE, OUT_DIR and SKIP_AVATARS=1 let tests build from a fixture into a temp folder, offline.
+const OUT = process.env.OUT_DIR ? resolve(process.env.OUT_DIR) : join(ROOT, 'dist');
+// OUT is wiped below, so never let it be the repo itself or a folder that contains it.
+{
+  const rel = relative(OUT, ROOT);
+  if (rel === '' || (!rel.startsWith('..') && !isAbsolute(rel))) throw new Error(`OUT_DIR must not contain the repository: ${OUT}`);
+}
 const SITE = join(ROOT, 'site');
-const catalog = JSON.parse(readFileSync(join(ROOT, 'data', 'catalog.json'), 'utf8'));
+const catalog = JSON.parse(readFileSync(process.env.CATALOG_FILE ? resolve(process.env.CATALOG_FILE) : join(ROOT, 'data', 'catalog.json'), 'utf8'));
 const apps = catalog.apps;
 const total = apps.length;
 const now = Date.parse(catalog.generated_at);
@@ -23,6 +31,10 @@ const built = new Date(now).toISOString().slice(0, 10);
 const ASSET_FILES = [join(SITE, 'styles.css'), join(SITE, 'app.js'), ...readdirSync(join(ROOT, 'lib')).map((f) => join(ROOT, 'lib', f))];
 const ASSET_V = createHash('sha256').update(ASSET_FILES.map((f) => readFileSync(f)).join('\n')).digest('hex').slice(0, 10);
 const OG_IMAGE = `${SITE_URL}/og.png`;
+// The stylesheet is inlined into every page: one less request before first paint, which matters most
+// on a first visit from search (the usual way in). Minified, it's about 8 KB with compression.
+const CSS = minifyCss(readFileSync(join(SITE, 'styles.css'), 'utf8'));
+if (/<\/style/i.test(CSS)) throw new Error('styles.css must not contain "</style"');
 
 
 rmSync(OUT, { recursive: true, force: true });
@@ -35,6 +47,7 @@ async function fetchAvatars() {
   mkdirSync(join(OUT, 'avatars'), { recursive: true });
   const owners = [...new Map(apps.filter((a) => a.owner?.avatar_url).map((a) => [a.owner.login.toLowerCase(), a.owner.avatar_url])).entries()];
   const saved = new Map();
+  if (process.env.SKIP_AVATARS === '1') owners.length = 0;
   const jobs = owners.flatMap(([login, url]) => [64, 128].map((px) => ({ login, px, url: url.replace(/([?&])s=\d+/, '$1s=' + px) + (/[?&]s=\d+/.test(url) ? '' : (url.includes('?') ? '&' : '?') + 's=' + px) })));
   let ok = 0;
   await Promise.all(Array.from({ length: 16 }, async () => {
@@ -73,7 +86,9 @@ const SPRITE = `<svg width="0" height="0" style="position:absolute" aria-hidden=
 
 function layout({ title, description, path, body, jsonld = [], page = 'page', noindex = false, markdown = null, type = 'website' }) {
   const url = SITE_URL + path;
-  const full = title.includes('OpenFlareStack') ? title : `${title} | OpenFlareStack`;
+  const full = pageTitle(title);
+  // Pages keep their full text; meta tags get a version that search results and previews show whole.
+  const desc = clipText(description);
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -81,14 +96,14 @@ function layout({ title, description, path, body, jsonld = [], page = 'page', no
 <script defer src="https://pilotfox.app/api/s.js" data-site="ihkr5e5eyn4ex1jt"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(full)}</title>
-<meta name="description" content="${esc(description)}">
+<meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${esc(url)}">
 <meta name="robots" content="${noindex ? 'noindex' : 'index, follow, max-image-preview:large, max-snippet:-1'}">
 <meta property="og:type" content="${type}">
 <meta property="og:site_name" content="OpenFlareStack">
 <meta property="og:locale" content="en_GB">
 <meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(description)}">
+<meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${esc(url)}">
 <meta property="og:image" content="${OG_IMAGE}">
 <meta property="og:image:width" content="1200">
@@ -96,7 +111,7 @@ function layout({ title, description, path, body, jsonld = [], page = 'page', no
 <meta property="og:image:alt" content="OpenFlareStack: open-source apps you run on your own Cloudflare account">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
-<meta name="twitter:description" content="${esc(description)}">
+<meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${OG_IMAGE}">
 <meta name="theme-color" content="#F6F7F5">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -105,7 +120,7 @@ function layout({ title, description, path, body, jsonld = [], page = 'page', no
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt">
 ${markdown ? `<link rel="alternate" type="text/markdown" href="${esc(markdown)}">\n` : ''}<link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css?v=${ASSET_V}">
+<style>${CSS}</style>
 <link rel="modulepreload" href="/app.js?v=${ASSET_V}">
 ${['render', 'bindings', 'check', 'config'].map((m) => `<link rel="modulepreload" href="/lib/${m}.js?v=${ASSET_V}">`).join('\n')}
 ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j).replace(/</g, '\\u003c')}</script>`).join('\n')}
@@ -220,7 +235,8 @@ function home() {
   const exConfig = apps.find((a) => !a.has_deploy_button && a.config_file && !a.config_file.includes('/'));
   const famous = swapsFor(apps, 6);
   const HOME_FAQ = [
-    ['What is OpenFlareStack?', `A free catalog of ${total} open-source apps you can run on your own Cloudflare account, such as self-hosted alternatives to ${list(famous.slice(0, 4))}. A GitHub Action finds new apps every night and ranks them by stars and recent commits.`],
+    // FAQ answers are HTML; `replaces` comes from LLM output, so escape it like every other catalog string.
+    ['What is OpenFlareStack?', `A free catalog of ${total} open-source apps you can run on your own Cloudflare account, such as self-hosted alternatives to ${list(famous.slice(0, 4).map(esc))}. A GitHub Action finds new apps every night and ranks them by stars and recent commits.`],
     ['How do I self-host an app on Cloudflare?', 'Open an app and press Deploy to Cloudflare. Cloudflare copies the repository into your GitHub account, creates the databases and storage it needs (like D1, KV or R2) and deploys it to Workers. Apps without a Deploy button have install steps in their README.'],
     ['Do I need a server?', 'No. The apps run on Cloudflare Workers, so there is no server, container or VPS to look after. Your data stays in your own Cloudflare account.'],
     ['Is it free?', 'The apps are open source and free to use. Many small apps fit inside Cloudflare’s free plan. Busy apps can need a paid Workers plan, so check the app’s README and Cloudflare’s current pricing.'],
@@ -356,7 +372,7 @@ function home() {
 
   write('index.html', layout({
     title: 'OpenFlareStack: self-hosted open-source apps for Cloudflare',
-    description: `${total} open-source apps you can deploy to your own Cloudflare account in one click. Self-hosted alternatives to ${list(famous.slice(0, 3))} and more, ranked every night.`,
+    description: `${total} open-source apps you can deploy to your own Cloudflare account in one click. Self-hosted alternatives to ${list(famous.slice(0, 3))} and more.`,
     path: '/',
     page: 'home',
     body,
@@ -465,7 +481,8 @@ function categoryPage(c) {
 </main>`;
   write(`category/${c.slug}/index.html`, layout({
     title: `Self-hosted ${lower(c.name)} apps for Cloudflare`,
-    description: lede,
+    // The lede leads with the category blurb; for search results put the count and the products first.
+    description: `${list.length} open-source ${lower(c.name)} app${list.length === 1 ? '' : 's'} you can run on your own Cloudflare account${swaps.length ? `, including alternatives to ${swaps.slice(0, 2).join(' and ')}` : ''}. ${CATEGORY_INFO[c.name] || ''}`,
     path: catPath(c.name),
     body,
     markdown: `/category/${c.slug}.md`,
@@ -755,7 +772,8 @@ sitemap();
 // Static assets and the shared modules the browser imports. Relative imports get the same ?v=<hash>
 // as the page's preload links, so the browser fetches each module once and can cache it for a year.
 const versioned = (code) => code.replace(/(from\s+['"])(\.{1,2}\/[^'"?]+\.js)(['"])/g, `$1$2?v=${ASSET_V}$3`);
-cpSync(join(SITE, 'styles.css'), join(OUT, 'styles.css'));
+// Pages inline the CSS; the file stays for pages still cached with the old <link>.
+writeFileSync(join(OUT, 'styles.css'), CSS);
 writeFileSync(join(OUT, 'app.js'), versioned(readFileSync(join(SITE, 'app.js'), 'utf8')));
 mkdirSync(join(OUT, 'lib'), { recursive: true });
 for (const f of readdirSync(join(ROOT, 'lib'))) writeFileSync(join(OUT, 'lib', f), versioned(readFileSync(join(ROOT, 'lib', f), 'utf8')));
@@ -798,6 +816,10 @@ write('_headers', `/styles.css
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+  Strict-Transport-Security: max-age=31536000
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
 `);
 
 console.log(`build: ${avatarCount} avatars saved, ${apps.length} app pages, ${catalog.categories.length} category pages, ${ALTS.filter(hasPage).length} alternatives pages -> dist/`);

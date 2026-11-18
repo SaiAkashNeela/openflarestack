@@ -41,7 +41,8 @@ Score: `10 × log10(stars + 1) − min(daysSinceLastPush, 120) / 12 + (hasReleas
 - **Structured data:** `Organization`, `WebSite`, `ItemList`, `BreadcrumbList`, `FAQPage` and `WebApplication` JSON-LD. Every app, category and alternatives page carries a visible FAQ written for answer engines.
 - **For AI assistants:** [`/llms.txt`](https://openflarestack.com/llms.txt) ([llmstxt.org](https://llmstxt.org) format), `/llms-full.txt` with the whole catalog, and a Markdown copy of every app, category and alternatives page (`/apps/<slug>.md`, `/category/<slug>.md`, `/alternatives/<slug>.md`). Every app's modal has "Copy Markdown" for pasting into an LLM. `robots.txt` welcomes search and AI crawlers by name.
 - **Static JSON API:** [`/api/v1/`](https://openflarestack.com/api/) with apps, one app, categories and alternatives. Free, read-only, no key, CORS open, rebuilt nightly. Docs at `/api/`.
-- **Fast, with no third-party requests:** fonts are self-hosted (Latin subset, variable weight) and owner avatars are downloaded at build time, so every file comes from our own domain. No framework, one icon sprite, content-hashed CSS and JS cached for a year through `_headers`, preloaded fonts and modules, and avatars that load only as they scroll into view. Static asset requests on Workers are free and unlimited.
+- **Fast, with one third-party request:** fonts are self-hosted (Latin subset, variable weight) and owner avatars are downloaded at build time, so every file comes from our own domain. The only outside request is the [PilotFox](https://pilotfox.app) analytics script, loaded with `defer` so it never blocks rendering. No framework, one icon sprite, the stylesheet minified and inlined into every page (no render-blocking request), content-hashed JS cached for a year through `_headers`, preloaded fonts and modules, and avatars that load only as they scroll into view. Static asset requests on Workers are free and unlimited.
+- **Security headers on every response** (`_headers`): `nosniff`, a strict referrer policy, no framing (`X-Frame-Options` and CSP `frame-ancestors`), HSTS and a Permissions-Policy. Every catalog string is HTML-escaped; `test/site-build.test.js` builds the site from a hostile catalog to prove it.
 
 ## Layout
 
@@ -55,6 +56,7 @@ scripts/
   daily.js      the nightly pipeline (stages/ holds each step)
   submission.js handles "Submit an app" issues
   build-site.js writes dist/: home, /apps/<slug>/, /category/<slug>/, /credits/, sitemap.xml
+  lib/          Node-only helpers: GitHub client, data store, CSS minifier, title/description limits
 site/         styles.css, app.js (search, filters, sheet, checker), assets/
 data/
   repos.json       every repo ever seen and why it is or isn't listed
@@ -62,11 +64,12 @@ data/
   submissions.json accepted submissions
   overrides.json   hand decisions from review (always win)
   review.md        the weekly human queue
+test/         node --test (site-build.test.js builds the whole site from a hostile fixture)
 ```
 
 ## Running it locally
 
-Node 22 or newer. No dependencies.
+Node 22 or newer. No dependencies. Every environment variable the scripts read is listed in [`.env.example`](.env.example); copy it to `.env` and pass it with `node --env-file=.env` if you like.
 
 ```bash
 # The nightly run. Needs a GitHub token for code search.
@@ -81,8 +84,15 @@ GH_SEARCH_TOKEN=$(gh auth token) npm run catalog:daily -- --skip-discover
 npm run build
 npx wrangler dev
 
+# Build without downloading avatars (offline; letter tiles instead)
+SKIP_AVATARS=1 npm run build
+
 npm test
 ```
+
+## Before merging
+
+A change merges into `main` only when, on a branch that is up to date with `main`, `npm test` and `npm run build` pass, no tests were skipped or removed, no secrets are in the diff, and README.md, AGENTS.md and `.env.example` still match the code. Contributor and agent rules are in [AGENTS.md](AGENTS.md).
 
 ## Reviewing
 

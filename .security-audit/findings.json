@@ -1,0 +1,234 @@
+{
+  "project": "openflarestack",
+  "audited_commit": "657c36f",
+  "date": "2026-11-18",
+  "summary": {
+    "critical": 0,
+    "high": 0,
+    "medium": 1,
+    "low": 1,
+    "info": 0
+  },
+  "findings": [
+    {
+      "cwe": "CWE-79",
+      "owasp": "A03:2021",
+      "test": "test/site-build.test.js: no page renders markup from catalog data",
+      "requires_human_action": false,
+      "accepted_reason": null,
+      "accepted_by": null,
+      "human_action": null,
+      "status": "fixed",
+      "id": "SEC-001",
+      "category": "security",
+      "title": "Stored XSS: LLM-sourced `replaces` rendered unescaped in the home page FAQ",
+      "severity": "medium",
+      "locations": [
+        {
+          "file": "scripts/build-site.js",
+          "line": 239
+        },
+        {
+          "file": "lib/render.js",
+          "line": 105
+        }
+      ],
+      "description": "The home FAQ answer joined the top `replaces` values into HTML without esc(). `replaces` is free text produced by the LLM classifier from third-party README content (validated only as a string of at most 60 chars). appDetail() also put the repo name into an href unescaped.",
+      "impact": "A README written to steer the classifier (prompt injection) could, once its app ranked near the top, run script on openflarestack.com for every visitor: defacement, redirecting Deploy buttons, or phishing.",
+      "remediation": "Escape both sinks with esc(). Added a whole-site test that builds from a hostile catalog and fails on any raw markup in any page.",
+      "fix_commit": "470e957"
+    },
+    {
+      "cwe": "CWE-1021",
+      "owasp": "A05:2021",
+      "test": "test/site-build.test.js: every response carries the security headers",
+      "requires_human_action": false,
+      "accepted_reason": null,
+      "accepted_by": null,
+      "human_action": null,
+      "status": "fixed",
+      "id": "SEC-002",
+      "category": "security",
+      "title": "No anti-framing, HSTS or Permissions-Policy headers",
+      "severity": "low",
+      "locations": [
+        {
+          "file": "scripts/build-site.js",
+          "line": 822
+        }
+      ],
+      "description": "_headers set only nosniff and Referrer-Policy. Pages could be framed by any site and there was no HSTS.",
+      "impact": "Clickjacking of the Deploy / Submit buttons from a hostile page; no browser-enforced HTTPS on repeat visits.",
+      "remediation": "Added X-Frame-Options: DENY, CSP frame-ancestors 'none'; base-uri 'self'; object-src 'none', HSTS (1 year, no includeSubDomains) and a Permissions-Policy. script-src deliberately not set (see recommendations).",
+      "fix_commit": "5e36e68"
+    },
+    {
+      "cwe": null,
+      "owasp": null,
+      "test": "test/minify-css.test.js",
+      "requires_human_action": false,
+      "accepted_reason": null,
+      "accepted_by": null,
+      "human_action": null,
+      "status": "fixed",
+      "id": "SEO-001",
+      "category": "seo",
+      "title": "Render-blocking stylesheet delayed first paint (Core Web Vitals)",
+      "severity": "medium",
+      "locations": [
+        {
+          "file": "scripts/build-site.js",
+          "line": 123
+        }
+      ],
+      "description": "styles.css (43 KB, 9.8 KB gzip) was the only request between the HTML and first paint. Lighthouse estimated 380-600 ms on mobile.",
+      "impact": "Slower FCP/LCP on first visits from search, which is how most visitors arrive.",
+      "remediation": "Minify (scripts/lib/minify-css.js) and inline the stylesheet. CSSOM equivalence verified (438/438 rules), 16 screenshots byte-identical. Mobile FCP median of 5: 1503->1257 ms home, 1354->1257 ms app page, 1381->1253 ms category.",
+      "fix_commit": "296b01e"
+    },
+    {
+      "cwe": null,
+      "owasp": null,
+      "test": "test/seo.test.js; test/site-build.test.js: titles and descriptions fit",
+      "requires_human_action": false,
+      "accepted_reason": null,
+      "accepted_by": null,
+      "human_action": null,
+      "status": "fixed",
+      "id": "SEO-002",
+      "category": "seo",
+      "title": "Meta descriptions over 160 characters on 271 of 427 pages",
+      "severity": "low",
+      "locations": [
+        {
+          "file": "scripts/build-site.js",
+          "line": 89
+        }
+      ],
+      "description": "Category, alternatives, app and home descriptions ran to 279 characters and were cut mid-word in results.",
+      "impact": "Weaker snippets in Google/Bing and AI search citations.",
+      "remediation": "clipText() in layout() for meta/og/twitter descriptions (sentence end, else word boundary + ellipsis); shorter category meta leading with count and products. Visible text unchanged.",
+      "fix_commit": "57d10d7"
+    },
+    {
+      "cwe": null,
+      "owasp": null,
+      "test": "test/seo.test.js",
+      "requires_human_action": false,
+      "accepted_reason": null,
+      "accepted_by": null,
+      "human_action": null,
+      "status": "fixed",
+      "id": "SEO-003",
+      "category": "seo",
+      "title": "Titles over 65 characters on 369 pages, mostly from the brand suffix",
+      "severity": "low",
+      "locations": [
+        {
+          "file": "scripts/build-site.js",
+          "line": 89
+        }
+      ],
+      "description": "Every title got ' | OpenFlareStack', pushing most app and alternatives titles past what results show.",
+      "impact": "Truncated titles in search results.",
+      "remediation": "pageTitle() adds the brand only when the result is 65 characters or less. 64 content titles remain long because of long product names; search engines shorten those without losing the leading keywords.",
+      "fix_commit": "57d10d7"
+    },
+    {
+      "cwe": null,
+      "owasp": null,
+      "test": "test/site-build.test.js: titles and descriptions fit",
+      "requires_human_action": false,
+      "accepted_reason": null,
+      "accepted_by": null,
+      "human_action": null,
+      "status": "fixed",
+      "id": "SOC-001",
+      "category": "social",
+      "title": "og:description / twitter:description too long on category pages",
+      "severity": "low",
+      "locations": [
+        {
+          "file": "scripts/build-site.js",
+          "line": 89
+        }
+      ],
+      "description": "check_social_meta.py warned that category og:description exceeded ~160 characters.",
+      "impact": "Previews on X, LinkedIn, Slack cut off the text.",
+      "remediation": "Same clipText() as SEO-002 applied to og:description and twitter:description.",
+      "fix_commit": "57d10d7"
+    },
+    {
+      "cwe": null,
+      "owasp": null,
+      "test": null,
+      "requires_human_action": false,
+      "accepted_reason": null,
+      "accepted_by": null,
+      "human_action": null,
+      "status": "fixed",
+      "id": "DOC-001",
+      "category": "docs",
+      "title": "No AGENTS.md or CLAUDE.md",
+      "severity": "low",
+      "locations": [
+        {
+          "file": "AGENTS.md",
+          "line": 1
+        }
+      ],
+      "description": "No agent instructions existed, so agent-written code had no record of the escaping, performance or merge rules.",
+      "impact": "Future changes could reintroduce SEC-001-style sinks or a render-blocking stylesheet.",
+      "remediation": "Added AGENTS.md (single source of truth) and CLAUDE.md importing it.",
+      "fix_commit": "ba59c5f"
+    },
+    {
+      "cwe": null,
+      "owasp": null,
+      "test": null,
+      "requires_human_action": false,
+      "accepted_reason": null,
+      "accepted_by": null,
+      "human_action": null,
+      "status": "fixed",
+      "id": "DOC-002",
+      "category": "docs",
+      "title": "No .env.example although the code reads 17 environment variables",
+      "severity": "low",
+      "locations": [
+        {
+          "file": ".env.example",
+          "line": 1
+        }
+      ],
+      "description": "Only some variables were in the README Setup table; LLM_CONCURRENCY, LLM_MIN_INTERVAL_MS, AWESOME_DIR, README_DUMP and the new build variables were undocumented.",
+      "impact": "Harder local setup; settings discovered only by reading code.",
+      "remediation": "Added .env.example with every variable, defaults and no secret values.",
+      "fix_commit": "ba59c5f"
+    },
+    {
+      "cwe": null,
+      "owasp": null,
+      "test": null,
+      "requires_human_action": false,
+      "accepted_reason": null,
+      "accepted_by": null,
+      "human_action": null,
+      "status": "fixed",
+      "id": "DOC-003",
+      "category": "docs",
+      "title": "README claimed no third-party requests, but the site loads PilotFox analytics",
+      "severity": "low",
+      "locations": [
+        {
+          "file": "README.md",
+          "line": 44
+        }
+      ],
+      "description": "Commit 4f37265 added a PilotFox analytics script; the README still said every file comes from our own domain with no third-party requests.",
+      "impact": "Inaccurate privacy/performance claim for readers and contributors.",
+      "remediation": "README now names the one third-party request and how it loads.",
+      "fix_commit": "ba59c5f"
+    }
+  ]
+}
