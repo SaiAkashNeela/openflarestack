@@ -806,6 +806,10 @@ write('_headers', `/styles.css
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+  Strict-Transport-Security: max-age=31536000
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
 `);
 
 console.log(`build: ${avatarCount} avatars saved, ${apps.length} app pages, ${catalog.categories.length} category pages, ${ALTS.filter(hasPage).length} alternatives pages -> dist/`);

@@ -1,7 +1,7 @@
-// Builds the whole site from a hostile catalog and checks that no page contains markup taken from it.
+// Builds the whole site once, offline, from a hostile fixture catalog, then checks the output.
 // Catalog strings come from GitHub READMEs, repo metadata and LLM output, so every one is untrusted.
 
-import { test } from 'node:test';
+import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, writeFileSync, readFileSync, readdirSync, statSync, rmSync } from 'node:fs';
@@ -50,21 +50,46 @@ const htmlFiles = (d) => readdirSync(d).flatMap((n) => {
   return statSync(p).isDirectory() ? htmlFiles(p) : n.endsWith('.html') ? [p] : [];
 });
 
+let fx;
+before(() => { fx = buildFixture(); });
+after(() => rmSync(fx.dir, { recursive: true, force: true }));
+
 test('no page renders markup from catalog data', () => {
-  const { dir, out } = buildFixture();
-  try {
-    const files = htmlFiles(out);
-    assert.ok(files.length >= 5, `expected the site to build, got ${files.length} pages`);
-    const leaks = [];
-    for (const f of files) {
-      const html = readFileSync(f, 'utf8');
-      // Escaped payloads read &lt;img / &lt;svg; a raw tag means data broke out into markup.
-      for (const bad of ['<img src=x', '<svg onload']) {
-        if (html.includes(bad)) leaks.push(`${f.slice(out.length)}: ${html.slice(Math.max(0, html.indexOf(bad) - 80), html.indexOf(bad) + 40)}`);
-      }
+  const { out } = fx;
+  const files = htmlFiles(out);
+  assert.ok(files.length >= 5, `expected the site to build, got ${files.length} pages`);
+  const leaks = [];
+  for (const f of files) {
+    const html = readFileSync(f, 'utf8');
+    // Escaped payloads read &lt;img / &lt;svg; a raw tag means data broke out into markup.
+    for (const bad of ['<img src=x', '<svg onload']) {
+      if (html.includes(bad)) leaks.push(`${f.slice(out.length)}: ${html.slice(Math.max(0, html.indexOf(bad) - 80), html.indexOf(bad) + 40)}`);
     }
-    assert.deepEqual(leaks, []);
-  } finally {
-    rmSync(dir, { recursive: true, force: true });
   }
+  assert.deepEqual(leaks, []);
+});
+
+// Workers static assets read dist/_headers. Parse the block for one path pattern.
+function headersFor(text, pattern) {
+  const lines = text.split('\n');
+  const at = lines.indexOf(pattern);
+  assert.ok(at >= 0, `no ${pattern} block in _headers`);
+  const out = {};
+  for (const l of lines.slice(at + 1)) {
+    if (!/^\s/.test(l) || !l.trim()) break;
+    const i = l.indexOf(':');
+    out[l.slice(0, i).trim().toLowerCase()] = l.slice(i + 1).trim();
+  }
+  return out;
+}
+
+test('every response carries the security headers', () => {
+  const h = headersFor(readFileSync(join(fx.out, '_headers'), 'utf8'), '/*');
+  assert.equal(h['x-content-type-options'], 'nosniff');
+  assert.equal(h['x-frame-options'], 'DENY');
+  assert.match(h['content-security-policy'], /frame-ancestors 'none'/);
+  assert.match(h['content-security-policy'], /object-src 'none'/);
+  assert.match(h['content-security-policy'], /base-uri 'self'/);
+  assert.match(h['strict-transport-security'], /max-age=\d{8,}/);
+  assert.ok(h['permissions-policy'], 'Permissions-Policy missing');
 });
