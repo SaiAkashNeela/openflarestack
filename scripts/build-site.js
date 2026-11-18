@@ -10,6 +10,7 @@ import { BINDINGS, GROUPS } from '../lib/bindings.js';
 import { SITE_URL, CATALOG_REPO, TOP_N, AUTHOR, CATEGORY_INFO, slugify } from '../lib/config.js';
 import { esc, row, mqCard, tile, tiles, appDetail, appPath, avatar, ICONS, SPRITE_SYMBOLS, k, ago, daysSince } from '../lib/render.js';
 import { minifyCss } from './lib/minify-css.js';
+import { clipText, pageTitle } from './lib/seo.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 // CATALOG_FILE, OUT_DIR and SKIP_AVATARS=1 let tests build from a fixture into a temp folder, offline.
@@ -85,7 +86,9 @@ const SPRITE = `<svg width="0" height="0" style="position:absolute" aria-hidden=
 
 function layout({ title, description, path, body, jsonld = [], page = 'page', noindex = false, markdown = null, type = 'website' }) {
   const url = SITE_URL + path;
-  const full = title.includes('OpenFlareStack') ? title : `${title} | OpenFlareStack`;
+  const full = pageTitle(title);
+  // Pages keep their full text; meta tags get a version that search results and previews show whole.
+  const desc = clipText(description);
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -93,14 +96,14 @@ function layout({ title, description, path, body, jsonld = [], page = 'page', no
 <script defer src="https://pilotfox.app/api/s.js" data-site="ihkr5e5eyn4ex1jt"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(full)}</title>
-<meta name="description" content="${esc(description)}">
+<meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${esc(url)}">
 <meta name="robots" content="${noindex ? 'noindex' : 'index, follow, max-image-preview:large, max-snippet:-1'}">
 <meta property="og:type" content="${type}">
 <meta property="og:site_name" content="OpenFlareStack">
 <meta property="og:locale" content="en_GB">
 <meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(description)}">
+<meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${esc(url)}">
 <meta property="og:image" content="${OG_IMAGE}">
 <meta property="og:image:width" content="1200">
@@ -108,7 +111,7 @@ function layout({ title, description, path, body, jsonld = [], page = 'page', no
 <meta property="og:image:alt" content="OpenFlareStack: open-source apps you run on your own Cloudflare account">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
-<meta name="twitter:description" content="${esc(description)}">
+<meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${OG_IMAGE}">
 <meta name="theme-color" content="#F6F7F5">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -369,7 +372,7 @@ function home() {
 
   write('index.html', layout({
     title: 'OpenFlareStack: self-hosted open-source apps for Cloudflare',
-    description: `${total} open-source apps you can deploy to your own Cloudflare account in one click. Self-hosted alternatives to ${list(famous.slice(0, 3))} and more, ranked every night.`,
+    description: `${total} open-source apps you can deploy to your own Cloudflare account in one click. Self-hosted alternatives to ${list(famous.slice(0, 3))} and more.`,
     path: '/',
     page: 'home',
     body,
@@ -478,7 +481,8 @@ function categoryPage(c) {
 </main>`;
   write(`category/${c.slug}/index.html`, layout({
     title: `Self-hosted ${lower(c.name)} apps for Cloudflare`,
-    description: lede,
+    // The lede leads with the category blurb; for search results put the count and the products first.
+    description: `${list.length} open-source ${lower(c.name)} app${list.length === 1 ? '' : 's'} you can run on your own Cloudflare account${swaps.length ? `, including alternatives to ${swaps.slice(0, 2).join(' and ')}` : ''}. ${CATEGORY_INFO[c.name] || ''}`,
     path: catPath(c.name),
     body,
     markdown: `/category/${c.slug}.md`,

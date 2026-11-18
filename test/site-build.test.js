@@ -28,7 +28,8 @@ function app(i, over = {}) {
 
 function buildFixture() {
   const dir = mkdtempSync(join(tmpdir(), 'ofs-escape-'));
-  const apps = [app(0), app(1), app(2, { replaces: `Mailchimp 1 ${XSS}` }), app(3, { repo: `owner3/x${QUOTE}`, deploy_url: null })];
+  const apps = [app(0), app(1), app(2, { replaces: `Mailchimp 1 ${XSS}` }), app(3, { repo: `owner3/x${QUOTE}`, deploy_url: null }),
+    app(4, { name: 'Long', replaces: 'A very long product name that goes on', description: 'An app whose description from the README keeps going and going well past what a search result will ever show, so the page has to shorten it for the meta tags without cutting words.' })];
   const catalog = {
     generated_at: '2026-11-17T03:00:00Z',
     counts: { tracked: 4, matched: 4, listed: 4, review: 0, new: 4, by_source: { search: 4 } },
@@ -92,4 +93,18 @@ test('every response carries the security headers', () => {
   assert.match(h['content-security-policy'], /base-uri 'self'/);
   assert.match(h['strict-transport-security'], /max-age=\d{8,}/);
   assert.ok(h['permissions-policy'], 'Permissions-Policy missing');
+});
+
+test('titles and descriptions fit search results and link previews', () => {
+  const unq = (v) => v.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+  const bad = [];
+  for (const f of htmlFiles(fx.out)) {
+    const html = readFileSync(f, 'utf8');
+    const title = unq(html.match(/<title>([^<]*)<\/title>/)[1]);
+    if (title.endsWith('| OpenFlareStack') && title.length > 65) bad.push(`${f}: title ${title.length}`);
+    for (const m of html.matchAll(/<meta (?:name|property)="(description|og:description|twitter:description)" content="([^"]*)">/g)) {
+      if (unq(m[2]).length > 160) bad.push(`${f}: ${m[1]} ${unq(m[2]).length}`);
+    }
+  }
+  assert.deepEqual(bad, []);
 });
