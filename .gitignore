@@ -4,3 +4,6 @@ dist/
 .DS_Store
 .env
 .dev.vars
+
+# Raw scanner output from security audits (findings.json and the report are kept)
+.security-audit/scanner-output/
