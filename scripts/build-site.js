@@ -4,16 +4,22 @@
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { join, dirname } from 'node:path';
+import { join, dirname, resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BINDINGS, GROUPS } from '../lib/bindings.js';
 import { SITE_URL, CATALOG_REPO, TOP_N, AUTHOR, CATEGORY_INFO, slugify } from '../lib/config.js';
 import { esc, row, mqCard, tile, tiles, appDetail, appPath, avatar, ICONS, SPRITE_SYMBOLS, k, ago, daysSince } from '../lib/render.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const OUT = join(ROOT, 'dist');
+// CATALOG_FILE, OUT_DIR and SKIP_AVATARS=1 let tests build from a fixture into a temp folder, offline.
+const OUT = process.env.OUT_DIR ? resolve(process.env.OUT_DIR) : join(ROOT, 'dist');
+// OUT is wiped below, so never let it be the repo itself or a folder that contains it.
+{
+  const rel = relative(OUT, ROOT);
+  if (rel === '' || (!rel.startsWith('..') && !isAbsolute(rel))) throw new Error(`OUT_DIR must not contain the repository: ${OUT}`);
+}
 const SITE = join(ROOT, 'site');
-const catalog = JSON.parse(readFileSync(join(ROOT, 'data', 'catalog.json'), 'utf8'));
+const catalog = JSON.parse(readFileSync(process.env.CATALOG_FILE ? resolve(process.env.CATALOG_FILE) : join(ROOT, 'data', 'catalog.json'), 'utf8'));
 const apps = catalog.apps;
 const total = apps.length;
 const now = Date.parse(catalog.generated_at);
@@ -35,6 +41,7 @@ async function fetchAvatars() {
   mkdirSync(join(OUT, 'avatars'), { recursive: true });
   const owners = [...new Map(apps.filter((a) => a.owner?.avatar_url).map((a) => [a.owner.login.toLowerCase(), a.owner.avatar_url])).entries()];
   const saved = new Map();
+  if (process.env.SKIP_AVATARS === '1') owners.length = 0;
   const jobs = owners.flatMap(([login, url]) => [64, 128].map((px) => ({ login, px, url: url.replace(/([?&])s=\d+/, '$1s=' + px) + (/[?&]s=\d+/.test(url) ? '' : (url.includes('?') ? '&' : '?') + 's=' + px) })));
   let ok = 0;
   await Promise.all(Array.from({ length: 16 }, async () => {
@@ -220,7 +227,8 @@ function home() {
   const exConfig = apps.find((a) => !a.has_deploy_button && a.config_file && !a.config_file.includes('/'));
   const famous = swapsFor(apps, 6);
   const HOME_FAQ = [
-    ['What is OpenFlareStack?', `A free catalog of ${total} open-source apps you can run on your own Cloudflare account, such as self-hosted alternatives to ${list(famous.slice(0, 4))}. A GitHub Action finds new apps every night and ranks them by stars and recent commits.`],
+    // FAQ answers are HTML; `replaces` comes from LLM output, so escape it like every other catalog string.
+    ['What is OpenFlareStack?', `A free catalog of ${total} open-source apps you can run on your own Cloudflare account, such as self-hosted alternatives to ${list(famous.slice(0, 4).map(esc))}. A GitHub Action finds new apps every night and ranks them by stars and recent commits.`],
     ['How do I self-host an app on Cloudflare?', 'Open an app and press Deploy to Cloudflare. Cloudflare copies the repository into your GitHub account, creates the databases and storage it needs (like D1, KV or R2) and deploys it to Workers. Apps without a Deploy button have install steps in their README.'],
     ['Do I need a server?', 'No. The apps run on Cloudflare Workers, so there is no server, container or VPS to look after. Your data stays in your own Cloudflare account.'],
     ['Is it free?', 'The apps are open source and free to use. Many small apps fit inside Cloudflare’s free plan. Busy apps can need a paid Workers plan, so check the app’s README and Cloudflare’s current pricing.'],
