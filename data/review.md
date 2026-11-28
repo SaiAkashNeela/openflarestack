@@ -1,41 +1,41 @@
 # Review queue
 
-324 repos need a human look. Rebuilt every night.
+322 repos need a human look. Rebuilt every night.
 Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "category": "Email" }` or `{ "status": "rejected", "reason": "Starter" }`.
 
 | Repo | Stars | Why | Model says |
 |---|---|---|---|
-| [payloadcms/payload](https://github.com/payloadcms/payload) | 46031 | Low confidence (library, 0.60) | library, CMS & docs, 0.6 |
-| [linshenkx/prompt-optimizer](https://github.com/linshenkx/prompt-optimizer) | 42651 | Licence GitHub couldn’t identify (NOASSERTION) | app, AI tools, 0.8 |
-| [chthollyphile/folia-major](https://github.com/chthollyphile/folia-major) | 13610 | Low confidence (app, 0.55) | app, Files & storage, 0.55 |
+| [payloadcms/payload](https://github.com/payloadcms/payload) | 46038 | Low confidence (library, 0.60) | library, CMS & docs, 0.6 |
+| [linshenkx/prompt-optimizer](https://github.com/linshenkx/prompt-optimizer) | 42714 | Licence GitHub couldn’t identify (NOASSERTION) | app, AI tools, 0.8 |
+| [chthollyphile/folia-major](https://github.com/chthollyphile/folia-major) | 13666 | Low confidence (app, 0.55) | app, Files & storage, 0.55 |
 | [midudev/autoskills](https://github.com/midudev/autoskills) | 7019 | Licence GitHub couldn’t identify (NOASSERTION) | app, Developer tools, 0.9 |
-| [Helicone/helicone](https://github.com/Helicone/helicone) | 6294 | Low confidence (app, 0.60) | app, AI tools, 0.6 |
-| [shuaiplus/nodewarden](https://github.com/shuaiplus/nodewarden) | 4258 | Licence GitHub couldn’t identify (NOASSERTION) | app, Auth & security, 0.9 |
-| [Javis603/token-monitor](https://github.com/Javis603/token-monitor) | 3936 | Low confidence (app, 0.55) | app, Developer tools, 0.55 |
-| [huangxd-/danmu_api](https://github.com/huangxd-/danmu_api) | 3625 | Low confidence (library, 0.50) | library, Files & storage, 0.5 |
-| [sethcottle/littlelink](https://github.com/sethcottle/littlelink) | 3141 | Low confidence (starter, 0.65) | starter, Personal, 0.65 |
-| [Ikaleio/lm-detector](https://github.com/Ikaleio/lm-detector) | 2843 | Low confidence (app, 0.70) | app, AI tools, 0.7 |
-| [ling-drag0n/CloudPaste](https://github.com/ling-drag0n/CloudPaste) | 2737 | Licence GitHub couldn’t identify (NOASSERTION) | app, Files & storage, 0.9 |
-| [1234567Yang/cf-proxy-ex](https://github.com/1234567Yang/cf-proxy-ex) | 1887 | Licence GitHub couldn’t identify (NOASSERTION) | app, Developer tools, 0.9 |
-| [wu529778790/panhub.shenzjd.com](https://github.com/wu529778790/panhub.shenzjd.com) | 1850 | Licence GitHub couldn’t identify (NOASSERTION) | app, Files & storage, 0.55 |
+| [Helicone/helicone](https://github.com/Helicone/helicone) | 6295 | Low confidence (app, 0.60) | app, AI tools, 0.6 |
+| [shuaiplus/nodewarden](https://github.com/shuaiplus/nodewarden) | 4311 | Licence GitHub couldn’t identify (NOASSERTION) | app, Auth & security, 0.9 |
+| [Javis603/token-monitor](https://github.com/Javis603/token-monitor) | 3955 | Low confidence (app, 0.55) | app, Developer tools, 0.55 |
+| [huangxd-/danmu_api](https://github.com/huangxd-/danmu_api) | 3634 | Low confidence (library, 0.50) | library, Files & storage, 0.5 |
+| [sethcottle/littlelink](https://github.com/sethcottle/littlelink) | 3142 | Low confidence (starter, 0.65) | starter, Personal, 0.65 |
+| [Ikaleio/lm-detector](https://github.com/Ikaleio/lm-detector) | 2868 | Low confidence (app, 0.70) | app, AI tools, 0.7 |
+| [ling-drag0n/CloudPaste](https://github.com/ling-drag0n/CloudPaste) | 2738 | Licence GitHub couldn’t identify (NOASSERTION) | app, Files & storage, 0.9 |
+| [1234567Yang/cf-proxy-ex](https://github.com/1234567Yang/cf-proxy-ex) | 1886 | Licence GitHub couldn’t identify (NOASSERTION) | app, Developer tools, 0.9 |
+| [wu529778790/panhub.shenzjd.com](https://github.com/wu529778790/panhub.shenzjd.com) | 1856 | Licence GitHub couldn’t identify (NOASSERTION) | app, Files & storage, 0.55 |
 | [Sh4yy/cloudflare-email](https://github.com/Sh4yy/cloudflare-email) | 1600 | Low confidence (library, 0.70) | library, Email, 0.7 |
-| [willswire/unifi-ddns](https://github.com/willswire/unifi-ddns) | 1292 | Low confidence (app, 0.65) | app, Remote access, 0.65 |
+| [willswire/unifi-ddns](https://github.com/willswire/unifi-ddns) | 1293 | Low confidence (app, 0.65) | app, Remote access, 0.65 |
 | [zhihui-hu/one-ip](https://github.com/zhihui-hu/one-ip) | 1275 | Low confidence (app, 0.75) | app, Developer tools, 0.75 |
-| [fcakyon/claude-codex-settings](https://github.com/fcakyon/claude-codex-settings) | 1219 | Low confidence (app, 0.85) | app, Developer tools, 0.85 |
-| [shuaiplus/inkstone](https://github.com/shuaiplus/inkstone) | 1197 | Licence GitHub couldn’t identify (NOASSERTION) | app, Notes, 0.9 |
+| [fcakyon/claude-codex-settings](https://github.com/fcakyon/claude-codex-settings) | 1221 | Low confidence (app, 0.85) | app, Developer tools, 0.85 |
+| [shuaiplus/inkstone](https://github.com/shuaiplus/inkstone) | 1203 | Licence GitHub couldn’t identify (NOASSERTION) | app, Notes, 0.9 |
 | [cloudflare/sandbox-sdk](https://github.com/cloudflare/sandbox-sdk) | 1172 | Licence GitHub couldn’t identify (NOASSERTION) | library, Developer tools, 0.85 |
 | [nellimonix/warp-config-generator-vercel](https://github.com/nellimonix/warp-config-generator-vercel) | 1064 | Low confidence (demo, 0.60) | demo, Remote access, 0.6 |
-| [kody-hq/kody](https://github.com/kody-hq/kody) | 1002 | Licence GitHub couldn’t identify (NOASSERTION) | app, AI tools, 0.6 |
-| [Moe-Sakura/SearchGal](https://github.com/Moe-Sakura/SearchGal) | 856 | Low confidence (app, 0.50) | app, Personal, 0.5 |
+| [kody-hq/kody](https://github.com/kody-hq/kody) | 1007 | Licence GitHub couldn’t identify (NOASSERTION) | app, AI tools, 0.6 |
+| [Moe-Sakura/SearchGal](https://github.com/Moe-Sakura/SearchGal) | 857 | Low confidence (app, 0.50) | app, Personal, 0.5 |
 | [Zibri/cloudflare-cors-anywhere](https://github.com/Zibri/cloudflare-cors-anywhere) | 839 | Low confidence (library, 0.60) | library, Developer tools, 0.6 |
 | [remorses/holocron](https://github.com/remorses/holocron) | 817 | Licence GitHub couldn’t identify (NOASSERTION) | library, CMS & docs, 0.65 |
-| [aeonfun/aeon](https://github.com/aeonfun/aeon) | 799 | Low confidence (library, 0.50) | library, AI tools, 0.5 |
-| [xepes0/wloc](https://github.com/xepes0/wloc) | 785 | Low confidence (library, 0.60) | library, Personal, 0.6 |
+| [aeonfun/aeon](https://github.com/aeonfun/aeon) | 800 | Low confidence (library, 0.50) | library, AI tools, 0.5 |
+| [xepes0/wloc](https://github.com/xepes0/wloc) | 787 | Low confidence (library, 0.60) | library, Personal, 0.6 |
 | [openstory-so/openstory](https://github.com/openstory-so/openstory) | 730 | Low confidence (app, 0.70) | app, AI tools, 0.7 |
 | [haradakashiwa/ternssh](https://github.com/haradakashiwa/ternssh) | 663 | Licence GitHub couldn’t identify (NOASSERTION) | app, Remote access, 0.8 |
 | [Kwisma/cf-SubCloud](https://github.com/Kwisma/cf-SubCloud) | 609 | Low confidence (demo, 0.60) | demo, Remote access, 0.6 |
 | [miantiao-me/cloud-code](https://github.com/miantiao-me/cloud-code) | 564 | Low confidence (app, 0.60) | app, AI tools, 0.6 |
-| [lifeafter619/Aboard](https://github.com/lifeafter619/Aboard) | 558 | Low confidence (app, 0.70) | app, Personal, 0.7 |
+| [lifeafter619/Aboard](https://github.com/lifeafter619/Aboard) | 559 | Low confidence (app, 0.70) | app, Personal, 0.7 |
 | [fangyuan99/cookie-share](https://github.com/fangyuan99/cookie-share) | 535 | Low confidence (library, 0.55) | library, Personal, 0.55 |
 | [dxos/dxos](https://github.com/dxos/dxos) | 532 | Licence GitHub couldn’t identify (NOASSERTION) | library, Developer tools, 0.75 |
 | [OpenListTeam/OpenList-APIPages](https://github.com/OpenListTeam/OpenList-APIPages) | 514 | Low confidence (library, 0.60) | library, Developer tools, 0.6 |
@@ -45,14 +45,14 @@ Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "cate
 | [JeffreyCA/spotify-recently-played-readme](https://github.com/JeffreyCA/spotify-recently-played-readme) | 476 | Low confidence (app, 0.60) | app, Personal, 0.6 |
 | [zonghaoyuan/infiplot](https://github.com/zonghaoyuan/infiplot) | 395 | Low confidence (app, 0.75) | app, AI tools, 0.75 |
 | [oirge/Mineradio](https://github.com/oirge/Mineradio) | 381 | Licence GitHub couldn’t identify (NOASSERTION) | app, Media, 0.95 |
-| [wong2/cf-mailroom](https://github.com/wong2/cf-mailroom) | 356 | Licence GitHub couldn’t identify (NOASSERTION) | app, Email, 0.9 |
+| [wong2/cf-mailroom](https://github.com/wong2/cf-mailroom) | 357 | Licence GitHub couldn’t identify (NOASSERTION) | app, Email, 0.9 |
 | [cloudflare/claude-managed-agents](https://github.com/cloudflare/claude-managed-agents) | 336 | Low confidence (starter, 0.60) | starter, AI tools, 0.6 |
-| [realchendahuang/sub-store-cloudflare](https://github.com/realchendahuang/sub-store-cloudflare) | 324 | Low confidence (library, 0.55) | library, Personal, 0.55 |
+| [realchendahuang/sub-store-cloudflare](https://github.com/realchendahuang/sub-store-cloudflare) | 325 | Low confidence (library, 0.55) | library, Personal, 0.55 |
 | [okdargy/fxTikTok](https://github.com/okdargy/fxTikTok) | 315 | Licence GitHub couldn’t identify (NOASSERTION) | app, Community, 0.7 |
-| [joeseesun/qiaomu-blog-opensource](https://github.com/joeseesun/qiaomu-blog-opensource) | 305 | Low confidence (starter, 0.55) | starter, CMS & docs, 0.55 |
+| [joeseesun/qiaomu-blog-opensource](https://github.com/joeseesun/qiaomu-blog-opensource) | 303 | Low confidence (starter, 0.55) | starter, CMS & docs, 0.55 |
 | [xixu-me/deeplx](https://github.com/xixu-me/deeplx) | 298 | Low confidence (library, 0.70) | library, Developer tools, 0.7 |
 | [nirholas/three.ws](https://github.com/nirholas/three.ws) | 286 | Low confidence (library, 0.50) | library, AI tools, 0.5 |
-| [roseforyou/cf-outlook-email](https://github.com/roseforyou/cf-outlook-email) | 283 | Low confidence (app, 0.70) | app, Email, 0.7 |
+| [roseforyou/cf-outlook-email](https://github.com/roseforyou/cf-outlook-email) | 284 | Low confidence (app, 0.70) | app, Email, 0.7 |
 | [0xdps/emailflare](https://github.com/0xdps/emailflare) | 274 | Licence GitHub couldn’t identify (NOASSERTION) | app, Email, 0.8 |
 | [fishjar/kiss-worker](https://github.com/fishjar/kiss-worker) | 248 | Low confidence (app, 0.60) | app, Personal, 0.6 |
 | [frostbase-dev/frostbase](https://github.com/frostbase-dev/frostbase) | 244 | Low confidence (app, 0.70) | app, Developer tools, 0.7 |
@@ -63,7 +63,7 @@ Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "cate
 | [JeffreyCA/lastfm-recently-played-readme](https://github.com/JeffreyCA/lastfm-recently-played-readme) | 186 | Low confidence (app, 0.60) | app, Personal, 0.6 |
 | [zhu327/workers-tunnel](https://github.com/zhu327/workers-tunnel) | 183 | Low confidence (library, 0.75) | library, Remote access, 0.75 |
 | [tldraw/tldraw-sync-cloudflare](https://github.com/tldraw/tldraw-sync-cloudflare) | 158 | Curated list says app, model says starter | starter, Chat & realtime, 0.85 |
-| [heruoxin/webrtc_turn](https://github.com/heruoxin/webrtc_turn) | 154 | Low confidence (app, 0.60) | app, Remote access, 0.6 |
+| [heruoxin/webrtc_turn](https://github.com/heruoxin/webrtc_turn) | 155 | Low confidence (app, 0.60) | app, Remote access, 0.6 |
 | [rxliuli/llm-api-proxy](https://github.com/rxliuli/llm-api-proxy) | 154 | Low confidence (app, 0.65) | app, AI tools, 0.65 |
 | [thebriangao/totem](https://github.com/thebriangao/totem) | 147 | Licence GitHub couldn’t identify (NOASSERTION) | app, AI tools, 0.95 |
 | [jctaoo/ClashConfig](https://github.com/jctaoo/ClashConfig) | 142 | Low confidence (library, 0.70) | library, Remote access, 0.7 |
@@ -78,17 +78,17 @@ Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "cate
 | [midudev/100cosas.dev](https://github.com/midudev/100cosas.dev) | 118 | Licence GitHub couldn’t identify (NOASSERTION) | app, CMS & docs, 0.5 |
 | [YeShengDe/AddressGeneratorFe](https://github.com/YeShengDe/AddressGeneratorFe) | 115 | Low confidence (app, 0.60) | app, Developer tools, 0.6 |
 | [rohanprasadofficial/cloudflare-analytics-explorer](https://github.com/rohanprasadofficial/cloudflare-analytics-explorer) | 113 | Low confidence (app, 0.70) | app, Analytics, 0.7 |
+| [wookat/speaktype](https://github.com/wookat/speaktype) | 110 | Low confidence (library, 0.55) | library, AI tools, 0.55 |
 | [G4brym/workers-research](https://github.com/G4brym/workers-research) | 109 | Low confidence (app, 0.75) | app, AI tools, 0.75 |
-| [wookat/speaktype](https://github.com/wookat/speaktype) | 107 | Low confidence (library, 0.55) | library, AI tools, 0.55 |
 | [ihsangan/valid](https://github.com/ihsangan/valid) | 105 | Licence GitHub couldn’t identify (NOASSERTION) | library, Developer tools, 0.55 |
 | [felipeadeildo/whatsapp-mcp](https://github.com/felipeadeildo/whatsapp-mcp) | 104 | Low confidence (app, 0.70) | app, AI tools, 0.7 |
-| [iamLiquidX/telegram-clone-worker](https://github.com/iamLiquidX/telegram-clone-worker) | 102 | Low confidence (app, 0.75) | app, Chat & realtime, 0.75 |
+| [iamLiquidX/telegram-clone-worker](https://github.com/iamLiquidX/telegram-clone-worker) | 103 | Low confidence (app, 0.75) | app, Chat & realtime, 0.75 |
 | [kaikhq/invoice-helper](https://github.com/kaikhq/invoice-helper) | 96 | Low confidence (app, 0.65) | app, Business, 0.65 |
 | [OpenMarch/OpenMarch](https://github.com/OpenMarch/OpenMarch) | 95 | Low confidence (demo, 0.50) | demo, Business, 0.5 |
 | [Soul-Brews-Studio/arra-oracle-v3](https://github.com/Soul-Brews-Studio/arra-oracle-v3) | 94 | Licence GitHub couldn’t identify (NOASSERTION) | app, AI tools, 0.6 |
 | [blue-pen5805/llm-proxy-on-cloudflare-workers](https://github.com/blue-pen5805/llm-proxy-on-cloudflare-workers) | 93 | Low confidence (app, 0.70) | app, AI tools, 0.7 |
 | [loadchange/wx2md-worker](https://github.com/loadchange/wx2md-worker) | 93 | Low confidence (app, 0.65) | app, CMS & docs, 0.65 |
-| [sardorml/captureflow](https://github.com/sardorml/captureflow) | 91 | Licence GitHub couldn’t identify (NOASSERTION) | app, Media, 0.95 |
+| [sardorml/captureflow](https://github.com/sardorml/captureflow) | 92 | Licence GitHub couldn’t identify (NOASSERTION) | app, Media, 0.95 |
 | [verkyer/vps-jsq](https://github.com/verkyer/vps-jsq) | 91 | Low confidence (app, 0.65) | app, Personal, 0.65 |
 | [mskatoni/ni-mail](https://github.com/mskatoni/ni-mail) | 85 | Low confidence (app, 0.60) | app, Email, 0.6 |
 | [Paymug/paymug](https://github.com/Paymug/paymug) | 82 | Licence GitHub couldn’t identify (NOASSERTION) | app, Business, 0.85 |
@@ -127,20 +127,20 @@ Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "cate
 | [giovannibrees/travel-roamradar](https://github.com/giovannibrees/travel-roamradar) | 32 | Licence GitHub couldn’t identify (NOASSERTION) | app, Personal, 0.9 |
 | [pew/cloudflare-worker-logpush-loki](https://github.com/pew/cloudflare-worker-logpush-loki) | 32 | Low confidence (library, 0.65) | library, Developer tools, 0.65 |
 | [gxxk-dev/workerchat-with-E2EE](https://github.com/gxxk-dev/workerchat-with-E2EE) | 31 | Low confidence (app, 0.75) | app, Chat & realtime, 0.75 |
+| [lehuygiang28/gemini-proxy](https://github.com/lehuygiang28/gemini-proxy) | 31 | Low confidence (app, 0.55) | app, AI tools, 0.55 |
 | [shj1995/ui-atlas-slicer](https://github.com/shj1995/ui-atlas-slicer) | 31 | Low confidence (app, 0.75) | app, Files & storage, 0.75 |
 | [WYRE-AI/connectwise-manage-mcp](https://github.com/WYRE-AI/connectwise-manage-mcp) | 31 | Low confidence (library, 0.60) | library, AI tools, 0.6 |
 | [WYRE-AI/ninjaone-mcp](https://github.com/WYRE-AI/ninjaone-mcp) | 31 | Low confidence (library, 0.60) | library, AI tools, 0.6 |
 | [devondragon/MotionMCP](https://github.com/devondragon/MotionMCP) | 30 | Low confidence (library, 0.55) | library, AI tools, 0.55 |
-| [lehuygiang28/gemini-proxy](https://github.com/lehuygiang28/gemini-proxy) | 30 | Low confidence (app, 0.55) | app, AI tools, 0.55 |
 | [TechifyBots/Auto-Reaction-Bot](https://github.com/TechifyBots/Auto-Reaction-Bot) | 30 | Low confidence (app, 0.70) | app, Chat & realtime, 0.7 |
 | [acoyfellow/tuiport](https://github.com/acoyfellow/tuiport) | 29 | Low confidence (starter, 0.60) | starter, Developer tools, 0.6 |
 | [acoyfellow/share](https://github.com/acoyfellow/share) | 28 | Low confidence (app, 0.65) | app, Files & storage, 0.65 |
 | [bloggerkit/blogger-pwa](https://github.com/bloggerkit/blogger-pwa) | 28 | Low confidence (starter, 0.60) | starter, CMS & docs, 0.6 |
+| [dalroot/agentic-seo](https://github.com/dalroot/agentic-seo) | 28 | Low confidence (app, 0.78) | app, Analytics, 0.78 |
 | [dannwaneri/vectorize-mcp-worker](https://github.com/dannwaneri/vectorize-mcp-worker) | 28 | Low confidence (library, 0.50) | library, AI tools, 0.5 |
 | [jojomensah89/anansi](https://github.com/jojomensah89/anansi) | 28 | Low confidence (app, 0.75) | app, Personal, 0.75 |
 | [zzstar101/taygedo-auto-attendance](https://github.com/zzstar101/taygedo-auto-attendance) | 28 | Low confidence (app, 0.60) | app, Personal, 0.6 |
 | [sid-luo/nightscout-for-cloudflare](https://github.com/sid-luo/nightscout-for-cloudflare) | 27 | Licence GitHub couldn’t identify (NOASSERTION) | app, Personal, 0.85 |
-| [dalroot/agentic-seo](https://github.com/dalroot/agentic-seo) | 26 | Low confidence (app, 0.78) | app, Analytics, 0.78 |
 | [Johnserf-Seed/SportteryAPI](https://github.com/Johnserf-Seed/SportteryAPI) | 26 | Low confidence (library, 0.60) | library, Developer tools, 0.6 |
 | [x402agent/solana-clawd](https://github.com/x402agent/solana-clawd) | 26 | Low confidence (library, 0.50) | library, AI tools, 0.5 |
 | [Aethersailor/cf-ghproxy-worker](https://github.com/Aethersailor/cf-ghproxy-worker) | 25 | Low confidence (library, 0.70) | library, Developer tools, 0.7 |
@@ -165,17 +165,15 @@ Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "cate
 | [Cnily03/cf-worker-mirrors](https://github.com/Cnily03/cf-worker-mirrors) | 20 | Low confidence (library, 0.70) | library, Developer tools, 0.7 |
 | [G4brym/workers-sentinel](https://github.com/G4brym/workers-sentinel) | 20 | Low confidence (app, 0.60) | app, Developer tools, 0.6 |
 | [MaxtuneLee/memora](https://github.com/MaxtuneLee/memora) | 20 | Low confidence (app, 0.80) | app, Notes, 0.8 |
-| [MiroShark/miroshark-aeon](https://github.com/MiroShark/miroshark-aeon) | 20 | Low confidence (app, 0.60) | app, AI agents, 0.6 |
+| [syumai/sandbox-workers](https://github.com/syumai/sandbox-workers) | 20 | Low confidence (library, 0.75) | library, Developer tools, 0.75 |
 | [Aetherinox/cfworker-searxico](https://github.com/Aetherinox/cfworker-searxico) | 19 | Low confidence (library, 0.55) | library, Developer tools, 0.55 |
 | [gabeperez/strava-mcp](https://github.com/gabeperez/strava-mcp) | 19 | Low confidence (library, 0.55) | library, AI tools, 0.55 |
 | [outboundani/five9-mcp](https://github.com/outboundani/five9-mcp) | 19 | Low confidence (app, 0.65) | app, AI tools, 0.65 |
-| [syumai/sandbox-workers](https://github.com/syumai/sandbox-workers) | 19 | Low confidence (library, 0.75) | library, Developer tools, 0.75 |
 | [1alexandrer/moodle-mcp](https://github.com/1alexandrer/moodle-mcp) | 18 | Low confidence (library, 0.65) | library, AI tools, 0.65 |
-| [cschanhniem/lumimail](https://github.com/cschanhniem/lumimail) | 18 | Licence GitHub couldn’t identify (NOASSERTION) | app, Email, 0.8 |
+| [asyncdotengineering/plandesk](https://github.com/asyncdotengineering/plandesk) | 18 | Low confidence (app, 0.75) | app, Business, 0.75 |
 | [lie-jiu/wekit-read-receipts-server](https://github.com/lie-jiu/wekit-read-receipts-server) | 18 | Low confidence (app, 0.75) | app, Analytics, 0.75 |
 | [remsky/comic-chat-web](https://github.com/remsky/comic-chat-web) | 18 | Low confidence (app, 0.75) | app, Chat & realtime, 0.75 |
 | [trevorlauder/cloudflare-doh-worker](https://github.com/trevorlauder/cloudflare-doh-worker) | 18 | Low confidence (app, 0.65) | app, Auth & security, 0.65 |
-| [asyncdotengineering/plandesk](https://github.com/asyncdotengineering/plandesk) | 17 | Low confidence (app, 0.75) | app, Business, 0.75 |
 | [lichon/hbbs-worker](https://github.com/lichon/hbbs-worker) | 17 | Low confidence (app, 0.70) | app, Remote access, 0.7 |
 | [midego1/kite](https://github.com/midego1/kite) | 17 | Low confidence (app, 0.80) | app, Email, 0.8 |
 | [outlook84/cf-hysteria-realm](https://github.com/outlook84/cf-hysteria-realm) | 17 | Low confidence (app, 0.60) | app, Remote access, 0.6 |
@@ -183,9 +181,9 @@ Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "cate
 | [sinhong2011/TraderMemos](https://github.com/sinhong2011/TraderMemos) | 17 | Low confidence (app, 0.75) | app, Personal, 0.75 |
 | [WYRE-AI/itglue-mcp](https://github.com/WYRE-AI/itglue-mcp) | 17 | Low confidence (library, 0.70) | library, AI tools, 0.7 |
 | [mmwx-group/mmwx-probe](https://github.com/mmwx-group/mmwx-probe) | 16 | Licence GitHub couldn’t identify (NOASSERTION) | app, Status pages, 0.95 |
+| [CFC-Servers/gm_express_service](https://github.com/CFC-Servers/gm_express_service) | 15 | Low confidence (app, 0.60) | app, Developer tools, 0.6 |
 | [nirholas/robinhood-chain-alert-bot](https://github.com/nirholas/robinhood-chain-alert-bot) | 15 | Low confidence (app, 0.60) | app, Notifications, 0.6 |
 | [biaw/gitcord-forum](https://github.com/biaw/gitcord-forum) | 14 | Low confidence (app, 0.75) | app, Notifications, 0.75 |
-| [CFC-Servers/gm_express_service](https://github.com/CFC-Servers/gm_express_service) | 14 | Low confidence (app, 0.60) | app, Developer tools, 0.6 |
 | [craftbyte/ryanair-bp](https://github.com/craftbyte/ryanair-bp) | 14 | Low confidence (app, 0.55) | app, Personal, 0.55 |
 | [faeller/zulip-mobile-notifs](https://github.com/faeller/zulip-mobile-notifs) | 14 | Licence GitHub couldn’t identify (NOASSERTION) | demo, Notifications, 0.55 |
 | [kitlangton/behold](https://github.com/kitlangton/behold) | 14 | Low confidence (library, 0.60) | library, AI tools, 0.6 |
@@ -223,6 +221,7 @@ Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "cate
 | [begonia599/STWorkers](https://github.com/begonia599/STWorkers) | 9 | Low confidence (app, 0.60) | app, AI tools, 0.6 |
 | [eckoln/cfmail](https://github.com/eckoln/cfmail) | 9 | Low confidence (app, 0.75) | app, Email, 0.75 |
 | [GeeIHadAGoodTime/ViolaWake](https://github.com/GeeIHadAGoodTime/ViolaWake) | 9 | Licence GitHub couldn’t identify (NOASSERTION) | library, AI tools, 0.9 |
+| [liixing/tmdb-image-worker](https://github.com/liixing/tmdb-image-worker) | 9 | Low confidence (library, 0.70) | library, Files & storage, 0.7 |
 | [LXC-9349/pjfun-blog](https://github.com/LXC-9349/pjfun-blog) | 9 | Low confidence (app, 0.65) | app, CMS & docs, 0.65 |
 | [mkpoli/gmail-mcp](https://github.com/mkpoli/gmail-mcp) | 9 | Low confidence (app, 0.70) | app, AI tools, 0.7 |
 | [nirholas/robinhood-chain-cli](https://github.com/nirholas/robinhood-chain-cli) | 9 | Licence GitHub couldn’t identify (NOASSERTION) | library, Developer tools, 0.9 |
@@ -232,15 +231,14 @@ Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "cate
 | [acoyfellow/pantry](https://github.com/acoyfellow/pantry) | 8 | Low confidence (app, 0.60) | app, Developer tools, 0.6 |
 | [besoeasy/NostrPress](https://github.com/besoeasy/NostrPress) | 8 | Low confidence (app, 0.60) | app, CMS & docs, 0.6 |
 | [debate/debate-ai.com](https://github.com/debate/debate-ai.com) | 8 | Licence GitHub couldn’t identify (NOASSERTION) | app, Community, 0.55 |
+| [homie-rocks/homie](https://github.com/homie-rocks/homie) | 8 | Low confidence (library, 0.60) | library, AI tools, 0.6 |
 | [iterate/cf-artifact-viewer](https://github.com/iterate/cf-artifact-viewer) | 8 | Low confidence (app, 0.70) | app, Developer tools, 0.7 |
 | [klehmann/MindooDB](https://github.com/klehmann/MindooDB) | 8 | Licence GitHub couldn’t identify (NOASSERTION) | library, Developer tools, 0.92 |
 | [LekoArts/duplicati-discord-cloudflare-worker](https://github.com/LekoArts/duplicati-discord-cloudflare-worker) | 8 | Low confidence (app, 0.60) | app, Notifications, 0.6 |
-| [liixing/tmdb-image-worker](https://github.com/liixing/tmdb-image-worker) | 8 | Low confidence (library, 0.70) | library, Files & storage, 0.7 |
 | [manujajay/manudesign](https://github.com/manujajay/manudesign) | 8 | Low confidence (app, 0.70) | app, AI tools, 0.7 |
 | [xixu-me/qr-generator](https://github.com/xixu-me/qr-generator) | 8 | Low confidence (app, 0.60) | app, Developer tools, 0.6 |
 | [ZainCheung/pix](https://github.com/ZainCheung/pix) | 8 | Low confidence (app, 0.60) | app, Remote access, 0.6 |
 | [Greenhat-Security/GreenGateway](https://github.com/Greenhat-Security/GreenGateway) | 7 | Low confidence (app, 0.75) | app, Auth & security, 0.75 |
-| [homie-rocks/homie](https://github.com/homie-rocks/homie) | 7 | Low confidence (library, 0.60) | library, AI tools, 0.6 |
 | [hugobatista/tailhoogram](https://github.com/hugobatista/tailhoogram) | 7 | Low confidence (app, 0.70) | app, Notifications, 0.7 |
 | [Jamf-Concepts/setupmanagerhud-starter](https://github.com/Jamf-Concepts/setupmanagerhud-starter) | 7 | Low confidence (app, 0.70) | app, Developer tools, 0.7 |
 | [lain39/qqnotifier](https://github.com/lain39/qqnotifier) | 7 | Low confidence (app, 0.75) | app, Notifications, 0.75 |
@@ -264,7 +262,6 @@ Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "cate
 | [darkmatter2048/JianJi](https://github.com/darkmatter2048/JianJi) | 5 | Licence GitHub couldn’t identify (NOASSERTION) | app, AI tools, 0.9 |
 | [flashblaze/drinky-bot](https://github.com/flashblaze/drinky-bot) | 5 | Low confidence (app, 0.75) | app, Personal, 0.75 |
 | [gilangnurfadillah7/mailfree](https://github.com/gilangnurfadillah7/mailfree) | 5 | Low confidence (app, 0.70) | app, Email, 0.7 |
-| [lza6/joycaption-2api-cfwork](https://github.com/lza6/joycaption-2api-cfwork) | 5 | Low confidence (demo, 0.70) | demo, AI tools, 0.7 |
 | [mazixuan69/cfmail](https://github.com/mazixuan69/cfmail) | 5 | Low confidence (app, 0.75) | app, Email, 0.75 |
 | [MonetizationOS/cloudflare-proxy-worker](https://github.com/MonetizationOS/cloudflare-proxy-worker) | 5 | Low confidence (library, 0.65) | library, Business, 0.65 |
 | [nmgliangwei/jsd](https://github.com/nmgliangwei/jsd) | 5 | Low confidence (library, 0.75) | library, Developer tools, 0.75 |
@@ -323,6 +320,7 @@ Decide in `data/overrides.json`, e.g. `"owner/repo": { "status": "listed", "cate
 | [farhandigital/getip](https://github.com/farhandigital/getip) |  | Not read yet |  |
 | [noxenys/temp-mail](https://github.com/noxenys/temp-mail) |  | Not read yet |  |
 | [zankhq/astros](https://github.com/zankhq/astros) |  | Not read yet |  |
+| [IRNova/Nova-Proxy](https://github.com/IRNova/Nova-Proxy) |  | Not read yet |  |
 | [bigjangmon/tana-sync-gcal](https://github.com/bigjangmon/tana-sync-gcal) |  | Not read yet |  |
 | [1e3pm/knowledge-chatbot](https://github.com/1e3pm/knowledge-chatbot) |  | Not read yet |  |
 | [1e3pm/post-scheduler](https://github.com/1e3pm/post-scheduler) |  | Not read yet |  |
